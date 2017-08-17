@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Shipment : MonoBehaviour {
+public class Shipment {
 
 	public string GoodsName;
 	public Location StartLocation;
@@ -10,7 +10,13 @@ public class Shipment : MonoBehaviour {
 	public string DestinationString;
 	public int Reward;
 
-	void Start() {
-		int distance = Vector2.Distance (StartLocation.transform.position, Destination.transform.position);
+	public float Distance;
+
+	public Shipment (string goodsName, Location startLocation, Location destination, int reward) {
+		this.GoodsName = goodsName;
+		this.StartLocation = startLocation;
+		this.Destination = destination;
+		this.Reward = reward;
+		Distance = Vector2.Distance (StartLocation.transform.position, Destination.transform.position);
 	}
 }

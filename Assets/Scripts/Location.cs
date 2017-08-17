@@ -5,5 +5,5 @@ using UnityEngine;
 public class Location : MonoBehaviour {
 
 	public string Name;
-
+	public Port MyPort = null;
 }
