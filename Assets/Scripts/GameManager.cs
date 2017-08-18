@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour {
 
 	public PortWindow MyPortWindow;
 
-	public void OpenPortWindow (Port port) {
-		MyPortWindow.Open (port);
+	public void OpenPortWindow (Port port, Ship ship) {
+		MyPortWindow.Open (port, ship);
 	}
 }

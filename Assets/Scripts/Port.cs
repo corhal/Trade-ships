@@ -5,6 +5,7 @@ using UnityEngine;
 public class Port : MonoBehaviour {
 
 	public GameManager Manager;
+	public Ship DockedShip;
 
 	public string Name;
 	public Location MyLocation;
@@ -15,6 +16,9 @@ public class Port : MonoBehaviour {
 	public float SecPerShipment;
 	float timer;
 	bool shouldProduceShipments;
+
+	public delegate void ProducedShipmentEventHandler (Port sender, Shipment shipment);
+	public event ProducedShipmentEventHandler OnProducedShipment;
 
 	void Start () {
 		Shipments = new List<Shipment> ();
@@ -39,7 +43,7 @@ public class Port : MonoBehaviour {
 	}
 
 	void OnMouseDown () {
-		Manager.OpenPortWindow (this);
+		Manager.OpenPortWindow (this, DockedShip);
 	}
 
 	void ProduceShipment () {
@@ -47,7 +51,19 @@ public class Port : MonoBehaviour {
 		int reward = Random.Range (5, 36);
 		Shipment shipment = new Shipment (GoodsName, MyLocation, location, reward);
 		Shipments.Add (shipment);
-		Debug.Log (Name + " now has " + Shipments.Count + " shipments.");
+		if (OnProducedShipment != null) {
+			OnProducedShipment (this, shipment);
+		}
+	}
+
+	public void TakeShipment (Shipment shipment) {
+		if (Shipments.Count < ShipmentsCapacity) {
+			Shipments.Add (shipment);
+		}
+	}
+
+	public void GiveShipment (Shipment shipment) {
+		Shipments.Remove (shipment);
 	}
 
 	Location RandomLocation () {

@@ -8,4 +8,11 @@ public class ShipmentNode : MonoBehaviour {
 	public Text DestinationLabel;
 	public Text DistanceLabel;
 	public Text RewardLabel;
+
+	public Shipment MyShipment;
+	public PortWindow MyPortWindow;
+
+	public void ClickShipment () {
+		MyPortWindow.ShipmentClicked (gameObject);
+	}
 }

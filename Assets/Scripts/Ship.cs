@@ -4,16 +4,20 @@ using UnityEngine;
 
 public class Ship : MonoBehaviour {
 
-	Vector2 shipPosition;
-	Vector2 targetPosition;
+	public List<Shipment> Shipments;
+	public int ShipmentsCapacity;
 
-	// Use this for initialization
 	void Start () {
-		// 
+		Shipments = new List<Shipment> ();
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
+
+	public void TakeShipment (Shipment shipment) {
+		if (Shipments.Count < ShipmentsCapacity) {
+			Shipments.Add (shipment);
+		}
+	}
+
+	public void GiveShipment (Shipment shipment) {
+		Shipments.Remove (shipment);
 	}
 }

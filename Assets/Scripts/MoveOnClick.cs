@@ -13,23 +13,24 @@ public class MoveOnClick : MonoBehaviour {
 	Vector2 target;
 
 	void Update() {	
-		if (Input.GetMouseButtonDown(0)) {
-			shouldMove = true;
-			startTime = Time.time;
-			start = transform.position;
-			target = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+		if (!Utility.IsPointerOverUIObject()) {
+			if (Input.GetMouseButtonDown(0)) {
+				shouldMove = true;
+				startTime = Time.time;
+				start = transform.position;
+				target = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-			journeyLength = Vector2.Distance(start, target);
-		}
+				journeyLength = Vector2.Distance(start, target);
+			}
 
-		if (shouldMove) {
-			float distCovered = (Time.time - startTime) * Speed;
-			float fracJourney = distCovered / journeyLength;
-			transform.position = Vector2.Lerp(start, target, fracJourney);
-			if (fracJourney == 1.0f) {
-				shouldMove = false;
+			if (shouldMove) {
+				float distCovered = (Time.time - startTime) * Speed;
+				float fracJourney = distCovered / journeyLength;
+				transform.position = Vector2.Lerp(start, target, fracJourney);
+				if (fracJourney == 1.0f) {
+					shouldMove = false;
+				}
 			}
 		}
-
 	}
 }
