@@ -16,16 +16,21 @@ public class ContextButtonsOverlay : MonoBehaviour {
 		}
 		ContextButtonObjects.Clear ();
 
-		foreach (var action in selectable.Actions) {
+		foreach (var action in selectable.Actions) {			
 			GameObject contextButtonObject = Instantiate (ContextButtonPrefab) as GameObject;
 
 			ContextButton contextButton = contextButtonObject.GetComponent<ContextButton> ();
-			contextButton.ActionText.text = "";
-			contextButton.CostText.text = "";
+			contextButton.ActionText.text = action.Name;
+			contextButton.CostText.text = "" + action.Cost;
+
+			contextButton.MyButton.onClick.AddListener (delegate {				
+				action.Execute();
+			});
 
 			contextButtonObject.transform.SetParent (ButtonsContainer.transform);
 			contextButtonObject.transform.localScale = Vector3.one;
 			ContextButtonObjects.Add (contextButtonObject);
+
 		}
 			
 	}

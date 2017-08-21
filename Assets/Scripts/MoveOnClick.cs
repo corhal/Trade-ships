@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class MoveOnClick : MonoBehaviour {
 
+	public bool InMoveMode = false;
 	bool shouldMove = false;
 
 	public float Speed = 1.0F;
@@ -14,8 +15,9 @@ public class MoveOnClick : MonoBehaviour {
 
 	void Update() {	
 		if (!Utility.IsPointerOverUIObject()) {
-			if (Input.GetMouseButtonDown(0)) {
+			if (Input.GetMouseButtonDown(0) && InMoveMode) {
 				shouldMove = true;
+				InMoveMode = false;
 				startTime = Time.time;
 				start = transform.position;
 				target = Camera.main.ScreenToWorldPoint(Input.mousePosition);

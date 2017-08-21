@@ -9,13 +9,16 @@ public class Action {
 	public string Name;
 	public int Cost;
 
-	public MakeAction makeAction;
+	public MakeAction DelegateMakeAction;
 
-	public void InitAction (MakeAction method) {
-		makeAction = method;
+	public Action (string name, int cost, MakeAction makeAction) {
+		this.Name = name;
+		this.Cost = cost;
+		this.DelegateMakeAction = makeAction;
 	}
 
 	public void Execute () {
-		makeAction ();
+		Debug.Log ("yay");
+		DelegateMakeAction ();
 	}
 }
