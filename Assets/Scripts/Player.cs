@@ -6,6 +6,12 @@ public class Player : MonoBehaviour {
 
 	public int Gold;
 
+	public static Player Instance;
+
+	void Awake () {
+		Instance = this;
+	}
+
 	public void TakeGold (int amount) {
 		Gold += amount;
 	}

@@ -31,7 +31,10 @@ public class ContextButtonsOverlay : MonoBehaviour {
 			contextButtonObject.transform.localScale = Vector3.one;
 			ContextButtonObjects.Add (contextButtonObject);
 
-		}
-			
+		}			
+	}
+
+	public void Close () {
+		Overlay.SetActive (false);
 	}
 }

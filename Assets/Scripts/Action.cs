@@ -18,7 +18,6 @@ public class Action {
 	}
 
 	public void Execute () {
-		Debug.Log ("yay");
 		DelegateMakeAction ();
 	}
 }

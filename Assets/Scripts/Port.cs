@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Port : MonoBehaviour {
+public class Port : MonoBehaviour, ISelectable {
+
+	List<Action> actions;
+	public List<Action> Actions { get { return actions; } }
 
 	public GameManager Manager;
 	public Ship DockedShip;
@@ -22,6 +25,29 @@ public class Port : MonoBehaviour {
 
 	void Start () {
 		Shipments = new List<Shipment> ();
+		actions = new List<Action> ();
+		Action showShipmentsAction = new Action ("Show shipments", 0, ShowShipments);
+		actions.Add (showShipmentsAction);
+	}
+
+	void ShowShipments () {
+		Manager.OpenPortWindow (this, DockedShip);
+	}
+
+	void OnMouseDown () {
+		Manager.OpentContextButtons (this);
+	}
+
+	void OnTriggerEnter2D (Collider2D other) { // won't work for >1 ships!
+		if (other.gameObject.GetComponent<Ship>() != null) {
+			DockedShip = other.gameObject.GetComponent<Ship> ();
+		}
+	}
+
+	void OnTriggerExit2D (Collider2D other) { // won't work for >1 ships!
+		if (other.gameObject.GetComponent<Ship>() != null) {
+			DockedShip = null;
+		}
 	}
 
 	void Update () {
@@ -40,10 +66,6 @@ public class Port : MonoBehaviour {
 				shouldProduceShipments = false;
 			}
 		}
-	}
-
-	void OnMouseDown () {
-		Manager.OpenPortWindow (this, DockedShip);
 	}
 
 	void ProduceShipment () {

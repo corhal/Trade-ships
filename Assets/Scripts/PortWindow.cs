@@ -18,6 +18,7 @@ public class PortWindow : MonoBehaviour {
 	public Text LocationLabel;
 	public Text LocationCargo;
 	public Text ShipCargo;
+	public Text ShipLabel;
 	public Slider LocationCargoSlider;
 
 	public void Open (Port port, Ship ship) {
@@ -47,19 +48,35 @@ public class PortWindow : MonoBehaviour {
 			PortShipmentNodeObjects.Add (shipmentNodeObject);
 		}
 
-		foreach (var shipment in ship.Shipments) {
-			GameObject shipmentNodeObject = FormShipmentNodeObject (shipment);
+		if (CurrentShip != null) {
+			foreach (var shipment in ship.Shipments) {
+				GameObject shipmentNodeObject = FormShipmentNodeObject (shipment);
 
-			shipmentNodeObject.transform.SetParent (ShipContainer.transform);
-			shipmentNodeObject.transform.localScale = Vector3.one;
-			ShipShipmentNodeObjects.Add (shipmentNodeObject);
+				shipmentNodeObject.transform.SetParent (ShipContainer.transform);
+				shipmentNodeObject.transform.localScale = Vector3.one;
+				ShipShipmentNodeObjects.Add (shipmentNodeObject);
+			}
 		}
 
+		RefreshData ();
+	}
+
+	public void Close () {
+		Window.SetActive (false);
+	}
+
+	public void RefreshData () {
 		LocationCargoSlider.maxValue = CurrentPort.ShipmentsCapacity;
 		LocationCargoSlider.value = CurrentPort.Shipments.Count;
 		LocationCargo.text = CurrentPort.Shipments.Count + "/" + CurrentPort.ShipmentsCapacity;
 
-		ShipCargo.text = CurrentShip.Shipments.Count + "/" + CurrentShip.ShipmentsCapacity;
+		if (CurrentShip != null) {
+			ShipLabel.text = "Docked ship";
+			ShipCargo.text = CurrentShip.Shipments.Count + "/" + CurrentShip.ShipmentsCapacity;
+		} else {
+			ShipLabel.text = "No docked ships";
+			ShipCargo.text = "";
+		}
 	}
 
 	void CurrentPort_OnProducedShipment (Port sender, Shipment shipment) {
@@ -69,11 +86,7 @@ public class PortWindow : MonoBehaviour {
 		shipmentNodeObject.transform.localScale = Vector3.one;
 		PortShipmentNodeObjects.Add (shipmentNodeObject);
 
-		LocationCargoSlider.maxValue = CurrentPort.ShipmentsCapacity;
-		LocationCargoSlider.value = CurrentPort.Shipments.Count;
-		LocationCargo.text = CurrentPort.Shipments.Count + "/" + CurrentPort.ShipmentsCapacity;
-
-		ShipCargo.text = CurrentShip.Shipments.Count + "/" + CurrentShip.ShipmentsCapacity;
+		RefreshData ();
 	}
 
 	GameObject FormShipmentNodeObject (Shipment shipment) {
@@ -89,6 +102,9 @@ public class PortWindow : MonoBehaviour {
 	}
 
 	public void ShipmentClicked (GameObject shipmentNodeObject) {
+		if (CurrentShip == null) {
+			return;
+		}
 		if (PortShipmentNodeObjects.Contains(shipmentNodeObject)) {
 			PortToShip (shipmentNodeObject);
 		} else if (ShipShipmentNodeObjects.Contains(shipmentNodeObject)) {
@@ -101,6 +117,9 @@ public class PortWindow : MonoBehaviour {
 	}
 
 	void PortToShip (GameObject shipmentNodeObject) {
+		if (CurrentShip == null) {
+			return;
+		}
 		if (CurrentShip.Shipments.Count < CurrentShip.ShipmentsCapacity) {
 			PortShipmentNodeObjects.Remove (shipmentNodeObject);
 			ShipShipmentNodeObjects.Add (shipmentNodeObject);
@@ -110,7 +129,10 @@ public class PortWindow : MonoBehaviour {
 		}
 	}
 
-	void ShipToPort (GameObject shipmentNodeObject) {		
+	void ShipToPort (GameObject shipmentNodeObject) {	
+		if (CurrentShip == null) {
+			return;
+		}	
 		if (CurrentPort.Shipments.Count < CurrentPort.ShipmentsCapacity) {
 			ShipShipmentNodeObjects.Remove (shipmentNodeObject);
 			PortShipmentNodeObjects.Add (shipmentNodeObject);

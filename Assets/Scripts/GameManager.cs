@@ -11,9 +11,11 @@ public class GameManager : MonoBehaviour {
 
 	public void OpenPortWindow (Port port, Ship ship) {
 		MyPortWindow.Open (port, ship);
+		MyButtonsOverlay.Close ();
 	}
 
 	public void OpentContextButtons (ISelectable selectable) {
 		MyButtonsOverlay.Open (selectable);
+		MyPortWindow.Close ();
 	}
 }
