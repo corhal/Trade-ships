@@ -32,6 +32,7 @@ public class Ship : MonoBehaviour, ISelectable {
 	}
 
 	public void MoveMode () {
+		Manager.InMoveMode = true;
 		MoveOnClick mover = gameObject.GetComponent<MoveOnClick> ();
 		mover.InMoveMode = true;
 	}

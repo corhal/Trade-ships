@@ -8,7 +8,8 @@ public class Port : MonoBehaviour, ISelectable {
 	public List<Action> Actions { get { return actions; } }
 
 	public GameManager Manager;
-	public Ship DockedShip;
+	public List<Ship> DockedShips;
+	Ship dockedShip;
 
 	public string Name;
 	public Location MyLocation;
@@ -31,22 +32,30 @@ public class Port : MonoBehaviour, ISelectable {
 	}
 
 	void ShowShipments () {
-		Manager.OpenPortWindow (this, DockedShip);
+		Manager.OpenPortWindow (this, dockedShip);
 	}
 
 	void OnMouseDown () {
 		Manager.OpentContextButtons (this);
 	}
 
-	void OnTriggerEnter2D (Collider2D other) { // won't work for >1 ships!
+	void OnTriggerEnter2D (Collider2D other) {
 		if (other.gameObject.GetComponent<Ship>() != null) {
-			DockedShip = other.gameObject.GetComponent<Ship> ();
+			DockedShips.Add(other.gameObject.GetComponent<Ship> ());
+			if (dockedShip == null) {
+				dockedShip = DockedShips [0];
+			}
 		}
 	}
 
-	void OnTriggerExit2D (Collider2D other) { // won't work for >1 ships!
+	void OnTriggerExit2D (Collider2D other) {
 		if (other.gameObject.GetComponent<Ship>() != null) {
-			DockedShip = null;
+			DockedShips.Remove(other.gameObject.GetComponent<Ship> ());
+			if (DockedShips.Count == 0) {
+				dockedShip = null;
+			} else {
+				dockedShip = DockedShips [0];
+			}
 		}
 	}
 

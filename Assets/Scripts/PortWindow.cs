@@ -21,6 +21,9 @@ public class PortWindow : MonoBehaviour {
 	public Text ShipLabel;
 	public Slider LocationCargoSlider;
 
+	public GameObject LeftButtonObject;
+	public GameObject RightButtonObject;
+
 	public void Open (Port port, Ship ship) {
 		if (CurrentPort != null) {
 			 CurrentPort.OnProducedShipment -= CurrentPort_OnProducedShipment;
@@ -76,6 +79,24 @@ public class PortWindow : MonoBehaviour {
 		} else {
 			ShipLabel.text = "No docked ships";
 			ShipCargo.text = "";
+		}
+
+		if (CurrentPort.DockedShips.Count > 1) {
+			if (CurrentPort.DockedShips.IndexOf(CurrentShip) > 0) {
+				LeftButtonObject.SetActive (true);
+			}
+			if (CurrentPort.DockedShips.IndexOf(CurrentShip) < CurrentPort.DockedShips.Count - 1) {
+				RightButtonObject.SetActive (true);
+			}
+			if (CurrentPort.DockedShips.IndexOf(CurrentShip) == 0) {
+				LeftButtonObject.SetActive (false);
+			}
+			if (CurrentPort.DockedShips.IndexOf(CurrentShip) == CurrentPort.DockedShips.Count - 1) {
+				RightButtonObject.SetActive (false);
+			}
+		} else {
+			LeftButtonObject.SetActive (false);
+			RightButtonObject.SetActive (false);
 		}
 	}
 
@@ -140,5 +161,15 @@ public class PortWindow : MonoBehaviour {
 			CurrentShip.GiveShipment (shipmentNodeObject.GetComponent<ShipmentNode> ().MyShipment);
 			CurrentPort.TakeShipment (shipmentNodeObject.GetComponent<ShipmentNode> ().MyShipment);
 		}
+	}
+
+	public void ScrollLeft () { // if it bites my ass later: probably should also change dockedShip in Port
+		CurrentShip = CurrentPort.DockedShips[CurrentPort.DockedShips.IndexOf(CurrentShip) - 1];
+		RefreshData ();
+	}
+
+	public void ScrollRight () {
+		CurrentShip = CurrentPort.DockedShips[CurrentPort.DockedShips.IndexOf(CurrentShip) + 1];
+		RefreshData ();
 	}
 }

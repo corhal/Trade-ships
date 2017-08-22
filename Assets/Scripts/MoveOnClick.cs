@@ -15,12 +15,23 @@ public class MoveOnClick : MonoBehaviour {
 
 	void Update() {	
 		if (!Utility.IsPointerOverUIObject()) {
-			if (Input.GetMouseButtonDown(0) && InMoveMode) {
+			if (Input.GetMouseButtonDown(0) && InMoveMode) {		
+				start = transform.position;
+				target = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+				RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
+				if (hit.collider != null) {					
+					if (hit.collider.gameObject.GetComponent<Port> () != null) {
+						target = hit.collider.gameObject.transform.position;
+						target = start + (target - start) * 0.8f;
+					}
+				}
+
+				GameManager.Instance.InMoveMode = false;
+				GameManager.Instance.CloseContextButtons ();
 				shouldMove = true;
 				InMoveMode = false;
 				startTime = Time.time;
-				start = transform.position;
-				target = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
 				journeyLength = Vector2.Distance(start, target);
 			}
