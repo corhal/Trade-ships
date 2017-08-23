@@ -53,9 +53,10 @@
   <ItemGroup>
      <Compile Include="Assets\Scripts\Action.cs" />
      <Compile Include="Assets\Scripts\Building.cs" />
-     <Compile Include="Assets\Scripts\BuildingUpgradeWindow.cs" />
      <Compile Include="Assets\Scripts\ContextButton.cs" />
      <Compile Include="Assets\Scripts\ContextButtonsOverlay.cs" />
+     <Compile Include="Assets\Scripts\CraftElement.cs" />
+     <Compile Include="Assets\Scripts\CraftWindow.cs" />
      <Compile Include="Assets\Scripts\GameManager.cs" />
      <Compile Include="Assets\Scripts\ISelectable.cs" />
      <Compile Include="Assets\Scripts\Item.cs" />
