@@ -6,6 +6,7 @@ public class GameManager : MonoBehaviour {
 
 	public bool InMoveMode = false;
 	public List<Location> Locations;
+	public List<Item> TempItemLibrary;
 
 	public PortWindow MyPortWindow;
 	public ContextButtonsOverlay MyButtonsOverlay;
@@ -14,6 +15,15 @@ public class GameManager : MonoBehaviour {
 
 	void Awake () {
 		Instance = this;
+	}
+
+	void Start () {
+		TempItemLibrary = new List<Item> {
+			new Item("Wood"),
+			new Item("Food"),
+			new Item("Steel"),
+			new Item("Nails"),
+			new Item("Tools"),};
 	}
 
 	public void OpenPortWindow (Port port, Ship ship) {

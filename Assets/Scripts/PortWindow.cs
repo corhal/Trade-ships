@@ -82,16 +82,16 @@ public class PortWindow : MonoBehaviour {
 		}
 
 		if (CurrentPort.DockedShips.Count > 1) {
-			if (CurrentPort.DockedShips.IndexOf(CurrentShip) > 0) {
+			if (CurrentPort.DockedShips.IndexOf (CurrentShip) > 0) {
 				LeftButtonObject.SetActive (true);
 			}
-			if (CurrentPort.DockedShips.IndexOf(CurrentShip) < CurrentPort.DockedShips.Count - 1) {
+			if (CurrentPort.DockedShips.IndexOf (CurrentShip) < CurrentPort.DockedShips.Count - 1) {
 				RightButtonObject.SetActive (true);
 			}
-			if (CurrentPort.DockedShips.IndexOf(CurrentShip) == 0) {
+			if (CurrentPort.DockedShips.IndexOf (CurrentShip) == 0) {
 				LeftButtonObject.SetActive (false);
 			}
-			if (CurrentPort.DockedShips.IndexOf(CurrentShip) == CurrentPort.DockedShips.Count - 1) {
+			if (CurrentPort.DockedShips.IndexOf (CurrentShip) == CurrentPort.DockedShips.Count - 1) {
 				RightButtonObject.SetActive (false);
 			}
 		} else {
