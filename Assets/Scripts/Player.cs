@@ -14,6 +14,13 @@ public class Player : MonoBehaviour {
 		Inventory = new Dictionary<Item, int> ();
 	}
 
+	void Start () {
+		foreach (var item in GameManager.Instance.TempItemLibrary) {
+			Dictionary<Item, int> ItemAsDict = new Dictionary<Item, int> { { item, 10 } };
+			TakeItems (ItemAsDict);
+		}
+	}
+
 	public void TakeGold (int amount) {
 		Gold += amount;
 	}

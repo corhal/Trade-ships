@@ -10,7 +10,7 @@ public class Item {
 
 	public Item (string name, Dictionary<Item, int> craftCost) {
 		this.Name = name;
-		CraftCost = new Dictionary<Item, int> (craftCost);
+		CraftCost = craftCost;
 		player = Player.Instance;
 	}
 
@@ -19,7 +19,8 @@ public class Item {
 
 		if (canCraft) {
 			player.GiveItems (CraftCost);
-			player.TakeItems (new Dictionary<Item, int> { this, 1 });
+			Dictionary<Item, int> itemAsDict = new Dictionary<Item, int> { {this, 1} };
+			player.TakeItems (itemAsDict);
 		} else {
 			Debug.Log ("Can't craft: not enough items");
 		}

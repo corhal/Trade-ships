@@ -10,6 +10,8 @@ public class CraftWindow : MonoBehaviour {
 	public GameObject CraftElementPrefab;
 	public List<GameObject> CraftElementObjects;
 
+	public Button ResultButton;
+
 	public Building ResultBuilding;
 	public Item ResultItem;
 
@@ -23,34 +25,44 @@ public class CraftWindow : MonoBehaviour {
 		CraftElementObjects.Clear ();
 
 		if (ResultBuilding != null) {
-			foreach (var amountByItem in building.UpgradeCosts[building.Level]) {
-				GameObject craftElementObject = Instantiate(CraftElementPrefab) as GameObject;
-
-				CraftElement craftElement = craftElementObject.GetComponent<CraftElement> ();
-
-				int playersAmount = Player.Instance.Inventory[amountByItem.Key];
-
-
-				int requiredAmount = amountByItem.Value;
-				craftElement.AmountLabel.text = playersAmount + "/" + requiredAmount;
-
-				craftElementObject.transform.SetParent (CraftElementsContainer.transform);
-				craftElementObject.transform.localScale = Vector3.one;
-				CraftElementObjects.Add (craftElementObject);
-			}
+			FormCraftElements (building.BuildCosts[building.Level]);
+			ResultButton.onClick.AddListener (delegate {
+				building.Build();
+			});
+			ResultButton.onClick.AddListener (delegate {
+				Close();
+			});
 		} else if (ResultItem != null) {
-			foreach (var amountByItem in item.CraftCost) {
-				GameObject craftElementObject = Instantiate(CraftElementPrefab) as GameObject;
+			FormCraftElements (item.CraftCost);
+		}
+	}
 
-				CraftElement craftElement = craftElementObject.GetComponent<CraftElement> ();
-				int playersAmount = Player.Instance.Inventory.TryGetValue (amountByItem.Key, 0);
-				int requiredAmount = amountByItem.Value;
-				craftElement.AmountLabel.text = playersAmount + "/" + requiredAmount;
+	void FormCraftElements (Dictionary<Item, int> amountsByItems) {
+		foreach (var amountByItem in amountsByItems) {
+			GameObject craftElementObject = Instantiate(CraftElementPrefab) as GameObject;
 
-				craftElementObject.transform.SetParent (CraftElementsContainer.transform);
-				craftElementObject.transform.localScale = Vector3.one;
-				CraftElementObjects.Add (craftElementObject);
+			CraftElement craftElement = craftElementObject.GetComponent<CraftElement> ();
+			int playersAmount = (Player.Instance.Inventory.ContainsKey(amountByItem.Key)) ? Player.Instance.Inventory[amountByItem.Key] : 0;
+
+			int requiredAmount = amountByItem.Value;
+			craftElement.AmountLabel.text = playersAmount + "/" + requiredAmount;
+
+			if (playersAmount >= requiredAmount) {
+				craftElement.FindOrCraftButton.gameObject.SetActive (false);
+			} else {
+				if (amountByItem.Key.CraftCost != null) {
+					craftElement.FindOrCraftButton.GetComponentInChildren<Text> ().text = "Craft";
+					craftElement.FindOrCraftButton.onClick.AddListener (delegate {
+						Open (null, amountByItem.Key);
+					});
+				} else {
+					craftElement.FindOrCraftButton.GetComponentInChildren<Text> ().text = "Find";
+				}
 			}
+
+			craftElementObject.transform.SetParent (CraftElementsContainer.transform);
+			craftElementObject.transform.localScale = Vector3.one;
+			CraftElementObjects.Add (craftElementObject);
 		}
 	}
 

@@ -11,23 +11,40 @@ public class Building : MonoBehaviour, ISelectable {
 	List<Action> actions;
 	public List<Action> Actions { get { return actions; } }
 
-	public List<Dictionary<Item, int>> UpgradeCosts;
+	public List<Dictionary<Item, int>> BuildCosts;
+	public List<int> UpgradeCosts;
 
 	GameManager gameManager;
 	Player player;
 
+	Action buildAction;
+	Action upgradeAction;
+
 	void Awake () {
 		actions = new List<Action> ();
-		UpgradeCosts = new List<Dictionary<Item, int>> ();
+		BuildCosts = new List<Dictionary<Item, int>> ();
+		//UpgradeCosts = new List<int> ();
 
 		gameManager = GameManager.Instance;
 		player = Player.Instance;
 
-		Action upgradeAction = new Action ("Upgrade", 0, Upgrade);
-		actions.Add (upgradeAction);
+		buildAction = new Action ("Build", 0, ShowCraftWindow);
+		upgradeAction = new Action ("Upgrade", 0, Upgrade);
+	}
+
+	void RefreshActions () {
+		actions.Clear ();
+		if (!UnderConstruction) {
+			upgradeAction.Cost = UpgradeCosts [Level];
+			actions.Add (upgradeAction);
+		} else {
+			actions.Add (buildAction);
+		}
 	}
 
 	void Start () {
+		RefreshActions ();
+
 		for (int i = 0; i < MaxLevel - Level; i++) {
 			int costLength = Random.Range (1, 4);
 			Dictionary<Item, int> cost = new Dictionary<Item, int> ();
@@ -43,7 +60,7 @@ public class Building : MonoBehaviour, ISelectable {
 
 				cost.Add (validItems [index], Random.Range(1, 6));
 			}
-			UpgradeCosts.Add (cost);
+			BuildCosts.Add (cost);
 		}
 	}
 
@@ -51,12 +68,29 @@ public class Building : MonoBehaviour, ISelectable {
 		gameManager.OpentContextButtons (this);
 	}
 
-	public void Upgrade () {
-		bool canUpgrade = player.CheckCost (UpgradeCosts[Level]);
+	void ShowCraftWindow () {
+		gameManager.OpenCraftWindow (this, null);
+	}
 
-		if (canUpgrade) {
-			player.GiveItems (UpgradeCosts [Level]);
+	public void Upgrade () {
+		if (player.Gold >= UpgradeCosts[Level]) {
+			UnderConstruction = true;
+			player.GiveGold (UpgradeCosts [Level]);
+			gameManager.CloseContextButtons ();
+			RefreshActions ();
+		} else {
+			Debug.Log ("Not enough gold for upgrade");
+		}
+	}
+
+	public void Build () {
+		bool canBuild = player.CheckCost (BuildCosts[Level]);
+
+		if (canBuild) {
+			player.GiveItems (BuildCosts [Level]);
 			Level += 1;
+			UnderConstruction = false;
+			RefreshActions ();
 		} else {
 			Debug.Log ("Can't upgrade: not enough items");
 		}
