@@ -11,7 +11,12 @@ public class Port : MonoBehaviour, ISelectable {
 	public List<Ship> DockedShips;
 	Ship dockedShip;
 
-	public string Name;
+	public string myname;
+	public string Name { get { return myname; } }
+
+	public int level;
+	public int Level { get { return level; } }
+
 	public Location MyLocation;
 	public string GoodsName;
 	public int ShipmentsCapacity;

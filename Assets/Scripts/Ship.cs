@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class Ship : MonoBehaviour, ISelectable {
 
+	public string myname;
+	public string Name { get { return myname; } }
+
+	public int level;
+	public int Level { get { return level; } }
+
 	public GameManager Manager;
 	List<Action> actions;
 	public List<Action> Actions { get { return actions; } }

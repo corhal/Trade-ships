@@ -4,7 +4,12 @@ using UnityEngine;
 
 public class Building : MonoBehaviour, ISelectable {
 
-	public int Level;
+	public string myname;
+	public string Name { get { return myname; } }
+
+	public int level;
+	public int Level { get { return level; } }
+
 	public int MaxLevel;
 	public bool UnderConstruction;
 
@@ -88,7 +93,7 @@ public class Building : MonoBehaviour, ISelectable {
 
 		if (canBuild) {
 			player.GiveItems (BuildCosts [Level]);
-			Level += 1;
+			level += 1;
 			UnderConstruction = false;
 			RefreshActions ();
 		} else {

@@ -12,6 +12,7 @@ public class CraftWindow : MonoBehaviour {
 
 	public Button ResultButton;
 
+	public Text ResultLabel;
 	public Building ResultBuilding;
 	public Item ResultItem;
 
@@ -24,7 +25,10 @@ public class CraftWindow : MonoBehaviour {
 		}
 		CraftElementObjects.Clear ();
 
+		ResultButton.onClick.RemoveAllListeners ();
+
 		if (ResultBuilding != null) {
+			ResultLabel.text = building.Name;
 			FormCraftElements (building.BuildCosts[building.Level]);
 			ResultButton.onClick.AddListener (delegate {
 				building.Build();
@@ -33,7 +37,14 @@ public class CraftWindow : MonoBehaviour {
 				Close();
 			});
 		} else if (ResultItem != null) {
+			ResultLabel.text = item.Name;
 			FormCraftElements (item.CraftCost);
+			ResultButton.onClick.AddListener (delegate {
+				Player.Instance.Craft(item);
+			});
+			ResultButton.onClick.AddListener (delegate {
+				Open(building, item);
+			});
 		}
 	}
 
@@ -46,6 +57,8 @@ public class CraftWindow : MonoBehaviour {
 
 			int requiredAmount = amountByItem.Value;
 			craftElement.AmountLabel.text = playersAmount + "/" + requiredAmount;
+
+			craftElement.NameLabel.text = amountByItem.Key.Name;
 
 			if (playersAmount >= requiredAmount) {
 				craftElement.FindOrCraftButton.gameObject.SetActive (false);

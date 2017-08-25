@@ -1,9 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ContextButtonsOverlay : MonoBehaviour {
 
+	public Text HeaderText;
 	public GameObject Overlay;
 	public GameObject ButtonsContainer;
 	public GameObject ContextButtonPrefab;
@@ -15,6 +17,7 @@ public class ContextButtonsOverlay : MonoBehaviour {
 			Destroy (contextButtonObject);
 		}
 		ContextButtonObjects.Clear ();
+		HeaderText.text = selectable.Name + " lvl " + selectable.Level;
 
 		foreach (var action in selectable.Actions) {			
 			GameObject contextButtonObject = Instantiate (ContextButtonPrefab) as GameObject;

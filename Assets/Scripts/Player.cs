@@ -16,8 +16,22 @@ public class Player : MonoBehaviour {
 
 	void Start () {
 		foreach (var item in GameManager.Instance.TempItemLibrary) {
-			Dictionary<Item, int> ItemAsDict = new Dictionary<Item, int> { { item, 10 } };
+			if (item.CraftCost == null) {
+				Dictionary<Item, int> ItemAsDict = new Dictionary<Item, int> { { item, 10 } };
+				TakeItems (ItemAsDict);
+			}
+		}
+	}
+
+	public void Craft (Item item) {
+		bool canCraft = CheckCost (item.CraftCost);
+
+		if (canCraft) {
+			GiveItems (item.CraftCost);
+			Dictionary<Item, int> ItemAsDict = new Dictionary<Item, int> { { item, 1 } };
 			TakeItems (ItemAsDict);
+		} else {
+			Debug.Log ("Can't craft: not enough items");
 		}
 	}
 

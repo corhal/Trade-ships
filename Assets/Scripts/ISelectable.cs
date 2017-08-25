@@ -4,5 +4,7 @@ using UnityEngine;
 
 public interface ISelectable {
 
-	List<Action> Actions { get;}
+	List<Action> Actions { get; }
+	string Name { get; }
+	int Level { get; }
 }
