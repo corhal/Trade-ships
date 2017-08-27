@@ -2,20 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Port : MonoBehaviour, ISelectable {
-
-	List<Action> actions;
-	public List<Action> Actions { get { return actions; } }
-
-	public GameManager Manager;
+public class Port : Building {
 	public List<Ship> DockedShips;
 	Ship dockedShip;
-
-	public string myname;
-	public string Name { get { return myname; } }
-
-	public int level;
-	public int Level { get { return level; } }
 
 	public Location MyLocation;
 	public string GoodsName;
@@ -29,19 +18,19 @@ public class Port : MonoBehaviour, ISelectable {
 	public delegate void ProducedShipmentEventHandler (Port sender, Shipment shipment);
 	public event ProducedShipmentEventHandler OnProducedShipment;
 
-	void Start () {
+	new void Awake () {
+		base.Awake ();
+	}
+
+	new void Start () {
+		base.Start ();
 		Shipments = new List<Shipment> ();
-		actions = new List<Action> ();
 		Action showShipmentsAction = new Action ("Show shipments", 0, ShowShipments);
 		actions.Add (showShipmentsAction);
 	}
 
 	void ShowShipments () {
-		Manager.OpenPortWindow (this, dockedShip);
-	}
-
-	void OnMouseDown () {
-		Manager.OpentContextButtons (this);
+		gameManager.OpenPortWindow (this, dockedShip);
 	}
 
 	void OnTriggerEnter2D (Collider2D other) {
@@ -104,7 +93,7 @@ public class Port : MonoBehaviour, ISelectable {
 
 	Location RandomLocation () {
 		List<Location> validLocations = new List<Location> ();
-		foreach (var location in Manager.Locations) {
+		foreach (var location in gameManager.Locations) {
 			if (location.MyPort != null && location != MyLocation) {
 				validLocations.Add (location);
 			}
@@ -112,6 +101,4 @@ public class Port : MonoBehaviour, ISelectable {
 		int index = Random.Range (0, validLocations.Count);
 		return validLocations [index];
 	}
-
-
 }

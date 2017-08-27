@@ -1,21 +1,22 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Ship.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Building.cs">
     <Files>
-      <File FileName="Assets\Scripts\Ship.cs" Line="51" Column="5" />
+      <File FileName="Assets\Scripts\Ship.cs" Line="37" Column="51" />
       <File FileName="Assets\Scripts\MoveOnClick.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Shipment.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Port.cs" Line="47" Column="45" />
-      <File FileName="Assets\Scripts\GameManager.cs" Line="19" Column="25" />
+      <File FileName="Assets\Scripts\Port.cs" Line="103" Column="3" />
+      <File FileName="Assets\Scripts\GameManager.cs" Line="68" Column="26" />
       <File FileName="Assets\Scripts\Location.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\PortWindow.cs" Line="74" Column="35" />
       <File FileName="Assets\Scripts\ShipmentNode.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Player.cs" Line="12" Column="19" />
-      <File FileName="Assets\Scripts\ContextButtonsOverlay.cs" Line="36" Column="2" />
+      <File FileName="Assets\Scripts\Player.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\ContextButtonsOverlay.cs" Line="21" Column="3" />
       <File FileName="Assets\Scripts\ContextButton.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Action.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Selectable.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\ISelectable.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Building.cs" Line="25" Column="3" />
+      <File FileName="Assets\Scripts\CraftWindow.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Selectable.cs" Line="8" Column="55" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

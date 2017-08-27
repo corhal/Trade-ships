@@ -2,29 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Ship : MonoBehaviour, ISelectable {
-
-	public string myname;
-	public string Name { get { return myname; } }
-
-	public int level;
-	public int Level { get { return level; } }
-
-	public GameManager Manager;
-	List<Action> actions;
-	public List<Action> Actions { get { return actions; } }
+public class Ship : Selectable {	
 	public List<Shipment> Shipments;
 	public int ShipmentsCapacity;
 
-	void Start () {
-		Shipments = new List<Shipment> ();
-		actions = new List<Action> ();
-		Action moveAction = new Action ("Move", 0, MoveMode);
-		actions.Add (moveAction);
+	new void Awake () {
+		base.Awake ();
 	}
 
-	void OnMouseDown () {
-		Manager.OpentContextButtons (this);
+	new void Start () {
+		base.Start ();
+		Shipments = new List<Shipment> ();
+		Action moveAction = new Action ("Move", 0, MoveMode);
+		actions.Add (moveAction);
 	}
 
 	public void TakeShipment (Shipment shipment) {
@@ -38,7 +28,7 @@ public class Ship : MonoBehaviour, ISelectable {
 	}
 
 	public void MoveMode () {
-		Manager.InMoveMode = true;
+		gameManager.InMoveMode = true;
 		MoveOnClick mover = gameObject.GetComponent<MoveOnClick> ();
 		mover.InMoveMode = true;
 	}

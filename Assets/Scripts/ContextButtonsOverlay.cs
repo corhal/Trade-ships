@@ -11,7 +11,7 @@ public class ContextButtonsOverlay : MonoBehaviour {
 	public GameObject ContextButtonPrefab;
 	public List<GameObject> ContextButtonObjects;
 
-	public void Open (ISelectable selectable) {		
+	public void Open (Selectable selectable) {		
 		Overlay.SetActive (true);
 		foreach (var contextButtonObject in ContextButtonObjects) {
 			Destroy (contextButtonObject);

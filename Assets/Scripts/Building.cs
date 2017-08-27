@@ -2,52 +2,25 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Building : MonoBehaviour, ISelectable {
-
-	public string myname;
-	public string Name { get { return myname; } }
-
-	public int level;
-	public int Level { get { return level; } }
-
-	public int MaxLevel;
+public class Building : Selectable {
 	public bool UnderConstruction;
-
-	List<Action> actions;
-	public List<Action> Actions { get { return actions; } }
 
 	public List<Dictionary<Item, int>> BuildCosts;
 	public List<int> UpgradeCosts;
 
-	GameManager gameManager;
-	Player player;
-
 	Action buildAction;
 	Action upgradeAction;
 
-	void Awake () {
-		actions = new List<Action> ();
+	new protected void Awake () {
+		base.Awake ();
 		BuildCosts = new List<Dictionary<Item, int>> ();
-		//UpgradeCosts = new List<int> ();
-
-		gameManager = GameManager.Instance;
-		player = Player.Instance;
 
 		buildAction = new Action ("Build", 0, ShowCraftWindow);
 		upgradeAction = new Action ("Upgrade", 0, Upgrade);
 	}
 
-	void RefreshActions () {
-		actions.Clear ();
-		if (!UnderConstruction) {
-			upgradeAction.Cost = UpgradeCosts [Level];
-			actions.Add (upgradeAction);
-		} else {
-			actions.Add (buildAction);
-		}
-	}
-
-	void Start () {
+	new protected void Start () {
+		base.Start ();
 		RefreshActions ();
 
 		for (int i = 0; i < MaxLevel - Level; i++) {
@@ -69,8 +42,15 @@ public class Building : MonoBehaviour, ISelectable {
 		}
 	}
 
-	void OnMouseDown () {
-		gameManager.OpentContextButtons (this);
+	void RefreshActions () {
+		if (!UnderConstruction) {
+			upgradeAction.Cost = UpgradeCosts [Level];
+			actions.Remove (buildAction);
+			actions.Add (upgradeAction);
+		} else {
+			actions.Remove (upgradeAction);
+			actions.Add (buildAction);
+		}
 	}
 
 	void ShowCraftWindow () {
@@ -93,7 +73,7 @@ public class Building : MonoBehaviour, ISelectable {
 
 		if (canBuild) {
 			player.GiveItems (BuildCosts [Level]);
-			level += 1;
+			Level += 1;
 			UnderConstruction = false;
 			RefreshActions ();
 		} else {

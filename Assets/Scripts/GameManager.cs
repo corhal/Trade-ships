@@ -59,7 +59,7 @@ public class GameManager : MonoBehaviour {
 		MyCraftWindow.Close ();
 	}
 
-	public void OpentContextButtons (ISelectable selectable) {
+	public void OpentContextButtons (Selectable selectable) {
 		if (InMoveMode) {
 			return;
 		}
