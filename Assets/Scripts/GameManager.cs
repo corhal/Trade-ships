@@ -8,6 +8,10 @@ public class GameManager : MonoBehaviour {
 	public List<Location> Locations;
 	public List<Item> TempItemLibrary;
 
+	public List<Ship> Ships;
+	public List<Building> Buildings;
+
+	public MissionWindow MyMissionWindow;
 	public PortWindow MyPortWindow;
 	public CraftWindow MyCraftWindow;
 	public ContextButtonsOverlay MyButtonsOverlay;
@@ -34,6 +38,20 @@ public class GameManager : MonoBehaviour {
 			hammers,
 			saws,
 			tools,};
+
+		Ships = new List<Ship> (GameObject.FindObjectsOfType<Ship>());
+		Buildings = new List<Building> (GameObject.FindObjectsOfType<Building>());
+	}
+
+	public void OpenMissionWindow (Mission mission) {
+		MyMissionWindow.Open (mission);
+		MyPortWindow.Close ();
+		MyCraftWindow.Close ();
+		MyButtonsOverlay.Close ();
+	}
+
+	public void CloseMissionWindow () {
+
 	}
 
 	public void OpenPortWindow (Port port, Ship ship) {
