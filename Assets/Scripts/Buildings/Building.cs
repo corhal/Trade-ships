@@ -7,12 +7,13 @@ public class Building : Selectable {
 
 	public List<Dictionary<Item, int>> BuildCosts;
 	public List<int> UpgradeCosts;
-
+	public Island MyIsland;
 	Action buildAction;
 	Action upgradeAction;
 
 	new protected void Awake () {
 		base.Awake ();
+		MyIsland = GetComponentInParent<Island> ();
 		BuildCosts = new List<Dictionary<Item, int>> ();
 
 		buildAction = new Action ("Build", 0, ShowCraftWindow);

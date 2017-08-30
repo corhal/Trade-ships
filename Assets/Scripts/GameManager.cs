@@ -5,7 +5,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour {
 
 	public bool InMoveMode = false;
-	public List<Location> Locations;
+	public List<Island> Islands;
 	public List<Item> TempItemLibrary;
 
 	public List<Ship> Ships;
@@ -43,8 +43,8 @@ public class GameManager : MonoBehaviour {
 		Buildings = new List<Building> (GameObject.FindObjectsOfType<Building>());
 	}
 
-	public void OpenMissionWindow (Mission mission) {
-		MyMissionWindow.Open (mission);
+	public void OpenMissionWindow (ExpeditionCenter expeditionCenter) {
+		MyMissionWindow.Open (expeditionCenter);
 		MyPortWindow.Close ();
 		MyCraftWindow.Close ();
 		MyButtonsOverlay.Close ();

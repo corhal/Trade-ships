@@ -5,18 +5,18 @@ using UnityEngine;
 public class Shipment {
 
 	public string GoodsName;
-	public Location StartLocation;
-	public Location Destination;
+	public Island StartIsland;
+	public Island Destination;
 	public string DestinationString;
 	public int Reward;
 
 	public float Distance;
 
-	public Shipment (string goodsName, Location startLocation, Location destination, int reward) {
+	public Shipment (string goodsName, Island startIsland, Island destination, int reward) {
 		this.GoodsName = goodsName;
-		this.StartLocation = startLocation;
+		this.StartIsland = startIsland;
 		this.Destination = destination;
 		this.Reward = reward;
-		Distance = Vector2.Distance (StartLocation.transform.position, Destination.transform.position);
+		Distance = Vector2.Distance (StartIsland.transform.position, Destination.transform.position);
 	}
 }

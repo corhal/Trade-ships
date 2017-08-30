@@ -21,6 +21,6 @@ public class ExpeditionCenter : Building {
 	}
 
 	void ShowMissions () {
-		gameManager.OpenMissionWindow (Missions[0]);
+		gameManager.OpenMissionWindow (this);
 	}
 }

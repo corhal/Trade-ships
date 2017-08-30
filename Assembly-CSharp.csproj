@@ -56,8 +56,8 @@
      <Compile Include="Assets\Scripts\Buildings\ExpeditionCenter.cs" />
      <Compile Include="Assets\Scripts\Buildings\Port.cs" />
      <Compile Include="Assets\Scripts\GameManager.cs" />
+     <Compile Include="Assets\Scripts\Island.cs" />
      <Compile Include="Assets\Scripts\Item.cs" />
-     <Compile Include="Assets\Scripts\Location.cs" />
      <Compile Include="Assets\Scripts\Mission.cs" />
      <Compile Include="Assets\Scripts\MoveOnClick.cs" />
      <Compile Include="Assets\Scripts\Player.cs" />

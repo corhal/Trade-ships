@@ -5,6 +5,8 @@ using UnityEngine;
 public class Ship : Selectable {	
 	public List<Shipment> Shipments;
 	public int ShipmentsCapacity;
+	public int HP;
+	public int Power;
 
 	new void Awake () {
 		base.Awake ();
@@ -42,7 +44,7 @@ public class Ship : Selectable {
 	public void UnloadCargo (Port port) {
 		List<Shipment> shipmentsToDestroy = new List<Shipment> ();
 		foreach (var shipment in Shipments) {
-			if (shipment.Destination == port.MyLocation) {
+			if (shipment.Destination == port.MyIsland) {
 				Player.Instance.TakeGold (shipment.Reward);
 				shipmentsToDestroy.Add (shipment);
 			}

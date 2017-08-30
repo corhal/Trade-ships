@@ -7,7 +7,8 @@ public class Mission {
 	public Dictionary<Item, int> PossibleRewards;
 	public Dictionary<string, int> BuildingRequirements;
 
-	public int CargoRequirements;
+	public int Seconds;
+	public int Power;
 	GameManager gameManager;
 
 	public Mission () {
@@ -31,7 +32,7 @@ public class Mission {
 		BuildingRequirements = new Dictionary<string, int> ();
 		BuildingRequirements.Add ("Lumbermill", 2);
 		BuildingRequirements.Add ("Quarry", 1);
-
-		CargoRequirements = 40;
+		Seconds = 11136;
+		Power = Random.Range (100, 200);
 	}
 }

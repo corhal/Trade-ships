@@ -6,7 +6,6 @@ public class Port : Building {
 	public List<Ship> DockedShips;
 	Ship dockedShip;
 
-	public Location MyLocation;
 	public string GoodsName;
 	public int ShipmentsCapacity;
 	public List<Shipment> Shipments;
@@ -72,9 +71,9 @@ public class Port : Building {
 	}
 
 	void ProduceShipment () {
-		Location location = RandomLocation ();
+		Island island = RandomIsland ();
 		int reward = Random.Range (5, 36);
-		Shipment shipment = new Shipment (GoodsName, MyLocation, location, reward);
+		Shipment shipment = new Shipment (GoodsName, MyIsland, island, reward);
 		Shipments.Add (shipment);
 		if (OnProducedShipment != null) {
 			OnProducedShipment (this, shipment);
@@ -91,14 +90,14 @@ public class Port : Building {
 		Shipments.Remove (shipment);
 	}
 
-	Location RandomLocation () {
-		List<Location> validLocations = new List<Location> ();
-		foreach (var location in gameManager.Locations) {
-			if (location.MyPort != null && location != MyLocation) {
-				validLocations.Add (location);
+	Island RandomIsland () {
+		List<Island> validIslands = new List<Island> ();
+		foreach (var island in gameManager.Islands) {
+			if (island.MyPort != null && island != MyIsland) {
+				validIslands.Add (island);
 			}
 		}
-		int index = Random.Range (0, validLocations.Count);
-		return validLocations [index];
+		int index = Random.Range (0, validIslands.Count);
+		return validIslands [index];
 	}
 }

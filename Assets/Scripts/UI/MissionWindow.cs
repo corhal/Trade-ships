@@ -21,18 +21,20 @@ public class MissionWindow : MonoBehaviour {
 
 	public Text HeaderLabel;
 	public Text RequirementsLabel;
-	public Text RecomendationsLabel;
+	public Text SuccessLabel;
+	public Text TimeLabel;
 
 	Mission mission;
 	GameManager gameManager;
+	List<Ship> ChosenShips;
 
 	void Awake () {
 		gameManager = GameManager.Instance;
 	}
 
-	public void Open (Mission mission) {
+	public void Open (ExpeditionCenter expeditionCenter) {
 		Window.SetActive (true);
-		this.mission = mission;
+		this.mission = expeditionCenter.Missions[0];
 
 		foreach (var rewardElementObject in RewardElementObjects) {
 			Destroy (rewardElementObject);
@@ -54,8 +56,8 @@ public class MissionWindow : MonoBehaviour {
 			rewardElementObject.transform.localScale = Vector3.one;
 			RewardElementObjects.Add (rewardElementObject);
 		}
-
-		foreach (var ship in gameManager.Ships) {
+		ChosenShips = expeditionCenter.MyIsland.MyPort.DockedShips;
+		foreach (var ship in ChosenShips) {
 			GameObject shipElementObject = Instantiate (ShipElementPrefab) as GameObject;
 			Text nameText = shipElementObject.GetComponentInChildren<Text> ();
 			nameText.text = ship.Name;
@@ -67,11 +69,27 @@ public class MissionWindow : MonoBehaviour {
 
 		string requirementsString = "";
 		foreach (var levelByName in mission.BuildingRequirements) {
-			requirementsString += levelByName.Key + ": lvl" + levelByName.Value + "\n";
+			string tickstring = " X";
+			foreach (var building in gameManager.Buildings) {
+				if (building.name == levelByName.Key && building.Level >= levelByName.Value) {
+					tickstring = " V";
+				}
+			}
+			requirementsString += levelByName.Key + ": lvl" + levelByName.Value + tickstring + "\n";
 		}
-		requirementsString += "Cargo: " + mission.CargoRequirements;
 		RequirementsLabel.text = requirementsString;
 
+		int totalPower = 0;
+		foreach (var ship in ChosenShips) {
+			totalPower += ship.Power;
+		}
+		int successChance = (int)(((float)totalPower / (float)mission.Power) * 100);
+		SuccessLabel.text = "Success chance: " +  successChance + "%";
+		int seconds = mission.Seconds % 60;
+		int minutes = (mission.Seconds - seconds) / 60;
+		int newMinutes = minutes % 60;
+		int hours = (minutes - newMinutes) / 60;
+		TimeLabel.text = hours + ":" + newMinutes + ":" + seconds;
 		// StartButton.onClick.RemoveAllListeners ();
 	}
 

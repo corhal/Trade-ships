@@ -17,7 +17,7 @@ public class Player : MonoBehaviour {
 	void Start () {
 		foreach (var item in GameManager.Instance.TempItemLibrary) {
 			if (item.CraftCost == null) {
-				Dictionary<Item, int> ItemAsDict = new Dictionary<Item, int> { { item, 10 } };
+				Dictionary<Item, int> ItemAsDict = new Dictionary<Item, int> { { item, 30 } };
 				TakeItems (ItemAsDict);
 			}
 		}
