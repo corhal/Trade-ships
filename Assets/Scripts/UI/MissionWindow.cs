@@ -28,11 +28,15 @@ public class MissionWindow : MonoBehaviour {
 	GameManager gameManager;
 	List<Ship> ChosenShips;
 
+	ExpeditionCenter currentExpeditionCenter;
+	int successChance;
+
 	void Awake () {
 		gameManager = GameManager.Instance;
 	}
 
 	public void Open (ExpeditionCenter expeditionCenter) {
+		currentExpeditionCenter = expeditionCenter;
 		Window.SetActive (true);
 		this.mission = expeditionCenter.Missions[0];
 
@@ -83,7 +87,7 @@ public class MissionWindow : MonoBehaviour {
 		foreach (var ship in ChosenShips) {
 			totalPower += ship.Power;
 		}
-		int successChance = (int)(((float)totalPower / (float)mission.Power) * 100);
+		successChance = (int)(((float)totalPower / (float)mission.Power) * 100);
 		SuccessLabel.text = "Success chance: " +  successChance + "%";
 		int seconds = mission.Seconds % 60;
 		int minutes = (mission.Seconds - seconds) / 60;
@@ -95,5 +99,10 @@ public class MissionWindow : MonoBehaviour {
 
 	public void Close () {
 		Window.SetActive (false);
+	}
+
+	public void StartMission () {
+		currentExpeditionCenter.StartMission (mission, successChance);
+		Close ();
 	}
 }
