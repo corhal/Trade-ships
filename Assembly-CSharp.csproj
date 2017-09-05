@@ -64,13 +64,17 @@
      <Compile Include="Assets\Scripts\Selectable.cs" />
      <Compile Include="Assets\Scripts\Ship.cs" />
      <Compile Include="Assets\Scripts\Shipment.cs" />
+     <Compile Include="Assets\Scripts\Skill.cs" />
      <Compile Include="Assets\Scripts\UI\ContextButton.cs" />
      <Compile Include="Assets\Scripts\UI\ContextButtonsOverlay.cs" />
      <Compile Include="Assets\Scripts\UI\CraftElement.cs" />
      <Compile Include="Assets\Scripts\UI\CraftWindow.cs" />
+     <Compile Include="Assets\Scripts\UI\ExpeditionWindow.cs" />
      <Compile Include="Assets\Scripts\UI\MissionWindow.cs" />
      <Compile Include="Assets\Scripts\UI\PortWindow.cs" />
      <Compile Include="Assets\Scripts\UI\ShipmentNode.cs" />
+     <Compile Include="Assets\Scripts\UI\ShipWindow.cs" />
+     <Compile Include="Assets\Scripts\UI\SkillElement.cs" />
      <Compile Include="Assets\Scripts\UI\UIOverlay.cs" />
      <Compile Include="Assets\Scripts\Utility.cs" />
  <Reference Include="Facebook.Unity.Settings">

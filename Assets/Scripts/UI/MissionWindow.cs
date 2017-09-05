@@ -35,10 +35,10 @@ public class MissionWindow : MonoBehaviour {
 		gameManager = GameManager.Instance;
 	}
 
-	public void Open (ExpeditionCenter expeditionCenter) {
-		currentExpeditionCenter = expeditionCenter;
+	public void Open (ExpeditionCenter expeditionCenter, Mission chosenMission) {		
 		Window.SetActive (true);
-		this.mission = expeditionCenter.Missions[0];
+		currentExpeditionCenter = expeditionCenter;
+		this.mission = chosenMission;
 
 		foreach (var rewardElementObject in RewardElementObjects) {
 			Destroy (rewardElementObject);
@@ -97,12 +97,28 @@ public class MissionWindow : MonoBehaviour {
 		// StartButton.onClick.RemoveAllListeners ();
 	}
 
+	bool CheckRequirements () {
+		foreach (var levelByName in mission.BuildingRequirements) {
+			foreach (var building in gameManager.Buildings) {
+				if (building.name == levelByName.Key && building.Level < levelByName.Value) {
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+
 	public void Close () {
 		Window.SetActive (false);
 	}
 
 	public void StartMission () {
-		currentExpeditionCenter.StartMission (mission, successChance);
-		Close ();
+		if (CheckRequirements ()) {
+			currentExpeditionCenter.StartMission (mission, successChance);
+			Close ();
+		} else {
+			Debug.Log ("Mission requirements not met!");
+		}
+
 	}
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class Mission {
 
 	public Dictionary<Item, float> RewardChances;
@@ -13,27 +14,13 @@ public class Mission {
 	public bool InProgress;
 	GameManager gameManager;
 
-	public Mission () {
+	public Mission (Dictionary<Item, float> rewardChances, Dictionary<Item, int> possibleRewards) {
 		gameManager = GameManager.Instance;
-		PossibleRewards = new Dictionary<Item, int> ();
-		RewardChances = new Dictionary<Item, float> ();
-		int costLength = Random.Range (1, 5);
-		for (int j = 0; j < costLength; j++) {
-			List<Item> validItems = new List<Item> ();
-			foreach (var item in gameManager.TempItemLibrary) {
-				if (!PossibleRewards.ContainsKey(item)) {
-					validItems.Add (item);
-				}
-			}
-
-			int index = Random.Range (0, validItems.Count);
-
-			PossibleRewards.Add (validItems [index], Random.Range(1, 6));
-			RewardChances.Add (validItems [index], Random.Range (0.3f, 0.7f));
-		}
+		PossibleRewards = possibleRewards;
+		RewardChances = rewardChances;
 
 		BuildingRequirements = new Dictionary<string, int> ();
-		BuildingRequirements.Add ("Lumbermill", 2);
+		BuildingRequirements.Add ("Lumbermill", 1);
 		BuildingRequirements.Add ("Quarry", 1);
 		Seconds = 20;
 		Power = Random.Range (100, 200);

@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Ship : Selectable {	
+
+	public List<Skill> Skills;
 	public List<Shipment> Shipments;
+	public Dictionary<string, int> Stats;
 	public int ShipmentsCapacity;
 	public int HP;
 	public int Power;
@@ -14,9 +17,22 @@ public class Ship : Selectable {
 
 	new void Start () {
 		base.Start ();
+		Stats = new Dictionary<string, int> {
+			{"Cargo", ShipmentsCapacity},
+			{"HP", HP},
+			{"Firepower", Power}
+		};
+		Skills = new List<Skill> {			
+			new Skill("Trade", 1),
+			new Skill("Cannons", 1),
+			new Skill("Navigation", 1),
+			new Skill("Something else", 1)
+		};
 		Shipments = new List<Shipment> ();
 		Action moveAction = new Action ("Move", 0, MoveMode);
+		Action infoAction = new Action("Info", 0, ShowInfo);
 		actions.Add (moveAction);
+		actions.Add (infoAction);
 	}
 
 	public void TakeShipment (Shipment shipment) {
@@ -33,6 +49,10 @@ public class Ship : Selectable {
 		gameManager.InMoveMode = true;
 		MoveOnClick mover = gameObject.GetComponent<MoveOnClick> ();
 		mover.InMoveMode = true;
+	}
+
+	public void ShowInfo () {
+		gameManager.OpenShipWindow (this);
 	}
 
 	void OnTriggerEnter2D (Collider2D other) { // will work even when passing through another port

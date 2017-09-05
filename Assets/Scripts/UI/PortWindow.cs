@@ -115,7 +115,7 @@ public class PortWindow : MonoBehaviour {
 		ShipmentNode shipmentNode = shipmentNodeObject.GetComponent<ShipmentNode> ();
 		shipmentNode.MyShipment = shipment;
 		shipmentNode.NameLabel.text = shipment.GoodsName;
-		shipmentNode.DestinationLabel.text = shipment.Destination.MyPort.Name;
+		shipmentNode.DestinationLabel.text = shipment.Destination.MyPort.MyIsland.Name;
 		shipmentNode.DistanceLabel.text = shipment.Distance.ToString ();
 		shipmentNode.RewardLabel.text = shipment.Reward.ToString ();
 		shipmentNode.MyPortWindow = this;

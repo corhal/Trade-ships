@@ -19,14 +19,31 @@ public class ExpeditionCenter : Building {
 	new void Start () {
 		base.Start ();
 
-		Missions.Add (new Mission ());
+		for (int i = 0; i < 5; i++) {
+			int costLength = Random.Range (1, 5);
+			Dictionary<Item, float> rewardChances = new Dictionary<Item, float> ();
+			Dictionary<Item, int> possibleRewards = new Dictionary<Item, int> ();
+			for (int j = 0; j < costLength; j++) {
+				List<Item> validItems = new List<Item> ();
+				foreach (var item in gameManager.TempItemLibrary) {
+					if (!possibleRewards.ContainsKey(item)) {
+						validItems.Add (item);
+					}
+				}
+
+				int index = Random.Range (0, validItems.Count);
+				possibleRewards.Add (validItems [index], Random.Range(1, 6));
+				rewardChances.Add (validItems [index], Random.Range (0.3f, 0.7f));
+			}
+			Missions.Add (new Mission (rewardChances, possibleRewards));
+		}
 
 		Action showMissionsAction = new Action ("Show missions", 0, ShowMissions);
 		actions.Add (showMissionsAction);
 	}
 
 	void ShowMissions () {
-		gameManager.OpenMissionWindow (this);
+		gameManager.OpenExpeditionWindow (this);
 	}
 
 	public void StartMission (Mission mission, int successChance) {
@@ -50,6 +67,8 @@ public class ExpeditionCenter : Building {
 					return;
 				}
 				Debug.Log ("Success!");
+				TimeSlider.value = 0;
+				TimeSlider.gameObject.SetActive (false);
 				Player.Instance.TakeItems (currentMission.GiveReward ());
 			}
 		}

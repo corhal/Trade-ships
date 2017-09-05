@@ -25,6 +25,8 @@ public class Selectable : MonoBehaviour {
 	}
 
 	void OnMouseDown () {
-		gameManager.OpentContextButtons (this);
+		if (!Utility.IsPointerOverUIObject ()) {
+			gameManager.OpentContextButtons (this);
+		}
 	}
 }

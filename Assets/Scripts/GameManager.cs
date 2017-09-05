@@ -11,6 +11,8 @@ public class GameManager : MonoBehaviour {
 	public List<Ship> Ships;
 	public List<Building> Buildings;
 
+	public ShipWindow MyShipWindow;
+	public ExpeditionWindow MyExpeditionWindow;
 	public MissionWindow MyMissionWindow;
 	public PortWindow MyPortWindow;
 	public CraftWindow MyCraftWindow;
@@ -43,15 +45,41 @@ public class GameManager : MonoBehaviour {
 		Buildings = new List<Building> (GameObject.FindObjectsOfType<Building>());
 	}
 
-	public void OpenMissionWindow (ExpeditionCenter expeditionCenter) {
-		MyMissionWindow.Open (expeditionCenter);
+	public void OpenShipWindow (Ship ship) {
+		MyShipWindow.Open (ship);
+		MyExpeditionWindow.Close ();
+		MyMissionWindow.Close ();
 		MyPortWindow.Close ();
 		MyCraftWindow.Close ();
 		MyButtonsOverlay.Close ();
+		MyMissionWindow.Close ();
+	}
+
+	public void OpenExpeditionWindow (ExpeditionCenter expeditionCenter) {
+		MyExpeditionWindow.Open (expeditionCenter);
+		MyMissionWindow.Close ();
+		MyPortWindow.Close ();
+		MyCraftWindow.Close ();
+		MyButtonsOverlay.Close ();
+		MyMissionWindow.Close ();
+		MyShipWindow.Close ();
+	}
+
+	public void CloseExpeditionWindow () {
+		MyExpeditionWindow.Close ();
+	}
+
+	public void OpenMissionWindow (ExpeditionCenter expeditionCenter, Mission chosenMission) {
+		MyMissionWindow.Open (expeditionCenter, chosenMission);
+		MyPortWindow.Close ();
+		MyCraftWindow.Close ();
+		MyButtonsOverlay.Close ();
+		MyExpeditionWindow.Close ();
+		MyShipWindow.Close ();
 	}
 
 	public void CloseMissionWindow () {
-
+		MyMissionWindow.Close ();
 	}
 
 	public void OpenPortWindow (Port port, Ship ship) {
@@ -61,6 +89,9 @@ public class GameManager : MonoBehaviour {
 		MyPortWindow.Open (port, ship);
 		MyCraftWindow.Close ();
 		MyButtonsOverlay.Close ();
+		MyExpeditionWindow.Close ();
+		MyMissionWindow.Close ();
+		MyShipWindow.Close ();
 	}
 
 	public void ClosePortWindow () {
@@ -71,6 +102,9 @@ public class GameManager : MonoBehaviour {
 		MyCraftWindow.Open (building, item);
 		MyButtonsOverlay.Close ();
 		MyPortWindow.Close ();
+		MyExpeditionWindow.Close ();
+		MyMissionWindow.Close ();
+		MyShipWindow.Close ();
 	}
 
 	public void CloseCraftWindow () {
@@ -84,6 +118,9 @@ public class GameManager : MonoBehaviour {
 		MyButtonsOverlay.Open (selectable);
 		MyPortWindow.Close ();
 		MyCraftWindow.Close ();
+		MyExpeditionWindow.Close ();
+		MyMissionWindow.Close ();
+		MyShipWindow.Close ();
 	}
 
 	public void CloseContextButtons () {
