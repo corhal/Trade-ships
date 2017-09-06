@@ -63,10 +63,10 @@ public class ExpeditionCenter : Building {
 			if (timer >= currentMission.Seconds) {
 				currentMission.InProgress = false;
 				if (Random.Range(0, 101) > successChance) {
-					Debug.Log ("mission failed!");
+					gameManager.OpenPopUp ("Mission failed!");
 					return;
 				}
-				Debug.Log ("Success!");
+				gameManager.OpenPopUp ("Mission success!");
 				TimeSlider.value = 0;
 				TimeSlider.gameObject.SetActive (false);
 				Player.Instance.TakeItems (currentMission.GiveReward ());

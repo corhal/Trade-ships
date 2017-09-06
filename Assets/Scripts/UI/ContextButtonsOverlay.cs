@@ -25,6 +25,9 @@ public class ContextButtonsOverlay : MonoBehaviour {
 			ContextButton contextButton = contextButtonObject.GetComponent<ContextButton> ();
 			contextButton.ActionText.text = action.Name;
 			contextButton.CostText.text = "" + action.Cost;
+			if (action.Cost == 0) {
+				contextButton.CostText.gameObject.SetActive (false);
+			}
 
 			contextButton.MyButton.onClick.AddListener (delegate {				
 				action.Execute();

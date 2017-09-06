@@ -23,10 +23,10 @@ public class Ship : Selectable {
 			{"Firepower", Power}
 		};
 		Skills = new List<Skill> {			
-			new Skill("Trade", 1),
-			new Skill("Cannons", 1),
-			new Skill("Navigation", 1),
-			new Skill("Something else", 1)
+			new Skill("Trade", 1, 5, new List<int> {0, 10, 20, 30, 50}),
+			new Skill("Cannons", 1, 5, new List<int> {0, 10, 20, 30, 50}),
+			new Skill("Navigation", 1, 5, new List<int> {0, 10, 20, 30, 50}),
+			new Skill("Something else", 1, 5, new List<int> {0, 10, 20, 30, 50})
 		};
 		Shipments = new List<Shipment> ();
 		Action moveAction = new Action ("Move", 0, MoveMode);
@@ -35,8 +35,23 @@ public class Ship : Selectable {
 		actions.Add (infoAction);
 	}
 
+	public void UpgradeSkill (Skill skill) {		
+		if (Skills.Contains(skill)) {			
+			if (player.Gold >= skill.UpgradeCosts[skill.Level]) {
+				player.GiveGold (skill.UpgradeCosts [skill.Level]);
+				skill.Upgrade ();
+			} else {
+				gameManager.OpenPopUp ("Not enough gold!");
+			}
+		}
+	}
+
 	public void TakeShipment (Shipment shipment) {
-		if (Shipments.Count < ShipmentsCapacity) {
+		int totalWeight = 0;
+		foreach (var myShipment in Shipments) {
+			totalWeight += myShipment.Cargo;
+		}
+		if (totalWeight < ShipmentsCapacity) {
 			Shipments.Add (shipment);
 		}
 	}

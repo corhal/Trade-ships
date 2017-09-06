@@ -2,29 +2,33 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\UI\ShipWindow.cs">
     <Files>
-      <File FileName="Assets\Scripts\Shipment.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Ship.cs" Line="35" Column="28" />
-      <File FileName="Assets\Scripts\GameManager.cs" Line="123" Column="25" />
+      <File FileName="Assets\Scripts\Shipment.cs" Line="22" Column="22" />
+      <File FileName="Assets\Scripts\Ship.cs" Line="41" Column="12" />
+      <File FileName="Assets\Scripts\GameManager.cs" Line="94" Column="17" />
       <File FileName="Assets\Scripts\Utility.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\MoveOnClick.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Action.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Player.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Player.cs" Line="48" Column="3" />
       <File FileName="Assets\Scripts\Item.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Mission.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Buildings\ExpeditionCenter.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Buildings\Port.cs" Line="27" Column="38" />
-      <File FileName="Assets\Scripts\Buildings\Building.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\UI\MissionWindow.cs" Line="68" Column="4" />
+      <File FileName="Assets\Scripts\Buildings\ExpeditionCenter.cs" Line="66" Column="25" />
+      <File FileName="Assets\Scripts\Buildings\Port.cs" Line="101" Column="11" />
+      <File FileName="Assets\Scripts\Buildings\Building.cs" Line="76" Column="2" />
+      <File FileName="Assets\Scripts\UI\MissionWindow.cs" Line="114" Column="2" />
       <File FileName="Assets\Scripts\Island.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Selectable.cs" Line="30" Column="4" />
-      <File FileName="Assets\Scripts\UI\PortWindow.cs" Line="122" Column="29" />
-      <File FileName="Assets\Scripts\UI\ExpeditionWindow.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\UI\ContextButtonsOverlay.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\UI\CraftWindow.cs" Line="72" Column="40" />
-      <File FileName="Assets\Scripts\UI\ShipWindow.cs" Line="34" Column="32" />
+      <File FileName="Assets\Scripts\UI\PortWindow.cs" Line="106" Column="15" />
+      <File FileName="Assets\Scripts\UI\ExpeditionWindow.cs" Line="27" Column="7" />
+      <File FileName="Assets\Scripts\UI\ContextButtonsOverlay.cs" Line="21" Column="3" />
+      <File FileName="Assets\Scripts\UI\CraftWindow.cs" Line="52" Column="4" />
+      <File FileName="Assets\Scripts\UI\ShipWindow.cs" Line="77" Column="99" />
       <File FileName="Assets\Scripts\UI\SkillElement.cs" Line="12" Column="1" />
-      <File FileName="Assets\Scripts\Skill.cs" Line="15" Column="1" />
-      <File FileName="Assets\Scripts\UI\ShipmentNode.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Skill.cs" Line="17" Column="31" />
+      <File FileName="Assets\Scripts\UI\ShipmentNode.cs" Line="11" Column="26" />
+      <File FileName="Assets\Scripts\UI\PopUp.cs" Line="15" Column="30" />
+      <File FileName="Assets\Scripts\UI\ContextButton.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\UI\CraftElement.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\UI\UIOverlay.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

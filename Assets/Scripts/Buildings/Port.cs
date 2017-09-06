@@ -73,7 +73,8 @@ public class Port : Building {
 	void ProduceShipment () {
 		Island island = RandomIsland ();
 		int reward = Random.Range (5, 36);
-		Shipment shipment = new Shipment (GoodsName, MyIsland, island, reward);
+		int cargo = Random.Range (1, Level);
+		Shipment shipment = new Shipment (GoodsName, MyIsland, island, cargo, reward);
 		Shipments.Add (shipment);
 		if (OnProducedShipment != null) {
 			OnProducedShipment (this, shipment);

@@ -118,6 +118,7 @@ public class PortWindow : MonoBehaviour {
 		shipmentNode.DestinationLabel.text = shipment.Destination.MyPort.MyIsland.Name;
 		shipmentNode.DistanceLabel.text = shipment.Distance.ToString ();
 		shipmentNode.RewardLabel.text = shipment.Reward.ToString ();
+		shipmentNode.WeightLabel.text = shipment.Cargo + "t";
 		shipmentNode.MyPortWindow = this;
 		return shipmentNodeObject;
 	}

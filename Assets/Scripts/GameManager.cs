@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour {
 	public PortWindow MyPortWindow;
 	public CraftWindow MyCraftWindow;
 	public ContextButtonsOverlay MyButtonsOverlay;
+	public PopUp MyPopUp;
 
 	public static GameManager Instance;
 
@@ -53,6 +54,11 @@ public class GameManager : MonoBehaviour {
 		MyCraftWindow.Close ();
 		MyButtonsOverlay.Close ();
 		MyMissionWindow.Close ();
+		MyPopUp.Close ();
+	}
+
+	public void OpenPopUp (string message) {
+		MyPopUp.Open (message);
 	}
 
 	public void OpenExpeditionWindow (ExpeditionCenter expeditionCenter) {
@@ -63,6 +69,7 @@ public class GameManager : MonoBehaviour {
 		MyButtonsOverlay.Close ();
 		MyMissionWindow.Close ();
 		MyShipWindow.Close ();
+		MyPopUp.Close ();
 	}
 
 	public void CloseExpeditionWindow () {
@@ -76,6 +83,7 @@ public class GameManager : MonoBehaviour {
 		MyButtonsOverlay.Close ();
 		MyExpeditionWindow.Close ();
 		MyShipWindow.Close ();
+		MyPopUp.Close ();
 	}
 
 	public void CloseMissionWindow () {
@@ -92,6 +100,7 @@ public class GameManager : MonoBehaviour {
 		MyExpeditionWindow.Close ();
 		MyMissionWindow.Close ();
 		MyShipWindow.Close ();
+		MyPopUp.Close ();
 	}
 
 	public void ClosePortWindow () {
@@ -105,6 +114,7 @@ public class GameManager : MonoBehaviour {
 		MyExpeditionWindow.Close ();
 		MyMissionWindow.Close ();
 		MyShipWindow.Close ();
+		MyPopUp.Close ();
 	}
 
 	public void CloseCraftWindow () {
@@ -121,6 +131,7 @@ public class GameManager : MonoBehaviour {
 		MyExpeditionWindow.Close ();
 		MyMissionWindow.Close ();
 		MyShipWindow.Close ();
+		MyPopUp.Close ();
 	}
 
 	public void CloseContextButtons () {

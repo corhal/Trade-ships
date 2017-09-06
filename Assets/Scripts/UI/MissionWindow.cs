@@ -117,8 +117,7 @@ public class MissionWindow : MonoBehaviour {
 			currentExpeditionCenter.StartMission (mission, successChance);
 			Close ();
 		} else {
-			Debug.Log ("Mission requirements not met!");
+			gameManager.OpenPopUp ("Mission requirements not met!");
 		}
-
 	}
 }

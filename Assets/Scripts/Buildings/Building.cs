@@ -44,6 +44,11 @@ public class Building : Selectable {
 	}
 
 	void RefreshActions () {
+		if (Level == MaxLevel) {
+			actions.Remove (buildAction);
+			actions.Remove (upgradeAction);
+			return;
+		}
 		if (!UnderConstruction) {
 			upgradeAction.Cost = UpgradeCosts [Level];
 			actions.Remove (buildAction);
@@ -65,7 +70,7 @@ public class Building : Selectable {
 			gameManager.CloseContextButtons ();
 			RefreshActions ();
 		} else {
-			Debug.Log ("Not enough gold for upgrade");
+			gameManager.OpenPopUp ("Not enough gold for upgrade");
 		}
 	}
 
@@ -78,7 +83,7 @@ public class Building : Selectable {
 			UnderConstruction = false;
 			RefreshActions ();
 		} else {
-			Debug.Log ("Can't upgrade: not enough items");
+			gameManager.OpenPopUp ("Can't upgrade: not enough items");
 		}
 	}
 }

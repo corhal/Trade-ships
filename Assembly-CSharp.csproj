@@ -71,6 +71,7 @@
      <Compile Include="Assets\Scripts\UI\CraftWindow.cs" />
      <Compile Include="Assets\Scripts\UI\ExpeditionWindow.cs" />
      <Compile Include="Assets\Scripts\UI\MissionWindow.cs" />
+     <Compile Include="Assets\Scripts\UI\PopUp.cs" />
      <Compile Include="Assets\Scripts\UI\PortWindow.cs" />
      <Compile Include="Assets\Scripts\UI\ShipmentNode.cs" />
      <Compile Include="Assets\Scripts\UI\ShipWindow.cs" />

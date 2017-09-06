@@ -58,12 +58,27 @@ public class ShipWindow : MonoBehaviour {
 
 			skillElement.SkillNameLabel.text = skill.Name;
 			skillElement.SkillLevelLabel.text = skill.Level.ToString ();
-			skillElement.UpgradeButtonLabel.text = "$ 999 999";
+			skillElement.UpgradeButtonLabel.text = "$ " + skill.UpgradeCosts[skill.Level];
+
+			skillElement.SkillUpgradeButton.onClick.AddListener (delegate {
+				UpgradeSkill(ship, skill);
+			});
+
+			if (skill.Level == skill.MaxLevel) {
+				skillElement.SkillUpgradeButton.gameObject.SetActive (false);
+			}
 
 			skillElementObject.transform.SetParent (SkillsElementContainer.transform);
 			skillElementObject.transform.localScale = Vector3.one;
 			SkillElementObjects.Add (skillElementObject);
 		}
+	}
+
+	void UpgradeSkill (Ship ship, Skill skill) { // smth wrong; should probably update labels instead
+		ship.UpgradeSkill(skill);
+		if (Player.Instance.Gold >= skill.UpgradeCosts[skill.Level]) {
+			Open (ship);
+		} 
 	}
 
 	public void Close () {

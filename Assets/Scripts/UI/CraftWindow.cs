@@ -31,10 +31,7 @@ public class CraftWindow : MonoBehaviour {
 			ResultLabel.text = building.Name;
 			FormCraftElements (building.BuildCosts[building.Level]);
 			ResultButton.onClick.AddListener (delegate {
-				building.Build();
-			});
-			ResultButton.onClick.AddListener (delegate {
-				Close();
+				Build(building);
 			});
 		} else if (ResultItem != null) {
 			ResultLabel.text = item.Name;
@@ -45,6 +42,13 @@ public class CraftWindow : MonoBehaviour {
 			ResultButton.onClick.AddListener (delegate {
 				Open(building, item);
 			});
+		}
+	}
+
+	void Build (Building building) {
+		building.Build ();
+		if (Player.Instance.CheckCost (building.BuildCosts[building.Level])) {
+			Close ();
 		}
 	}
 
