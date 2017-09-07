@@ -2,23 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
-public struct Stat {
-	public string Name;
-	public int Value;
-
-	public Stat (string name, int value) {
-		Name = name;
-		Value = value;
-	}
-}
-
 public class Ship : Selectable {	
 
 	public List<Skill> Skills;
 	public List<Shipment> Shipments;
 
-	public List<Stat> Stats;
+	public List<string> StatNames;
 
 	[SerializeField]
 	int shipmentsCapacity;
@@ -37,7 +26,7 @@ public class Ship : Selectable {
 	new void Start () {
 		base.Start ();
 
-		Stats = new List<Stat> { new Stat ("Cargo", ShipmentsCapacity), new Stat ("HP", HP), new Stat ("Firepower", Power) };
+		StatNames = new List<string> { "Cargo", "HP", "Firepower" };
 
 		Skills = new List<Skill> {			
 			new Skill("Trade", 1, 5, new List<int> {0, 10, 20, 30, 50}, new List<string> {"Cargo"}, new List<Dictionary<string, int>> {
@@ -62,6 +51,19 @@ public class Ship : Selectable {
 		Action infoAction = new Action("Info", 0, ShowInfo);
 		actions.Add (moveAction);
 		actions.Add (infoAction);
+	}
+
+	public int GetStatByString (string statName) {
+		switch (statName) {
+		case "Cargo":
+			return ShipmentsCapacity;
+		case "HP":
+			return HP;
+		case "Firepower":
+			return Power;
+		default:
+			return 0;
+		}
 	}
 
 	int CalculateBonus (string statName) {

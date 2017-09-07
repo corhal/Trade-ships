@@ -1,22 +1,16 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Building.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Ship.cs">
     <Files>
-      <File FileName="Assets\Scripts\Ship.cs" Line="37" Column="51" />
+      <File FileName="Assets\Scripts\Ship.cs" Line="28" Column="3" />
       <File FileName="Assets\Scripts\MoveOnClick.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Shipment.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Port.cs" Line="103" Column="3" />
-      <File FileName="Assets\Scripts\GameManager.cs" Line="68" Column="26" />
-      <File FileName="Assets\Scripts\Location.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\PortWindow.cs" Line="74" Column="35" />
-      <File FileName="Assets\Scripts\ShipmentNode.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\GameManager.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Player.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\ContextButtonsOverlay.cs" Line="21" Column="3" />
-      <File FileName="Assets\Scripts\ContextButton.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Action.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Building.cs" Line="25" Column="3" />
-      <File FileName="Assets\Scripts\CraftWindow.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Selectable.cs" Line="8" Column="55" />
+      <File FileName="Assets\Scripts\Selectable.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Skill.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\UI\ShipWindow.cs" Line="48" Column="68" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
