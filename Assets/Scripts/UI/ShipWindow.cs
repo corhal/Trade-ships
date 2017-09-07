@@ -45,7 +45,7 @@ public class ShipWindow : MonoBehaviour {
 		foreach (var stat in ship.Stats) {
 			GameObject statElementObject = Instantiate (StatElementPrefab) as GameObject;
 			Text statText = statElementObject.GetComponent<Text> ();
-			statText.text = stat.Key + ": " + stat.Value;
+			statText.text = stat.Name + ": " + stat.Value;
 
 			statElementObject.transform.SetParent (StatsElementContainer.transform);
 			statElementObject.transform.localScale = Vector3.one;
