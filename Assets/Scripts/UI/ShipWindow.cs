@@ -74,11 +74,31 @@ public class ShipWindow : MonoBehaviour {
 		}
 	}
 
+	void UpdateLabels (Ship ship) {
+		for (int i = 0; i < ship.StatNames.Count; i++) {
+			GameObject statElementObject = StatElementObjects [i];
+			Text statText = statElementObject.GetComponent<Text> ();
+			statText.text = ship.StatNames [i] + ": " + ship.GetStatByString (ship.StatNames [i]);
+		}
+
+		for (int i = 0; i < ship.Skills.Count; i++) {
+			GameObject skillElementObject = SkillElementObjects [i];
+			SkillElement skillElement = skillElementObject.GetComponentInChildren<SkillElement> ();
+
+			skillElement.SkillNameLabel.text = ship.Skills [i].Name;
+			skillElement.SkillLevelLabel.text = ship.Skills [i].Level.ToString ();
+
+			if (ship.Skills [i].Level == ship.Skills [i].MaxLevel) {
+				skillElement.SkillUpgradeButton.gameObject.SetActive (false);
+			} else {
+				skillElement.UpgradeButtonLabel.text = "$ " + ship.Skills [i].UpgradeCosts[ship.Skills [i].Level];
+			}
+		}
+	}
+
 	void UpgradeSkill (Ship ship, Skill skill) { // smth wrong; should probably update labels instead
 		ship.UpgradeSkill(skill);
-		if (Player.Instance.Gold >= skill.UpgradeCosts[skill.Level]) {
-			Open (ship);
-		} 
+		UpdateLabels (ship);
 	}
 
 	public void Close () {

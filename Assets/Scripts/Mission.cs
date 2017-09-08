@@ -20,9 +20,9 @@ public class Mission {
 		RewardChances = rewardChances;
 
 		BuildingRequirements = new Dictionary<string, int> ();
-		BuildingRequirements.Add ("Lumbermill", 1);
-		BuildingRequirements.Add ("Quarry", 1);
-		Seconds = 20;
+		/*BuildingRequirements.Add ("Lumbermill", 1); // Do I even need this?
+		BuildingRequirements.Add ("Quarry", 1);*/
+		Seconds = 5;
 		Power = Random.Range (100, 200);
 	}
 

@@ -35,6 +35,7 @@ public class Ship : Selectable {
 				new Dictionary<string, int> {{"Cargo", 3}},
 				new Dictionary<string, int> {{"Cargo", 4}},
 				new Dictionary<string, int> {{"Cargo", 5}},
+				new Dictionary<string, int> {{"Cargo", 6}},
 			}),
 			new Skill("Cannons", 1, 5, new List<int> {0, 10, 20, 30, 50}, new List<string> {"Firepower"}, new List<Dictionary<string, int>> {
 				new Dictionary<string, int> {{"Firepower", 10}},
@@ -42,6 +43,7 @@ public class Ship : Selectable {
 				new Dictionary<string, int> {{"Firepower", 30}},
 				new Dictionary<string, int> {{"Firepower", 40}},
 				new Dictionary<string, int> {{"Firepower", 50}},
+				new Dictionary<string, int> {{"Firepower", 60}},
 			}),
 			new Skill("Navigation", 1, 5, new List<int> {0, 10, 20, 30, 50}, new List<string> (), new List<Dictionary<string, int>> ()),
 			new Skill("Something else", 1, 5, new List<int> {0, 10, 20, 30, 50}, new List<string> (), new List<Dictionary<string, int>> ())
