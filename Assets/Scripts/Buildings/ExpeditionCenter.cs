@@ -38,7 +38,7 @@ public class ExpeditionCenter : Building {
 			Missions.Add (new Mission (rewardChances, possibleRewards));
 		}
 
-		Action showMissionsAction = new Action ("Show missions", 0, ShowMissions);
+		Action showMissionsAction = new Action ("Show missions", 0, gameManager.ActionIconsByNames["Show missions"], ShowMissions);
 		actions.Add (showMissionsAction);
 	}
 

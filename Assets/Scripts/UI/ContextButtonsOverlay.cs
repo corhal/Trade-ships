@@ -32,7 +32,7 @@ public class ContextButtonsOverlay : MonoBehaviour {
 			contextButton.MyButton.onClick.AddListener (delegate {				
 				action.Execute();
 			});
-
+			contextButton.ActionIcon.sprite = action.Icon;
 			contextButtonObject.transform.SetParent (ButtonsContainer.transform);
 			contextButtonObject.transform.localScale = Vector3.one;
 			ContextButtonObjects.Add (contextButtonObject);

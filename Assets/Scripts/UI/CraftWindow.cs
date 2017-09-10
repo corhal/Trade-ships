@@ -63,6 +63,7 @@ public class CraftWindow : MonoBehaviour {
 			craftElement.AmountLabel.text = playersAmount + "/" + requiredAmount;
 
 			craftElement.NameLabel.text = amountByItem.Key.Name;
+			craftElement.Icon.sprite = amountByItem.Key.Icon;
 
 			if (playersAmount >= requiredAmount) {
 				craftElement.FindOrCraftButton.gameObject.SetActive (false);

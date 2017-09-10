@@ -1,8 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Port : Building {
+	public Slider CargoSlider;
 	public List<Ship> DockedShips;
 	Ship dockedShip;
 
@@ -21,8 +23,10 @@ public class Port : Building {
 	new void Start () {
 		base.Start ();
 		Shipments = new List<Shipment> ();
-		showShipmentsAction = new Action ("Show shipments", 0, ShowShipments);
+		showShipmentsAction = new Action ("Show shipments", 0, gameManager.ActionIconsByNames["Show shipments"], ShowShipments);
 		actions.Add (showShipmentsAction);
+		CargoSlider.maxValue = ShipmentsCapacity;
+		CargoSlider.value = Shipments.Count;
 	}
 
 	void ShowShipments () {
@@ -54,13 +58,23 @@ public class Port : Building {
 	public void TakeShipment (Shipment shipment) {
 		if (Shipments.Count < ShipmentsCapacity) {
 			Shipments.Add (shipment);
+			CargoSlider.maxValue = ShipmentsCapacity;
+			CargoSlider.value = Shipments.Count;
 		}
 		if (OnProducedShipment != null) {
 			OnProducedShipment (this, shipment);
+			CargoSlider.value = Shipments.Count;
 		}
+	}
+
+	protected override void RefreshActions () {
+		base.RefreshActions ();
+		CargoSlider.maxValue = ShipmentsCapacity;
+		CargoSlider.value = Shipments.Count;
 	}
 
 	public void GiveShipment (Shipment shipment) {
 		Shipments.Remove (shipment);
+		CargoSlider.value = Shipments.Count;
 	}
 }

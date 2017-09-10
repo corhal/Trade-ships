@@ -75,7 +75,7 @@ public class PortWindow : MonoBehaviour {
 
 		if (CurrentShip != null) {
 			ShipLabel.text = "Docked ship";
-			ShipCargo.text = CurrentShip.Shipments.Count + "/" + CurrentShip.ShipmentsCapacity;
+			ShipCargo.text = CurrentShip.TotalWeight + "/" + CurrentShip.ShipmentsCapacity;
 		} else {
 			ShipLabel.text = "No docked ships";
 			ShipCargo.text = "";
@@ -135,14 +135,14 @@ public class PortWindow : MonoBehaviour {
 		LocationCargoSlider.maxValue = CurrentPort.ShipmentsCapacity;
 		LocationCargoSlider.value = CurrentPort.Shipments.Count;
 		LocationCargo.text = CurrentPort.Shipments.Count + "/" + CurrentPort.ShipmentsCapacity;
-		ShipCargo.text = CurrentShip.Shipments.Count + "/" + CurrentShip.ShipmentsCapacity;
+		ShipCargo.text = CurrentShip.TotalWeight + "/" + CurrentShip.ShipmentsCapacity;
 	}
 
 	void PortToShip (GameObject shipmentNodeObject) {
 		if (CurrentShip == null) {
 			return;
 		}
-		if (CurrentShip.Shipments.Count < CurrentShip.ShipmentsCapacity) {
+		if (CurrentShip.TotalWeight < CurrentShip.ShipmentsCapacity) {
 			PortShipmentNodeObjects.Remove (shipmentNodeObject);
 			ShipShipmentNodeObjects.Add (shipmentNodeObject);
 			shipmentNodeObject.transform.SetParent (ShipContainer.transform);

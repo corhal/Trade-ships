@@ -6,6 +6,7 @@ using UnityEngine;
 public class Item {
 
 	public string Name;
+	public Sprite Icon;
 	public Dictionary<Item, int> CraftCost;
 	Player player;
 

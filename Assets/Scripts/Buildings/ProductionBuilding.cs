@@ -1,11 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ProductionBuilding : Building {
 
 	public string GoodsName;
-
+	public Slider ProcessSlider;
 	public List<int> MinRewards;
 	public List<int> MaxRewards;
 
@@ -22,21 +23,26 @@ public class ProductionBuilding : Building {
 
 	new void Start () {
 		base.Start ();
+		ProcessSlider.maxValue = SecPerShipment;
 	}
 
 	void Update () {
 		if (MyIsland.MyPort.Shipments.Count < MyIsland.MyPort.ShipmentsCapacity) {
 			if (!shouldProduceShipments) {
 				timer = 0.0f;
+				ProcessSlider.value = timer;
 				shouldProduceShipments = true;
 			}
 			timer += Time.deltaTime;
+			ProcessSlider.value = timer;
 			if (timer >= SecPerShipment) {
 				timer = 0.0f;
+				ProcessSlider.value = timer;
 				ProduceShipment ();
 			}
 			if (MyIsland.MyPort.Shipments.Count == MyIsland.MyPort.ShipmentsCapacity) {
 				timer = 0.0f;
+				ProcessSlider.value = timer;
 				shouldProduceShipments = false;
 			}
 		}

@@ -8,4 +8,5 @@ public class CraftElement : MonoBehaviour {
 	public Text AmountLabel;
 	public Text NameLabel;
 	public Button FindOrCraftButton;
+	public Image Icon;
 }

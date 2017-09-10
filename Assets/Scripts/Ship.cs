@@ -19,6 +19,14 @@ public class Ship : Selectable {
 	int power;
 	public int Power { get { return power + CalculateBonus("Firepower"); } }
 
+	public int TotalWeight { get {
+			int totalWeight = 0;
+			foreach (var myShipment in Shipments) {
+				totalWeight += myShipment.Cargo;
+			}
+			return totalWeight;
+		}}
+
 	new void Awake () {
 		base.Awake ();
 	}
@@ -49,8 +57,8 @@ public class Ship : Selectable {
 			new Skill("Something else", 1, 5, new List<int> {0, 10, 20, 30, 50}, new List<string> (), new List<Dictionary<string, int>> ())
 		};
 		Shipments = new List<Shipment> ();
-		Action moveAction = new Action ("Move", 0, MoveMode);
-		Action infoAction = new Action("Info", 0, ShowInfo);
+		Action moveAction = new Action ("Move", 0, gameManager.ActionIconsByNames["Move"], MoveMode);
+		Action infoAction = new Action("Info", 0, gameManager.ActionIconsByNames["Info"], ShowInfo);
 		actions.Add (moveAction);
 		actions.Add (infoAction);
 	}
@@ -88,12 +96,8 @@ public class Ship : Selectable {
 		}
 	}
 
-	public void TakeShipment (Shipment shipment) {
-		int totalWeight = 0;
-		foreach (var myShipment in Shipments) {
-			totalWeight += myShipment.Cargo;
-		}
-		if (totalWeight < ShipmentsCapacity) {
+	public void TakeShipment (Shipment shipment) {		
+		if (TotalWeight < ShipmentsCapacity) {
 			Shipments.Add (shipment);
 		}
 	}

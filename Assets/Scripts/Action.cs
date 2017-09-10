@@ -8,12 +8,14 @@ public class Action {
 
 	public string Name;
 	public int Cost;
+	public Sprite Icon;
 
 	public MakeAction DelegateMakeAction;
 
-	public Action (string name, int cost, MakeAction makeAction) {
+	public Action (string name, int cost, Sprite icon, MakeAction makeAction) {
 		this.Name = name;
 		this.Cost = cost;
+		this.Icon = icon;
 		this.DelegateMakeAction = makeAction;
 	}
 

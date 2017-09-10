@@ -16,8 +16,8 @@ public class Building : Selectable {
 		MyIsland = GetComponentInParent<Island> ();
 		BuildCosts = new List<Dictionary<Item, int>> ();
 
-		buildAction = new Action ("Build", 0, ShowCraftWindow);
-		upgradeAction = new Action ("Upgrade", 0, Upgrade);
+		buildAction = new Action ("Build", 0, gameManager.ActionIconsByNames["Build"], ShowCraftWindow);
+		upgradeAction = new Action ("Upgrade", 0, gameManager.ActionIconsByNames["Upgrade"], Upgrade);
 	}
 
 	new protected void Start () {
@@ -43,7 +43,7 @@ public class Building : Selectable {
 		}
 	}
 
-	void RefreshActions () {
+	protected virtual void RefreshActions () {
 		if (Level == MaxLevel) {
 			actions.Remove (buildAction);
 			actions.Remove (upgradeAction);

@@ -120,4 +120,8 @@ public class MissionWindow : MonoBehaviour {
 			gameManager.OpenPopUp ("Mission requirements not met!");
 		}
 	}
+
+	public void Back () {
+		gameManager.OpenExpeditionWindow (currentExpeditionCenter);
+	}
 }

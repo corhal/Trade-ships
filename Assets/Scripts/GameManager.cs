@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour {
 
+	public List<Sprite> ItemIcons;
+	public List<string> ItemNames;
+
+	public Dictionary<string, Sprite> ActionIconsByNames;
+	public List<Sprite> ActionIcons;
+	public List<string> ActionNames;
+
 	public bool InMoveMode = false;
 	public List<Island> Islands;
 	public List<Item> TempItemLibrary;
@@ -23,6 +30,10 @@ public class GameManager : MonoBehaviour {
 
 	void Awake () {
 		Instance = this;
+		ActionIconsByNames = new Dictionary<string, Sprite> ();
+		for (int i = 0; i < ActionIcons.Count; i++) {
+			ActionIconsByNames.Add (ActionNames [i], ActionIcons [i]);
+		}
 	}
 
 	void Start () {

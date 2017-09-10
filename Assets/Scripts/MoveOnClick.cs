@@ -40,6 +40,7 @@ public class MoveOnClick : MonoBehaviour {
 				float distCovered = (Time.time - startTime) * Speed;
 				float fracJourney = distCovered / journeyLength;
 				transform.position = Vector2.Lerp(start, target, fracJourney);
+				transform.position = new Vector3 (transform.position.x, transform.position.y, -1.0f);
 				if (fracJourney == 1.0f) {
 					shouldMove = false;
 				}
