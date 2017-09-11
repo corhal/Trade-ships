@@ -28,6 +28,11 @@ public class GameManager : MonoBehaviour {
 
 	public static GameManager Instance;
 
+	public void MoveMode () {
+		InMoveMode = true;
+		CloseContextButtons ();
+	}
+
 	void Awake () {
 		Instance = this;
 		ActionIconsByNames = new Dictionary<string, Sprite> ();

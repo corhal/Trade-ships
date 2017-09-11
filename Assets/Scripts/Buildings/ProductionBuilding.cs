@@ -23,21 +23,21 @@ public class ProductionBuilding : Building {
 
 	new void Start () {
 		base.Start ();
-		ProcessSlider.maxValue = SecPerShipment;
+		// ProcessSlider.maxValue = SecPerShipment;
 	}
 
 	void Update () {
 		if (MyIsland.MyPort.Shipments.Count < MyIsland.MyPort.ShipmentsCapacity) {
 			if (!shouldProduceShipments) {
 				timer = 0.0f;
-				ProcessSlider.value = timer;
+				// ProcessSlider.value = timer;
 				shouldProduceShipments = true;
 			}
 			timer += Time.deltaTime;
-			ProcessSlider.value = timer;
+			// ProcessSlider.value = timer;
 			if (timer >= SecPerShipment) {
 				timer = 0.0f;
-				ProcessSlider.value = timer;
+				// ProcessSlider.value = timer;
 				ProduceShipment ();
 			}
 			if (MyIsland.MyPort.Shipments.Count == MyIsland.MyPort.ShipmentsCapacity) {

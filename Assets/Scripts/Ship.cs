@@ -107,7 +107,7 @@ public class Ship : Selectable {
 	}
 
 	public void MoveMode () {
-		gameManager.InMoveMode = true;
+		gameManager.MoveMode ();
 		MoveOnClick mover = gameObject.GetComponent<MoveOnClick> ();
 		mover.InMoveMode = true;
 	}

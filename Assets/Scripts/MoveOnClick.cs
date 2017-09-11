@@ -12,8 +12,13 @@ public class MoveOnClick : MonoBehaviour {
 	float journeyLength;
 	Vector2 start;
 	Vector2 target;
+	float initialZ;
 
-	void Update() {	
+	void Start () {
+		initialZ = transform.position.z;
+	}
+
+	void Update () {	
 		if (!Utility.IsPointerOverUIObject()) {
 			if (Input.GetMouseButtonDown(0) && InMoveMode) {		
 				start = transform.position;
@@ -28,7 +33,7 @@ public class MoveOnClick : MonoBehaviour {
 				}
 
 				GameManager.Instance.InMoveMode = false;
-				GameManager.Instance.CloseContextButtons ();
+				//GameManager.Instance.CloseContextButtons ();
 				shouldMove = true;
 				InMoveMode = false;
 				startTime = Time.time;
@@ -40,7 +45,7 @@ public class MoveOnClick : MonoBehaviour {
 				float distCovered = (Time.time - startTime) * Speed;
 				float fracJourney = distCovered / journeyLength;
 				transform.position = Vector2.Lerp(start, target, fracJourney);
-				transform.position = new Vector3 (transform.position.x, transform.position.y, -1.0f);
+				transform.position = new Vector3 (transform.position.x, transform.position.y, initialZ);
 				if (fracJourney == 1.0f) {
 					shouldMove = false;
 				}
