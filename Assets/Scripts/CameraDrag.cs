@@ -2,62 +2,66 @@
 using System.Collections;
 
 public class CameraDrag : MonoBehaviour
-{
-	public float dragSpeed = 2;
-	private Vector3 dragOrigin;
+{	
+	public GameObject MainUI;
+	Vector3 dragOrigin;
 
 	public bool cameraDragging = true;
 
-	public float outerLeft = -50f;
-	public float outerRight = 50f;
+	public float HorizontalBorder;
+	public float VerticalBorder;
 
+	public int cameraCurrentZoom = 5;
+	public int cameraZoomMax = 20;
+	public int cameraZoomMin = 5;
 
-	void Update() {		
-		cameraDragging = true;
+	void Start () {
+		cameraCurrentZoom = (int)Camera.main.orthographicSize;
+	}
 
-		/*if (DragController.ShouldDrag || FloorController.isInFloorMode || Restaurant.instance.IsWindowOpen) {
-			cameraDragging = false;
-		}*/
-
+	void LateUpdate() {				
 		if (cameraDragging) {
 			if (Input.GetMouseButtonDown(0)) {
-				dragOrigin = Camera.main.ScreenToViewportPoint(Input.mousePosition);
-				//Debug.Log (dragOrigin);
+				dragOrigin = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 				return;
 			}
 
-			/*if (!Input.GetMouseButton (0)) {
-				if(this.transform.position.x > outerRight) {
-					transform.position = new Vector3 (outerRight, transform.position.y, transform.position.z);
-				}
-				if(this.transform.position.x < outerLeft) {
-					transform.position = new Vector3 (outerLeft, transform.position.y, transform.position.z);
-				}
-				return;
-			}*/
-
 			if (Input.GetMouseButton(0)) {
-				Vector3 mousePos = Camera.main.ScreenToViewportPoint (Input.mousePosition);
-				Vector3 pos = mousePos - dragOrigin;
-				pos = new Vector3(-pos.x, -pos.y, -10.0f);
+				Vector3 mousePos = Camera.main.ScreenToWorldPoint (Input.mousePosition) - Camera.main.transform.position;
+				Vector3 pos = dragOrigin - mousePos;
 				transform.position = pos;
 			}
 
-			// Camera.main.ScreenToWorldPoint (newPosition);// + offset;
-
-			/*Vector3 pos = Camera.main.ScreenToViewportPoint(Input.mousePosition - dragOrigin);
-			Vector3 move = new Vector3(-pos.x * dragSpeed, 0, 0);
-
-			if (move.x > 0f) {
-				if(this.transform.position.x < outerRight) {
-					transform.Translate(move, Space.World);
-				}
+			if (transform.position.x > HorizontalBorder) {
+				transform.position = new Vector3 (HorizontalBorder, transform.position.y, transform.position.z);
 			}
-			else {
-				if(this.transform.position.x > outerLeft) {
-					transform.Translate(move, Space.World);
-				}
-			}*/
+			if (transform.position.x < -HorizontalBorder) {
+				transform.position = new Vector3 (-HorizontalBorder, transform.position.y, transform.position.z);
+			}
+			if (transform.position.y > VerticalBorder) {
+				transform.position = new Vector3 (transform.position.x, VerticalBorder, transform.position.z);
+			}
+			if (transform.position.y < -VerticalBorder) {
+				transform.position = new Vector3 (transform.position.x, -VerticalBorder, transform.position.z);
+			}
+
+			MainUI.transform.position = new Vector3 (transform.position.x, transform.position.y, MainUI.transform.position.z);
+		}
+
+		if (Input.GetAxis("Mouse ScrollWheel") < 0) { // back
+			if (cameraCurrentZoom < cameraZoomMax) {
+				cameraCurrentZoom += 1;
+				Camera.main.orthographicSize = Mathf.Max(Camera.main.orthographicSize + 1); // 0.004f
+				MainUI.GetComponent<RectTransform>().localScale = new Vector3 (MainUI.transform.lossyScale.x + 0.004f, MainUI.transform.lossyScale.y + 0.004f, 1.0f); 
+			} 
+		}
+
+		if (Input.GetAxis("Mouse ScrollWheel") > 0) { // forward
+			if (cameraCurrentZoom > cameraZoomMin) {
+				cameraCurrentZoom -= 1;
+				Camera.main.orthographicSize = Mathf.Min(Camera.main.orthographicSize - 1);
+				MainUI.GetComponent<RectTransform>().localScale = new Vector3 (MainUI.transform.lossyScale.x - 0.004f, MainUI.transform.lossyScale.y - 0.004f, 1.0f);
+			}   
 		}
 	}
 }
