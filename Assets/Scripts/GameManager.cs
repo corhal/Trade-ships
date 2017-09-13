@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour {
 
+	public Selectable Selection;
+
 	public List<Sprite> ItemIcons;
 	public List<string> ItemNames;
 
@@ -30,7 +32,7 @@ public class GameManager : MonoBehaviour {
 
 	public void MoveMode () {
 		InMoveMode = true;
-		CloseContextButtons ();
+		CloseContextButtons (false);
 	}
 
 	void Awake () {
@@ -141,6 +143,9 @@ public class GameManager : MonoBehaviour {
 		if (InMoveMode) {
 			return;
 		}
+		CloseContextButtons (true);
+		Selection = selectable;
+		Selection.Animate ();
 		MyButtonsOverlay.Open (selectable);
 		MyPortWindow.Close ();
 		MyCraftWindow.Close ();
@@ -150,7 +155,11 @@ public class GameManager : MonoBehaviour {
 		MyPopUp.Close ();
 	}
 
-	public void CloseContextButtons () {
-		MyButtonsOverlay.Close ();
+	public void CloseContextButtons (bool deselect) {
+		MyButtonsOverlay.Overlay.SetActive (false); // kostyll
+		//MyButtonsOverlay.Close ();
+		if (deselect && Selection != null) {
+			Selection.Deanimate ();
+		}
 	}
 }

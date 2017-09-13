@@ -26,7 +26,8 @@ public class ProductionBuilding : Building {
 		// ProcessSlider.maxValue = SecPerShipment;
 	}
 
-	void Update () {
+	protected override void Update () {
+		base.Update ();
 		if (MyIsland.MyPort.Shipments.Count < MyIsland.MyPort.ShipmentsCapacity) {
 			if (!shouldProduceShipments) {
 				timer = 0.0f;

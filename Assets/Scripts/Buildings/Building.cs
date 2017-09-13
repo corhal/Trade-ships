@@ -67,7 +67,7 @@ public class Building : Selectable {
 		if (player.Gold >= UpgradeCosts[Level]) {
 			UnderConstruction = true;
 			player.GiveGold (UpgradeCosts [Level]);
-			gameManager.CloseContextButtons ();
+			gameManager.CloseContextButtons (true);
 			RefreshActions ();
 		} else {
 			gameManager.OpenPopUp ("Not enough gold for upgrade");

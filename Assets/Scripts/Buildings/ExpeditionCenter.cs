@@ -56,7 +56,8 @@ public class ExpeditionCenter : Building {
 		TimeSlider.maxValue = currentMission.Seconds;
 	}
 
-	void Update () {
+	protected override void Update () {
+		base.Update ();
 		if (currentMission != null && currentMission.InProgress) {
 			timer += Time.deltaTime;
 			TimeSlider.value = timer;

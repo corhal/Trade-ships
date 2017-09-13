@@ -14,6 +14,10 @@ public class Selectable : MonoBehaviour {
 	protected GameManager gameManager;
 	protected Player player;
 
+	bool animate;
+
+	SpriteRenderer MySprite;
+
 	protected void Awake () {
 		actions = new List<Action> ();
 		gameManager = GameManager.Instance;
@@ -21,7 +25,22 @@ public class Selectable : MonoBehaviour {
 	}
 
 	protected void Start () {
-		
+		MySprite = GetComponentInChildren<SpriteRenderer> ();
+	}
+
+	protected virtual void Update () {
+		if (animate) {
+			MySprite.color = Color.Lerp(Color.white, Color.black, Mathf.PingPong(Time.time, 1));
+		}
+	}
+
+	public void Deanimate () {
+		animate = false;
+		MySprite.color = Color.white;
+	}
+
+	public void Animate () {
+		animate = true;
 	}
 
 	void OnMouseDown () {

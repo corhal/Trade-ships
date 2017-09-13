@@ -41,6 +41,6 @@ public class ContextButtonsOverlay : MonoBehaviour {
 	}
 
 	public void Close () {
-		Overlay.SetActive (false);
+		GameManager.Instance.CloseContextButtons (true);
 	}
 }
