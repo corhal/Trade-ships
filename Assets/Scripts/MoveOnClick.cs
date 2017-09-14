@@ -7,9 +7,8 @@ public class MoveOnClick : MonoBehaviour {
 	public bool InMoveMode = false;
 	bool shouldMove = false;
 
+	public float TimeLeft;
 	public float Speed = 1.0F;
-	float startTime;
-	float journeyLength;
 	Vector2 start;
 	Vector2 target;
 	float initialZ;
@@ -46,28 +45,24 @@ public class MoveOnClick : MonoBehaviour {
 				GameManager.Instance.CloseContextButtons (true);
 				shouldMove = true;
 				InMoveMode = false;
-				startTime = Time.time;
-
-				journeyLength = Vector2.Distance(start, target);
 			}
+		}
 
-			if (shouldMove) {
-				//Debug.Log ("moving");
-				float distCovered = (Time.time - startTime) * Speed;
-				float fracJourney = distCovered / journeyLength;
-				transform.position = Vector2.Lerp(start, target, fracJourney);
-				transform.position = new Vector3 (transform.position.x, transform.position.y, initialZ);
-				lineRenderer.SetPosition(0, transform.position);
-				if (Mathf.Approximately(fracJourney, 1.0f)) {
-					Debug.Log ("should stop moving");
-					shouldMove = false;
-				}
+		if (shouldMove) { // changed from lerp
+			TimeLeft = Vector2.Distance(transform.position, target) / Speed;
+			float step = Speed * Time.deltaTime;
+			transform.position = Vector2.MoveTowards (transform.position, target, step);
+			transform.position = new Vector3 (transform.position.x, transform.position.y, initialZ);
+			lineRenderer.SetPosition(0, transform.position);
+			if (Vector2.Distance (transform.position, target) < 0.01f) {
+				shouldMove = false;
+				lineRenderer.gameObject.SetActive (false);
 			}
 		}
 	}
 
-	void DrawLine (Vector3 startPosition, Vector3 endPoisiton) {		
-		lineRenderer.SetVertexCount(2);
+	void DrawLine (Vector3 startPosition, Vector3 endPoisiton) {
+		lineRenderer.positionCount = 2;	
 		lineRenderer.SetPosition(0, startPosition);
 		lineRenderer.SetPosition(1, endPoisiton);
 	}

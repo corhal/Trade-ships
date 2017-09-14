@@ -34,6 +34,7 @@ public class Ship : Selectable {
 	new void Start () {
 		base.Start ();
 
+		Process = "Moving";
 		StatNames = new List<string> { "Cargo", "HP", "Firepower" };
 
 		Skills = new List<Skill> {			
@@ -110,6 +111,16 @@ public class Ship : Selectable {
 		gameManager.MoveMode ();
 		MoveOnClick mover = gameObject.GetComponent<MoveOnClick> ();
 		mover.InMoveMode = true;
+		InitialProcessSeconds = mover.TimeLeft;
+		InProcess = true;
+	}
+
+	public override float GetProcessSeconds () {
+		MoveOnClick mover = gameObject.GetComponent<MoveOnClick> ();
+		if (mover.TimeLeft <= 0.1f) {
+			return 0.0f;
+		}
+		return mover.TimeLeft;
 	}
 
 	public void ShowInfo () {

@@ -11,7 +11,13 @@ public class ContextButtonsOverlay : MonoBehaviour {
 	public GameObject ContextButtonPrefab;
 	public List<GameObject> ContextButtonObjects;
 
+	public Slider ProcessSlider;
+	public Text ProcessText;
+
+	Selectable currentSelectable;
+
 	public void Open (Selectable selectable) {		
+		currentSelectable = selectable;
 		Overlay.SetActive (true);
 		foreach (var contextButtonObject in ContextButtonObjects) {
 			Destroy (contextButtonObject);
@@ -36,8 +42,24 @@ public class ContextButtonsOverlay : MonoBehaviour {
 			contextButtonObject.transform.SetParent (ButtonsContainer.transform);
 			contextButtonObject.transform.localScale = Vector3.one;
 			ContextButtonObjects.Add (contextButtonObject);
-
 		}			
+
+		if (selectable.Process != null && selectable.InProcess) {
+			ProcessSlider.gameObject.SetActive (true);
+			ProcessText.gameObject.SetActive (true);
+
+			ProcessSlider.value = selectable.GetProcessSeconds ();
+			ProcessSlider.maxValue = selectable.InitialProcessSeconds;
+		}
+	}
+
+	void Update () {
+		if (currentSelectable != null && currentSelectable.Process != null && currentSelectable.InProcess) {
+			ProcessSlider.gameObject.SetActive (true);
+			ProcessText.gameObject.SetActive (true);
+
+			ProcessSlider.value = currentSelectable.GetProcessSeconds ();
+		}
 	}
 
 	public void Close () {

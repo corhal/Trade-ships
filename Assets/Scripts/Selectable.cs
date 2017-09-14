@@ -11,6 +11,10 @@ public class Selectable : MonoBehaviour {
 	public int Level;
 	public int MaxLevel;
 
+	public string Process;
+	public bool InProcess;
+	public float InitialProcessSeconds;
+
 	protected GameManager gameManager;
 	protected Player player;
 
@@ -22,6 +26,10 @@ public class Selectable : MonoBehaviour {
 		actions = new List<Action> ();
 		gameManager = GameManager.Instance;
 		player = Player.Instance;
+	}
+
+	public virtual float GetProcessSeconds () {
+		return 0.0f;
 	}
 
 	protected void Start () {
