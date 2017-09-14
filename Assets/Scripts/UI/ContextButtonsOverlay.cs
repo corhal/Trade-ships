@@ -17,6 +17,8 @@ public class ContextButtonsOverlay : MonoBehaviour {
 	Selectable currentSelectable;
 
 	public void Open (Selectable selectable) {		
+		ProcessSlider.gameObject.SetActive (false);
+		ProcessText.gameObject.SetActive (false);
 		currentSelectable = selectable;
 		Overlay.SetActive (true);
 		foreach (var contextButtonObject in ContextButtonObjects) {
@@ -48,8 +50,10 @@ public class ContextButtonsOverlay : MonoBehaviour {
 			ProcessSlider.gameObject.SetActive (true);
 			ProcessText.gameObject.SetActive (true);
 
-			ProcessSlider.value = selectable.GetProcessSeconds ();
+			ProcessSlider.value = selectable.InitialProcessSeconds - selectable.GetProcessSeconds ();
 			ProcessSlider.maxValue = selectable.InitialProcessSeconds;
+
+			ProcessText.text = string.Format("{0}: {1:D2}:{2:D2}:{3:D2}", selectable.Process, 0, 0, (int)selectable.GetProcessSeconds ());
 		}
 	}
 
@@ -58,11 +62,18 @@ public class ContextButtonsOverlay : MonoBehaviour {
 			ProcessSlider.gameObject.SetActive (true);
 			ProcessText.gameObject.SetActive (true);
 
-			ProcessSlider.value = currentSelectable.GetProcessSeconds ();
+			ProcessSlider.value = currentSelectable.InitialProcessSeconds - currentSelectable.GetProcessSeconds ();
+			ProcessText.text = string.Format("{0}: {1:D2}:{2:D2}:{3:D2}", currentSelectable.Process, 0, 0, (int)currentSelectable.GetProcessSeconds ());
+			if (Mathf.Approximately(ProcessSlider.value, ProcessSlider.maxValue)) {
+				ProcessSlider.gameObject.SetActive (false);
+				ProcessText.gameObject.SetActive (false);
+			}
 		}
 	}
 
 	public void Close () {
+		ProcessSlider.gameObject.SetActive (false);
+		ProcessText.gameObject.SetActive (false);
 		GameManager.Instance.CloseContextButtons (true);
 	}
 }

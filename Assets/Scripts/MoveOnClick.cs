@@ -15,6 +15,9 @@ public class MoveOnClick : MonoBehaviour {
 
 	LineRenderer lineRenderer;
 
+	public delegate void StartedMoving (MoveOnClick sender);
+	public event StartedMoving OnStartedMoving;
+
 	void Awake () {
 		lineRenderer = GetComponentInChildren<LineRenderer> ();
 		lineRenderer.gameObject.SetActive (false);
@@ -45,6 +48,8 @@ public class MoveOnClick : MonoBehaviour {
 				GameManager.Instance.CloseContextButtons (true);
 				shouldMove = true;
 				InMoveMode = false;
+				TimeLeft = Vector2.Distance(transform.position, target) / Speed;
+				OnStartedMoving (this);
 			}
 		}
 

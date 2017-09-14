@@ -18,6 +18,8 @@ public class Ship : Selectable {
 	[SerializeField]
 	int power;
 	public int Power { get { return power + CalculateBonus("Firepower"); } }
+	MoveOnClick mover;
+
 
 	public int TotalWeight { get {
 			int totalWeight = 0;
@@ -29,6 +31,8 @@ public class Ship : Selectable {
 
 	new void Awake () {
 		base.Awake ();
+		mover = gameObject.GetComponent<MoveOnClick> ();
+		mover.OnStartedMoving += Mover_OnStartedMoving;
 	}
 
 	new void Start () {
@@ -109,14 +113,15 @@ public class Ship : Selectable {
 
 	public void MoveMode () {
 		gameManager.MoveMode ();
-		MoveOnClick mover = gameObject.GetComponent<MoveOnClick> ();
 		mover.InMoveMode = true;
+	}
+
+	void Mover_OnStartedMoving (MoveOnClick sender) {
 		InitialProcessSeconds = mover.TimeLeft;
 		InProcess = true;
 	}
 
-	public override float GetProcessSeconds () {
-		MoveOnClick mover = gameObject.GetComponent<MoveOnClick> ();
+	public override float GetProcessSeconds () {		
 		if (mover.TimeLeft <= 0.1f) {
 			return 0.0f;
 		}
