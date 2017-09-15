@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Ship : Selectable {	
 
@@ -8,6 +9,7 @@ public class Ship : Selectable {
 	public List<Shipment> Shipments;
 
 	public List<string> StatNames;
+	public Slider CargoSlider;
 
 	[SerializeField]
 	int shipmentsCapacity;
@@ -66,6 +68,8 @@ public class Ship : Selectable {
 		Action infoAction = new Action("Info", 0, gameManager.ActionIconsByNames["Info"], ShowInfo);
 		actions.Add (moveAction);
 		actions.Add (infoAction);
+		CargoSlider.maxValue = ShipmentsCapacity;
+		CargoSlider.value = 0.0f; // kek no
 	}
 
 	public int GetStatByString (string statName) {
@@ -95,6 +99,8 @@ public class Ship : Selectable {
 			if (player.Gold >= skill.UpgradeCosts[skill.Level]) {
 				player.GiveGold (skill.UpgradeCosts [skill.Level]);
 				skill.Upgrade ();
+				CargoSlider.maxValue = ShipmentsCapacity; // kek
+				CargoSlider.value = TotalWeight;
 			} else {
 				gameManager.OpenPopUp ("Not enough gold!");
 			}
@@ -104,11 +110,13 @@ public class Ship : Selectable {
 	public void TakeShipment (Shipment shipment) {		
 		if (TotalWeight < ShipmentsCapacity) {
 			Shipments.Add (shipment);
+			CargoSlider.value = TotalWeight;
 		}
 	}
 
 	public void GiveShipment (Shipment shipment) {
 		Shipments.Remove (shipment);
+		CargoSlider.value = TotalWeight;
 	}
 
 	public void MoveMode () {
@@ -148,7 +156,7 @@ public class Ship : Selectable {
 		}
 
 		foreach (var shipment in shipmentsToDestroy) {
-			Shipments.Remove (shipment);
+			GiveShipment (shipment);
 		}
 		shipmentsToDestroy.Clear ();
 	}

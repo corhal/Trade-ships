@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class Port : Building {
 	public Slider CargoSlider;
+	public Text IslandLabel;
 	public List<Ship> DockedShips;
 	Ship dockedShip;
 
@@ -27,6 +28,7 @@ public class Port : Building {
 		actions.Add (showShipmentsAction);
 		CargoSlider.maxValue = ShipmentsCapacity;
 		CargoSlider.value = Shipments.Count;
+		IslandLabel.text = MyIsland.Name;
 	}
 
 	void ShowShipments () {

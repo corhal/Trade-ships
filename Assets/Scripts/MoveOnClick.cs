@@ -9,6 +9,8 @@ public class MoveOnClick : MonoBehaviour {
 
 	public float TimeLeft;
 	public float Speed = 1.0F;
+	Vector2 firstClick;
+	Vector2 lastClick;
 	Vector2 start;
 	Vector2 target;
 	float initialZ;
@@ -29,18 +31,25 @@ public class MoveOnClick : MonoBehaviour {
 
 	void Update () {	
 		if (!Utility.IsPointerOverUIObject()) {
-			if (Input.GetMouseButtonDown(0) && InMoveMode) {		
+			if (Input.GetMouseButtonDown (0) && InMoveMode) {	
+				firstClick = Input.mousePosition;
+			}
+			if (Input.GetMouseButtonUp(0) && InMoveMode) {		
+				lastClick = Input.mousePosition;
 				start = transform.position;
 				target = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+				if (Vector2.Distance(firstClick, lastClick) > 0.05f) {
+					return;
+				}
 
 				DrawLine (start, target);
 				ShowLine ();
 
 				RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
 				if (hit.collider != null) {					
-					if (hit.collider.gameObject.GetComponent<Port> () != null) {
+					if (hit.collider.gameObject.GetComponent<Port> () != null) { // If you see that object stops too far - here is why
 						target = hit.collider.gameObject.transform.position;
-						target = start + (target - start) * 0.8f;
+						target = start + (target - start) * 0.9f;
 					}
 				}
 
@@ -59,7 +68,7 @@ public class MoveOnClick : MonoBehaviour {
 			transform.position = Vector2.MoveTowards (transform.position, target, step);
 			transform.position = new Vector3 (transform.position.x, transform.position.y, initialZ);
 			lineRenderer.SetPosition(0, transform.position);
-			if (Vector2.Distance (transform.position, target) < 0.01f) {
+			if (Vector2.Distance (transform.position, target) < 0.0001f) {
 				shouldMove = false;
 				lineRenderer.gameObject.SetActive (false);
 			}

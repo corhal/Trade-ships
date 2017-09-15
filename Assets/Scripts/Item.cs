@@ -10,10 +10,11 @@ public class Item {
 	public Dictionary<Item, int> CraftCost;
 	Player player;
 
-	public Item (string name, Dictionary<Item, int> craftCost) {
+	public Item (string name, Dictionary<Item, int> craftCost, Sprite icon) {
 		this.Name = name;
 		CraftCost = craftCost;
 		player = Player.Instance;
+		this.Icon = icon;
 	}
 
 	public void Craft () {

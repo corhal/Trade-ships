@@ -6,6 +6,7 @@ public class GameManager : MonoBehaviour {
 
 	public Selectable Selection;
 
+	public Dictionary<string, Sprite> ItemIconsByNames;
 	public List<Sprite> ItemIcons;
 	public List<string> ItemNames;
 
@@ -41,16 +42,21 @@ public class GameManager : MonoBehaviour {
 		for (int i = 0; i < ActionIcons.Count; i++) {
 			ActionIconsByNames.Add (ActionNames [i], ActionIcons [i]);
 		}
+
+		ItemIconsByNames = new Dictionary<string, Sprite> ();
+		for (int i = 0; i < ItemIcons.Count; i++) {
+			ItemIconsByNames.Add (ItemNames [i], ItemIcons [i]);
+		}
 	}
 
 	void Start () {
-		Item wood = new Item ("Wood", null);
-		Item food = new Item ("Food", null);
-		Item steel = new Item ("Steel", null);
-		Item nails = new Item ("Nails", new Dictionary<Item, int> { { steel, 2 } });
-		Item hammers = new Item ("Hammers", new Dictionary<Item, int> { { steel, 1 }, {wood, 1} });
-		Item saws = new Item ("Saws", new Dictionary<Item, int> { { steel, 2 }, {wood, 1} });
-		Item tools = new Item ("Tools", new Dictionary<Item, int> { { hammers, 1 }, {saws, 1} });
+		Item wood = new Item ("Wood", null, ItemIconsByNames["Wood"]);
+		Item food = new Item ("Food", null, ItemIconsByNames["Food"]);
+		Item steel = new Item ("Steel", null, ItemIconsByNames["Steel"]);
+		Item nails = new Item ("Nails", new Dictionary<Item, int> { { steel, 2 } }, ItemIconsByNames["Nails"]);
+		Item hammers = new Item ("Picks", new Dictionary<Item, int> { { steel, 1 }, {wood, 1} }, ItemIconsByNames["Picks"]);
+		Item saws = new Item ("Shovels", new Dictionary<Item, int> { { steel, 2 }, {wood, 1} }, ItemIconsByNames["Shovels"]);
+		Item tools = new Item ("Tools", new Dictionary<Item, int> { { hammers, 1 }, {saws, 1} }, ItemIconsByNames["Tools"]);
 		TempItemLibrary = new List<Item> {
 			wood,
 			food,
