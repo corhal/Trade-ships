@@ -26,6 +26,23 @@ public class ProductionBuilding : Building {
 		// ProcessSlider.maxValue = SecPerShipment;
 	}
 
+	public override int GetStatByString (string statName) {
+		switch (statName) {
+		case "MinReward":
+			return MinRewards [Level];
+		case "MaxReward":
+			return MaxRewards [Level];
+		case "MinCargo":
+			return MinCargos [Level];
+		case "MaxCargo":
+			return MaxCargos [Level];
+		case "SecPerShipment":
+			return (int)(SecPerShipment * 100);
+		default:
+			return 0;
+		}
+	}
+
 	protected override void Update () {
 		base.Update ();
 		if (MyIsland.MyPort.Shipments.Count < MyIsland.MyPort.ShipmentsCapacity) {

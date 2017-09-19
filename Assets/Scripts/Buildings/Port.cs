@@ -31,6 +31,15 @@ public class Port : Building {
 		IslandLabel.text = MyIsland.Name;
 	}
 
+	public override int GetStatByString (string statName) {
+		switch (statName) {
+		case "Cargo":
+			return ShipmentsCapacity;
+		default:
+			return 0;
+		}
+	}
+
 	void ShowShipments () {
 		gameManager.OpenPortWindow (this, dockedShip);
 	}

@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour {
 	public List<Ship> Ships;
 	public List<Building> Buildings;
 
+	public InfoWindow MyInfoWindow;
 	public ShipWindow MyShipWindow;
 	public ExpeditionWindow MyExpeditionWindow;
 	public MissionWindow MyMissionWindow;
@@ -70,6 +71,22 @@ public class GameManager : MonoBehaviour {
 		Buildings = new List<Building> (GameObject.FindObjectsOfType<Building>());
 	}
 
+	public void OpenSelectableInfo (Selectable selectable) {
+		if (selectable is Ship) {
+			OpenShipWindow (selectable as Ship);
+			return;
+		}
+		MyInfoWindow.Open (selectable);
+		MyShipWindow.Close ();
+		MyExpeditionWindow.Close ();
+		MyMissionWindow.Close ();
+		MyPortWindow.Close ();
+		MyCraftWindow.Close ();
+		MyButtonsOverlay.Close ();
+		MyMissionWindow.Close ();
+		MyPopUp.Close ();
+	}
+
 	public void OpenShipWindow (Ship ship) {
 		MyShipWindow.Open (ship);
 		MyExpeditionWindow.Close ();
@@ -79,6 +96,7 @@ public class GameManager : MonoBehaviour {
 		MyButtonsOverlay.Close ();
 		MyMissionWindow.Close ();
 		MyPopUp.Close ();
+		MyInfoWindow.Close ();
 	}
 
 	public void OpenPopUp (string message) {
@@ -94,6 +112,7 @@ public class GameManager : MonoBehaviour {
 		MyMissionWindow.Close ();
 		MyShipWindow.Close ();
 		MyPopUp.Close ();
+		MyInfoWindow.Close ();
 	}
 
 	public void CloseExpeditionWindow () {
@@ -108,6 +127,7 @@ public class GameManager : MonoBehaviour {
 		MyExpeditionWindow.Close ();
 		MyShipWindow.Close ();
 		MyPopUp.Close ();
+		MyInfoWindow.Close ();
 	}
 
 	public void CloseMissionWindow () {
@@ -125,6 +145,7 @@ public class GameManager : MonoBehaviour {
 		MyMissionWindow.Close ();
 		MyShipWindow.Close ();
 		MyPopUp.Close ();
+		MyInfoWindow.Close ();
 	}
 
 	public void ClosePortWindow () {
@@ -139,6 +160,7 @@ public class GameManager : MonoBehaviour {
 		MyMissionWindow.Close ();
 		MyShipWindow.Close ();
 		MyPopUp.Close ();
+		MyInfoWindow.Close ();
 	}
 
 	public void CloseCraftWindow () {
@@ -159,6 +181,7 @@ public class GameManager : MonoBehaviour {
 		MyMissionWindow.Close ();
 		MyShipWindow.Close ();
 		MyPopUp.Close ();
+		MyInfoWindow.Close ();
 	}
 
 	public void CloseContextButtons (bool deselect) {

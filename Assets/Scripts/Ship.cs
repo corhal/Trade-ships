@@ -7,8 +7,6 @@ public class Ship : Selectable {
 
 	public List<Skill> Skills;
 	public List<Shipment> Shipments;
-
-	public List<string> StatNames;
 	public Slider CargoSlider;
 
 	[SerializeField]
@@ -41,7 +39,6 @@ public class Ship : Selectable {
 		base.Start ();
 
 		Process = "Moving";
-		StatNames = new List<string> { "Cargo", "HP", "Firepower" };
 
 		Skills = new List<Skill> {			
 			new Skill("Trade", 1, 5, new List<int> {0, 10, 20, 30, 50}, new List<string> {"Cargo"}, new List<Dictionary<string, int>> {
@@ -65,14 +62,12 @@ public class Ship : Selectable {
 		};
 		Shipments = new List<Shipment> ();
 		Action moveAction = new Action ("Move", 0, gameManager.ActionIconsByNames["Move"], MoveMode);
-		Action infoAction = new Action("Info", 0, gameManager.ActionIconsByNames["Info"], ShowInfo);
 		actions.Add (moveAction);
-		actions.Add (infoAction);
 		CargoSlider.maxValue = ShipmentsCapacity;
 		CargoSlider.value = 0.0f; // kek no
 	}
 
-	public int GetStatByString (string statName) {
+	public override int GetStatByString (string statName) {
 		switch (statName) {
 		case "Cargo":
 			return ShipmentsCapacity;
@@ -108,7 +103,7 @@ public class Ship : Selectable {
 	}
 
 	public void TakeShipment (Shipment shipment) {		
-		if (TotalWeight < ShipmentsCapacity) {
+		if (ShipmentsCapacity - TotalWeight >= shipment.Cargo) {
 			Shipments.Add (shipment);
 			CargoSlider.value = TotalWeight;
 		}

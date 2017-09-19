@@ -142,7 +142,7 @@ public class PortWindow : MonoBehaviour {
 		if (CurrentShip == null) {
 			return;
 		}
-		if (CurrentShip.TotalWeight < CurrentShip.ShipmentsCapacity) {
+		if (CurrentShip.ShipmentsCapacity - CurrentShip.TotalWeight >= shipmentNodeObject.GetComponent<ShipmentNode> ().MyShipment.Cargo) {
 			PortShipmentNodeObjects.Remove (shipmentNodeObject);
 			ShipShipmentNodeObjects.Add (shipmentNodeObject);
 			shipmentNodeObject.transform.SetParent (ShipContainer.transform);
