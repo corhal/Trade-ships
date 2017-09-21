@@ -23,6 +23,7 @@ public class Ship : Selectable {
 	public int Power { get { return power; } } // + CalculateBonus("Firepower"); } }
 	MoveOnClick mover;
 
+	BattleShip battleship;
 
 	public int TotalWeight { get {
 			int totalWeight = 0;
@@ -35,6 +36,7 @@ public class Ship : Selectable {
 	new void Awake () {
 		base.Awake ();
 		mover = gameObject.GetComponent<MoveOnClick> ();
+		battleship = gameObject.GetComponent<BattleShip> ();
 		mover.OnStartedMoving += Mover_OnStartedMoving;
 	}
 
@@ -68,10 +70,10 @@ public class Ship : Selectable {
 		actions.Add (moveAction);
 		CargoSlider.maxValue = ShipmentsCapacity;
 		CargoSlider.value = 0.0f; // kek no
-
-		hp = maxHp;
-		HPSlider.maxValue = maxHp;
-		HPSlider.value = hp;
+		battleship.HP = maxHp;
+		battleship.SetMaxHP (maxHp);
+		battleship.FirePower = Power;
+		//hp = maxHp;
 	}
 
 	public override int GetStatByString (string statName) {
@@ -96,11 +98,11 @@ public class Ship : Selectable {
 			break;
 		case "MaxHP":
 			maxHp += amount;
-			HPSlider.maxValue = maxHp;
-			HPSlider.value = hp;
+			battleship.SetMaxHP (maxHp);
 			break;
 		case "Firepower":
 			power += amount;
+			battleship.FirePower = power;
 			break;
 		default:
 			break;
@@ -186,22 +188,5 @@ public class Ship : Selectable {
 			GiveShipment (shipment);
 		}
 		shipmentsToDestroy.Clear ();
-	}
-
-
-	public Slider HPSlider;
-
-	public void Shoot (EnemyShip enemyShip) {
-		GameObject cannonBallObject = Instantiate (CannonBallPrefab) as GameObject;
-		cannonBallObject.transform.position = transform.position;
-		cannonBallObject.GetComponent<CannonBall> ().Shoot (enemyShip.transform.position, power);
-	}
-
-	public void TakeDamage (int damage) {
-		hp -= damage;
-		HPSlider.value = hp;
-		if (hp <= 0) {
-			Destroy (gameObject);
-		}
 	}
 }

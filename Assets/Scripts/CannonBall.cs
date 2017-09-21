@@ -15,9 +15,10 @@ public class CannonBall : MonoBehaviour {
 		initialZ = transform.position.z;
 	}
 
-	public void Shoot (Vector2 target, int damage) {
+	public void Shoot (Vector2 target, int damage, string allegiance) {
 		this.Target = target;
 		this.damage = damage;
+		this.Allegiance = allegiance;
 	}
 
 	void Update () {
@@ -29,13 +30,10 @@ public class CannonBall : MonoBehaviour {
 		}
 	}
 
-	void OnCollider2DEnter (Collider2D other) {
-		if (Allegiance == "player" && other.gameObject.GetComponent<EnemyShip>() != null) {
-			other.gameObject.GetComponent<EnemyShip> ().TakeDamage (damage);
-			Destroy (gameObject);
-		}
-		if (Allegiance == "enemy" && other.gameObject.GetComponent<Ship>() != null) {
-			other.gameObject.GetComponent<Ship> ().TakeDamage (damage);
+	void OnTriggerEnter2D (Collider2D other) {
+		BattleShip otherShip = other.gameObject.GetComponent<BattleShip> ();
+		if (otherShip != null && otherShip.Allegiance != Allegiance) {
+			otherShip.TakeDamage (damage);
 			Destroy (gameObject);
 		}
 	}
