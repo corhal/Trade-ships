@@ -5,19 +5,22 @@ using UnityEngine.UI;
 
 public class Ship : Selectable {	
 
+	public GameObject CannonBallPrefab;
+
 	public List<Skill> Skills;
 	public List<Shipment> Shipments;
 	public Slider CargoSlider;
 
 	[SerializeField]
 	int shipmentsCapacity;
-	public int ShipmentsCapacity { get { return shipmentsCapacity + CalculateBonus("Cargo"); } }
-	[SerializeField]
+	public int ShipmentsCapacity { get { return shipmentsCapacity; } } // + CalculateBonus("Cargo"); } }
 	int hp;
-	public int HP { get { return hp + CalculateBonus("HP"); } }
+	[SerializeField]
+	int maxHp;
+	public int HP { get { return hp; } } // + CalculateBonus("HP"); } }
 	[SerializeField]
 	int power;
-	public int Power { get { return power + CalculateBonus("Firepower"); } }
+	public int Power { get { return power; } } // + CalculateBonus("Firepower"); } }
 	MoveOnClick mover;
 
 
@@ -43,19 +46,19 @@ public class Ship : Selectable {
 		Skills = new List<Skill> {			
 			new Skill("Trade", 1, 5, new List<int> {0, 10, 20, 30, 50}, new List<string> {"Cargo"}, new List<Dictionary<string, int>> {
 				new Dictionary<string, int> {{"Cargo", 1}},
-				new Dictionary<string, int> {{"Cargo", 2}},
-				new Dictionary<string, int> {{"Cargo", 3}},
-				new Dictionary<string, int> {{"Cargo", 4}},
-				new Dictionary<string, int> {{"Cargo", 5}},
-				new Dictionary<string, int> {{"Cargo", 6}},
+				new Dictionary<string, int> {{"Cargo", 1}},
+				new Dictionary<string, int> {{"Cargo", 1}},
+				new Dictionary<string, int> {{"Cargo", 1}},
+				new Dictionary<string, int> {{"Cargo", 1}},
+				new Dictionary<string, int> {{"Cargo", 1}},
 			}),
 			new Skill("Cannons", 1, 5, new List<int> {0, 10, 20, 30, 50}, new List<string> {"Firepower"}, new List<Dictionary<string, int>> {
 				new Dictionary<string, int> {{"Firepower", 10}},
-				new Dictionary<string, int> {{"Firepower", 20}},
-				new Dictionary<string, int> {{"Firepower", 30}},
-				new Dictionary<string, int> {{"Firepower", 40}},
-				new Dictionary<string, int> {{"Firepower", 50}},
-				new Dictionary<string, int> {{"Firepower", 60}},
+				new Dictionary<string, int> {{"Firepower", 10}},
+				new Dictionary<string, int> {{"Firepower", 10}},
+				new Dictionary<string, int> {{"Firepower", 10}},
+				new Dictionary<string, int> {{"Firepower", 10}},
+				new Dictionary<string, int> {{"Firepower", 10}},
 			}),
 			new Skill("Navigation", 1, 5, new List<int> {0, 10, 20, 30, 50}, new List<string> (), new List<Dictionary<string, int>> ()),
 			new Skill("Something else", 1, 5, new List<int> {0, 10, 20, 30, 50}, new List<string> (), new List<Dictionary<string, int>> ())
@@ -65,6 +68,10 @@ public class Ship : Selectable {
 		actions.Add (moveAction);
 		CargoSlider.maxValue = ShipmentsCapacity;
 		CargoSlider.value = 0.0f; // kek no
+
+		hp = maxHp;
+		HPSlider.maxValue = maxHp;
+		HPSlider.value = hp;
 	}
 
 	public override int GetStatByString (string statName) {
@@ -73,10 +80,30 @@ public class Ship : Selectable {
 			return ShipmentsCapacity;
 		case "HP":
 			return HP;
+		case "MaxHP":
+			return maxHp;
 		case "Firepower":
 			return Power;
 		default:
 			return 0;
+		}
+	}
+
+	void AddStatByString (string statName, int amount) {
+		switch (statName) {
+		case "Cargo":
+			shipmentsCapacity += amount;
+			break;
+		case "MaxHP":
+			maxHp += amount;
+			HPSlider.maxValue = maxHp;
+			HPSlider.value = hp;
+			break;
+		case "Firepower":
+			power += amount;
+			break;
+		default:
+			break;
 		}
 	}
 
@@ -94,6 +121,11 @@ public class Ship : Selectable {
 			if (player.Gold >= skill.UpgradeCosts[skill.Level]) {
 				player.GiveGold (skill.UpgradeCosts [skill.Level]);
 				skill.Upgrade ();
+
+				foreach (var statEffect in skill.StatEffects[skill.Level]) {
+					AddStatByString (statEffect.Key, statEffect.Value);
+				}
+
 				CargoSlider.maxValue = ShipmentsCapacity; // kek
 				CargoSlider.value = TotalWeight;
 			} else {
@@ -154,5 +186,22 @@ public class Ship : Selectable {
 			GiveShipment (shipment);
 		}
 		shipmentsToDestroy.Clear ();
+	}
+
+
+	public Slider HPSlider;
+
+	public void Shoot (EnemyShip enemyShip) {
+		GameObject cannonBallObject = Instantiate (CannonBallPrefab) as GameObject;
+		cannonBallObject.transform.position = transform.position;
+		cannonBallObject.GetComponent<CannonBall> ().Shoot (enemyShip.transform.position, power);
+	}
+
+	public void TakeDamage (int damage) {
+		hp -= damage;
+		HPSlider.value = hp;
+		if (hp <= 0) {
+			Destroy (gameObject);
+		}
 	}
 }
