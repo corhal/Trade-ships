@@ -32,6 +32,8 @@ public class GameManager : MonoBehaviour {
 
 	public static GameManager Instance;
 
+	public List<BattleShip> Battleships;
+
 	public void MoveMode () {
 		InMoveMode = true;
 		CloseContextButtons (false);
@@ -48,6 +50,15 @@ public class GameManager : MonoBehaviour {
 		for (int i = 0; i < ItemIcons.Count; i++) {
 			ItemIconsByNames.Add (ItemNames [i], ItemIcons [i]);
 		}
+
+		foreach (var battleShip in Battleships) {
+			battleShip.OnBattleShipDestroyed += BattleShip_OnBattleShipDestroyed;
+		}
+	}
+
+	void BattleShip_OnBattleShipDestroyed (BattleShip sender) {
+		Battleships.Remove (sender);
+		sender.OnBattleShipDestroyed -= BattleShip_OnBattleShipDestroyed;
 	}
 
 	void Start () {
@@ -69,6 +80,16 @@ public class GameManager : MonoBehaviour {
 
 		Ships = new List<Ship> (GameObject.FindObjectsOfType<Ship>());
 		Buildings = new List<Building> (GameObject.FindObjectsOfType<Building>());
+	}
+
+	public List<BattleShip> GetEnemies (string allegiance) {
+		List<BattleShip> enemyShips = new List<BattleShip> ();
+		foreach (var battleShip in Battleships) {
+			if (battleShip.Allegiance != allegiance) {
+				enemyShips.Add (battleShip);
+			}
+		}
+		return enemyShips;
 	}
 
 	public void OpenSelectableInfo (Selectable selectable) {
