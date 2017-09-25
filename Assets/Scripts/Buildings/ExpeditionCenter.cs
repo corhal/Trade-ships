@@ -11,12 +11,12 @@ public class ExpeditionCenter : Building {
 	float timer;
 	int successChance;
 
-	new void Awake () {
+	protected override void Awake () {
 		base.Awake ();
 		Missions = new List<Mission> ();
 	}
 
-	new void Start () {
+	protected override void Start () {
 		base.Start ();
 
 		for (int i = 0; i < 5; i++) {

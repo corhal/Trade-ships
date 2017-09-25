@@ -17,11 +17,11 @@ public class Port : Building {
 	public event ProducedShipmentEventHandler OnProducedShipment;
 	Action showShipmentsAction;
 
-	new void Awake () {
+	protected override void Awake () {
 		base.Awake ();
 	}
 
-	new void Start () {
+	protected override void Start () {
 		base.Start ();
 		Shipments = new List<Shipment> ();
 		showShipmentsAction = new Action ("Show shipments", 0, gameManager.ActionIconsByNames["Show shipments"], ShowShipments);

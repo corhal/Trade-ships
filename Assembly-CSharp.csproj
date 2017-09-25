@@ -65,6 +65,7 @@
      <Compile Include="Assets\Scripts\Mission.cs" />
      <Compile Include="Assets\Scripts\MoveOnClick.cs" />
      <Compile Include="Assets\Scripts\Player.cs" />
+     <Compile Include="Assets\Scripts\Region.cs" />
      <Compile Include="Assets\Scripts\Selectable.cs" />
      <Compile Include="Assets\Scripts\Shipment.cs" />
      <Compile Include="Assets\Scripts\Ships\BattleShip.cs" />

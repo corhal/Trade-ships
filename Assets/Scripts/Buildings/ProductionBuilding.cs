@@ -17,11 +17,11 @@ public class ProductionBuilding : Building {
 	float timer;
 	bool shouldProduceShipments;
 
-	new void Awake () {
+	protected override void Awake () {
 		base.Awake ();
 	}
 
-	new void Start () {
+	protected override void Start () {
 		base.Start ();
 		// ProcessSlider.maxValue = SecPerShipment;
 	}

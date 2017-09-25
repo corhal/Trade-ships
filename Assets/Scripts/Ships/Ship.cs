@@ -33,14 +33,14 @@ public class Ship : Selectable {
 			return totalWeight;
 		}}
 
-	new void Awake () {
+	protected override void Awake () {
 		base.Awake ();
 		mover = gameObject.GetComponent<MoveOnClick> ();
 		battleship = gameObject.GetComponent<BattleShip> ();
 		mover.OnStartedMoving += Mover_OnStartedMoving;
 	}
 
-	new void Start () {
+	protected override void Start () {
 		base.Start ();
 
 		Process = "Moving";

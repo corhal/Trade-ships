@@ -11,7 +11,7 @@ public class Building : Selectable {
 	Action buildAction;
 	Action upgradeAction;
 
-	new protected void Awake () {
+	protected override void Awake () {
 		base.Awake ();
 		MyIsland = GetComponentInParent<Island> ();
 		BuildCosts = new List<Dictionary<Item, int>> ();
@@ -20,7 +20,7 @@ public class Building : Selectable {
 		upgradeAction = new Action ("Upgrade", 0, gameManager.ActionIconsByNames["Upgrade"], Upgrade);
 	}
 
-	new protected void Start () {
+	protected override void Start () {
 		base.Start ();
 		RefreshActions ();
 
