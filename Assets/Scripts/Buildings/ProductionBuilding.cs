@@ -77,7 +77,7 @@ public class ProductionBuilding : Building {
 	Island RandomIsland () {
 		List<Island> validIslands = new List<Island> ();
 		foreach (var island in gameManager.Islands) {
-			if (island.MyPort != null && island != MyIsland) {
+			if (island.MyPort != null && island != MyIsland && island.MyPort.IsAvailable) {
 				validIslands.Add (island);
 			}
 		}

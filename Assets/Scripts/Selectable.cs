@@ -35,7 +35,15 @@ public class Selectable : MonoBehaviour {
 		actions.Add (infoAction);
 	}
 
-	public void ShowInfo () {
+	public void RemoveActionByName (string actionName) {
+		foreach (var action in actions) {
+			if (action.Name == actionName) {
+				actions.Remove (action);
+			}
+		}
+	}
+
+	public virtual void ShowInfo () {
 		gameManager.OpenSelectableInfo (this);
 	}
 

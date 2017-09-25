@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Region : Selectable {
-	
+
+	public int UnlockCost;
+	List<Selectable> selectables;
 
 	protected override void Awake () {
 		base.Awake ();
@@ -12,8 +14,31 @@ public class Region : Selectable {
 		ContactFilter2D filter = new ContactFilter2D ();
 		filter.useTriggers = true;
 		myCollider.OverlapCollider(filter, colliders);
+		selectables = new List<Selectable> ();
 		foreach (var collider in colliders) {
-			Debug.Log (collider);
+			if (collider != null && collider.gameObject.GetComponent<Selectable>() != null) {
+				collider.gameObject.GetComponent<Selectable> ().IsAvailable = false;
+				selectables.Add (collider.gameObject.GetComponent<Selectable> ());
+			}
+		}
+	}
+
+	protected override void Start () {
+		base.Start ();
+		Action unlockAction = new Action ("Unlock", UnlockCost, gameManager.ActionIconsByNames["Unlock"], Unlock);
+		actions.Add (unlockAction);
+	}
+
+	void Unlock () {
+		if (player.Gold >= UnlockCost) {			
+			player.GiveGold (UnlockCost);
+			gameManager.CloseContextButtons (true);
+			foreach (var selectable in selectables) {
+				selectable.IsAvailable = true;
+			}
+			Destroy (gameObject);
+		} else {
+			gameManager.OpenPopUp ("Not enough gold for unlock");
 		}
 	}
 }

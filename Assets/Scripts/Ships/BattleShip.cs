@@ -19,6 +19,7 @@ public class BattleShip : MonoBehaviour {
 	public float AttackRange;
 
 	float timer;
+	float initialSmokeZ;
 
 	public delegate void BattleshipDestroyedEventHandler (BattleShip sender);
 	public event BattleshipDestroyedEventHandler OnBattleShipDestroyed;
@@ -34,7 +35,7 @@ public class BattleShip : MonoBehaviour {
 	public void Shoot () {
 		GameObject cannonBallObject = Instantiate (CannonBallPrefab) as GameObject;
 		smokeParticles.transform.position = Vector2.MoveTowards (transform.position, Enemy.transform.position, 0.5f);
-		smokeParticles.transform.position = new Vector3 (smokeParticles.transform.position.x, smokeParticles.transform.position.y, -2.0f);
+		smokeParticles.transform.position = new Vector3 (smokeParticles.transform.position.x, smokeParticles.transform.position.y, initialSmokeZ);
 		smokeParticles.Play ();
 		cannonBallObject.transform.position = transform.position;
 		cannonBallObject.GetComponent<CannonBall> ().Shoot (Enemy.transform.position, FirePower, Allegiance);
@@ -42,6 +43,7 @@ public class BattleShip : MonoBehaviour {
 
 	void Awake () {
 		smokeParticles = gameObject.GetComponentInChildren<ParticleSystem> ();
+		initialSmokeZ = smokeParticles.transform.position.z;
 	}
 
 	void Start () {
@@ -83,6 +85,7 @@ public class BattleShip : MonoBehaviour {
 		HPSlider.value = HP;
 		if (HP <= 0) {
 			OnBattleShipDestroyed (this);
+			gameObject.GetComponent<EnemyShip> ().SpawnShipwreck ();
 			Destroy (gameObject);
 		}
 	}

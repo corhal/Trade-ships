@@ -37,7 +37,20 @@ public class MoveOnClick : MonoBehaviour {
 			if (Input.GetMouseButtonUp(0) && InMoveMode) {		
 				lastClick = Input.mousePosition;
 				start = transform.position;
-				target = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+				RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
+				if (hit.collider != null) {				
+					if (hit.collider.gameObject.GetComponent<Region> () != null) {
+						return;
+					}	
+					if (hit.collider.gameObject.GetComponent<Selectable> () != null) { // If you see that object stops too far - here is why
+						target = hit.collider.gameObject.transform.position;
+						target = start + (target - start) * 0.9f;
+					}
+				} else {
+					target = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+				}
+
 				if (Vector2.Distance(firstClick, lastClick) > 0.05f) {
 					return;
 				}
@@ -45,13 +58,7 @@ public class MoveOnClick : MonoBehaviour {
 				DrawLine (start, target);
 				ShowLine ();
 
-				RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
-				if (hit.collider != null) {					
-					if (hit.collider.gameObject.GetComponent<Port> () != null) { // If you see that object stops too far - here is why
-						target = hit.collider.gameObject.transform.position;
-						target = start + (target - start) * 0.9f;
-					}
-				}
+
 
 				GameManager.Instance.InMoveMode = false;
 				GameManager.Instance.CloseContextButtons (true);

@@ -165,7 +165,7 @@ public class Ship : Selectable {
 		return mover.TimeLeft;
 	}
 
-	public void ShowInfo () {
+	public override void ShowInfo () {
 		gameManager.OpenShipWindow (this);
 	}
 

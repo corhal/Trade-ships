@@ -23,12 +23,15 @@ public class Port : Building {
 
 	protected override void Start () {
 		base.Start ();
-		Shipments = new List<Shipment> ();
+		//Shipments = new List<Shipment> ();
+		//Debug.Log ("here we nullify shipments");
 		showShipmentsAction = new Action ("Show shipments", 0, gameManager.ActionIconsByNames["Show shipments"], ShowShipments);
 		actions.Add (showShipmentsAction);
 		CargoSlider.maxValue = ShipmentsCapacity;
 		CargoSlider.value = Shipments.Count;
-		IslandLabel.text = MyIsland.Name;
+		if (MyIsland != null) {
+			IslandLabel.text = MyIsland.Name;
+		}
 	}
 
 	public override int GetStatByString (string statName) {

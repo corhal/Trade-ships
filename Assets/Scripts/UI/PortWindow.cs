@@ -65,6 +65,9 @@ public class PortWindow : MonoBehaviour {
 	}
 
 	public void Close () {
+		if (CurrentPort != null && CurrentPort.Name == "Shipwreck" && CurrentPort.Shipments.Count == 0) { // as reliable as bullets made of chocolate
+			Destroy (CurrentPort.gameObject);
+		}
 		Window.SetActive (false);
 	}
 

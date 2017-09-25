@@ -171,6 +171,10 @@ public class GameManager : MonoBehaviour {
 
 	public void ClosePortWindow () {
 		MyPortWindow.Close ();
+
+		if (MyPortWindow.CurrentPort != null && MyPortWindow.CurrentPort.Name == "Shipwreck" && MyPortWindow.CurrentPort.Shipments.Count == 0) { // as reliable as bullets made of chocolate
+			Destroy (MyPortWindow.CurrentPort.gameObject);
+		}
 	}
 
 	public void OpenCraftWindow (Building building, Item item) {

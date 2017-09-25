@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class EnemyShip : MonoBehaviour {
 
+	public GameObject ShipwreckPrefab;
+
 	BattleShip battleship;
 
 	public float SightDistance;
@@ -16,6 +18,8 @@ public class EnemyShip : MonoBehaviour {
 	float initialZ;
 
 	bool shouldMove;
+
+	public List<Shipment> Shipments;
 
 	void Awake () {
 		battleship = gameObject.GetComponent<BattleShip> ();
@@ -57,5 +61,14 @@ public class EnemyShip : MonoBehaviour {
 		}
 	}
 
+	public void SpawnShipwreck () {
+		GameObject shipwreckObject = Instantiate (ShipwreckPrefab) as GameObject;
+		shipwreckObject.transform.position = transform.position;
+		Port shipwreckPort = shipwreckObject.GetComponent<Port> ();
+		shipwreckPort.ShipmentsCapacities [1] = Shipments.Count;
+		foreach (var shipment in Shipments) {
+			shipwreckPort.TakeShipment (shipment);
+		}
+	}
 
 }
