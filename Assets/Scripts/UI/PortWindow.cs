@@ -117,10 +117,14 @@ public class PortWindow : MonoBehaviour {
 		GameObject shipmentNodeObject = Instantiate (ShipmentNodePrefab) as GameObject;
 		ShipmentNode shipmentNode = shipmentNodeObject.GetComponent<ShipmentNode> ();
 		shipmentNode.MyShipment = shipment;
-		shipmentNode.NameLabel.text = shipment.GoodsName;
+		shipmentNode.NameLabel.text = shipment.Goods.Name;
+		shipmentNode.MyImage.sprite = GameManager.Instance.ItemIconsByNames [shipment.Goods.Name];
 		shipmentNode.DestinationLabel.text = shipment.Destination.MyPort.MyIsland.Name;
 		shipmentNode.DistanceLabel.text = shipment.Distance.ToString ();
-		shipmentNode.RewardLabel.text = shipment.Reward.ToString ();
+		shipmentNode.RewardLabel.text = "$" + shipment.Reward;
+		if (!shipment.Goods.IsForSale) {
+			shipmentNode.RewardLabel.text = "-";
+		}
 		shipmentNode.WeightLabel.text = shipment.Cargo + "t";
 		shipmentNode.MyPortWindow = this;
 		return shipmentNodeObject;

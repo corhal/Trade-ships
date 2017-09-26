@@ -62,13 +62,17 @@ public class GameManager : MonoBehaviour {
 	}
 
 	void Start () {
-		Item wood = new Item ("Wood", null, ItemIconsByNames["Wood"]);
-		Item food = new Item ("Food", null, ItemIconsByNames["Food"]);
-		Item steel = new Item ("Steel", null, ItemIconsByNames["Steel"]);
-		Item nails = new Item ("Nails", new Dictionary<Item, int> { { steel, 2 } }, ItemIconsByNames["Nails"]);
-		Item hammers = new Item ("Picks", new Dictionary<Item, int> { { steel, 1 }, {wood, 1} }, ItemIconsByNames["Picks"]);
-		Item saws = new Item ("Shovels", new Dictionary<Item, int> { { steel, 2 }, {wood, 1} }, ItemIconsByNames["Shovels"]);
-		Item tools = new Item ("Tools", new Dictionary<Item, int> { { hammers, 1 }, {saws, 1} }, ItemIconsByNames["Tools"]);
+		Item wood = new Item ("Wood", null, ItemIconsByNames["Wood"], false);
+		Item food = new Item ("Food", null, ItemIconsByNames["Food"], true);
+		Item steel = new Item ("Steel", null, ItemIconsByNames["Steel"], false);
+		Item nails = new Item ("Nails", new Dictionary<Item, int> { { steel, 2 } }, ItemIconsByNames["Nails"], false);
+		Item hammers = new Item ("Picks", new Dictionary<Item, int> { { steel, 1 }, {wood, 1} }, ItemIconsByNames["Picks"], false);
+		Item saws = new Item ("Shovels", new Dictionary<Item, int> { { steel, 2 }, {wood, 1} }, ItemIconsByNames["Shovels"], false);
+		Item tools = new Item ("Tools", new Dictionary<Item, int> { { hammers, 1 }, {saws, 1} }, ItemIconsByNames["Tools"], false);
+		Item spices = new Item ("Spices", null, ItemIconsByNames["Spices"], true);
+		Item ale = new Item ("Ale", null, ItemIconsByNames["Ale"], true);
+		Item fish = new Item ("Fish", null, ItemIconsByNames["Fish"], true);
+
 		TempItemLibrary = new List<Item> {
 			wood,
 			food,
@@ -76,10 +80,35 @@ public class GameManager : MonoBehaviour {
 			nails,
 			hammers,
 			saws,
-			tools,};
+			tools,
+			spices,
+			ale,
+			fish,
+		};
 
 		Ships = new List<Ship> (GameObject.FindObjectsOfType<Ship>());
 		Buildings = new List<Building> (GameObject.FindObjectsOfType<Building>());
+	}
+
+	public Item GetRandomItem (bool craftable) {
+		List<Item> items = new List<Item> ();
+		foreach (var item in TempItemLibrary) {
+			if (!craftable && item.CraftCost != null) {
+				continue;
+			}
+			items.Add (item);
+		}
+		int index = Random.Range (0, items.Count);
+		return items [index];
+	}
+
+	public Item GetItemByName (string itemName) {
+		foreach (var item in TempItemLibrary) {
+			if (item.Name == itemName) {
+				return item;
+			}
+		}
+		return null;
 	}
 
 	public List<BattleShip> GetEnemies (string allegiance) {

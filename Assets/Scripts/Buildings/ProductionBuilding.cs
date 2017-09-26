@@ -70,7 +70,8 @@ public class ProductionBuilding : Building {
 		Island island = RandomIsland ();
 		int reward = Random.Range (MinRewards [Level], MaxRewards [Level] + 1);
 		int cargo = Random.Range (MinCargos [Level], MaxCargos [Level] + 1);
-		Shipment shipment = new Shipment (GoodsName, MyIsland, island, cargo, reward);
+		Item goods = gameManager.GetItemByName (GoodsName);
+		Shipment shipment = new Shipment (goods, MyIsland, island, cargo, reward);
 		MyIsland.MyPort.TakeShipment (shipment);
 	}
 

@@ -10,6 +10,8 @@ public class ShipmentNode : MonoBehaviour {
 	public Text RewardLabel;
 	public Text WeightLabel;
 
+	public Image MyImage;
+
 	public Shipment MyShipment;
 	public PortWindow MyPortWindow;
 

@@ -5,7 +5,8 @@ using UnityEngine;
 [System.Serializable]
 public class Shipment {
 
-	public string GoodsName;
+	//public string GoodsName;
+	public Item Goods;
 	public Island StartIsland;
 	public Island Destination;
 	public string DestinationString;
@@ -14,8 +15,8 @@ public class Shipment {
 
 	public float Distance;
 
-	public Shipment (string goodsName, Island startIsland, Island destination, int cargo, int reward) {
-		this.GoodsName = goodsName;
+	public Shipment (Item goods, Island startIsland, Island destination, int cargo, int reward) {
+		this.Goods = goods;
 		this.StartIsland = startIsland;
 		this.Destination = destination;
 		this.Reward = reward;

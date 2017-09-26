@@ -37,6 +37,25 @@ public class EnemyShip : MonoBehaviour {
 
 	void Start () {
 		battleship.SetMaxHP (battleship.MaxHP);
+
+		for (int i = 0; i < Random.Range(4, 8); i++) {
+			int reward = Random.Range (2, 6);
+			int cargo = Random.Range (1, 4);
+			Item goods = GameManager.Instance.GetRandomItem (false);
+			Shipment shipment = new Shipment (goods, RandomIsland (), RandomIsland (), cargo, reward);
+			Shipments.Add (shipment);
+		}
+	}
+
+	Island RandomIsland () {
+		List<Island> validIslands = new List<Island> ();
+		foreach (var island in GameManager.Instance.Islands) {
+			if (island.MyPort != null && island.MyPort.IsAvailable) {
+				validIslands.Add (island);
+			}
+		}
+		int index = Random.Range (0, validIslands.Count);
+		return validIslands [index];
 	}
 
 	void Update () {

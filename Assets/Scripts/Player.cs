@@ -63,6 +63,8 @@ public class Player : MonoBehaviour {
 				Inventory.Add (amountByItem.Key, 0);
 			}
 			Inventory [amountByItem.Key] += amountByItem.Value;
+			Debug.Log (Inventory [amountByItem.Key]);
+			Debug.Log (amountByItem.Key.Name);
 		}
 	}
 

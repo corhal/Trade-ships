@@ -30,7 +30,7 @@ public class Building : Selectable {
 			for (int j = 0; j < costLength; j++) {
 				List<Item> validItems = new List<Item> ();
 				foreach (var item in gameManager.TempItemLibrary) {
-					if (!cost.ContainsKey(item)) {
+					if (!cost.ContainsKey(item) && !item.IsForSale) {
 						validItems.Add (item);
 					}
 				}

@@ -179,8 +179,13 @@ public class Ship : Selectable {
 		List<Shipment> shipmentsToDestroy = new List<Shipment> ();
 		foreach (var shipment in Shipments) {
 			if (shipment.Destination == port.MyIsland) {
-				Player.Instance.TakeGold (shipment.Reward);
-				shipmentsToDestroy.Add (shipment);
+				if (shipment.Goods.IsForSale) {
+					Player.Instance.TakeGold (shipment.Reward);
+					shipmentsToDestroy.Add (shipment);
+				} else {
+					Player.Instance.TakeItems (new Dictionary<Item, int> { { shipment.Goods, 1 } });
+					shipmentsToDestroy.Add (shipment);
+				}
 			}
 		}
 

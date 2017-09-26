@@ -8,13 +8,15 @@ public class Item {
 	public string Name;
 	public Sprite Icon;
 	public Dictionary<Item, int> CraftCost;
+	public bool IsForSale = true;
 	Player player;
 
-	public Item (string name, Dictionary<Item, int> craftCost, Sprite icon) {
+	public Item (string name, Dictionary<Item, int> craftCost, Sprite icon, bool isForSale) {
 		this.Name = name;
 		CraftCost = craftCost;
 		player = Player.Instance;
 		this.Icon = icon;
+		this.IsForSale = isForSale;
 	}
 
 	public void Craft () {
