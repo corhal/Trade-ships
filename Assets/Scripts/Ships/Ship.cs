@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class Ship : Selectable {	
 
+	bool initialized;
 	public GameObject CannonBallPrefab;
 
 	public List<Skill> Skills;
@@ -17,7 +18,8 @@ public class Ship : Selectable {
 	int hp;
 	[SerializeField]
 	int maxHp;
-	public int HP { get { return hp; } } // + CalculateBonus("HP"); } }
+	public int MaxHP { get { return maxHp; } }
+	public int HP { get { return battleship.HP; } } // + CalculateBonus("HP"); } }
 	[SerializeField]
 	int power;
 	public int Power { get { return power; } } // + CalculateBonus("Firepower"); } }
@@ -44,7 +46,12 @@ public class Ship : Selectable {
 		base.Start ();
 
 		Process = "Moving";
+		Action moveAction = new Action ("Move", 0, gameManager.ActionIconsByNames["Move"], MoveMode);
+		actions.Add (moveAction);
 
+		if (initialized) {
+			return;
+		}
 		Skills = new List<Skill> {			
 			new Skill("Trade", 1, 5, new List<int> {0, 10, 20, 30, 50}, new List<string> {"Cargo"}, new List<Dictionary<string, int>> {
 				new Dictionary<string, int> {{"Cargo", 1}},
@@ -66,14 +73,31 @@ public class Ship : Selectable {
 			new Skill("Something else", 1, 5, new List<int> {0, 10, 20, 30, 50}, new List<string> (), new List<Dictionary<string, int>> ())
 		};
 		Shipments = new List<Shipment> ();
-		Action moveAction = new Action ("Move", 0, gameManager.ActionIconsByNames["Move"], MoveMode);
-		actions.Add (moveAction);
 		CargoSlider.maxValue = ShipmentsCapacity;
 		CargoSlider.value = 0.0f; // kek no
 		battleship.HP = maxHp;
 		battleship.SetMaxHP (maxHp);
 		battleship.FirePower = Power;
-		//hp = maxHp;
+	}
+
+	public void InitializeFromData (ShipData shipData) {		
+		Skills = new List<Skill> (shipData.Skills);	
+		Shipments = new List<Shipment> (shipData.Shipments);
+		
+		Level = shipData.Level;
+		Name = shipData.Name;
+		shipmentsCapacity = shipData.ShipmentsCapacity;
+		Debug.Log (hp.ToString ());
+		maxHp = shipData.MaxHP;
+		power = shipData.Power;
+		transform.position = new Vector3 (shipData.Coordinates[0], shipData.Coordinates[1], shipData.Coordinates[2]);
+
+		CargoSlider.maxValue = ShipmentsCapacity;
+		CargoSlider.value = TotalWeight; // kek no
+		battleship.HP = shipData.HP;
+		battleship.SetMaxHP (maxHp);
+		battleship.FirePower = Power;
+		initialized = true;
 	}
 
 	public override int GetStatByString (string statName) {

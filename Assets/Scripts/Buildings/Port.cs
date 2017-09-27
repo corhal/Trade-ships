@@ -34,6 +34,13 @@ public class Port : Building {
 		}
 	}
 
+	public override void InitializeFromData (BuildingData buildingData) {
+		base.InitializeFromData (buildingData);
+		PortData portData = buildingData as PortData;
+		ShipmentsCapacities = new List<int> (portData.ShipmentsCapacities);
+		Shipments = new List<Shipment> (portData.Shipments);
+	}
+
 	public override int GetStatByString (string statName) {
 		switch (statName) {
 		case "Cargo":

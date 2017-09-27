@@ -40,7 +40,11 @@ public class GameManager : MonoBehaviour {
 	}
 
 	void Awake () {
-		Instance = this;
+		if (Instance == null) {			
+			Instance = this;
+		} else if (Instance != this) {
+			Destroy (gameObject);  
+		}
 		ActionIconsByNames = new Dictionary<string, Sprite> ();
 		for (int i = 0; i < ActionIcons.Count; i++) {
 			ActionIconsByNames.Add (ActionNames [i], ActionIcons [i]);
@@ -62,32 +66,40 @@ public class GameManager : MonoBehaviour {
 	}
 
 	void Start () {
-		Item wood = new Item ("Wood", null, ItemIconsByNames["Wood"], false);
-		Item food = new Item ("Food", null, ItemIconsByNames["Food"], true);
-		Item steel = new Item ("Steel", null, ItemIconsByNames["Steel"], false);
-		Item nails = new Item ("Nails", new Dictionary<Item, int> { { steel, 2 } }, ItemIconsByNames["Nails"], false);
-		Item hammers = new Item ("Picks", new Dictionary<Item, int> { { steel, 1 }, {wood, 1} }, ItemIconsByNames["Picks"], false);
-		Item saws = new Item ("Shovels", new Dictionary<Item, int> { { steel, 2 }, {wood, 1} }, ItemIconsByNames["Shovels"], false);
-		Item tools = new Item ("Tools", new Dictionary<Item, int> { { hammers, 1 }, {saws, 1} }, ItemIconsByNames["Tools"], false);
-		Item spices = new Item ("Spices", null, ItemIconsByNames["Spices"], true);
-		Item ale = new Item ("Ale", null, ItemIconsByNames["Ale"], true);
-		Item fish = new Item ("Fish", null, ItemIconsByNames["Fish"], true);
-
-		TempItemLibrary = new List<Item> {
-			wood,
-			food,
-			steel,
-			nails,
-			hammers,
-			saws,
-			tools,
-			spices,
-			ale,
-			fish,
-		};
+		TempItemLibrary = new List<Item> (Player.Instance.TempItemLibrary);
 
 		Ships = new List<Ship> (GameObject.FindObjectsOfType<Ship>());
 		Buildings = new List<Building> (GameObject.FindObjectsOfType<Building>());
+
+		if (!Player.Instance.FirstLoad) {
+			for (int i = 0; i < Buildings.Count; i++) {
+				for (int j = 0; j < Player.Instance.BuildingDatas.Count; j++) { // ОЛОЛО ОЛОЛО Я ВОДИТЕЛЬ НЛО
+					Vector3 buildingPosition = new Vector3 (Player.Instance.BuildingDatas [i].Coordinates [0],
+						                           Player.Instance.BuildingDatas [i].Coordinates [1],
+						                           Player.Instance.BuildingDatas [i].Coordinates [2]);
+					if (Buildings[i].Name == Player.Instance.BuildingDatas[j].Name && Vector3.Distance(Buildings[i].transform.position, buildingPosition) < 0.001f) {
+						Buildings [i].InitializeFromData (Player.Instance.BuildingDatas [i]);
+					}
+				}
+			}
+			for (int i = 0; i < Ships.Count; i++) {
+				for (int j = 0; j < Player.Instance.ShipDatas.Count; j++) {
+					if (Ships[i].Name == Player.Instance.ShipDatas[i].Name) {
+						Ships [i].InitializeFromData (Player.Instance.ShipDatas [i]);
+					}
+				}
+			}
+		} else {
+			Player.Instance.SaveShips (Ships);
+			Player.Instance.SaveBuildings (Buildings);
+			Player.Instance.FirstLoad = false;
+		}
+	}
+
+	public void LoadBattle () {
+		Player.Instance.SaveShips (Ships);
+		Player.Instance.SaveBuildings (Buildings);
+		Player.Instance.LoadBattle ();
 	}
 
 	public Item GetRandomItem (bool craftable) {

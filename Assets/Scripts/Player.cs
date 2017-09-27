@@ -1,26 +1,86 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour {
 
+	public List<BuildingData> BuildingDatas;
+	public List<ShipData> ShipDatas;
+	public bool FirstLoad = true;
 	public int Gold;
 
 	public static Player Instance;
 	public Dictionary<Item, int> Inventory;
 
 	void Awake () {
-		Instance = this;
+		if (Instance == null) {			
+			Instance = this;
+		} else if (Instance != this) {
+			Destroy (gameObject);  
+		}
+		DontDestroyOnLoad(gameObject);
 		Inventory = new Dictionary<Item, int> ();
 	}
 
+	public List<Item> TempItemLibrary;
+
 	void Start () {
-		/*foreach (var item in GameManager.Instance.TempItemLibrary) {
-			if (item.CraftCost == null) {
-				Dictionary<Item, int> ItemAsDict = new Dictionary<Item, int> { { item, 30 } };
-				TakeItems (ItemAsDict);
+		Item wood = new Item ("Wood", null, GameManager.Instance.ItemIconsByNames["Wood"], false);
+		Item food = new Item ("Food", null, GameManager.Instance.ItemIconsByNames["Food"], true);
+		Item steel = new Item ("Steel", null, GameManager.Instance.ItemIconsByNames["Steel"], false);
+		Item nails = new Item ("Nails", new Dictionary<Item, int> { { steel, 2 } }, GameManager.Instance.ItemIconsByNames["Nails"], false);
+		Item hammers = new Item ("Picks", new Dictionary<Item, int> { { steel, 1 }, {wood, 1} }, GameManager.Instance.ItemIconsByNames["Picks"], false);
+		Item saws = new Item ("Shovels", new Dictionary<Item, int> { { steel, 2 }, {wood, 1} }, GameManager.Instance.ItemIconsByNames["Shovels"], false);
+		Item tools = new Item ("Tools", new Dictionary<Item, int> { { hammers, 1 }, {saws, 1} }, GameManager.Instance.ItemIconsByNames["Tools"], false);
+		Item spices = new Item ("Spices", null, GameManager.Instance.ItemIconsByNames["Spices"], true);
+		Item ale = new Item ("Ale", null, GameManager.Instance.ItemIconsByNames["Ale"], true);
+		Item fish = new Item ("Fish", null, GameManager.Instance.ItemIconsByNames["Fish"], true);
+
+		TempItemLibrary = new List<Item> {
+			wood,
+			food,
+			steel,
+			nails,
+			hammers,
+			saws,
+			tools,
+			spices,
+			ale,
+			fish,
+		};
+	}
+
+	public void SaveBuildings (List<Building> buildings) {
+		BuildingDatas.Clear ();
+		for (int i = 0; i < buildings.Count; i++) {
+			if (buildings[i] is Port) { // как-то все неловко
+				PortData portData = new PortData ();
+				portData.InitializeFromBuilding (buildings [i]);
+				BuildingDatas.Add (portData);
+			} else {
+				BuildingData buildingData = new BuildingData ();
+				buildingData.InitializeFromBuilding (buildings [i]);
+				BuildingDatas.Add (buildingData);
 			}
-		}*/
+		}
+	}
+
+	public void SaveShips (List<Ship> ships) {
+		ShipDatas.Clear ();
+		for (int i = 0; i < ships.Count; i++) {
+			ShipData shipData = new ShipData ();
+			shipData.InitializeFromShip (ships [i]);
+			ShipDatas.Add (shipData);
+		}
+	}
+
+	public void LoadBattle () {
+		SceneManager.LoadScene (1);
+	}
+
+	public void LoadVillage () {
+		SceneManager.LoadScene (0);
 	}
 
 	public void Craft (Item item) {
