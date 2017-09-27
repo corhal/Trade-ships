@@ -56,6 +56,7 @@
      <Compile Include="Assets\Scripts\Buildings\ExpeditionCenter.cs" />
      <Compile Include="Assets\Scripts\Buildings\Port.cs" />
      <Compile Include="Assets\Scripts\Buildings\ProductionBuilding.cs" />
+     <Compile Include="Assets\Scripts\Buildings\ThievesGuild.cs" />
      <Compile Include="Assets\Scripts\CameraDrag.cs" />
      <Compile Include="Assets\Scripts\CannonBall.cs" />
      <Compile Include="Assets\Scripts\DragController.cs" />

@@ -121,6 +121,19 @@ public class GameManager : MonoBehaviour {
 		return enemyShips;
 	}
 
+	public void OpenThievesWindow (ThievesGuild thievesGuild) {
+
+		MyInfoWindow.Close ();
+		MyShipWindow.Close ();
+		MyExpeditionWindow.Close ();
+		MyMissionWindow.Close ();
+		MyPortWindow.Close ();
+		MyCraftWindow.Close ();
+		MyButtonsOverlay.Close ();
+		MyMissionWindow.Close ();
+		MyPopUp.Close ();
+	}
+
 	public void OpenSelectableInfo (Selectable selectable) {
 		if (selectable is Ship) {
 			OpenShipWindow (selectable as Ship);
