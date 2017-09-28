@@ -59,7 +59,8 @@ public class BattleShip : MonoBehaviour {
 				Enemy = null;
 			}
 			timer += Time.deltaTime;
-			if (timer >= SecPerShot) {
+			float secPerShot = (SecPerShot <= 0.0f) ? 0.01f : SecPerShot;
+			if (timer >= secPerShot) {
 				timer = 0.0f;
 				Shoot ();
 			}

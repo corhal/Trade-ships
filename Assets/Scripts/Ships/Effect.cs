@@ -8,6 +8,8 @@ public class Effect {
 	public string Name;
 	public int Level;
 	public float Duration;
+	//public float TickPeriod;
+	public float ElapsedTime;
 
 	public List<Dictionary<string, int>> StatEffects;
 
@@ -16,6 +18,7 @@ public class Effect {
 		Level = level;
 		Duration = duration;
 		StatEffects = statEffects;
+		ElapsedTime = 0.0f;
 	}
 
 	public Effect Copy () {

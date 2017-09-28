@@ -50,27 +50,40 @@ public class Ship : Selectable {
 		Action moveAction = new Action ("Move", 0, gameManager.ActionIconsByNames["Move"], MoveMode);
 		actions.Add (moveAction);
 
+		Action useSkillAction = new Action ("Skill", 0, gameManager.ActionIconsByNames ["Show missions"], UseSkill);
+		actions.Add (useSkillAction);
+
 		if (initialized) {
 			return;
 		}
-		Skills = new List<Skill> {			
-			new Skill("Trade", 0, 5, new List<int> {0, 10, 20, 30, 50}, new Effect("Trade", 0, -1.0f, new List<Dictionary<string, int>> {
-				new Dictionary<string, int> {{"Cargo", 0}},
-				new Dictionary<string, int> {{"Cargo", 1}},
-				new Dictionary<string, int> {{"Cargo", 2}},
-				new Dictionary<string, int> {{"Cargo", 3}},
-				new Dictionary<string, int> {{"Cargo", 4}},
-				new Dictionary<string, int> {{"Cargo", 5}},
-			})),
-			new Skill("Cannons", 0, 5, new List<int> {0, 10, 20, 30, 50}, new Effect("Cannons", 0, -1.0f, new List<Dictionary<string, int>> {
-				new Dictionary<string, int> {{"Firepower", 0}},
-				new Dictionary<string, int> {{"Firepower", 10}},
-				new Dictionary<string, int> {{"Firepower", 20}},
-				new Dictionary<string, int> {{"Firepower", 30}},
-				new Dictionary<string, int> {{"Firepower", 40}},
-				new Dictionary<string, int> {{"Firepower", 50}},
-			})),
-			new Skill("Navigation", 0, 5, new List<int> {0, 10, 20, 30, 50}, null),
+		Effect slowDown = new Effect ("Slow down", 0, 20.0f, new List<Dictionary<string, int>> {
+			new Dictionary<string, int> { { "Speed", -1000 } },
+			new Dictionary<string, int> { { "Speed", -2000 } },
+			new Dictionary<string, int> { { "Speed", -3000 } },
+			new Dictionary<string, int> { { "Speed", -4000 } },
+			new Dictionary<string, int> { { "Speed", -5000 } },
+			new Dictionary<string, int> { { "Speed", -6000 } },
+		});
+		Effect trade = new Effect ("Trade", 0, -1.0f, new List<Dictionary<string, int>> {
+			new Dictionary<string, int> { { "Cargo", 0 } },
+			new Dictionary<string, int> { { "Cargo", 1 } },
+			new Dictionary<string, int> { { "Cargo", 2 } },
+			new Dictionary<string, int> { { "Cargo", 3 } },
+			new Dictionary<string, int> { { "Cargo", 4 } },
+			new Dictionary<string, int> { { "Cargo", 5 } },
+		});
+		Effect cannons = new Effect ("Cannons", 0, -1.0f, new List<Dictionary<string, int>> {
+			new Dictionary<string, int> { { "Firepower", 0 } },
+			new Dictionary<string, int> { { "Firepower", 10 } },
+			new Dictionary<string, int> { { "Firepower", 20 } },
+			new Dictionary<string, int> { { "Firepower", 30 } },
+			new Dictionary<string, int> { { "Firepower", 40 } },
+			new Dictionary<string, int> { { "Firepower", 50 } },
+		});
+		Skills = new List<Skill> {				
+			new Skill("Slow down", 0, 5, new List<int> {0, 10, 20, 30, 50}, new Dictionary<string, Effect> {{"enemy", slowDown}}),
+			new Skill("Trade", 0, 5, new List<int> {0, 10, 20, 30, 50}, new Dictionary<string, Effect> {{"self", trade}}),
+			new Skill("Cannons", 0, 5, new List<int> {0, 10, 20, 30, 50}, new Dictionary<string, Effect> {{"self", cannons}}),
 			new Skill("Something else", 0, 5, new List<int> {0, 10, 20, 30, 50}, null)
 		};
 		Shipments = new List<Shipment> ();
@@ -101,6 +114,23 @@ public class Ship : Selectable {
 		initialized = true;
 	}
 
+	void UseSkill () {
+		Skills [0].Use (this);
+	}
+
+	protected override void Update () {
+		base.Update ();
+
+		for (int i = Effects.Count - 1; i >= 0; i--) {
+			if (Effects [i].Duration > -1.0f) {
+				Effects [i].ElapsedTime += Time.deltaTime;
+				if (Effects [i].ElapsedTime >= Effects [i].Duration) {
+					RemoveEffect (Effects [i]);
+				}
+			}
+		}
+	}
+
 	public override int GetStatByString (string statName) {
 		switch (statName) {
 		case "Cargo":
@@ -111,6 +141,12 @@ public class Ship : Selectable {
 			return MaxHP;
 		case "Firepower":
 			return Power;
+		case "Range":
+			return (int)(battleship.AttackRange * 1000.0f);
+		case "Attack speed":
+			return (int)(battleship.SecPerShot * 1000.0f);
+		case "Speed":
+			return (int)(mover.Speed * 1000.0f);
 		default:
 			return 0;
 		}
@@ -119,9 +155,7 @@ public class Ship : Selectable {
 	void AddStatByString (string statName, int amount) {
 		switch (statName) {
 		case "Cargo":
-			Debug.Log ("shipment capacity: " + shipmentsCapacity);
 			shipmentsCapacity += amount;
-			Debug.Log ("shipment capacity: " + shipmentsCapacity);
 			break;
 		case "MaxHP":
 			maxHp += amount;
@@ -130,6 +164,15 @@ public class Ship : Selectable {
 		case "Firepower":
 			power += amount;
 			battleship.FirePower = power;
+			break;
+		case "Range":
+			battleship.AttackRange += (float)amount / 1000.0f; // munits
+			break;
+		case "Attack speed":
+			battleship.SecPerShot += (float)amount / 1000.0f; // msec
+			break;
+		case "Speed":
+			mover.Speed += (float)amount / 1000.0f; // munits
 			break;
 		default:
 			break;
@@ -148,6 +191,15 @@ public class Ship : Selectable {
 		case "Firepower":
 			power -= amount;
 			battleship.FirePower = power;
+			break;
+		case "Range":
+			battleship.AttackRange -= (float)amount / 1000.0f; // munits
+			break;
+		case "Attack speed":
+			battleship.SecPerShot -= (float)amount / 1000.0f; // msec
+			break;
+		case "Speed":
+			mover.Speed -= (float)amount / 1000.0f; // munits
 			break;
 		default:
 			break;
@@ -180,8 +232,10 @@ public class Ship : Selectable {
 				player.GiveGold (skill.UpgradeCosts [skill.Level]);
 				skill.Upgrade ();
 
-				if (skill.Effect != null) {
-					ApplyEffect (skill.Effect);
+				foreach (var effectByTarget in skill.EffectsByTargets) {
+					if (effectByTarget.Value != null && effectByTarget.Key == "self" && effectByTarget.Value.Duration == -1.0f) { // kinda sorta determine if skill is passive
+						ApplyEffect (effectByTarget.Value);
+					}
 				}
 
 				CargoSlider.maxValue = ShipmentsCapacity; // kek
