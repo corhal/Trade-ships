@@ -8,21 +8,22 @@ public class Ship : Selectable {
 	bool initialized;
 	public GameObject CannonBallPrefab;
 
+	public List<Effect> Effects;
 	public List<Skill> Skills;
 	public List<Shipment> Shipments;
 	public Slider CargoSlider;
 
 	[SerializeField]
 	int shipmentsCapacity;
-	public int ShipmentsCapacity { get { return shipmentsCapacity; } } // + CalculateBonus("Cargo"); } }
+	public int ShipmentsCapacity { get { return shipmentsCapacity; } }
 	int hp;
 	[SerializeField]
 	int maxHp;
 	public int MaxHP { get { return maxHp; } }
-	public int HP { get { return battleship.HP; } } // + CalculateBonus("HP"); } }
+	public int HP { get { return battleship.HP; } }
 	[SerializeField]
 	int power;
-	public int Power { get { return power; } } // + CalculateBonus("Firepower"); } }
+	public int Power { get { return power; } }
 	MoveOnClick mover;
 
 	BattleShip battleship;
@@ -53,24 +54,24 @@ public class Ship : Selectable {
 			return;
 		}
 		Skills = new List<Skill> {			
-			new Skill("Trade", 1, 5, new List<int> {0, 10, 20, 30, 50}, new List<string> {"Cargo"}, new List<Dictionary<string, int>> {
+			new Skill("Trade", 0, 5, new List<int> {0, 10, 20, 30, 50}, new Effect("Trade", 0, -1.0f, new List<Dictionary<string, int>> {
+				new Dictionary<string, int> {{"Cargo", 0}},
 				new Dictionary<string, int> {{"Cargo", 1}},
-				new Dictionary<string, int> {{"Cargo", 1}},
-				new Dictionary<string, int> {{"Cargo", 1}},
-				new Dictionary<string, int> {{"Cargo", 1}},
-				new Dictionary<string, int> {{"Cargo", 1}},
-				new Dictionary<string, int> {{"Cargo", 1}},
-			}),
-			new Skill("Cannons", 1, 5, new List<int> {0, 10, 20, 30, 50}, new List<string> {"Firepower"}, new List<Dictionary<string, int>> {
+				new Dictionary<string, int> {{"Cargo", 2}},
+				new Dictionary<string, int> {{"Cargo", 3}},
+				new Dictionary<string, int> {{"Cargo", 4}},
+				new Dictionary<string, int> {{"Cargo", 5}},
+			})),
+			new Skill("Cannons", 0, 5, new List<int> {0, 10, 20, 30, 50}, new Effect("Cannons", 0, -1.0f, new List<Dictionary<string, int>> {
+				new Dictionary<string, int> {{"Firepower", 0}},
 				new Dictionary<string, int> {{"Firepower", 10}},
-				new Dictionary<string, int> {{"Firepower", 10}},
-				new Dictionary<string, int> {{"Firepower", 10}},
-				new Dictionary<string, int> {{"Firepower", 10}},
-				new Dictionary<string, int> {{"Firepower", 10}},
-				new Dictionary<string, int> {{"Firepower", 10}},
-			}),
-			new Skill("Navigation", 1, 5, new List<int> {0, 10, 20, 30, 50}, new List<string> (), new List<Dictionary<string, int>> ()),
-			new Skill("Something else", 1, 5, new List<int> {0, 10, 20, 30, 50}, new List<string> (), new List<Dictionary<string, int>> ())
+				new Dictionary<string, int> {{"Firepower", 20}},
+				new Dictionary<string, int> {{"Firepower", 30}},
+				new Dictionary<string, int> {{"Firepower", 40}},
+				new Dictionary<string, int> {{"Firepower", 50}},
+			})),
+			new Skill("Navigation", 0, 5, new List<int> {0, 10, 20, 30, 50}, null),
+			new Skill("Something else", 0, 5, new List<int> {0, 10, 20, 30, 50}, null)
 		};
 		Shipments = new List<Shipment> ();
 		CargoSlider.maxValue = ShipmentsCapacity;
@@ -107,7 +108,7 @@ public class Ship : Selectable {
 		case "HP":
 			return HP;
 		case "MaxHP":
-			return maxHp;
+			return MaxHP;
 		case "Firepower":
 			return Power;
 		default:
@@ -118,7 +119,9 @@ public class Ship : Selectable {
 	void AddStatByString (string statName, int amount) {
 		switch (statName) {
 		case "Cargo":
+			Debug.Log ("shipment capacity: " + shipmentsCapacity);
 			shipmentsCapacity += amount;
+			Debug.Log ("shipment capacity: " + shipmentsCapacity);
 			break;
 		case "MaxHP":
 			maxHp += amount;
@@ -133,13 +136,42 @@ public class Ship : Selectable {
 		}
 	}
 
-	int CalculateBonus (string statName) {
-		foreach (var skill in Skills) {
-			if (skill.AffectedStats.Contains(statName) && skill.StatEffects[skill.Level].ContainsKey(statName)) {
-				return skill.StatEffects [skill.Level] [statName];
+	void ReduceStatByString (string statName, int amount) {
+		switch (statName) {
+		case "Cargo":
+			shipmentsCapacity -= amount;
+			break;
+		case "MaxHP":
+			maxHp -= amount;
+			battleship.SetMaxHP (maxHp);
+			break;
+		case "Firepower":
+			power -= amount;
+			battleship.FirePower = power;
+			break;
+		default:
+			break;
+		}
+	}
+
+	public void ApplyEffect (Effect effect) {
+		foreach (var myEffect in Effects) {
+			if (effect.Name == myEffect.Name) { // effects don't stack right now
+				RemoveEffect (myEffect);
+				break;
 			}
 		}
-		return 0;
+		Effects.Add (effect.Copy());
+		foreach (var statEffect in effect.StatEffects[effect.Level]) {					
+			AddStatByString (statEffect.Key, statEffect.Value);					
+		}
+	}
+
+	public void RemoveEffect (Effect effect) {
+		foreach (var statEffect in effect.StatEffects[effect.Level]) {					
+			ReduceStatByString (statEffect.Key, statEffect.Value);					
+		}
+		Effects.Remove (effect);
 	}
 
 	public void UpgradeSkill (Skill skill) {		
@@ -148,8 +180,8 @@ public class Ship : Selectable {
 				player.GiveGold (skill.UpgradeCosts [skill.Level]);
 				skill.Upgrade ();
 
-				foreach (var statEffect in skill.StatEffects[skill.Level]) {
-					AddStatByString (statEffect.Key, statEffect.Value);
+				if (skill.Effect != null) {
+					ApplyEffect (skill.Effect);
 				}
 
 				CargoSlider.maxValue = ShipmentsCapacity; // kek

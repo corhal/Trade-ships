@@ -9,21 +9,20 @@ public class Skill {
 	public int Level;
 	public int MaxLevel;
 	public List<int> UpgradeCosts;
-	public List<string> AffectedStats;
-	public List<Dictionary<string, int>> StatEffects;
+	public Effect Effect;
 
-	public Skill(string name, int level, int maxLevel, List<int> upgradeCosts, List<string> affectedStats, List<Dictionary<string, int>> statEffects) {
+	public Skill(string name, int level, int maxLevel, List<int> upgradeCosts, Effect effect) {
 		Name = name;
 		Level = level;
 		MaxLevel = maxLevel;
 		UpgradeCosts = upgradeCosts;
-		AffectedStats = affectedStats;
-		StatEffects = statEffects;
+		Effect = effect;
 	}
 
 	public void Upgrade () {
 		if (Level < MaxLevel) {
 			Level += 1;
+			Effect.Level += 1;
 		}
 	}
 }
