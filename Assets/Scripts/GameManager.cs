@@ -65,11 +65,87 @@ public class GameManager : MonoBehaviour {
 		sender.OnBattleShipDestroyed -= BattleShip_OnBattleShipDestroyed;
 	}
 
+	public Effect SlowDown;
+	public Effect SpeedUpFire;
+	public Effect Trade;
+	public Effect Cannons;
+
+	public List<GameObject> EffectParticlePrefabs;
+	public List<string> EffectParticleNames;
+
+	public Skill SlowDownSkill;
+	public Skill SpeedUpFireSkill;
+
+	public Skill TradeSkill;
+	public Skill CannonsSkill;
+	public Skill DummySkill;
+
+	public Dictionary<string, Skill> SkillsByNames;
+
 	void Start () {
 		TempItemLibrary = new List<Item> (Player.Instance.TempItemLibrary);
 
 		Ships = new List<Ship> (GameObject.FindObjectsOfType<Ship>());
 		Buildings = new List<Building> (GameObject.FindObjectsOfType<Building>());
+
+		SlowDown = new Effect ("Slow down", 0, 20.0f, new List<Dictionary<string, int>> {
+			new Dictionary<string, int> { { "Speed", -1000 } },
+			new Dictionary<string, int> { { "Speed", -2000 } },
+			new Dictionary<string, int> { { "Speed", -3000 } },
+			new Dictionary<string, int> { { "Speed", -4000 } },
+			new Dictionary<string, int> { { "Speed", -5000 } },
+			new Dictionary<string, int> { { "Speed", -6000 } },
+		});
+		SpeedUpFire = new Effect ("Speed up", 0, 10.0f, new List<Dictionary<string, int>> {
+			new Dictionary<string, int> { { "Attack speed", -1000 } },
+			new Dictionary<string, int> { { "Attack speed", -2000 } },
+			new Dictionary<string, int> { { "Attack speed", -3000 } },
+			new Dictionary<string, int> { { "Attack speed", -4000 } },
+			new Dictionary<string, int> { { "Attack speed", -5000 } },
+			new Dictionary<string, int> { { "Attack speed", -6000 } },
+		});
+		Trade = new Effect ("Trade", 0, -1.0f, new List<Dictionary<string, int>> {
+			new Dictionary<string, int> { { "Cargo", 0 } },
+			new Dictionary<string, int> { { "Cargo", 1 } },
+			new Dictionary<string, int> { { "Cargo", 2 } },
+			new Dictionary<string, int> { { "Cargo", 3 } },
+			new Dictionary<string, int> { { "Cargo", 4 } },
+			new Dictionary<string, int> { { "Cargo", 5 } },
+		});
+		Cannons = new Effect ("Cannons", 0, -1.0f, new List<Dictionary<string, int>> {
+			new Dictionary<string, int> { { "Firepower", 0 } },
+			new Dictionary<string, int> { { "Firepower", 10 } },
+			new Dictionary<string, int> { { "Firepower", 20 } },
+			new Dictionary<string, int> { { "Firepower", 30 } },
+			new Dictionary<string, int> { { "Firepower", 40 } },
+			new Dictionary<string, int> { { "Firepower", 50 } },
+		});
+						
+		SlowDownSkill = new Skill ("Slow down", 0, 5, new List<int> { 0, 10, 20, 30, 50 }, new Dictionary<string, Effect> { {
+				"enemy",
+				SlowDown
+			} });
+		SpeedUpFireSkill = new Skill ("Speed up", 0, 5, new List<int> { 0, 10, 20, 30, 50 }, new Dictionary<string, Effect> { {
+				"self",
+				SpeedUpFire
+			} });
+		TradeSkill =	new Skill ("Trade", 0, 5, new List<int> { 0, 10, 20, 30, 50 }, new Dictionary<string, Effect> { {
+				"self",
+				Trade
+			} });
+		CannonsSkill =	new Skill ("Cannons", 0, 5, new List<int> { 0, 10, 20, 30, 50 }, new Dictionary<string, Effect> { {
+				"self",
+				Cannons
+			} });
+		DummySkill = new Skill ("Dummy", 0, 5, new List<int> { 0, 10, 20, 30, 50 }, null);
+
+		SkillsByNames = new Dictionary<string, Skill> {
+			{SlowDownSkill.Name, SlowDownSkill},
+			{SpeedUpFireSkill.Name, SpeedUpFireSkill},
+			{TradeSkill.Name, TradeSkill},
+			{CannonsSkill.Name, CannonsSkill},
+			{DummySkill.Name, DummySkill},
+		};
 
 		if (!Player.Instance.FirstLoad) {
 			for (int i = 0; i < Buildings.Count; i++) {
@@ -95,6 +171,8 @@ public class GameManager : MonoBehaviour {
 			Player.Instance.FirstLoad = false;
 		}
 	}
+
+			
 
 	public void LoadBattle () {
 		Player.Instance.SaveShips (Ships);

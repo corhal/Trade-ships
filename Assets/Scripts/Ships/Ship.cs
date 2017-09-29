@@ -10,6 +10,7 @@ public class Ship : Selectable {
 
 	public List<Effect> Effects;
 	public List<Skill> Skills;
+	public List<string> SkillNames;
 	public List<Shipment> Shipments;
 	public Slider CargoSlider;
 
@@ -41,6 +42,7 @@ public class Ship : Selectable {
 		mover = gameObject.GetComponent<MoveOnClick> ();
 		battleship = gameObject.GetComponent<BattleShip> ();
 		mover.OnStartedMoving += Mover_OnStartedMoving;
+		ParticlesByEffectNames = new Dictionary<string, ParticleSystem> ();
 	}
 
 	protected override void Start () {
@@ -56,36 +58,12 @@ public class Ship : Selectable {
 		if (initialized) {
 			return;
 		}
-		Effect slowDown = new Effect ("Slow down", 0, 20.0f, new List<Dictionary<string, int>> {
-			new Dictionary<string, int> { { "Speed", -1000 } },
-			new Dictionary<string, int> { { "Speed", -2000 } },
-			new Dictionary<string, int> { { "Speed", -3000 } },
-			new Dictionary<string, int> { { "Speed", -4000 } },
-			new Dictionary<string, int> { { "Speed", -5000 } },
-			new Dictionary<string, int> { { "Speed", -6000 } },
-		});
-		Effect trade = new Effect ("Trade", 0, -1.0f, new List<Dictionary<string, int>> {
-			new Dictionary<string, int> { { "Cargo", 0 } },
-			new Dictionary<string, int> { { "Cargo", 1 } },
-			new Dictionary<string, int> { { "Cargo", 2 } },
-			new Dictionary<string, int> { { "Cargo", 3 } },
-			new Dictionary<string, int> { { "Cargo", 4 } },
-			new Dictionary<string, int> { { "Cargo", 5 } },
-		});
-		Effect cannons = new Effect ("Cannons", 0, -1.0f, new List<Dictionary<string, int>> {
-			new Dictionary<string, int> { { "Firepower", 0 } },
-			new Dictionary<string, int> { { "Firepower", 10 } },
-			new Dictionary<string, int> { { "Firepower", 20 } },
-			new Dictionary<string, int> { { "Firepower", 30 } },
-			new Dictionary<string, int> { { "Firepower", 40 } },
-			new Dictionary<string, int> { { "Firepower", 50 } },
-		});
-		Skills = new List<Skill> {				
-			new Skill("Slow down", 0, 5, new List<int> {0, 10, 20, 30, 50}, new Dictionary<string, Effect> {{"enemy", slowDown}}),
-			new Skill("Trade", 0, 5, new List<int> {0, 10, 20, 30, 50}, new Dictionary<string, Effect> {{"self", trade}}),
-			new Skill("Cannons", 0, 5, new List<int> {0, 10, 20, 30, 50}, new Dictionary<string, Effect> {{"self", cannons}}),
-			new Skill("Something else", 0, 5, new List<int> {0, 10, 20, 30, 50}, null)
-		};
+
+		Skills = new List<Skill> ();
+		foreach (var skillName in SkillNames) { // will not save between scenes!
+			Skills.Add (gameManager.SkillsByNames [skillName]);
+		}
+
 		Shipments = new List<Shipment> ();
 		CargoSlider.maxValue = ShipmentsCapacity;
 		CargoSlider.value = 0.0f; // kek no
@@ -206,6 +184,8 @@ public class Ship : Selectable {
 		}
 	}
 
+	public Dictionary <string, ParticleSystem> ParticlesByEffectNames;
+
 	public void ApplyEffect (Effect effect) {
 		foreach (var myEffect in Effects) {
 			if (effect.Name == myEffect.Name) { // effects don't stack right now
@@ -214,6 +194,14 @@ public class Ship : Selectable {
 			}
 		}
 		Effects.Add (effect.Copy());
+		if (effect.EffectParticlesPrefab != null) {
+			GameObject effectParticlesObject = Instantiate (effect.EffectParticlesPrefab) as GameObject;
+			ParticleSystem effectParticles = effectParticlesObject.GetComponent<ParticleSystem> ();
+			effectParticlesObject.transform.SetParent (transform);
+			effectParticles.transform.position = transform.position;
+			effectParticles.Play ();
+			ParticlesByEffectNames.Add (effect.Name, effectParticles);
+		}
 		foreach (var statEffect in effect.StatEffects[effect.Level]) {					
 			AddStatByString (statEffect.Key, statEffect.Value);					
 		}
@@ -224,6 +212,11 @@ public class Ship : Selectable {
 			ReduceStatByString (statEffect.Key, statEffect.Value);					
 		}
 		Effects.Remove (effect);
+
+		if (ParticlesByEffectNames.ContainsKey(effect.Name)) {
+			Destroy (ParticlesByEffectNames[effect.Name].gameObject);
+			ParticlesByEffectNames.Remove (effect.Name);
+		}
 	}
 
 	public void UpgradeSkill (Skill skill) {		

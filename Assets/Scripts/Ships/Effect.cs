@@ -13,12 +13,19 @@ public class Effect {
 
 	public List<Dictionary<string, int>> StatEffects;
 
+	public GameObject EffectParticlesPrefab;
+
 	public Effect (string name, int level, float duration, List<Dictionary<string, int>> statEffects) {
 		Name = name;
 		Level = level;
 		Duration = duration;
 		StatEffects = statEffects;
 		ElapsedTime = 0.0f;
+
+		int index = GameManager.Instance.EffectParticleNames.IndexOf (Name);
+		if (index > -1) {
+			EffectParticlesPrefab = GameManager.Instance.EffectParticlePrefabs [index];
+		}
 	}
 
 	public Effect Copy () {
