@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class Ship : Selectable {	
 
+	public GameObject ShipwreckPrefab;
+
 	bool initialized;
 	public GameObject CannonBallPrefab;
 
@@ -13,6 +15,8 @@ public class Ship : Selectable {
 	public List<string> SkillNames;
 	public List<Shipment> Shipments;
 	public Slider CargoSlider;
+
+	public Dictionary <string, ParticleSystem> ParticlesByEffectNames;
 
 	[SerializeField]
 	int shipmentsCapacity;
@@ -42,7 +46,12 @@ public class Ship : Selectable {
 		mover = gameObject.GetComponent<MoveOnClick> ();
 		battleship = gameObject.GetComponent<BattleShip> ();
 		mover.OnStartedMoving += Mover_OnStartedMoving;
+		battleship.OnBattleShipDestroyed += Battleship_OnBattleShipDestroyed;
 		ParticlesByEffectNames = new Dictionary<string, ParticleSystem> ();
+	}
+
+	void Battleship_OnBattleShipDestroyed (BattleShip sender) {
+		SpawnShipwreck ();
 	}
 
 	protected override void Start () {
@@ -60,20 +69,21 @@ public class Ship : Selectable {
 		}
 
 		Skills = new List<Skill> ();
-		foreach (var skillName in SkillNames) { // will not save between scenes!
+		foreach (var skillName in SkillNames) { // will not save between scenes! // or will
 			Skills.Add (gameManager.SkillsByNames [skillName]);
 		}
 
-		Shipments = new List<Shipment> ();
 		CargoSlider.maxValue = ShipmentsCapacity;
-		CargoSlider.value = 0.0f; // kek no
+		CargoSlider.value = TotalWeight;
 		battleship.HP = maxHp;
 		battleship.SetMaxHP (maxHp);
 		battleship.FirePower = Power;
+		battleship.Allegiance = Allegiance;
 	}
 
 	public void InitializeFromData (ShipData shipData) {		
 		Skills = new List<Skill> (shipData.Skills);	
+		Effects = new List<Effect> (shipData.Effects);
 		Shipments = new List<Shipment> (shipData.Shipments);
 		
 		Level = shipData.Level;
@@ -85,7 +95,7 @@ public class Ship : Selectable {
 		transform.position = new Vector3 (shipData.Coordinates[0], shipData.Coordinates[1], shipData.Coordinates[2]);
 
 		CargoSlider.maxValue = ShipmentsCapacity;
-		CargoSlider.value = TotalWeight; // kek no
+		CargoSlider.value = TotalWeight;
 		battleship.HP = shipData.HP;
 		battleship.SetMaxHP (maxHp);
 		battleship.FirePower = Power;
@@ -158,33 +168,8 @@ public class Ship : Selectable {
 	}
 
 	void ReduceStatByString (string statName, int amount) {
-		switch (statName) {
-		case "Cargo":
-			shipmentsCapacity -= amount;
-			break;
-		case "MaxHP":
-			maxHp -= amount;
-			battleship.SetMaxHP (maxHp);
-			break;
-		case "Firepower":
-			power -= amount;
-			battleship.FirePower = power;
-			break;
-		case "Range":
-			battleship.AttackRange -= (float)amount / 1000.0f; // munits
-			break;
-		case "Attack speed":
-			battleship.SecPerShot -= (float)amount / 1000.0f; // msec
-			break;
-		case "Speed":
-			mover.Speed -= (float)amount / 1000.0f; // munits
-			break;
-		default:
-			break;
-		}
+		AddStatByString (statName, -amount);
 	}
-
-	public Dictionary <string, ParticleSystem> ParticlesByEffectNames;
 
 	public void ApplyEffect (Effect effect) {
 		foreach (var myEffect in Effects) {
@@ -273,7 +258,7 @@ public class Ship : Selectable {
 	}
 
 	void OnTriggerEnter2D (Collider2D other) { // will work even when passing through another port
-		if (other.gameObject.GetComponent<Port> () != null) {
+		if (Allegiance != "Enemy" && other.gameObject.GetComponent<Port> () != null) {
 			UnloadCargo (other.gameObject.GetComponent<Port> ());
 		}
 	}
@@ -296,5 +281,15 @@ public class Ship : Selectable {
 			GiveShipment (shipment);
 		}
 		shipmentsToDestroy.Clear ();
+	}
+
+	public void SpawnShipwreck () {
+		GameObject shipwreckObject = Instantiate (ShipwreckPrefab) as GameObject;
+		shipwreckObject.transform.position = transform.position;
+		Port shipwreckPort = shipwreckObject.GetComponent<Port> ();
+		shipwreckPort.ShipmentsCapacities [1] = Shipments.Count;
+		foreach (var shipment in Shipments) {
+			shipwreckPort.TakeShipment (shipment);
+		}
 	}
 }

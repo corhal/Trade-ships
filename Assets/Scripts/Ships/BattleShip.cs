@@ -86,7 +86,6 @@ public class BattleShip : MonoBehaviour {
 		HPSlider.value = HP;
 		if (HP <= 0) {
 			OnBattleShipDestroyed (this);
-			gameObject.GetComponent<EnemyShip> ().SpawnShipwreck ();
 			Destroy (gameObject);
 		}
 	}

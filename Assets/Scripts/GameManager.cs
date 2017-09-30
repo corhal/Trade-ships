@@ -62,6 +62,7 @@ public class GameManager : MonoBehaviour {
 
 	void BattleShip_OnBattleShipDestroyed (BattleShip sender) {
 		Battleships.Remove (sender);
+		Ships.Remove (sender.gameObject.GetComponent<Ship> ());
 		sender.OnBattleShipDestroyed -= BattleShip_OnBattleShipDestroyed;
 	}
 
@@ -88,7 +89,7 @@ public class GameManager : MonoBehaviour {
 		Ships = new List<Ship> (GameObject.FindObjectsOfType<Ship>());
 		Buildings = new List<Building> (GameObject.FindObjectsOfType<Building>());
 
-		SlowDown = new Effect ("Slow down", 0, 20.0f, new List<Dictionary<string, int>> {
+		SlowDown = new Effect ("Slow down", 0, 10.0f, new List<Dictionary<string, int>> {
 			new Dictionary<string, int> { { "Speed", -1000 } },
 			new Dictionary<string, int> { { "Speed", -2000 } },
 			new Dictionary<string, int> { { "Speed", -3000 } },
@@ -158,12 +159,23 @@ public class GameManager : MonoBehaviour {
 					}
 				}
 			}
-			for (int i = 0; i < Ships.Count; i++) {
-				for (int j = 0; j < Player.Instance.ShipDatas.Count; j++) {
-					if (Ships[i].Name == Player.Instance.ShipDatas[i].Name) {
-						Ships [i].InitializeFromData (Player.Instance.ShipDatas [i]);
+			List<Ship> ShipsToRemove = new List<Ship> ();
+			foreach (var ship in Ships) {
+				bool initialized = false;
+				foreach (var shipData in Player.Instance.ShipDatas) {
+					if (ship.Name == shipData.Name) {
+						ship.InitializeFromData (shipData);
+						initialized = true;
 					}
 				}
+				if (!initialized) {					
+					ShipsToRemove.Add (ship);
+				}
+			}
+			foreach (var ship in ShipsToRemove) {
+				Ships.Remove (ship);
+				Battleships.Remove (ship.gameObject.GetComponent<BattleShip> ());
+				Destroy (ship.gameObject);
 			}
 		} else {
 			Player.Instance.SaveShips (Ships);

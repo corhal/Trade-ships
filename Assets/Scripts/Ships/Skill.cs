@@ -51,7 +51,7 @@ public class Skill {
 		else {
 			foreach (var effectByTarget in EffectsByTargets) {
 				if (effectByTarget.Key == "enemy" && user.GetComponent<BattleShip>().Enemy != null) {
-					user.GetComponent<BattleShip>().Enemy.gameObject.GetComponent<EnemyShip>().ApplyEffect (effectByTarget.Value);
+					user.GetComponent<BattleShip>().Enemy.gameObject.GetComponent<Ship>().ApplyEffect (effectByTarget.Value);
 				}
 			}
 		}

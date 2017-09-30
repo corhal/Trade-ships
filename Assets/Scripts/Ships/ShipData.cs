@@ -6,6 +6,7 @@ using UnityEngine;
 public class ShipData {	
 
 	public List<Skill> Skills;
+	public List<Effect> Effects;
 	public List<Shipment> Shipments;
 	
 	public int Level;
@@ -22,6 +23,9 @@ public class ShipData {
 		}
 		if (ship.Shipments != null) {
 			Shipments = new List<Shipment> (ship.Shipments);
+		}
+		if (ship.Effects != null) {
+			Effects = new List<Effect> (ship.Effects);
 		}
 		Level = ship.Level;
 		Name = ship.Name;
