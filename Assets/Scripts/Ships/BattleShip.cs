@@ -47,7 +47,8 @@ public class BattleShip : MonoBehaviour {
 	}
 
 	void Start () {
-		Enemies = GameManager.Instance.GetEnemies (Allegiance);
+		GetEnemies ();
+		//Enemies = GameManager.Instance.GetEnemies (Allegiance);
 		foreach (var enemy in Enemies) {
 			enemy.OnBattleShipDestroyed += Enemy_OnBattleShipDestroyed;
 		}
@@ -65,10 +66,20 @@ public class BattleShip : MonoBehaviour {
 				Shoot ();
 			}
 		} else if (Enemies.Count > 0) {
-			foreach (var enemy in Enemies) {
+			foreach (var enemy in Enemies) {				
 				if (Vector2.Distance(transform.position, enemy.transform.position) <= AttackRange) {
 					Enemy = enemy;
 				}
+			}
+		}
+	}
+
+	public void GetEnemies () {
+		List<BattleShip> battleships = new List<BattleShip> (FindObjectsOfType<BattleShip>());
+
+		foreach (var battleShip in battleships) {
+			if (battleShip.Allegiance != Allegiance) {
+				Enemies.Add (battleShip);
 			}
 		}
 	}

@@ -71,7 +71,7 @@ public class MissionWindow : MonoBehaviour {
 			ShipElementObjects.Add (shipElementObject);
 		}
 
-		string requirementsString = "";
+		/*string requirementsString = "";
 		foreach (var levelByName in mission.BuildingRequirements) {
 			string tickstring = " X";
 			foreach (var building in gameManager.Buildings) {
@@ -81,14 +81,14 @@ public class MissionWindow : MonoBehaviour {
 			}
 			requirementsString += levelByName.Key + ": lvl" + levelByName.Value + tickstring + "\n";
 		}
-		RequirementsLabel.text = requirementsString;
+		RequirementsLabel.text = requirementsString;*/
 
 		int totalPower = 0;
 		foreach (var ship in ChosenShips) {
 			totalPower += ship.Power;
 		}
-		successChance = (int)(((float)totalPower / (float)mission.Power) * 100);
-		SuccessLabel.text = "Success chance: " +  successChance + "%";
+		/*successChance = (int)(((float)totalPower / (float)mission.Power) * 100);
+		SuccessLabel.text = "Success chance: " +  successChance + "%";*/
 		int seconds = mission.Seconds % 60;
 		int minutes = (mission.Seconds - seconds) / 60;
 		int newMinutes = minutes % 60;
@@ -97,7 +97,7 @@ public class MissionWindow : MonoBehaviour {
 		// StartButton.onClick.RemoveAllListeners ();
 	}
 
-	bool CheckRequirements () {
+	/*bool CheckRequirements () {
 		foreach (var levelByName in mission.BuildingRequirements) {
 			foreach (var building in gameManager.Buildings) {
 				if (building.name == levelByName.Key && building.Level < levelByName.Value) {
@@ -106,19 +106,19 @@ public class MissionWindow : MonoBehaviour {
 			}
 		}
 		return true;
-	}
+	}*/
 
 	public void Close () {
 		Window.SetActive (false);
 	}
 
 	public void StartMission () {
-		if (CheckRequirements ()) {
+		//if (CheckRequirements ()) {
 			currentExpeditionCenter.StartMission (mission, successChance);
 			Close ();
-		} else {
+		/*} else {
 			gameManager.OpenPopUp ("Mission requirements not met!");
-		}
+		}*/
 	}
 
 	public void Back () {

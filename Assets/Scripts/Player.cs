@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour {
 
+	public Mission CurrentMission;
 	public List<BuildingData> BuildingDatas;
 	public List<ShipData> ShipDatas;
 	public bool FirstLoad = true;
@@ -123,8 +124,8 @@ public class Player : MonoBehaviour {
 				Inventory.Add (amountByItem.Key, 0);
 			}
 			Inventory [amountByItem.Key] += amountByItem.Value;
-			Debug.Log (Inventory [amountByItem.Key]);
-			Debug.Log (amountByItem.Key.Name);
+			//Debug.Log (Inventory [amountByItem.Key]);
+			//Debug.Log (amountByItem.Key.Name);
 		}
 	}
 

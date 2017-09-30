@@ -19,7 +19,7 @@ public class ExpeditionCenter : Building {
 	protected override void Start () {
 		base.Start ();
 
-		for (int i = 0; i < 5; i++) {
+		/*for (int i = 0; i < 5; i++) {
 			int costLength = Random.Range (1, 5);
 			Dictionary<Item, float> rewardChances = new Dictionary<Item, float> ();
 			Dictionary<Item, int> possibleRewards = new Dictionary<Item, int> ();
@@ -39,7 +39,7 @@ public class ExpeditionCenter : Building {
 		}
 
 		Action showMissionsAction = new Action ("Show missions", 0, gameManager.ActionIconsByNames["Show missions"], ShowMissions);
-		actions.Add (showMissionsAction);
+		actions.Add (showMissionsAction);*/
 	}
 
 	void ShowMissions () {

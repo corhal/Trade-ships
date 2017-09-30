@@ -7,23 +7,31 @@ public class Mission {
 
 	public Dictionary<Item, float> RewardChances;
 	public Dictionary<Item, int> PossibleRewards;
-	public Dictionary<string, int> BuildingRequirements;
+	public List<Shipment> Shipments;
 
 	public int Seconds;
-	public int Power;
 	public bool InProgress;
 	GameManager gameManager;
 
-	public Mission (Dictionary<Item, float> rewardChances, Dictionary<Item, int> possibleRewards) {
+	public Mission (Dictionary<Item, float> rewardChances, Dictionary<Item, int> possibleRewards, List<ShipData> enemyShips) {
 		gameManager = GameManager.Instance;
 		PossibleRewards = possibleRewards;
 		RewardChances = rewardChances;
 
-		BuildingRequirements = new Dictionary<string, int> ();
-		/*BuildingRequirements.Add ("Lumbermill", 1); // Do I even need this?
-		BuildingRequirements.Add ("Quarry", 1);*/
 		Seconds = 5;
-		Power = Random.Range (100, 200);
+
+		Dictionary<Item, int> rewards = GiveReward ();
+		List<Shipment> shipments = new List<Shipment> ();
+
+		foreach (var amountByItem in rewards) {
+			int [] vals = new int[enemyShips.Count];
+			for (int i = 0; i < vals.Length; i++) {
+				vals [i] = Mathf.RoundToInt (amountByItem.Value / vals.Length);
+			}
+			foreach (var val in vals) {
+				shipments.Add(new Shipment (amountByItem.Key, gameManager.Islands [0].Name, gameManager.Islands [1].Name, val, Random.Range (1, 5)));
+			}
+		}
 	}
 
 	public Dictionary<Item, int> GiveReward () {

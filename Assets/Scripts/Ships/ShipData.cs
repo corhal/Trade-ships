@@ -11,6 +11,7 @@ public class ShipData {
 	
 	public int Level;
 	public string Name;
+	public string Allegiance;
 	public int ShipmentsCapacity;
 	public int HP;
 	public int MaxHP;
@@ -29,6 +30,7 @@ public class ShipData {
 		}
 		Level = ship.Level;
 		Name = ship.Name;
+		Allegiance = ship.Allegiance;
 		ShipmentsCapacity = ship.ShipmentsCapacity;
 		HP = ship.HP;
 		MaxHP = ship.MaxHP;

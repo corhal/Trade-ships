@@ -88,8 +88,8 @@ public class Ship : Selectable {
 		
 		Level = shipData.Level;
 		Name = shipData.Name;
+		Allegiance = shipData.Allegiance;
 		shipmentsCapacity = shipData.ShipmentsCapacity;
-		Debug.Log (hp.ToString ());
 		maxHp = shipData.MaxHP;
 		power = shipData.Power;
 		transform.position = new Vector3 (shipData.Coordinates[0], shipData.Coordinates[1], shipData.Coordinates[2]);
@@ -224,6 +224,8 @@ public class Ship : Selectable {
 		}
 	}
 
+
+
 	public void TakeShipment (Shipment shipment) {		
 		if (ShipmentsCapacity - TotalWeight >= shipment.Cargo) {
 			Shipments.Add (shipment);
@@ -266,7 +268,7 @@ public class Ship : Selectable {
 	public void UnloadCargo (Port port) {
 		List<Shipment> shipmentsToDestroy = new List<Shipment> ();
 		foreach (var shipment in Shipments) {
-			if (shipment.Destination == port.MyIsland) {
+			if (shipment.DestinationIslandName == port.MyIsland.Name) {
 				if (shipment.Goods.IsForSale) {
 					Player.Instance.TakeGold (shipment.Reward);
 					shipmentsToDestroy.Add (shipment);

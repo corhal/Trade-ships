@@ -5,6 +5,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour {
 
 	public Selectable Selection;
+	public GameObject ShipPrefab;
 
 	public Dictionary<string, Sprite> ItemIconsByNames;
 	public List<Sprite> ItemIcons;
@@ -55,6 +56,8 @@ public class GameManager : MonoBehaviour {
 			ItemIconsByNames.Add (ItemNames [i], ItemIcons [i]);
 		}
 
+		Battleships = new List<BattleShip> (FindObjectsOfType<BattleShip> ());
+
 		foreach (var battleShip in Battleships) {
 			battleShip.OnBattleShipDestroyed += BattleShip_OnBattleShipDestroyed;
 		}
@@ -83,7 +86,22 @@ public class GameManager : MonoBehaviour {
 
 	public Dictionary<string, Skill> SkillsByNames;
 
+	public bool isBattle; // ew
+
 	void Start () {
+		if (isBattle) {
+			foreach (var shipData in Player.Instance.ShipDatas) {
+				if (shipData.Allegiance != "Player") {
+					continue;
+				}
+				GameObject shipObject = Instantiate (ShipPrefab) as GameObject;
+				Ship ship = shipObject.GetComponent<Ship> ();
+				ship.InitializeFromData (shipData);
+				/*if (ship.Allegiance == "Player") {
+					PlayerShips.Add (ship);
+				}*/
+			}
+		}
 		TempItemLibrary = new List<Item> (Player.Instance.TempItemLibrary);
 
 		Ships = new List<Ship> (GameObject.FindObjectsOfType<Ship>());
@@ -182,14 +200,23 @@ public class GameManager : MonoBehaviour {
 			Player.Instance.SaveBuildings (Buildings);
 			Player.Instance.FirstLoad = false;
 		}
-	}
-
-			
+	}			
 
 	public void LoadBattle () {
 		Player.Instance.SaveShips (Ships);
 		Player.Instance.SaveBuildings (Buildings);
 		Player.Instance.LoadBattle ();
+	}
+
+	public void LoadVillage () {
+		List<Ship> PlayerShips = new List<Ship> ();
+		foreach (var ship in Ships) {
+			if (ship.Allegiance == "Player") {
+				PlayerShips.Add (ship);
+			}
+		}
+		Player.Instance.SaveShips (PlayerShips);
+		Player.Instance.LoadVillage ();
 	}
 
 	public Item GetRandomItem (bool craftable) {
