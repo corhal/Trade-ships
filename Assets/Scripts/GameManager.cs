@@ -88,7 +88,7 @@ public class GameManager : MonoBehaviour {
 
 	public bool isBattle; // ew
 
-	void Start () {
+	void Start () {	
 		if (isBattle) {
 			foreach (var shipData in Player.Instance.ShipDatas) {
 				if (shipData.Allegiance != "Player") {
@@ -215,6 +215,7 @@ public class GameManager : MonoBehaviour {
 				PlayerShips.Add (ship);
 			}
 		}
+		Debug.Log (PlayerShips.Count.ToString ());
 		Player.Instance.SaveShips (PlayerShips);
 		Player.Instance.LoadVillage ();
 	}

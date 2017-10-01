@@ -66,9 +66,13 @@ public class BattleShip : MonoBehaviour {
 				Shoot ();
 			}
 		} else if (Enemies.Count > 0) {
-			foreach (var enemy in Enemies) {				
-				if (Vector2.Distance(transform.position, enemy.transform.position) <= AttackRange) {
-					Enemy = enemy;
+			for (int i = Enemies.Count - 1; i >= 0; i--) {
+				if (Enemies [i] == null) {
+					Enemies.Remove (Enemies [i]);
+					continue;
+				}
+				if (Vector2.Distance(transform.position, Enemies [i].transform.position) <= AttackRange) {
+					Enemy = Enemies [i];
 				}
 			}
 		}
