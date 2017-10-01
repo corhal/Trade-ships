@@ -7,5 +7,8 @@ public class SkillElement : MonoBehaviour {
 	public Text SkillNameLabel;
 	public Text SkillLevelLabel;
 	public Button SkillUpgradeButton;
-	public Text UpgradeButtonLabel;
+	public Text UpgradeCostLabel;
+
+	public GameObject UnlockNode;
+	public Text UnlockConditionsLabel;
 }

@@ -13,14 +13,15 @@ public class Skill {
 	public int MaxLevel;
 	public List<int> UpgradeCosts;
 	public Dictionary<string, Effect> EffectsByTargets;
+	public RankColor RankColorReuirement;
 
-
-	public Skill(string name, int level, int maxLevel, List<int> upgradeCosts, Dictionary<string, Effect> effectsByTargets) {
+	public Skill(string name, int level, int maxLevel, RankColor rankColorRequirement, List<int> upgradeCosts, Dictionary<string, Effect> effectsByTargets) {
 		Name = name;
 		Level = level;
 		MaxLevel = maxLevel;
 		UpgradeCosts = upgradeCosts;
 		EffectsByTargets = effectsByTargets;
+		RankColorReuirement = rankColorRequirement;
 	}
 
 	public void Upgrade () {

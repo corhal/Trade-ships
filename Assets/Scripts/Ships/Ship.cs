@@ -3,12 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+public enum RankColor {
+	White, Green, GreenP, Blue, BlueP, BluePP, Purple, PurpleP, PurplePP, PurplePPP, PurplePPPP, Orange, OrangeP
+}
+
 public class Ship : Selectable {	
 
 	public GameObject ShipwreckPrefab;
-
+	public RankColor RankColor;
 	bool initialized;
 	public GameObject CannonBallPrefab;
+
+	public int Stars;
 
 	public List<Effect> Effects;
 	public List<Skill> Skills;
@@ -41,6 +47,8 @@ public class Ship : Selectable {
 			return totalWeight;
 		}}
 
+	public List<List<Item>> PromoteCosts;
+
 	protected override void Awake () {
 		base.Awake ();
 		mover = gameObject.GetComponent<MoveOnClick> ();
@@ -67,7 +75,27 @@ public class Ship : Selectable {
 		if (initialized) {
 			return;
 		}
+		PromoteCosts = new List<List<Item>> ();
+		for (int i = 0; i < (int)RankColor.OrangeP - (int)RankColor.White; i++) {
+			int costLength = 6;
+			List<Item> cost = new List<Item> ();
+			for (int j = 0; j < costLength; j++) {
+				List<Item> validItems = new List<Item> ();
+				foreach (var item in gameManager.TempItemLibrary) {
+					if (/*!cost.ContainsKey(item) &&*/ !item.IsForSale) {
+						validItems.Add (item);
+					}
+				}
 
+				int index = Random.Range (0, validItems.Count);
+
+				cost.Add (validItems [index]);
+			}
+			PromoteCosts.Add (cost);
+		}
+
+		Stars = 1;
+		RankColor = RankColor.White;
 		Skills = new List<Skill> ();
 		foreach (var skillName in SkillNames) { // will not save between scenes! // or will
 			Skills.Add (gameManager.SkillsByNames [skillName]);
@@ -85,7 +113,10 @@ public class Ship : Selectable {
 		Skills = new List<Skill> (shipData.Skills);	
 		Effects = new List<Effect> (shipData.Effects);
 		Shipments = new List<Shipment> (shipData.Shipments);
-		
+
+		PromoteCosts = new List<List<Item>> (shipData.PromoteCosts);
+		RankColor = shipData.RankColor;
+		Stars = shipData.Stars;
 		Level = shipData.Level;
 		Name = shipData.Name;
 		Allegiance = shipData.Allegiance;
@@ -293,5 +324,30 @@ public class Ship : Selectable {
 		foreach (var shipment in Shipments) {
 			shipwreckPort.TakeShipment (shipment);
 		}
+	}
+
+	public void LevelUp () {
+
+	}
+
+	public void PromoteRank () {
+		for (int i = 0; i < PromoteCosts[(int)RankColor].Count; i++) {
+			Item item = PromoteCosts [(int)RankColor] [i];
+
+			if (!Player.Instance.Inventory.ContainsKey(item) || Player.Instance.Inventory[item] == 0) {
+				gameManager.OpenPopUp ("Not enough items!");
+				return;
+			}
+		}
+
+		foreach (var item in PromoteCosts[(int)RankColor]) {
+			player.GiveItems (new Dictionary<Item, int> { { item, 1 } });
+		}
+
+		RankColor += 1;
+	}
+
+	public void EvolveStar () {
+
 	}
 }

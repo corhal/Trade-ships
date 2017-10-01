@@ -26,7 +26,25 @@ public class Player : MonoBehaviour {
 
 	public List<Item> TempItemLibrary;
 
+	public Dictionary<RankColor, Color> ColorsByRankColors;
+
 	void Start () {
+		ColorsByRankColors = new Dictionary<RankColor, Color> {
+			{ RankColor.White, Color.white },
+			{ RankColor.Green, Color.green },
+			{ RankColor.GreenP, Color.green },
+			{ RankColor.Blue, Color.blue },
+			{ RankColor.BlueP, Color.blue },
+			{ RankColor.BluePP, Color.blue },
+			{ RankColor.Purple, Color.cyan },
+			{ RankColor.PurpleP, Color.cyan },
+			{ RankColor.PurplePP, Color.cyan },
+			{ RankColor.PurplePPP, Color.cyan },
+			{ RankColor.PurplePPPP, Color.cyan },
+			{ RankColor.Orange, Color.yellow },
+			{ RankColor.OrangeP, Color.yellow },
+		};
+
 		Item wood = new Item ("Wood", null, GameManager.Instance.ItemIconsByNames["Wood"], false);
 		Item food = new Item ("Food", null, GameManager.Instance.ItemIconsByNames["Food"], true);
 		Item steel = new Item ("Steel", null, GameManager.Instance.ItemIconsByNames["Steel"], false);
@@ -50,6 +68,10 @@ public class Player : MonoBehaviour {
 			ale,
 			fish,
 		};
+
+		foreach (var item in TempItemLibrary) {
+			TakeItems (new Dictionary<Item, int> { { item, 100 } });
+		}
 	}
 
 	public void SaveBuildings (List<Building> buildings) {

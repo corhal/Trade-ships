@@ -140,23 +140,23 @@ public class GameManager : MonoBehaviour {
 			new Dictionary<string, int> { { "Firepower", 50 } },
 		});
 						
-		SlowDownSkill = new Skill ("Slow down", 0, 5, new List<int> { 0, 10, 20, 30, 50 }, new Dictionary<string, Effect> { {
+		SlowDownSkill = new Skill ("Slow down", 1, 5, RankColor.White, new List<int> { 10, 20, 30, 40, 50 }, new Dictionary<string, Effect> { {
 				"enemy",
 				SlowDown
 			} });
-		SpeedUpFireSkill = new Skill ("Speed up", 0, 5, new List<int> { 0, 10, 20, 30, 50 }, new Dictionary<string, Effect> { {
+		SpeedUpFireSkill = new Skill ("Speed up", 0, 5, RankColor.White, new List<int> { 10, 20, 30, 40, 50 }, new Dictionary<string, Effect> { {
 				"self",
 				SpeedUpFire
 			} });
-		TradeSkill =	new Skill ("Trade", 0, 5, new List<int> { 0, 10, 20, 30, 50 }, new Dictionary<string, Effect> { {
+		TradeSkill =	new Skill ("Trade", 0, 5, RankColor.Green, new List<int> { 10, 20, 30, 40, 50 }, new Dictionary<string, Effect> { {
 				"self",
 				Trade
 			} });
-		CannonsSkill =	new Skill ("Cannons", 0, 5, new List<int> { 0, 10, 20, 30, 50 }, new Dictionary<string, Effect> { {
+		CannonsSkill =	new Skill ("Cannons", 0, 5, RankColor.Blue, new List<int> { 10, 20, 30, 40, 50 }, new Dictionary<string, Effect> { {
 				"self",
 				Cannons
 			} });
-		DummySkill = new Skill ("Dummy", 0, 5, new List<int> { 0, 10, 20, 30, 50 }, null);
+		DummySkill = new Skill ("Dummy", 0, 5, RankColor.Purple, new List<int> { 10, 20, 30, 40, 50 }, null);
 
 		SkillsByNames = new Dictionary<string, Skill> {
 			{SlowDownSkill.Name, SlowDownSkill},
@@ -355,7 +355,7 @@ public class GameManager : MonoBehaviour {
 		MyPortWindow.Close ();
 		MyExpeditionWindow.Close ();
 		MyMissionWindow.Close ();
-		MyShipWindow.Close ();
+		//MyShipWindow.Close ();
 		MyPopUp.Close ();
 		MyInfoWindow.Close ();
 	}

@@ -7,14 +7,25 @@ public class ShipWindow : MonoBehaviour {
 
 	public GameObject Window;
 
+	public GameObject[] StarObjects;
+
+	public Image[] ItemImages;
+
+	public GameObject StatsBlock;
+	public GameObject SkillsBlock;
+
+	public Image ColorPanel;
+
 	public GameObject StatsElementContainer;
 	public GameObject SkillsElementContainer;
 
 	public GameObject StatElementPrefab;
-	public GameObject SkillElementPrefab;
 
 	public List<GameObject> StatElementObjects;
-	public List<GameObject> SkillElementObjects;
+	public List<SkillElement> SkillElements;
+
+	public Button EvolveButton;
+	public Button PromoteButton;
 
 	public Text HeaderLabel;
 	public Text LevelLabel;
@@ -24,6 +35,9 @@ public class ShipWindow : MonoBehaviour {
 	GameManager gameManager;
 	Ship currentShip;
 
+	public GameObject StatsButtonObject;
+	public GameObject SkillsButtonObject;
+
 	void Awake () {
 		gameManager = GameManager.Instance;
 	}
@@ -32,66 +46,225 @@ public class ShipWindow : MonoBehaviour {
 		Window.SetActive (true);
 		currentShip = ship;
 		HeaderLabel.text = ship.Name;
+		ColorPanel.color = Player.Instance.ColorsByRankColors [ship.RankColor];
+		string rankString = ship.RankColor.ToString ();
+		string pstring = rankString.Substring (rankString.Length - 4, 4);
+		int count = 0;
+		foreach (var character in pstring) {
+			if (character == 'P') {
+				count++;
+			}
+		}
+		if (count > 0) {
+			HeaderLabel.text = ship.Name + " +" + count;
+		}
+
+		foreach (var star in StarObjects) {
+			star.SetActive (false);
+		}
+		for (int i = 0; i < ship.Stars; i++) {
+			StarObjects [i].SetActive (true);
+		}
+
+		EvolveButton.onClick.RemoveAllListeners ();
+		PromoteButton.onClick.RemoveAllListeners ();
+
+		EvolveButton.onClick.AddListener (delegate {
+			EvolveShip();
+		});
+
+		PromoteButton.onClick.AddListener (delegate {
+			PromoteShip();
+		});
+
+		if (currentShip.RankColor == RankColor.OrangeP) {
+			PromoteButton.interactable = false;
+		}
+
+		for (int i = 0; i < ship.PromoteCosts[(int)ship.RankColor].Count; i++) {
+			Item item = ship.PromoteCosts [(int)ship.RankColor] [i];
+			ItemImages[i].sprite = gameManager.ItemIconsByNames[item.Name];
+
+			if (!Player.Instance.Inventory.ContainsKey(item) || Player.Instance.Inventory[item] == 0) {
+				ItemImages [i].color = new Color (1.0f, 1.0f, 1.0f, 0.5f);
+				int stupidLambdaCounter = i;
+				if (item.CraftCost != null) {
+					ItemImages [stupidLambdaCounter].GetComponent<Button> ().onClick.AddListener (delegate {
+						gameManager.OpenCraftWindow(null, item);
+					});
+				}
+			}
+		}
+
+		OpenSkills ();
+	}
+
+	public void OpenSkills () {
+		SkillsBlock.SetActive (true);
+		StatsBlock.SetActive (false);
+
+		StatsButtonObject.transform.SetAsFirstSibling ();
+		SkillsButtonObject.transform.SetAsLastSibling ();
+
+		if (SkillElements.Count == 0) {
+			SkillElements = new List<SkillElement> (gameObject.GetComponentsInChildren<SkillElement> ()); 
+		}
+
+		foreach (var skillElement in SkillElements) {
+			skillElement.SkillUpgradeButton.onClick.RemoveAllListeners ();
+		}
+
+		for (int i = 0; i < currentShip.Skills.Count; i++) {
+			SkillElements [i].SkillNameLabel.text = currentShip.Skills [i].Name;
+			int stupidLambdaCounter = i;
+
+			if ((int)currentShip.RankColor < (int)currentShip.Skills[i].RankColorReuirement) {
+				SkillElements [i].SkillLevelLabel.gameObject.SetActive (false);
+				SkillElements [i].UpgradeCostLabel.gameObject.SetActive (false);
+				SkillElements [stupidLambdaCounter].SkillUpgradeButton.gameObject.SetActive (false);
+				SkillElements [i].UnlockNode.SetActive (true);
+				SkillElements [i].UnlockConditionsLabel.text = "Unlocks at " + currentShip.Skills [i].RankColorReuirement.ToString () + " rank";
+			} else {
+				SkillElements [i].SkillLevelLabel.gameObject.SetActive (true);
+				SkillElements [i].UpgradeCostLabel.gameObject.SetActive (true);
+				SkillElements [stupidLambdaCounter].SkillUpgradeButton.gameObject.SetActive (true);
+				SkillElements [i].UnlockNode.SetActive (false);
+
+				SkillElements [i].SkillLevelLabel.text = currentShip.Skills [i].Level.ToString ();
+				SkillElements [i].UpgradeCostLabel.text = "$ " + currentShip.Skills [i].UpgradeCosts [currentShip.Skills [i].Level];
+
+
+				SkillElements [stupidLambdaCounter].SkillUpgradeButton.onClick.AddListener (delegate {
+					UpgradeSkill (currentShip, currentShip.Skills [stupidLambdaCounter]);
+				});
+
+				if (currentShip.Skills [i].Level == currentShip.Skills [i].MaxLevel) {
+					SkillElements [i].SkillUpgradeButton.gameObject.SetActive (false);
+				}
+			}
+		}
+	}
+
+	public void OpenStats () {
+		SkillsBlock.SetActive (false);
+		StatsBlock.SetActive (true);
+
+		StatsButtonObject.transform.SetAsLastSibling ();
+		SkillsButtonObject.transform.SetAsFirstSibling ();
+
 		foreach (var statElementObject in StatElementObjects) {
 			Destroy (statElementObject);
 		}
 		StatElementObjects.Clear ();
 
-		foreach (var skillElementObject in SkillElementObjects) {
-			Destroy (skillElementObject);
-		}
-		SkillElementObjects.Clear ();
-
-		foreach (var statName in ship.StatNames) {
+		foreach (var statName in currentShip.StatNames) {
 			GameObject statElementObject = Instantiate (StatElementPrefab) as GameObject;
 			Text statText = statElementObject.GetComponent<Text> ();
-			statText.text = statName + ": " + ship.GetStatByString (statName);
+			statText.text = statName + ": " + currentShip.GetStatByString (statName);
 
 			statElementObject.transform.SetParent (StatsElementContainer.transform);
 			statElementObject.transform.localScale = Vector3.one;
 			StatElementObjects.Add (statElementObject);
 		}
+	}
 
-		foreach (var skill in ship.Skills) {
-			GameObject skillElementObject = Instantiate (SkillElementPrefab) as GameObject;
-			SkillElement skillElement = skillElementObject.GetComponentInChildren<SkillElement> ();
+	void PromoteShip () {
+		currentShip.PromoteRank ();
+		UpdateLabels (currentShip);
+	}
 
-			skillElement.SkillNameLabel.text = skill.Name;
-			skillElement.SkillLevelLabel.text = skill.Level.ToString ();
-			skillElement.UpgradeButtonLabel.text = "$ " + skill.UpgradeCosts[skill.Level];
-
-			skillElement.SkillUpgradeButton.onClick.AddListener (delegate {
-				UpgradeSkill(ship, skill);
-			});
-
-			if (skill.Level == skill.MaxLevel) {
-				skillElement.SkillUpgradeButton.gameObject.SetActive (false);
-			}
-
-			skillElementObject.transform.SetParent (SkillsElementContainer.transform);
-			skillElementObject.transform.localScale = Vector3.one;
-			SkillElementObjects.Add (skillElementObject);
-		}
+	void EvolveShip () {
+		currentShip.EvolveStar ();
+		UpdateLabels (currentShip);
 	}
 
 	void UpdateLabels (Ship ship) {
-		for (int i = 0; i < ship.StatNames.Count; i++) {
-			GameObject statElementObject = StatElementObjects [i];
-			Text statText = statElementObject.GetComponent<Text> ();
-			statText.text = ship.StatNames [i] + ": " + ship.GetStatByString (ship.StatNames [i]);
+
+		if (currentShip.RankColor == RankColor.OrangeP) {
+			PromoteButton.interactable = false;
+		}
+		HeaderLabel.text = ship.Name;
+		ColorPanel.color = Player.Instance.ColorsByRankColors [ship.RankColor];
+		string rankString = ship.RankColor.ToString ();
+		string pstring = rankString.Substring (rankString.Length - 4, 4);
+		int count = 0;
+		foreach (var character in pstring) {
+			if (character == 'P') {
+				count++;
+			}
+		}
+		if (count > 0) {
+			HeaderLabel.text = ship.Name + " +" + count;
 		}
 
-		for (int i = 0; i < ship.Skills.Count; i++) {
-			GameObject skillElementObject = SkillElementObjects [i];
-			SkillElement skillElement = skillElementObject.GetComponentInChildren<SkillElement> ();
+		foreach (var star in StarObjects) {
+			star.SetActive (false);
+		}
+		for (int i = 0; i < ship.Stars; i++) {
+			StarObjects [i].SetActive (true);
+		}
 
-			skillElement.SkillNameLabel.text = ship.Skills [i].Name;
-			skillElement.SkillLevelLabel.text = ship.Skills [i].Level.ToString ();
+		if (ship.RankColor != RankColor.OrangeP) {
+			for (int i = 0; i < ship.PromoteCosts[(int)ship.RankColor].Count; i++) {
+				Item item = ship.PromoteCosts [(int)ship.RankColor] [i];
+				ItemImages[i].sprite = gameManager.ItemIconsByNames[item.Name];
 
-			if (ship.Skills [i].Level == ship.Skills [i].MaxLevel) {
-				skillElement.SkillUpgradeButton.gameObject.SetActive (false);
-			} else {
-				skillElement.UpgradeButtonLabel.text = "$ " + ship.Skills [i].UpgradeCosts[ship.Skills [i].Level];
+				if (!Player.Instance.Inventory.ContainsKey(item) || Player.Instance.Inventory[item] == 0) {
+					ItemImages [i].color = new Color (1.0f, 1.0f, 1.0f, 0.5f);
+					int stupidLambdaCounter = i;
+					if (item.CraftCost != null) {
+						ItemImages [stupidLambdaCounter].GetComponent<Button> ().onClick.AddListener (delegate {
+							gameManager.OpenCraftWindow(null, item);
+						});
+					}
+				}
+			}
+		} else {
+			for (int i = 0; i < 6; i++) {
+				ItemImages [i].color = Color.black;
+			}
+		}
+
+		if (StatsBlock.activeSelf) {
+			for (int i = 0; i < ship.StatNames.Count; i++) {
+				GameObject statElementObject = StatElementObjects [i];
+				Text statText = statElementObject.GetComponent<Text> ();
+				statText.text = ship.StatNames [i] + ": " + ship.GetStatByString (ship.StatNames [i]);
+			}
+		}
+
+		if (SkillsBlock.activeSelf) {
+			for (int i = 0; i < ship.Skills.Count; i++) {
+				SkillElement skillElement = SkillElements [i]; 
+
+				skillElement.SkillNameLabel.text = ship.Skills [i].Name;
+				int stupidLambdaCounter = i;
+
+				if ((int)currentShip.RankColor < (int)currentShip.Skills[i].RankColorReuirement) {
+					SkillElements [i].SkillLevelLabel.gameObject.SetActive (false);
+					SkillElements [i].UpgradeCostLabel.gameObject.SetActive (false);
+					SkillElements [stupidLambdaCounter].SkillUpgradeButton.gameObject.SetActive (false);
+					SkillElements [i].UnlockNode.SetActive (true);
+					SkillElements [i].UnlockConditionsLabel.text = "Unlocks at " + currentShip.Skills [i].RankColorReuirement.ToString () + " rank";
+				} else {
+					SkillElements [i].SkillLevelLabel.gameObject.SetActive (true);
+					SkillElements [i].UpgradeCostLabel.gameObject.SetActive (true);
+					SkillElements [stupidLambdaCounter].SkillUpgradeButton.gameObject.SetActive (true);
+					SkillElements [i].UnlockNode.SetActive (false);
+
+					SkillElements [i].SkillLevelLabel.text = currentShip.Skills [i].Level.ToString ();
+					SkillElements [i].UpgradeCostLabel.text = "$ " + currentShip.Skills [i].UpgradeCosts [currentShip.Skills [i].Level];
+
+					SkillElements [stupidLambdaCounter].SkillUpgradeButton.onClick.RemoveAllListeners ();
+
+					SkillElements [stupidLambdaCounter].SkillUpgradeButton.onClick.AddListener (delegate {
+						UpgradeSkill (currentShip, currentShip.Skills [stupidLambdaCounter]);
+					});
+
+					if (currentShip.Skills [i].Level == currentShip.Skills [i].MaxLevel) {
+						SkillElements [i].SkillUpgradeButton.gameObject.SetActive (false);
+					}
+				}
 			}
 		}
 	}

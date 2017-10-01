@@ -8,7 +8,10 @@ public class ShipData {
 	public List<Skill> Skills;
 	public List<Effect> Effects;
 	public List<Shipment> Shipments;
-	
+
+	public List<List<Item>> PromoteCosts;
+	public RankColor RankColor;
+	public int Stars;
 	public int Level;
 	public string Name;
 	public string Allegiance;
@@ -28,6 +31,11 @@ public class ShipData {
 		if (ship.Effects != null) {
 			Effects = new List<Effect> (ship.Effects);
 		}
+		if (ship.PromoteCosts != null) {
+			PromoteCosts = new List<List<Item>> (ship.PromoteCosts);
+		}
+		Stars = ship.Stars;
+		RankColor = ship.RankColor;
 		Level = ship.Level;
 		Name = ship.Name;
 		Allegiance = ship.Allegiance;
