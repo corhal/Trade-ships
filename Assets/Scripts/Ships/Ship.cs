@@ -14,7 +14,11 @@ public class Ship : Selectable {
 	bool initialized;
 	public GameObject CannonBallPrefab;
 
+	public Item Blueprint;
 	public int Stars;
+
+	public int Exp;
+	public List<int> LevelRequirements;
 
 	public List<Effect> Effects;
 	public List<Skill> Skills;
@@ -48,6 +52,7 @@ public class Ship : Selectable {
 		}}
 
 	public List<List<Item>> PromoteCosts;
+	public List<int> EvolveCosts;
 
 	protected override void Awake () {
 		base.Awake ();
@@ -64,7 +69,13 @@ public class Ship : Selectable {
 
 	protected override void Start () {
 		base.Start ();
-
+		EvolveCosts = new List<int> {
+			10,
+			30,
+			80,
+			160,
+			300
+		};
 		Process = "Moving";
 		Action moveAction = new Action ("Move", 0, gameManager.ActionIconsByNames["Move"], MoveMode);
 		actions.Add (moveAction);
@@ -75,6 +86,9 @@ public class Ship : Selectable {
 		if (initialized) {
 			return;
 		}
+		Blueprint = new Item ((Name + " blueprint"), null, null, false);
+		Player.Instance.TempItemLibrary.Add (Blueprint);
+		Player.Instance.Inventory.Add (Blueprint, 0);
 		PromoteCosts = new List<List<Item>> ();
 		for (int i = 0; i < (int)RankColor.OrangeP - (int)RankColor.White; i++) {
 			int costLength = 6;
@@ -82,7 +96,9 @@ public class Ship : Selectable {
 			for (int j = 0; j < costLength; j++) {
 				List<Item> validItems = new List<Item> ();
 				foreach (var item in gameManager.TempItemLibrary) {
-					if (/*!cost.ContainsKey(item) &&*/ !item.IsForSale) {
+					string nameString = item.Name;
+					string firstName = nameString.Split (' ') [0];
+					if (/*!cost.ContainsKey(item) &&*/ !item.IsForSale && firstName != "Blueprint") {
 						validItems.Add (item);
 					}
 				}
@@ -114,6 +130,7 @@ public class Ship : Selectable {
 		Effects = new List<Effect> (shipData.Effects);
 		Shipments = new List<Shipment> (shipData.Shipments);
 
+		Blueprint = shipData.Blueprint;
 		PromoteCosts = new List<List<Item>> (shipData.PromoteCosts);
 		RankColor = shipData.RankColor;
 		Stars = shipData.Stars;
@@ -326,8 +343,15 @@ public class Ship : Selectable {
 		}
 	}
 
-	public void LevelUp () {
+	public void AddExp (int amount) {
+		Exp += amount;
+		if (Exp >= LevelRequirements[Level]) {
+			LevelUp ();
+		}
+	}
 
+	public void LevelUp () {
+		Level += 1;
 	}
 
 	public void PromoteRank () {
@@ -348,6 +372,11 @@ public class Ship : Selectable {
 	}
 
 	public void EvolveStar () {
-
+		if (!Player.Instance.Inventory.ContainsKey(Blueprint) || Player.Instance.Inventory[Blueprint] < EvolveCosts[Stars]) {
+			gameManager.OpenPopUp ("Not enough blueprints!");
+			return;
+		}
+		player.GiveItems (new Dictionary<Item, int> { { Blueprint, EvolveCosts [Stars] } });
+		Stars += 1;
 	}
 }

@@ -32,6 +32,10 @@ public class ShipWindow : MonoBehaviour {
 	public Text ExpLabel;
 	public Slider ExpSlider;
 
+	public GameObject BlueprintsNodeObject;
+	public Text BlueprintText;
+	public Slider BlueprintSlider;
+
 	GameManager gameManager;
 	Ship currentShip;
 
@@ -81,8 +85,26 @@ public class ShipWindow : MonoBehaviour {
 			PromoteButton.interactable = false;
 		}
 
+		if (Player.Instance.Inventory [ship.Blueprint] < ship.EvolveCosts [ship.Stars]) {
+			BlueprintsNodeObject.SetActive (true);
+			BlueprintText.text = Player.Instance.Inventory [ship.Blueprint] + "/" + ship.EvolveCosts [ship.Stars];
+			BlueprintSlider.maxValue = ship.EvolveCosts [ship.Stars];
+			BlueprintSlider.value = Player.Instance.Inventory [ship.Blueprint];
+		} else {
+			BlueprintsNodeObject.SetActive (false);
+			EvolveButton.gameObject.SetActive (true);
+		}
+
+		LevelLabel.text = "level " + ship.Level;
+		ExpLabel.text = ship.Exp + "/" + ship.LevelRequirements [ship.Level];
+		ExpSlider.maxValue = ship.LevelRequirements [ship.Level];
+		ExpSlider.value = ship.Exp;
+
 		for (int i = 0; i < ship.PromoteCosts[(int)ship.RankColor].Count; i++) {
 			Item item = ship.PromoteCosts [(int)ship.RankColor] [i];
+			Debug.Log (item.Name);
+			Debug.Log (gameManager); // whaaat
+			Debug.Log (gameManager.ItemIconsByNames[item.Name]);
 			ItemImages[i].sprite = gameManager.ItemIconsByNames[item.Name];
 
 			if (!Player.Instance.Inventory.ContainsKey(item) || Player.Instance.Inventory[item] == 0) {
@@ -179,6 +201,27 @@ public class ShipWindow : MonoBehaviour {
 	}
 
 	void UpdateLabels (Ship ship) {
+		if (ship.Stars == ship.EvolveCosts.Count) {		
+			BlueprintsNodeObject.SetActive (true);
+			EvolveButton.gameObject.SetActive (false);
+			BlueprintText.gameObject.SetActive (false);
+			BlueprintSlider.maxValue = ship.EvolveCosts [ship.Stars - 1];
+			BlueprintSlider.value = BlueprintSlider.maxValue;
+		} else if (Player.Instance.Inventory [ship.Blueprint] < ship.EvolveCosts [ship.Stars]) {			
+			BlueprintsNodeObject.SetActive (true);
+			EvolveButton.gameObject.SetActive (false);
+			BlueprintText.text = Player.Instance.Inventory [ship.Blueprint] + "/" + ship.EvolveCosts [ship.Stars];
+			BlueprintSlider.maxValue = ship.EvolveCosts [ship.Stars];
+			BlueprintSlider.value = Player.Instance.Inventory [ship.Blueprint];
+		} else {
+			BlueprintsNodeObject.SetActive (false);
+			EvolveButton.gameObject.SetActive (true);
+		}
+
+		LevelLabel.text = "level " + ship.Level;
+		ExpLabel.text = ship.Exp + "/" + ship.LevelRequirements [ship.Level];
+		ExpSlider.maxValue = ship.LevelRequirements [ship.Level];
+		ExpSlider.value = ship.Exp;
 
 		if (currentShip.RankColor == RankColor.OrangeP) {
 			PromoteButton.interactable = false;

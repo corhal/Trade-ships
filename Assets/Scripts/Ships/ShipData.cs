@@ -9,6 +9,7 @@ public class ShipData {
 	public List<Effect> Effects;
 	public List<Shipment> Shipments;
 
+	public Item Blueprint;
 	public List<List<Item>> PromoteCosts;
 	public RankColor RankColor;
 	public int Stars;
@@ -34,6 +35,7 @@ public class ShipData {
 		if (ship.PromoteCosts != null) {
 			PromoteCosts = new List<List<Item>> (ship.PromoteCosts);
 		}
+		Blueprint = ship.Blueprint;
 		Stars = ship.Stars;
 		RankColor = ship.RankColor;
 		Level = ship.Level;
