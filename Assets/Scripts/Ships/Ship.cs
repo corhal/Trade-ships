@@ -69,6 +69,15 @@ public class Ship : Selectable {
 
 	protected override void Start () {
 		base.Start ();
+		StatNames = new List<string> {
+			"Cargo",
+			"HP",
+			"MaxHP",
+			"Firepower",
+			"Range",
+			"Attack speed",
+			"Speed",
+		};
 		EvolveCosts = new List<int> {
 			10,
 			30,

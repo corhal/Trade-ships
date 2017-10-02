@@ -102,9 +102,6 @@ public class ShipWindow : MonoBehaviour {
 
 		for (int i = 0; i < ship.PromoteCosts[(int)ship.RankColor].Count; i++) {
 			Item item = ship.PromoteCosts [(int)ship.RankColor] [i];
-			Debug.Log (item.Name);
-			Debug.Log (gameManager); // whaaat
-			Debug.Log (gameManager.ItemIconsByNames[item.Name]);
 			ItemImages[i].sprite = gameManager.ItemIconsByNames[item.Name];
 
 			if (!Player.Instance.Inventory.ContainsKey(item) || Player.Instance.Inventory[item] == 0) {
@@ -152,7 +149,7 @@ public class ShipWindow : MonoBehaviour {
 				SkillElements [stupidLambdaCounter].SkillUpgradeButton.gameObject.SetActive (true);
 				SkillElements [i].UnlockNode.SetActive (false);
 
-				SkillElements [i].SkillLevelLabel.text = currentShip.Skills [i].Level.ToString ();
+				SkillElements [i].SkillLevelLabel.text = "level: " +  currentShip.Skills [i].Level;
 				SkillElements [i].UpgradeCostLabel.text = "$ " + currentShip.Skills [i].UpgradeCosts [currentShip.Skills [i].Level];
 
 

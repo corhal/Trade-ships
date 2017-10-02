@@ -19,12 +19,17 @@ public class CameraDrag : MonoBehaviour
 		cameraCurrentZoom = (int)Camera.main.orthographicSize;
 	}
 
-	void LateUpdate() {				
+	void LateUpdate() {	
+		if (Input.GetMouseButtonDown(0) && Utility.IsPointerOverUIObject ()) {
+			cameraDragging = false;
+			return;
+		}
+		if (Input.GetMouseButtonDown(0)) {
+			dragOrigin = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+			cameraDragging = true;
+			return;
+		}
 		if (cameraDragging) {
-			if (Input.GetMouseButtonDown(0)) {
-				dragOrigin = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-				return;
-			}
 
 			if (Input.GetMouseButton(0)) {
 				Vector3 mousePos = Camera.main.ScreenToWorldPoint (Input.mousePosition) - Camera.main.transform.position;

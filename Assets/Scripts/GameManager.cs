@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviour {
 	public List<Ship> Ships;
 	public List<Building> Buildings;
 
+	public TeamSelectionWindow MyTeamSelectionWindow;
 	public InfoWindow MyInfoWindow;
 	public ShipWindow MyShipWindow;
 	public ExpeditionWindow MyExpeditionWindow;
@@ -325,6 +326,18 @@ public class GameManager : MonoBehaviour {
 
 	public void CloseMissionWindow () {
 		MyMissionWindow.Close ();
+	}
+
+	public void OpenTeamSelectionWindow (Mission mission) {
+		MyTeamSelectionWindow.Open (mission);
+		MyPortWindow.Close ();
+		MyCraftWindow.Close ();
+		MyButtonsOverlay.Close ();
+		MyExpeditionWindow.Close ();
+		MyMissionWindow.Close ();
+		MyShipWindow.Close ();
+		MyPopUp.Close ();
+		MyInfoWindow.Close ();
 	}
 
 	public void OpenPortWindow (Port port, Ship ship) {

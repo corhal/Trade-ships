@@ -14,6 +14,8 @@ public class Player : MonoBehaviour {
 	public static Player Instance;
 	public Dictionary<Item, int> Inventory;
 
+	public List<ShipData> CurrentTeam;
+
 	void Awake () {
 		if (Instance == null) {			
 			Instance = this;
@@ -21,6 +23,7 @@ public class Player : MonoBehaviour {
 			Destroy (gameObject);  
 		}
 		DontDestroyOnLoad(gameObject);
+		CurrentTeam = new List<ShipData> ();
 		Inventory = new Dictionary<Item, int> ();
 	}
 
@@ -70,7 +73,7 @@ public class Player : MonoBehaviour {
 		};
 
 		foreach (var item in TempItemLibrary) {
-			TakeItems (new Dictionary<Item, int> { { item, 100 } });
+			TakeItems (new Dictionary<Item, int> { { item, 0 } });
 		}
 	}
 

@@ -30,6 +30,17 @@ public static class Utility {
 		return hitObject;
 	}
 
+	public static void Shuffle<T>(this IList<T> ts) {
+		var count = ts.Count;
+		var last = count - 1;
+		for (var i = 0; i < last; ++i) {
+			var r = Random.Range (i, count);
+			var tmp = ts [i];
+			ts [i] = ts [r];
+			ts [r] = tmp;
+		}
+	}
+
 	public static bool IsPointerOverUIObject() {
 		PointerEventData eventDataCurrentPosition = new PointerEventData(EventSystem.current);
 		eventDataCurrentPosition.position = new Vector2(Input.mousePosition.x, Input.mousePosition.y);

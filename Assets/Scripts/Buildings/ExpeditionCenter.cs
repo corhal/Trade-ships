@@ -19,8 +19,21 @@ public class ExpeditionCenter : Building {
 	protected override void Start () {
 		base.Start ();
 
-		/*for (int i = 0; i < 5; i++) {
-			int costLength = Random.Range (1, 5);
+		List<ShipData> enemyShips = new List<ShipData> ();
+		int enemiesCount = Random.Range (1, 6);
+		int maxHp = Random.Range (150, 200);
+		float[] coordinates = new float[3];
+		coordinates [0] = 0.0f;
+		coordinates [1] = 0.0f;
+		coordinates [2] = 0.0f;
+		for (int i = 0; i < enemiesCount; i++) {
+			ShipData enemy = new ShipData("Dragon", "Enemy", Random.Range(1, 4), Random.Range(1, 6), Random.Range(1, 10), 
+				maxHp, maxHp, Random.Range(10, 20), coordinates, null, null, null);
+			enemyShips.Add (enemy);
+		}
+
+		for (int i = 0; i < 5; i++) {
+			int costLength = Random.Range (1, 6);
 			Dictionary<Item, float> rewardChances = new Dictionary<Item, float> ();
 			Dictionary<Item, int> possibleRewards = new Dictionary<Item, int> ();
 			for (int j = 0; j < costLength; j++) {
@@ -35,11 +48,11 @@ public class ExpeditionCenter : Building {
 				possibleRewards.Add (validItems [index], Random.Range(1, 6));
 				rewardChances.Add (validItems [index], Random.Range (0.3f, 0.7f));
 			}
-			Missions.Add (new Mission (rewardChances, possibleRewards));
+			Missions.Add (new Mission (rewardChances, possibleRewards, enemyShips));
 		}
 
 		Action showMissionsAction = new Action ("Show missions", 0, gameManager.ActionIconsByNames["Show missions"], ShowMissions);
-		actions.Add (showMissionsAction);*/
+		actions.Add (showMissionsAction);
 	}
 
 	void ShowMissions () {
