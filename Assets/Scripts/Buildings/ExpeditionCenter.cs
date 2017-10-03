@@ -22,13 +22,15 @@ public class ExpeditionCenter : Building {
 		List<ShipData> enemyShips = new List<ShipData> ();
 		int enemiesCount = Random.Range (1, 6);
 		int maxHp = Random.Range (150, 200);
-		float[] coordinates = new float[3];
-		coordinates [0] = 0.0f;
-		coordinates [1] = 0.0f;
-		coordinates [2] = 0.0f;
+
+		int rankCol = Random.Range(0, System.Enum.GetNames (typeof(RankColor)).Length);
 		for (int i = 0; i < enemiesCount; i++) {
+			float[] coordinates = new float[3];
+			coordinates [0] = Random.Range(0.0f, 5.0f);
+			coordinates [1] = Random.Range(-5.0f, 0.0f);
+			coordinates [2] = 0.0f;
 			ShipData enemy = new ShipData("Dragon", "Enemy", Random.Range(1, 4), Random.Range(1, 6), Random.Range(1, 10), 
-				maxHp, maxHp, Random.Range(10, 20), coordinates, null, null, null);
+				maxHp, maxHp, Random.Range(10, 20), coordinates, null, null, null, null, null, (RankColor)rankCol);
 			enemyShips.Add (enemy);
 		}
 

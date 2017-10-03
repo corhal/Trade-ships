@@ -91,6 +91,7 @@ public class GameManager : MonoBehaviour {
 
 	void Start () {	
 		if (isBattle) {
+			//List<BattleShip> enemyShips = new List<BattleShip> ();
 			foreach (var shipData in Player.Instance.ShipDatas) {
 				if (shipData.Allegiance != "Player") {
 					continue;
@@ -98,10 +99,16 @@ public class GameManager : MonoBehaviour {
 				GameObject shipObject = Instantiate (ShipPrefab) as GameObject;
 				Ship ship = shipObject.GetComponent<Ship> ();
 				ship.InitializeFromData (shipData);
-				/*if (ship.Allegiance == "Player") {
-					PlayerShips.Add (ship);
-				}*/
 			}
+			foreach (var enemyData in Player.Instance.CurrentMission.EnemyShips) {
+				GameObject shipObject = Instantiate (ShipPrefab) as GameObject;
+				Ship ship = shipObject.GetComponent<Ship> ();
+				ship.InitializeFromData (enemyData);
+				//enemyShips.Add (shipObject.GetComponent<BattleShip> ());
+			}
+			/*foreach (var enemyShip in enemyShips) {
+				enemyShip.GetEnemies ();
+			}*/
 		}
 		TempItemLibrary = new List<Item> (Player.Instance.TempItemLibrary);
 
@@ -167,7 +174,7 @@ public class GameManager : MonoBehaviour {
 			{DummySkill.Name, DummySkill},
 		};
 
-		if (!Player.Instance.FirstLoad) {
+		if (!Player.Instance.FirstLoad && !isBattle) { // ?..
 			for (int i = 0; i < Buildings.Count; i++) {
 				for (int j = 0; j < Player.Instance.BuildingDatas.Count; j++) { // ОЛОЛО ОЛОЛО Я ВОДИТЕЛЬ НЛО
 					Vector3 buildingPosition = new Vector3 (Player.Instance.BuildingDatas [i].Coordinates [0],
@@ -216,7 +223,6 @@ public class GameManager : MonoBehaviour {
 				PlayerShips.Add (ship);
 			}
 		}
-		Debug.Log (PlayerShips.Count.ToString ());
 		Player.Instance.SaveShips (PlayerShips);
 		Player.Instance.LoadVillage ();
 	}

@@ -27,7 +27,8 @@ public class ShipData {
 	}
 
 	public ShipData (string name, string allegiance, int level, int stars, int shipmentsCapacity, int maxHP, 
-		int hp, int power, float[] coordinates, List<Skill> skills, List<Effect> effects, List<Shipment> shipments) {
+		int hp, int power, float[] coordinates, List<Skill> skills, List<Effect> effects, List<Shipment> shipments,
+		Item blueprint, List<List<Item>> promoteCosts, RankColor rankColor) {
 		Name = name;
 		Allegiance = allegiance;
 		Level = level;
@@ -38,6 +39,13 @@ public class ShipData {
 		Power = power;
 		Coordinates = new float[coordinates.Length];
 		coordinates.CopyTo (Coordinates, 0);
+		Blueprint = blueprint;
+		if (promoteCosts != null) {
+			PromoteCosts = new List<List<Item>> (promoteCosts);
+		} else {
+			PromoteCosts = new List<List<Item>> ();
+		}
+		RankColor = rankColor;
 		if (skills != null) {
 			Skills = new List<Skill> (skills);
 		} else {

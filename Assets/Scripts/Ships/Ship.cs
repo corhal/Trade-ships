@@ -149,6 +149,7 @@ public class Ship : Selectable {
 		shipmentsCapacity = shipData.ShipmentsCapacity;
 		maxHp = shipData.MaxHP;
 		power = shipData.Power;
+
 		transform.position = new Vector3 (shipData.Coordinates[0], shipData.Coordinates[1], shipData.Coordinates[2]);
 
 		CargoSlider.maxValue = ShipmentsCapacity;
@@ -156,6 +157,7 @@ public class Ship : Selectable {
 		battleship.HP = shipData.HP;
 		battleship.SetMaxHP (maxHp);
 		battleship.FirePower = Power;
+		battleship.Allegiance = Allegiance;
 		initialized = true;
 	}
 

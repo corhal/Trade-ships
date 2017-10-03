@@ -49,8 +49,14 @@ public class BattleShip : MonoBehaviour {
 	void Start () {
 		GetEnemies ();
 		//Enemies = GameManager.Instance.GetEnemies (Allegiance);
-		foreach (var enemy in Enemies) {
-			enemy.OnBattleShipDestroyed += Enemy_OnBattleShipDestroyed;
+
+		if (Allegiance == "Enemy") {
+			Image[] images = HPSlider.GetComponentsInChildren<Image> ();
+			foreach (var image in images) {
+				if (image.gameObject.name == "Fill") {
+					image.color = Color.red;
+				} 
+			}
 		}
 	}
 
@@ -84,6 +90,7 @@ public class BattleShip : MonoBehaviour {
 		foreach (var battleShip in battleships) {
 			if (battleShip.Allegiance != Allegiance) {
 				Enemies.Add (battleShip);
+				battleShip.OnBattleShipDestroyed += Enemy_OnBattleShipDestroyed;
 			}
 		}
 	}

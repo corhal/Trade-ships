@@ -114,6 +114,8 @@ public class TeamSelectionWindow : MonoBehaviour {
 
 	public void StartMission () {		
 		Close ();
+		Player.Instance.CurrentMission = mission;
+		gameManager.LoadBattle ();
 	}
 
 	public void Back () {
