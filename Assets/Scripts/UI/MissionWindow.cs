@@ -28,6 +28,7 @@ public class MissionWindow : MonoBehaviour {
 	Mission mission;
 	GameManager gameManager;
 
+	ExpeditionCenter expeditionCenter;
 
 	void Awake () {
 		gameManager = GameManager.Instance;
@@ -36,6 +37,7 @@ public class MissionWindow : MonoBehaviour {
 	public void Open (ExpeditionCenter expeditionCenter, Mission chosenMission) {		
 		Window.SetActive (true);
 
+		this.expeditionCenter = expeditionCenter;
 		this.mission = chosenMission;
 
 		foreach (var rewardElementObject in RewardElementObjects) {
@@ -52,6 +54,9 @@ public class MissionWindow : MonoBehaviour {
 			GameObject rewardElementObject = Instantiate (RewardElementPrefab) as GameObject;
 			Text[] texts = rewardElementObject.GetComponentsInChildren<Text> ();
 			texts [0].text = amountByItem.Key.Name;
+			/*if (amountByItem.Key.Name == "") {
+				Debug.Log (amountByItem.Key);
+			}*/
 			texts [1].text = amountByItem.Value.ToString ();
 
 			rewardElementObject.transform.SetParent (RewardsElementContainer.transform);
@@ -94,6 +99,6 @@ public class MissionWindow : MonoBehaviour {
 	}
 
 	public void Back () {
-		
+		gameManager.OpenExpeditionWindow(expeditionCenter);
 	}
 }

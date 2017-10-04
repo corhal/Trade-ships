@@ -27,9 +27,10 @@ public class Mission {
 		foreach (var amountByItem in rewards) {
 			int [] vals = new int[enemyShips.Count];
 			for (int i = 0; i < vals.Length; i++) {
-				vals [i] = Mathf.RoundToInt (amountByItem.Value / vals.Length);
+				vals [i] = Mathf.RoundToInt ((float)amountByItem.Value / (float)vals.Length);
+				vals [i] = (vals [i] == 0) ? 1 : vals [i];
 			}
-			foreach (var val in vals) {
+			foreach (var val in vals) {				
 				shipments.Add(new Shipment (amountByItem.Key, gameManager.Islands [0].Name, gameManager.Islands [1].Name, val, Random.Range (1, 5)));
 			}
 		}

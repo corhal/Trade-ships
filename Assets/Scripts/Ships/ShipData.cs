@@ -104,7 +104,7 @@ public class ShipData {
 		if (ShipmentsCapacity - TotalWeight >= shipment.Cargo) {
 			Shipments.Add (shipment);
 		} else {
-			Debug.Log ("Couldn't take shipment: need " + shipment.Cargo + ", have " + (ShipmentsCapacity - TotalWeight));
+			//Debug.Log ("Couldn't take shipment: need " + shipment.Cargo + ", have " + (ShipmentsCapacity - TotalWeight));
 		}
 	}
 
@@ -112,7 +112,7 @@ public class ShipData {
 		if (ShipmentsCapacity - TotalWeight >= shipment.Cargo) {
 			return true;
 		} else {
-			Debug.Log ("Couldn't take shipment: need " + shipment.Cargo + ", have " + (ShipmentsCapacity - TotalWeight));
+			//Debug.Log ("Couldn't take shipment: need " + shipment.Cargo + ", have " + (ShipmentsCapacity - TotalWeight));
 			return false;
 		}
 	}

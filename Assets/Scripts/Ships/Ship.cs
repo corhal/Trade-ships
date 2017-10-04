@@ -61,6 +61,11 @@ public class Ship : Selectable {
 		mover.OnStartedMoving += Mover_OnStartedMoving;
 		battleship.OnBattleShipDestroyed += Battleship_OnBattleShipDestroyed;
 		ParticlesByEffectNames = new Dictionary<string, ParticleSystem> ();
+		if (!initialized) { // awful temporary solution
+			Blueprint = new Item ((Name + " blueprint"), null, null, false);
+			Player.Instance.TempItemLibrary.Add (Blueprint);
+			Player.Instance.Inventory.Add (Blueprint, 0);
+		}
 	}
 
 	void Battleship_OnBattleShipDestroyed (BattleShip sender) {
@@ -91,13 +96,11 @@ public class Ship : Selectable {
 
 		Action useSkillAction = new Action ("Skill", 0, gameManager.ActionIconsByNames ["Show missions"], UseSkill);
 		actions.Add (useSkillAction);
-
+		Debug.Log (Blueprint);
 		if (initialized) {
 			return;
 		}
-		Blueprint = new Item ((Name + " blueprint"), null, null, false);
-		Player.Instance.TempItemLibrary.Add (Blueprint);
-		Player.Instance.Inventory.Add (Blueprint, 0);
+
 		PromoteCosts = new List<List<Item>> ();
 		for (int i = 0; i < (int)RankColor.OrangeP - (int)RankColor.White; i++) {
 			int costLength = 6;
