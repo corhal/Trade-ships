@@ -112,10 +112,14 @@ public class TeamSelectionWindow : MonoBehaviour {
 		Window.SetActive (false);
 	}
 
-	public void StartMission () {		
-		Close ();
-		Player.Instance.CurrentMission = mission;
-		gameManager.LoadBattle ();
+	public void StartMission () {	
+		if (Player.Instance.CurrentTeam.Count > 0) {
+			Close ();
+			Player.Instance.CurrentMission = mission;
+			gameManager.LoadBattle ();
+		} else {
+			GameManager.Instance.OpenPopUp ("Choose at least one ship!");
+		}
 	}
 
 	public void Back () {

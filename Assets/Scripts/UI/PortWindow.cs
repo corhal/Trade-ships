@@ -118,7 +118,9 @@ public class PortWindow : MonoBehaviour {
 		ShipmentNode shipmentNode = shipmentNodeObject.GetComponent<ShipmentNode> ();
 		shipmentNode.MyShipment = shipment;
 		shipmentNode.NameLabel.text = shipment.Goods.Name;
-		shipmentNode.MyImage.sprite = GameManager.Instance.ItemIconsByNames [shipment.Goods.Name];
+		if (GameManager.Instance.ItemIconsByNames.ContainsKey(shipment.Goods.Name)) {
+			shipmentNode.MyImage.sprite = GameManager.Instance.ItemIconsByNames [shipment.Goods.Name];
+		}
 		shipmentNode.DestinationLabel.text = shipment.DestinationIslandName;
 		shipmentNode.DistanceLabel.text = shipment.Distance.ToString ();
 		shipmentNode.RewardLabel.text = "$" + shipment.Reward;

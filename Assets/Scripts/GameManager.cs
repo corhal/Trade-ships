@@ -92,7 +92,7 @@ public class GameManager : MonoBehaviour {
 	void Start () {	
 		if (isBattle) {
 			//List<BattleShip> enemyShips = new List<BattleShip> ();
-			foreach (var shipData in Player.Instance.ShipDatas) {
+			foreach (var shipData in Player.Instance.CurrentTeam) {
 				if (shipData.Allegiance != "Player") {
 					continue;
 				}
@@ -100,10 +100,20 @@ public class GameManager : MonoBehaviour {
 				Ship ship = shipObject.GetComponent<Ship> ();
 				ship.InitializeFromData (shipData);
 			}
+			/*foreach (var shipData in Player.Instance.ShipDatas) {
+				if (shipData.Allegiance != "Player") {
+					continue;
+				}
+				GameObject shipObject = Instantiate (ShipPrefab) as GameObject;
+				Ship ship = shipObject.GetComponent<Ship> ();
+				ship.InitializeFromData (shipData);
+			}*/
 			foreach (var enemyData in Player.Instance.CurrentMission.EnemyShips) {
 				GameObject shipObject = Instantiate (ShipPrefab) as GameObject;
 				Ship ship = shipObject.GetComponent<Ship> ();
 				ship.InitializeFromData (enemyData);
+				shipObject.AddComponent<EnemyMover> ();
+				shipObject.GetComponent<EnemyMover> ().SightDistance = shipObject.GetComponent<BattleShip> ().AttackRange + 1.0f;
 				//enemyShips.Add (shipObject.GetComponent<BattleShip> ());
 			}
 			/*foreach (var enemyShip in enemyShips) {
@@ -454,5 +464,15 @@ public class GameManager : MonoBehaviour {
 			}
 			Missions.Add (new Mission (rewardChances, possibleRewards, enemyShips));
 		}
+	}
+
+	public Mission FindMissionForItem (Item item) {
+		ExpeditionCenter expeditionCenter = FindObjectOfType<ExpeditionCenter> ();
+		foreach (var mission in expeditionCenter.Missions) {
+			if (mission.PossibleRewards.ContainsKey(item)) {
+				return mission;
+			}
+		}
+		return null;
 	}
 }

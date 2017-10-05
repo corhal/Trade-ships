@@ -63,8 +63,13 @@ public class Ship : Selectable {
 		ParticlesByEffectNames = new Dictionary<string, ParticleSystem> ();
 		if (!initialized) { // awful temporary solution
 			Blueprint = new Item ((Name + " blueprint"), null, null, false);
-			Player.Instance.TempItemLibrary.Add (Blueprint);
-			Player.Instance.Inventory.Add (Blueprint, 0);
+			if (!gameManager.ItemIconsByNames.ContainsKey(Blueprint.Name)) {
+				gameManager.ItemIconsByNames.Add (Blueprint.Name, null);
+			}
+			if (!Player.Instance.TempItemLibrary.Contains(Blueprint)) {
+				Player.Instance.TempItemLibrary.Add (Blueprint);
+				Player.Instance.Inventory.Add (Blueprint, 0);
+			}
 		}
 	}
 
@@ -96,7 +101,6 @@ public class Ship : Selectable {
 
 		Action useSkillAction = new Action ("Skill", 0, gameManager.ActionIconsByNames ["Show missions"], UseSkill);
 		actions.Add (useSkillAction);
-		Debug.Log (Blueprint);
 		if (initialized) {
 			return;
 		}

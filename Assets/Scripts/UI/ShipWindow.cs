@@ -309,6 +309,15 @@ public class ShipWindow : MonoBehaviour {
 		}
 	}
 
+	public void FindBlueprint () {
+		Mission mission = gameManager.FindMissionForItem (currentShip.Blueprint);
+		if (mission != null) {
+			gameManager.OpenMissionWindow (FindObjectOfType<ExpeditionCenter> (), mission);
+		} else {
+			gameManager.OpenPopUp ("Mission not unlocked yet");
+		}
+	}
+
 	void UpgradeSkill (Ship ship, Skill skill) { // smth wrong; should probably update labels instead
 		ship.UpgradeSkill(skill);
 		UpdateLabels (ship);

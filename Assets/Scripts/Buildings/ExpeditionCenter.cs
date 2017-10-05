@@ -36,7 +36,7 @@ public class ExpeditionCenter : Building {
 				coordinates [1] = Random.Range(-5.0f, 0.0f);
 				coordinates [2] = 0.0f;
 				ShipData enemy = new ShipData(enemyNames[j], "Enemy", Random.Range(1, 4), Random.Range(1, 6), Random.Range(1, 10), 
-					maxHp, maxHp, Random.Range(10, 20), coordinates, null, null, null, null, null, (RankColor)rankCol);
+					maxHp, maxHp, Random.Range(5, 10), coordinates, null, null, null, null, null, (RankColor)rankCol);
 				enemyShips.Add (enemy);
 			}
 
