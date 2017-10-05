@@ -19,6 +19,13 @@ public class ExpeditionCenter : Building {
 	protected override void Start () {
 		base.Start ();
 
+		CreateMissions ();
+
+		Action showMissionsAction = new Action ("Show missions", 0, gameManager.ActionIconsByNames["Show missions"], ShowMissions);
+		actions.Add (showMissionsAction);
+	}
+
+	public void CreateMissions () {
 		List<string> enemyNames = new List<string> {
 			"Dragon", "Brave", "Nebula", "Theseus", "Sagittarius", "Lion", "Sir Galahad"
 		};
@@ -36,7 +43,7 @@ public class ExpeditionCenter : Building {
 				coordinates [1] = Random.Range(-5.0f, 0.0f);
 				coordinates [2] = 0.0f;
 				ShipData enemy = new ShipData(enemyNames[j], "Enemy", Random.Range(1, 4), Random.Range(1, 6), Random.Range(1, 10), 
-					maxHp, maxHp, Random.Range(5, 10), coordinates, null, null, null, null, null, (RankColor)rankCol);
+					maxHp, maxHp, Random.Range(5, 10), coordinates, null, null, null, null, null, (RankColor)rankCol, false);
 				enemyShips.Add (enemy);
 			}
 
@@ -61,9 +68,6 @@ public class ExpeditionCenter : Building {
 			}
 			Missions.Add (new Mission (rewardChances, possibleRewards, enemyShips));
 		}
-
-		Action showMissionsAction = new Action ("Show missions", 0, gameManager.ActionIconsByNames["Show missions"], ShowMissions);
-		actions.Add (showMissionsAction);
 	}
 
 	void ShowMissions () {

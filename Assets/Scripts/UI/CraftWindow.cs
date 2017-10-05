@@ -70,11 +70,15 @@ public class CraftWindow : MonoBehaviour {
 			} else {
 				if (amountByItem.Key.CraftCost != null) {
 					craftElement.FindOrCraftButton.GetComponentInChildren<Text> ().text = "Craft";
+					//craftElement.FindOrCraftButton.onClick.RemoveAllListeners ();
 					craftElement.FindOrCraftButton.onClick.AddListener (delegate {
 						Open (null, amountByItem.Key);
 					});
 				} else {
 					craftElement.FindOrCraftButton.GetComponentInChildren<Text> ().text = "Find";
+					craftElement.FindOrCraftButton.onClick.AddListener (delegate {
+						GameManager.Instance.FindMissionForItem(amountByItem.Key);
+					});
 				}
 			}
 

@@ -36,6 +36,14 @@ public class GameManager : MonoBehaviour {
 
 	public List<BattleShip> Battleships;
 
+	public List<int> EvolveCosts = new List<int> {
+		10,
+		30,
+		80,
+		160,
+		300
+	};
+
 	public void MoveMode () {
 		InMoveMode = true;
 		CloseContextButtons (false);
@@ -279,6 +287,7 @@ public class GameManager : MonoBehaviour {
 		MyButtonsOverlay.Close ();
 		MyMissionWindow.Close ();
 		MyPopUp.Close ();
+		MyShipsCatalogWindow.Close ();
 	}
 
 	public void OpenSelectableInfo (Selectable selectable) {
@@ -295,6 +304,7 @@ public class GameManager : MonoBehaviour {
 		MyButtonsOverlay.Close ();
 		MyMissionWindow.Close ();
 		MyPopUp.Close ();
+		MyShipsCatalogWindow.Close ();
 	}
 
 	public void OpenShipWindow (Ship ship) {
@@ -307,6 +317,7 @@ public class GameManager : MonoBehaviour {
 		MyMissionWindow.Close ();
 		MyPopUp.Close ();
 		MyInfoWindow.Close ();
+		MyShipsCatalogWindow.Close ();
 	}
 
 	public void OpenPopUp (string message) {
@@ -323,6 +334,7 @@ public class GameManager : MonoBehaviour {
 		MyShipWindow.Close ();
 		MyPopUp.Close ();
 		MyInfoWindow.Close ();
+		MyShipsCatalogWindow.Close ();
 	}
 
 	public void CloseExpeditionWindow () {
@@ -338,6 +350,7 @@ public class GameManager : MonoBehaviour {
 		MyShipWindow.Close ();
 		MyPopUp.Close ();
 		MyInfoWindow.Close ();
+		MyShipsCatalogWindow.Close ();
 	}
 
 	public void CloseMissionWindow () {
@@ -354,6 +367,7 @@ public class GameManager : MonoBehaviour {
 		MyShipWindow.Close ();
 		MyPopUp.Close ();
 		MyInfoWindow.Close ();
+		MyShipsCatalogWindow.Close ();
 	}
 
 	public void OpenPortWindow (Port port, Ship ship) {
@@ -368,6 +382,7 @@ public class GameManager : MonoBehaviour {
 		MyShipWindow.Close ();
 		MyPopUp.Close ();
 		MyInfoWindow.Close ();
+		MyShipsCatalogWindow.Close ();
 	}
 
 	public void ClosePortWindow () {
@@ -387,6 +402,7 @@ public class GameManager : MonoBehaviour {
 		//MyShipWindow.Close ();
 		MyPopUp.Close ();
 		MyInfoWindow.Close ();
+		MyShipsCatalogWindow.Close ();
 	}
 
 	public void CloseCraftWindow () {
@@ -403,6 +419,21 @@ public class GameManager : MonoBehaviour {
 		MyButtonsOverlay.Open (selectable);
 		MyPortWindow.Close ();
 		MyCraftWindow.Close ();
+		MyExpeditionWindow.Close ();
+		MyMissionWindow.Close ();
+		MyShipWindow.Close ();
+		MyPopUp.Close ();
+		MyInfoWindow.Close ();
+		MyShipsCatalogWindow.Close ();
+	}
+
+	public ShipsCatalogWindow MyShipsCatalogWindow;
+
+	public void OpenShipsCatalogWindow () {
+		MyShipsCatalogWindow.Open ();
+		MyCraftWindow.Close ();
+		MyButtonsOverlay.Close ();
+		MyPortWindow.Close ();
 		MyExpeditionWindow.Close ();
 		MyMissionWindow.Close ();
 		MyShipWindow.Close ();
@@ -438,7 +469,7 @@ public class GameManager : MonoBehaviour {
 			coordinates [1] = Random.Range(-5.0f, 0.0f);
 			coordinates [2] = 0.0f;
 			ShipData enemy = new ShipData(enemyNames[i], "Enemy", Random.Range(1, 4), Random.Range(1, 6), Random.Range(1, 10), 
-				maxHp, maxHp, Random.Range(10, 20), coordinates, null, null, null, null, null, (RankColor)rankCol);
+				maxHp, maxHp, Random.Range(10, 20), coordinates, null, null, null, null, null, (RankColor)rankCol, false);
 			enemyShips.Add (enemy);
 		}
 
@@ -466,13 +497,29 @@ public class GameManager : MonoBehaviour {
 		}
 	}
 
-	public Mission FindMissionForItem (Item item) {
+	public void FindMissionForItem (Item item) {
+		Mission farmMission = null;
 		ExpeditionCenter expeditionCenter = FindObjectOfType<ExpeditionCenter> ();
 		foreach (var mission in expeditionCenter.Missions) {
 			if (mission.PossibleRewards.ContainsKey(item)) {
-				return mission;
+				farmMission = mission;
+				break;
 			}
 		}
-		return null;
+
+		if (farmMission != null) {
+			OpenMissionWindow (FindObjectOfType<ExpeditionCenter> (), farmMission);
+		} else {
+			OpenPopUp ("No such mission, try button in top left corner");
+		}
+	}
+
+	public void RefreshMissions () {
+		ExpeditionCenter expeditionCenter = FindObjectOfType<ExpeditionCenter> ();
+		expeditionCenter.CreateMissions ();
+	}
+
+	public void UnderConstruction () {
+		OpenPopUp ("This functionality is under construction yet");
 	}
 }

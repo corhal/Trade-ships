@@ -111,6 +111,10 @@ public class ShipWindow : MonoBehaviour {
 					ItemImages [stupidLambdaCounter].GetComponent<Button> ().onClick.AddListener (delegate {
 						gameManager.OpenCraftWindow(null, item);
 					});
+				} else {
+					ItemImages [stupidLambdaCounter].GetComponent<Button> ().onClick.AddListener (delegate {
+						gameManager.FindMissionForItem(item);
+					});
 				}
 			}
 		}
@@ -256,6 +260,10 @@ public class ShipWindow : MonoBehaviour {
 						ItemImages [stupidLambdaCounter].GetComponent<Button> ().onClick.AddListener (delegate {
 							gameManager.OpenCraftWindow(null, item);
 						});
+					} else {
+						ItemImages [stupidLambdaCounter].GetComponent<Button> ().onClick.AddListener (delegate {
+							gameManager.FindMissionForItem(item);
+						});
 					}
 				}
 			}
@@ -309,13 +317,13 @@ public class ShipWindow : MonoBehaviour {
 		}
 	}
 
+	public void FindItem (Item item) {
+		Debug.Log ("Here we are");
+		gameManager.FindMissionForItem (item);
+	}
+
 	public void FindBlueprint () {
-		Mission mission = gameManager.FindMissionForItem (currentShip.Blueprint);
-		if (mission != null) {
-			gameManager.OpenMissionWindow (FindObjectOfType<ExpeditionCenter> (), mission);
-		} else {
-			gameManager.OpenPopUp ("Mission not unlocked yet");
-		}
+		gameManager.FindMissionForItem (currentShip.Blueprint);
 	}
 
 	void UpgradeSkill (Ship ship, Skill skill) { // smth wrong; should probably update labels instead

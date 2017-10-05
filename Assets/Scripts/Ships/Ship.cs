@@ -8,7 +8,7 @@ public enum RankColor {
 }
 
 public class Ship : Selectable {	
-
+	public bool IsSummoned;
 	public GameObject ShipwreckPrefab;
 	public RankColor RankColor;
 	bool initialized;
@@ -68,13 +68,17 @@ public class Ship : Selectable {
 			}
 			if (!Player.Instance.TempItemLibrary.Contains(Blueprint)) {
 				Player.Instance.TempItemLibrary.Add (Blueprint);
-				Player.Instance.Inventory.Add (Blueprint, 0);
+				Player.Instance.Inventory.Add (Blueprint, 100);
 			}
 		}
 	}
 
 	void Battleship_OnBattleShipDestroyed (BattleShip sender) {
 		SpawnShipwreck ();
+	}
+
+	public void Summon () {
+		IsSummoned = true;
 	}
 
 	protected override void Start () {
@@ -88,13 +92,7 @@ public class Ship : Selectable {
 			"Attack speed",
 			"Speed",
 		};
-		EvolveCosts = new List<int> {
-			10,
-			30,
-			80,
-			160,
-			300
-		};
+		EvolveCosts = gameManager.EvolveCosts;
 		Process = "Moving";
 		Action moveAction = new Action ("Move", 0, gameManager.ActionIconsByNames["Move"], MoveMode);
 		actions.Add (moveAction);
@@ -145,7 +143,7 @@ public class Ship : Selectable {
 		Skills = new List<Skill> (shipData.Skills);	
 		Effects = new List<Effect> (shipData.Effects);
 		Shipments = new List<Shipment> (shipData.Shipments);
-
+		IsSummoned = shipData.IsSummoned;
 		Blueprint = shipData.Blueprint;
 		PromoteCosts = new List<List<Item>> (shipData.PromoteCosts);
 		RankColor = shipData.RankColor;
@@ -334,6 +332,9 @@ public class Ship : Selectable {
 	public void UnloadCargo (Port port) {
 		List<Shipment> shipmentsToDestroy = new List<Shipment> ();
 		foreach (var shipment in Shipments) {
+			if (port.Name == "Shipwreck") { // bleargh
+				continue;
+			}
 			if (shipment.DestinationIslandName == port.MyIsland.Name) {
 				if (shipment.Goods.IsForSale) {
 					Player.Instance.TakeGold (shipment.Reward);

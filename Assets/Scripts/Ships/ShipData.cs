@@ -5,6 +5,7 @@ using UnityEngine;
 [System.Serializable]
 public class ShipData {	
 
+	public bool IsSummoned;
 	public List<Skill> Skills;
 	public List<Effect> Effects;
 	public List<Shipment> Shipments;
@@ -28,7 +29,7 @@ public class ShipData {
 
 	public ShipData (string name, string allegiance, int level, int stars, int shipmentsCapacity, int maxHP, 
 		int hp, int power, float[] coordinates, List<Skill> skills, List<Effect> effects, List<Shipment> shipments,
-		Item blueprint, List<List<Item>> promoteCosts, RankColor rankColor) {
+		Item blueprint, List<List<Item>> promoteCosts, RankColor rankColor, bool isSummoned) {
 		Name = name;
 		Allegiance = allegiance;
 		Level = level;
@@ -61,6 +62,7 @@ public class ShipData {
 		} else {
 			Shipments = new List<Shipment> ();
 		}
+		IsSummoned = isSummoned;
 	}
 	
 	public void InitializeFromShip (Ship ship) {
@@ -90,6 +92,7 @@ public class ShipData {
 		Coordinates [0] = ship.transform.position.x;
 		Coordinates [1] = ship.transform.position.y;
 		Coordinates [2] = ship.transform.position.z;
+		IsSummoned = ship.IsSummoned;
 	}
 
 	public int TotalWeight { get {
