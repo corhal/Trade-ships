@@ -12,6 +12,7 @@ public class ShipData {
 
 	public Item Blueprint;
 	public List<List<Item>> PromoteCosts;
+	public List<int> LevelRequirements;
 	public RankColor RankColor;
 	public int Stars;
 	public int Level;
@@ -29,7 +30,7 @@ public class ShipData {
 
 	public ShipData (string name, string allegiance, int level, int stars, int shipmentsCapacity, int maxHP, 
 		int hp, int power, float[] coordinates, List<Skill> skills, List<Effect> effects, List<Shipment> shipments,
-		Item blueprint, List<List<Item>> promoteCosts, RankColor rankColor, bool isSummoned) {
+		Item blueprint, List<List<Item>> promoteCosts, RankColor rankColor, bool isSummoned, List<int> levelRequirements) {
 		Name = name;
 		Allegiance = allegiance;
 		Level = level;
@@ -62,6 +63,11 @@ public class ShipData {
 		} else {
 			Shipments = new List<Shipment> ();
 		}
+		if (levelRequirements != null) {
+			this.LevelRequirements = new List<int> (levelRequirements);
+		} else {
+			LevelRequirements = new List<int> ();
+		}
 		IsSummoned = isSummoned;
 	}
 	
@@ -93,6 +99,9 @@ public class ShipData {
 		Coordinates [1] = ship.transform.position.y;
 		Coordinates [2] = ship.transform.position.z;
 		IsSummoned = ship.IsSummoned;
+		if (ship.LevelRequirements != null) {
+			LevelRequirements = new List<int> (ship.LevelRequirements);
+		}
 	}
 
 	public int TotalWeight { get {

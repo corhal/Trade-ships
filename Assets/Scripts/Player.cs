@@ -93,11 +93,23 @@ public class Player : MonoBehaviour {
 	}
 
 	public void SaveShips (List<Ship> ships) {
-		ShipDatas.Clear ();
+		//ShipDatas.Clear ();
+		Dictionary<Ship, bool> alreadySeen = new Dictionary<Ship, bool>();
 		for (int i = 0; i < ships.Count; i++) {
-			ShipData shipData = new ShipData ();
-			shipData.InitializeFromShip (ships [i]);
-			ShipDatas.Add (shipData);
+			foreach (var shipData in ShipDatas) {
+				if (shipData.Name == ships[i].Name) {
+					shipData.InitializeFromShip (ships [i]);
+					alreadySeen.Add (ships [i], true);
+				}
+			}
+		}
+
+		foreach (var ship in ships) {
+			if (!alreadySeen.ContainsKey(ship) && !(GameManager.Instance.isBattle && ship.Allegiance == "Enemy")) { // temporary fix!!
+				ShipData newShipData = new ShipData ();
+				newShipData.InitializeFromShip (ship);
+				ShipDatas.Add (newShipData);
+			}
 		}
 	}
 

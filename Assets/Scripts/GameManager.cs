@@ -205,21 +205,14 @@ public class GameManager : MonoBehaviour {
 			}
 			List<Ship> ShipsToRemove = new List<Ship> ();
 			foreach (var ship in Ships) {
-				bool initialized = false;
-				foreach (var shipData in Player.Instance.ShipDatas) {
-					if (ship.Name == shipData.Name) {
-						ship.InitializeFromData (shipData);
-						initialized = true;
-					}
-				}
-				if (!initialized) {					
-					ShipsToRemove.Add (ship);
-				}
-			}
-			foreach (var ship in ShipsToRemove) {
-				Ships.Remove (ship);
-				Battleships.Remove (ship.gameObject.GetComponent<BattleShip> ());
 				Destroy (ship.gameObject);
+			}
+			Ships.Clear ();
+			foreach (var shipData in Player.Instance.ShipDatas) {
+				if (shipData.IsSummoned) {
+					GameObject shipObject = Instantiate (ShipPrefab) as GameObject;
+					shipObject.GetComponent<Ship>().InitializeFromData (shipData);
+				}
 			}
 		} else {
 			Player.Instance.SaveShips (Ships);
@@ -469,7 +462,7 @@ public class GameManager : MonoBehaviour {
 			coordinates [1] = Random.Range(-5.0f, 0.0f);
 			coordinates [2] = 0.0f;
 			ShipData enemy = new ShipData(enemyNames[i], "Enemy", Random.Range(1, 4), Random.Range(1, 6), Random.Range(1, 10), 
-				maxHp, maxHp, Random.Range(10, 20), coordinates, null, null, null, null, null, (RankColor)rankCol, false);
+				maxHp, maxHp, Random.Range(10, 20), coordinates, null, null, null, null, null, (RankColor)rankCol, false, null);
 			enemyShips.Add (enemy);
 		}
 

@@ -68,7 +68,7 @@ public class Ship : Selectable {
 			}
 			if (!Player.Instance.TempItemLibrary.Contains(Blueprint)) {
 				Player.Instance.TempItemLibrary.Add (Blueprint);
-				Player.Instance.Inventory.Add (Blueprint, 100);
+				Player.Instance.Inventory.Add (Blueprint, 0);
 			}
 		}
 	}
@@ -156,10 +156,11 @@ public class Ship : Selectable {
 		power = shipData.Power;
 
 		transform.position = new Vector3 (shipData.Coordinates[0], shipData.Coordinates[1], shipData.Coordinates[2]);
-
+		LevelRequirements = new List<int> (shipData.LevelRequirements);
 		CargoSlider.maxValue = ShipmentsCapacity;
 		CargoSlider.value = TotalWeight;
-		battleship.HP = shipData.HP;
+		// battleship.HP = shipData.HP;
+		battleship.HP = maxHp; // temporary heal!
 		battleship.SetMaxHP (maxHp);
 		battleship.FirePower = Power;
 		battleship.Allegiance = Allegiance;

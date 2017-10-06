@@ -95,6 +95,8 @@ public class ShipWindow : MonoBehaviour {
 			EvolveButton.gameObject.SetActive (true);
 		}
 
+		Debug.Log (ship.LevelRequirements.Count + "");
+
 		LevelLabel.text = "level " + ship.Level;
 		ExpLabel.text = ship.Exp + "/" + ship.LevelRequirements [ship.Level];
 		ExpSlider.maxValue = ship.LevelRequirements [ship.Level];

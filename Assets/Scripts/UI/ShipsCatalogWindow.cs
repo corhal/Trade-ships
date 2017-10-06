@@ -36,8 +36,8 @@ public class ShipsCatalogWindow : MonoBehaviour {
 				AllShipDatas.Add (ship);
 			//}
 		}
-
 		foreach (var ship in AllShipDatas) {
+			
 			GameObject shipElementObject = CreateShipListElementObject (ship);
 
 			shipElementObject.transform.SetParent (ShipsElementContainer.transform);
@@ -63,6 +63,9 @@ public class ShipsCatalogWindow : MonoBehaviour {
 
 		ShipListElement shipListElement = shipListElementObject.GetComponent<ShipListElement> ();
 		if (!shipData.IsSummoned) {
+			if (!Player.Instance.Inventory.ContainsKey(shipData.Blueprint)) { // temporary fix for crash!!
+				Player.Instance.Inventory.Add (shipData.Blueprint, 0);
+			}
 			if (Player.Instance.Inventory [shipData.Blueprint] < gameManager.EvolveCosts [shipData.Stars]) {
 				shipListElement.BlueprintsSlider.maxValue = gameManager.EvolveCosts [shipData.Stars];
 				shipListElement.BlueprintsSlider.value = Player.Instance.Inventory [shipData.Blueprint];
@@ -77,6 +80,7 @@ public class ShipsCatalogWindow : MonoBehaviour {
 			shipListElement.SummonButton.gameObject.SetActive (false);
 			shipListElement.ItemsParent.SetActive (true);
 			for (int i = 0; i < shipListElement.ItemImages.Count; i++) {
+				//Debug.Log (shipData.PromoteCosts);
 				shipListElement.ItemImages [i].sprite = gameManager.ItemIconsByNames [shipData.PromoteCosts [(int)shipData.RankColor] [i].Name];
 			}
 		}
