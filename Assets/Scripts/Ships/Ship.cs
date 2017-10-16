@@ -63,12 +63,12 @@ public class Ship : Selectable {
 		ParticlesByEffectNames = new Dictionary<string, ParticleSystem> ();
 		if (!initialized) { // awful temporary solution
 			Blueprint = new Item ((Name + " blueprint"), null, null, false);
-			if (!gameManager.ItemIconsByNames.ContainsKey(Blueprint.Name)) {
-				gameManager.ItemIconsByNames.Add (Blueprint.Name, null);
+			if (!player.DataBase.ItemIconsByNames.ContainsKey(Blueprint.Name)) {
+				player.DataBase.ItemIconsByNames.Add (Blueprint.Name, null);
 			}
-			if (!Player.Instance.TempItemLibrary.Contains(Blueprint)) {
-				Player.Instance.TempItemLibrary.Add (Blueprint);
-				Player.Instance.Inventory.Add (Blueprint, 0);
+			if (!Player.Instance.DataBase.TempItemLibrary.Contains(Blueprint)) {
+				Player.Instance.DataBase.TempItemLibrary.Add (Blueprint);
+				Player.Instance.Inventory.Add (Blueprint, 1000);
 			}
 		}
 	}
@@ -92,12 +92,12 @@ public class Ship : Selectable {
 			"Attack speed",
 			"Speed",
 		};
-		EvolveCosts = gameManager.EvolveCosts;
+		EvolveCosts = player.DataBase.EvolveCosts;
 		Process = "Moving";
-		Action moveAction = new Action ("Move", 0, gameManager.ActionIconsByNames["Move"], MoveMode);
+		Action moveAction = new Action ("Move", 0, player.DataBase.ActionIconsByNames["Move"], MoveMode);
 		actions.Add (moveAction);
 
-		Action useSkillAction = new Action ("Skill", 0, gameManager.ActionIconsByNames ["Show missions"], UseSkill);
+		Action useSkillAction = new Action ("Skill", 0, player.DataBase.ActionIconsByNames ["Show missions"], UseSkill);
 		actions.Add (useSkillAction);
 		if (initialized) {
 			return;
@@ -109,7 +109,7 @@ public class Ship : Selectable {
 			List<Item> cost = new List<Item> ();
 			for (int j = 0; j < costLength; j++) {
 				List<Item> validItems = new List<Item> ();
-				foreach (var item in gameManager.TempItemLibrary) {
+				foreach (var item in Player.Instance.DataBase.TempItemLibrary) {
 					string nameString = item.Name;
 					string firstName = nameString.Split (' ') [0];
 					if (/*!cost.ContainsKey(item) &&*/ !item.IsForSale && firstName != "Blueprint") {
@@ -128,7 +128,7 @@ public class Ship : Selectable {
 		RankColor = RankColor.White;
 		Skills = new List<Skill> ();
 		foreach (var skillName in SkillNames) { // will not save between scenes! // or will
-			Skills.Add (gameManager.SkillsByNames [skillName]);
+			Skills.Add (player.DataBase.SkillsByNames [skillName]);
 		}
 
 		CargoSlider.maxValue = ShipmentsCapacity;

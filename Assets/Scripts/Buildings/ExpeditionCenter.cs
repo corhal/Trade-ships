@@ -21,7 +21,7 @@ public class ExpeditionCenter : Building {
 
 		CreateMissions ();
 
-		Action showMissionsAction = new Action ("Show missions", 0, gameManager.ActionIconsByNames["Show missions"], ShowMissions);
+		Action showMissionsAction = new Action ("Show missions", 0, player.DataBase.ActionIconsByNames["Show missions"], ShowMissions);
 		actions.Add (showMissionsAction);
 	}
 
@@ -56,7 +56,7 @@ public class ExpeditionCenter : Building {
 			}
 			for (int j = 1; j < costLength; j++) {
 				List<Item> validItems = new List<Item> ();
-				foreach (var item in gameManager.TempItemLibrary) {
+				foreach (var item in player.DataBase.TempItemLibrary) {
 					if (!possibleRewards.ContainsKey(item)) {
 						validItems.Add (item);
 					}

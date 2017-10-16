@@ -25,7 +25,7 @@ public class Region : Selectable {
 
 	protected override void Start () {
 		base.Start ();
-		Action unlockAction = new Action ("Unlock", UnlockCost, gameManager.ActionIconsByNames["Unlock"], Unlock);
+		Action unlockAction = new Action ("Unlock", UnlockCost, player.DataBase.ActionIconsByNames["Unlock"], Unlock);
 		actions.Add (unlockAction);
 	}
 

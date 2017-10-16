@@ -25,7 +25,7 @@ public class Port : Building {
 		base.Start ();
 		//Shipments = new List<Shipment> ();
 		//Debug.Log ("here we nullify shipments");
-		showShipmentsAction = new Action ("Show shipments", 0, gameManager.ActionIconsByNames["Show shipments"], ShowShipments);
+		showShipmentsAction = new Action ("Show shipments", 0, player.DataBase.ActionIconsByNames["Show shipments"], ShowShipments);
 		actions.Add (showShipmentsAction);
 		CargoSlider.maxValue = ShipmentsCapacity;
 		CargoSlider.value = Shipments.Count;

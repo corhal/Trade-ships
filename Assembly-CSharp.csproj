@@ -62,6 +62,7 @@
      <Compile Include="Assets\Scripts\Buildings\ThievesGuild.cs" />
      <Compile Include="Assets\Scripts\CameraDrag.cs" />
      <Compile Include="Assets\Scripts\CannonBall.cs" />
+     <Compile Include="Assets\Scripts\DataBase.cs" />
      <Compile Include="Assets\Scripts\DragController.cs" />
      <Compile Include="Assets\Scripts\GameManager.cs" />
      <Compile Include="Assets\Scripts\Island.cs" />

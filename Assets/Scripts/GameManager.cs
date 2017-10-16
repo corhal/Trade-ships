@@ -7,17 +7,8 @@ public class GameManager : MonoBehaviour {
 	public Selectable Selection;
 	public GameObject ShipPrefab;
 
-	public Dictionary<string, Sprite> ItemIconsByNames;
-	public List<Sprite> ItemIcons;
-	public List<string> ItemNames;
-
-	public Dictionary<string, Sprite> ActionIconsByNames;
-	public List<Sprite> ActionIcons;
-	public List<string> ActionNames;
-
 	public bool InMoveMode = false;
 	public List<Island> Islands;
-	public List<Item> TempItemLibrary;
 
 	public List<Ship> Ships;
 	public List<Building> Buildings;
@@ -36,14 +27,6 @@ public class GameManager : MonoBehaviour {
 
 	public List<BattleShip> Battleships;
 
-	public List<int> EvolveCosts = new List<int> {
-		10,
-		30,
-		80,
-		160,
-		300
-	};
-
 	public void MoveMode () {
 		InMoveMode = true;
 		CloseContextButtons (false);
@@ -54,15 +37,6 @@ public class GameManager : MonoBehaviour {
 			Instance = this;
 		} else if (Instance != this) {
 			Destroy (gameObject);  
-		}
-		ActionIconsByNames = new Dictionary<string, Sprite> ();
-		for (int i = 0; i < ActionIcons.Count; i++) {
-			ActionIconsByNames.Add (ActionNames [i], ActionIcons [i]);
-		}
-
-		ItemIconsByNames = new Dictionary<string, Sprite> ();
-		for (int i = 0; i < ItemIcons.Count; i++) {
-			ItemIconsByNames.Add (ItemNames [i], ItemIcons [i]);
 		}
 
 		Battleships = new List<BattleShip> (FindObjectsOfType<BattleShip> ());
@@ -78,28 +52,10 @@ public class GameManager : MonoBehaviour {
 		sender.OnBattleShipDestroyed -= BattleShip_OnBattleShipDestroyed;
 	}
 
-	public Effect SlowDown;
-	public Effect SpeedUpFire;
-	public Effect Trade;
-	public Effect Cannons;
-
-	public List<GameObject> EffectParticlePrefabs;
-	public List<string> EffectParticleNames;
-
-	public Skill SlowDownSkill;
-	public Skill SpeedUpFireSkill;
-
-	public Skill TradeSkill;
-	public Skill CannonsSkill;
-	public Skill DummySkill;
-
-	public Dictionary<string, Skill> SkillsByNames;
-
 	public bool isBattle; // ew
 
 	void Start () {	
 		if (isBattle) {
-			//List<BattleShip> enemyShips = new List<BattleShip> ();
 			foreach (var shipData in Player.Instance.CurrentTeam) {
 				if (shipData.Allegiance != "Player") {
 					continue;
@@ -108,89 +64,17 @@ public class GameManager : MonoBehaviour {
 				Ship ship = shipObject.GetComponent<Ship> ();
 				ship.InitializeFromData (shipData);
 			}
-			/*foreach (var shipData in Player.Instance.ShipDatas) {
-				if (shipData.Allegiance != "Player") {
-					continue;
-				}
-				GameObject shipObject = Instantiate (ShipPrefab) as GameObject;
-				Ship ship = shipObject.GetComponent<Ship> ();
-				ship.InitializeFromData (shipData);
-			}*/
 			foreach (var enemyData in Player.Instance.CurrentMission.EnemyShips) {
 				GameObject shipObject = Instantiate (ShipPrefab) as GameObject;
 				Ship ship = shipObject.GetComponent<Ship> ();
 				ship.InitializeFromData (enemyData);
 				shipObject.AddComponent<EnemyMover> ();
 				shipObject.GetComponent<EnemyMover> ().SightDistance = shipObject.GetComponent<BattleShip> ().AttackRange + 1.0f;
-				//enemyShips.Add (shipObject.GetComponent<BattleShip> ());
 			}
-			/*foreach (var enemyShip in enemyShips) {
-				enemyShip.GetEnemies ();
-			}*/
 		}
-		TempItemLibrary = new List<Item> (Player.Instance.TempItemLibrary);
 
 		Ships = new List<Ship> (GameObject.FindObjectsOfType<Ship>());
 		Buildings = new List<Building> (GameObject.FindObjectsOfType<Building>());
-
-		SlowDown = new Effect ("Slow down", 0, 10.0f, new List<Dictionary<string, int>> {
-			new Dictionary<string, int> { { "Speed", -1000 } },
-			new Dictionary<string, int> { { "Speed", -2000 } },
-			new Dictionary<string, int> { { "Speed", -3000 } },
-			new Dictionary<string, int> { { "Speed", -4000 } },
-			new Dictionary<string, int> { { "Speed", -5000 } },
-			new Dictionary<string, int> { { "Speed", -6000 } },
-		});
-		SpeedUpFire = new Effect ("Speed up", 0, 10.0f, new List<Dictionary<string, int>> {
-			new Dictionary<string, int> { { "Attack speed", -1000 } },
-			new Dictionary<string, int> { { "Attack speed", -2000 } },
-			new Dictionary<string, int> { { "Attack speed", -3000 } },
-			new Dictionary<string, int> { { "Attack speed", -4000 } },
-			new Dictionary<string, int> { { "Attack speed", -5000 } },
-			new Dictionary<string, int> { { "Attack speed", -6000 } },
-		});
-		Trade = new Effect ("Trade", 0, -1.0f, new List<Dictionary<string, int>> {
-			new Dictionary<string, int> { { "Cargo", 0 } },
-			new Dictionary<string, int> { { "Cargo", 1 } },
-			new Dictionary<string, int> { { "Cargo", 2 } },
-			new Dictionary<string, int> { { "Cargo", 3 } },
-			new Dictionary<string, int> { { "Cargo", 4 } },
-			new Dictionary<string, int> { { "Cargo", 5 } },
-		});
-		Cannons = new Effect ("Cannons", 0, -1.0f, new List<Dictionary<string, int>> {
-			new Dictionary<string, int> { { "Firepower", 0 } },
-			new Dictionary<string, int> { { "Firepower", 10 } },
-			new Dictionary<string, int> { { "Firepower", 20 } },
-			new Dictionary<string, int> { { "Firepower", 30 } },
-			new Dictionary<string, int> { { "Firepower", 40 } },
-			new Dictionary<string, int> { { "Firepower", 50 } },
-		});
-						
-		SlowDownSkill = new Skill ("Slow down", 1, 5, RankColor.White, new List<int> { 10, 20, 30, 40, 50 }, new Dictionary<string, Effect> { {
-				"enemy",
-				SlowDown
-			} });
-		SpeedUpFireSkill = new Skill ("Speed up", 0, 5, RankColor.White, new List<int> { 10, 20, 30, 40, 50 }, new Dictionary<string, Effect> { {
-				"self",
-				SpeedUpFire
-			} });
-		TradeSkill =	new Skill ("Trade", 0, 5, RankColor.Green, new List<int> { 10, 20, 30, 40, 50 }, new Dictionary<string, Effect> { {
-				"self",
-				Trade
-			} });
-		CannonsSkill =	new Skill ("Cannons", 0, 5, RankColor.Blue, new List<int> { 10, 20, 30, 40, 50 }, new Dictionary<string, Effect> { {
-				"self",
-				Cannons
-			} });
-		DummySkill = new Skill ("Dummy", 0, 5, RankColor.Purple, new List<int> { 10, 20, 30, 40, 50 }, null);
-
-		SkillsByNames = new Dictionary<string, Skill> {
-			{SlowDownSkill.Name, SlowDownSkill},
-			{SpeedUpFireSkill.Name, SpeedUpFireSkill},
-			{TradeSkill.Name, TradeSkill},
-			{CannonsSkill.Name, CannonsSkill},
-			{DummySkill.Name, DummySkill},
-		};
 
 		if (!Player.Instance.FirstLoad && !isBattle) { // ?..
 			for (int i = 0; i < Buildings.Count; i++) {
@@ -240,7 +124,7 @@ public class GameManager : MonoBehaviour {
 
 	public Item GetRandomItem (bool craftable) {
 		List<Item> items = new List<Item> ();
-		foreach (var item in TempItemLibrary) {
+		foreach (var item in Player.Instance.DataBase.TempItemLibrary) {
 			if (!craftable && item.CraftCost != null) {
 				continue;
 			}
@@ -251,7 +135,7 @@ public class GameManager : MonoBehaviour {
 	}
 
 	public Item GetItemByName (string itemName) {
-		foreach (var item in TempItemLibrary) {
+		foreach (var item in Player.Instance.DataBase.TempItemLibrary) {
 			if (item.Name == itemName) {
 				return item;
 			}
@@ -476,7 +360,7 @@ public class GameManager : MonoBehaviour {
 			}
 			for (int j = 0; j < costLength; j++) {
 				List<Item> validItems = new List<Item> ();
-				foreach (var item in TempItemLibrary) {
+				foreach (var item in Player.Instance.DataBase.TempItemLibrary) {
 					if (!possibleRewards.ContainsKey(item)) {
 						validItems.Add (item);
 					}

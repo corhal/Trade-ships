@@ -50,7 +50,7 @@ public class ShipWindow : MonoBehaviour {
 		Window.SetActive (true);
 		currentShip = ship;
 		HeaderLabel.text = ship.Name;
-		ColorPanel.color = Player.Instance.ColorsByRankColors [ship.RankColor];
+		ColorPanel.color = Player.Instance.DataBase.ColorsByRankColors [ship.RankColor];
 		string rankString = ship.RankColor.ToString ();
 		string pstring = rankString.Substring (rankString.Length - 4, 4);
 		int count = 0;
@@ -95,8 +95,6 @@ public class ShipWindow : MonoBehaviour {
 			EvolveButton.gameObject.SetActive (true);
 		}
 
-		Debug.Log (ship.LevelRequirements.Count + "");
-
 		LevelLabel.text = "level " + ship.Level;
 		ExpLabel.text = ship.Exp + "/" + ship.LevelRequirements [ship.Level];
 		ExpSlider.maxValue = ship.LevelRequirements [ship.Level];
@@ -104,7 +102,7 @@ public class ShipWindow : MonoBehaviour {
 
 		for (int i = 0; i < ship.PromoteCosts[(int)ship.RankColor].Count; i++) {
 			Item item = ship.PromoteCosts [(int)ship.RankColor] [i];
-			ItemImages[i].sprite = gameManager.ItemIconsByNames[item.Name];
+			ItemImages[i].sprite = Player.Instance.DataBase.ItemIconsByNames[item.Name];
 
 			if (!Player.Instance.Inventory.ContainsKey(item) || Player.Instance.Inventory[item] == 0) {
 				ItemImages [i].color = new Color (1.0f, 1.0f, 1.0f, 0.5f);
@@ -230,7 +228,7 @@ public class ShipWindow : MonoBehaviour {
 			PromoteButton.interactable = false;
 		}
 		HeaderLabel.text = ship.Name;
-		ColorPanel.color = Player.Instance.ColorsByRankColors [ship.RankColor];
+		ColorPanel.color = Player.Instance.DataBase.ColorsByRankColors [ship.RankColor];
 		string rankString = ship.RankColor.ToString ();
 		string pstring = rankString.Substring (rankString.Length - 4, 4);
 		int count = 0;
@@ -253,7 +251,7 @@ public class ShipWindow : MonoBehaviour {
 		if (ship.RankColor != RankColor.OrangeP) {
 			for (int i = 0; i < ship.PromoteCosts[(int)ship.RankColor].Count; i++) {
 				Item item = ship.PromoteCosts [(int)ship.RankColor] [i];
-				ItemImages[i].sprite = gameManager.ItemIconsByNames[item.Name];
+				ItemImages[i].sprite = Player.Instance.DataBase.ItemIconsByNames[item.Name];
 
 				if (!Player.Instance.Inventory.ContainsKey(item) || Player.Instance.Inventory[item] == 0) {
 					ItemImages [i].color = new Color (1.0f, 1.0f, 1.0f, 0.5f);

@@ -6,7 +6,7 @@ public class ThievesGuild : Building {
 
 	protected override void Start () {
 		base.Start ();
-		Action showMissionsAction = new Action ("Show missions", 0, gameManager.ActionIconsByNames["Show missions"], ShowMissions);
+		Action showMissionsAction = new Action ("Show missions", 0, player.DataBase.ActionIconsByNames["Show missions"], ShowMissions);
 		actions.Add (showMissionsAction);
 
 	}

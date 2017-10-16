@@ -12,6 +12,8 @@ public class Player : MonoBehaviour {
 	public int Gold;
 
 	public static Player Instance;
+
+	public DataBase DataBase;
 	public Dictionary<Item, int> Inventory;
 
 	public List<ShipData> CurrentTeam;
@@ -25,56 +27,6 @@ public class Player : MonoBehaviour {
 		DontDestroyOnLoad(gameObject);
 		CurrentTeam = new List<ShipData> ();
 		Inventory = new Dictionary<Item, int> ();
-	}
-
-	public List<Item> TempItemLibrary;
-
-	public Dictionary<RankColor, Color> ColorsByRankColors;
-
-	void Start () {
-		ColorsByRankColors = new Dictionary<RankColor, Color> {
-			{ RankColor.White, Color.white },
-			{ RankColor.Green, Color.green },
-			{ RankColor.GreenP, Color.green },
-			{ RankColor.Blue, Color.blue },
-			{ RankColor.BlueP, Color.blue },
-			{ RankColor.BluePP, Color.blue },
-			{ RankColor.Purple, Color.cyan },
-			{ RankColor.PurpleP, Color.cyan },
-			{ RankColor.PurplePP, Color.cyan },
-			{ RankColor.PurplePPP, Color.cyan },
-			{ RankColor.PurplePPPP, Color.cyan },
-			{ RankColor.Orange, Color.yellow },
-			{ RankColor.OrangeP, Color.yellow },
-		};
-
-		Item wood = new Item ("Wood", null, GameManager.Instance.ItemIconsByNames["Wood"], false);
-		Item food = new Item ("Food", null, GameManager.Instance.ItemIconsByNames["Food"], true);
-		Item steel = new Item ("Steel", null, GameManager.Instance.ItemIconsByNames["Steel"], false);
-		Item nails = new Item ("Nails", new Dictionary<Item, int> { { steel, 2 } }, GameManager.Instance.ItemIconsByNames["Nails"], false);
-		Item hammers = new Item ("Picks", new Dictionary<Item, int> { { steel, 1 }, {wood, 1} }, GameManager.Instance.ItemIconsByNames["Picks"], false);
-		Item saws = new Item ("Shovels", new Dictionary<Item, int> { { steel, 2 }, {wood, 1} }, GameManager.Instance.ItemIconsByNames["Shovels"], false);
-		Item tools = new Item ("Tools", new Dictionary<Item, int> { { hammers, 1 }, {saws, 1} }, GameManager.Instance.ItemIconsByNames["Tools"], false);
-		Item spices = new Item ("Spices", null, GameManager.Instance.ItemIconsByNames["Spices"], true);
-		Item ale = new Item ("Ale", null, GameManager.Instance.ItemIconsByNames["Ale"], true);
-		Item fish = new Item ("Fish", null, GameManager.Instance.ItemIconsByNames["Fish"], true);
-
-		TempItemLibrary = new List<Item> {
-			wood,
-			food,
-			steel,
-			nails,
-			hammers,
-			saws,
-			tools,
-			spices,
-			ale,
-			fish,
-		};
-
-		foreach (var item in TempItemLibrary) {
-			TakeItems (new Dictionary<Item, int> { { item, 0 } });
-		}
 	}
 
 	public void SaveBuildings (List<Building> buildings) {
@@ -161,8 +113,6 @@ public class Player : MonoBehaviour {
 				Inventory.Add (amountByItem.Key, 0);
 			}
 			Inventory [amountByItem.Key] += amountByItem.Value;
-			//Debug.Log (Inventory [amountByItem.Key]);
-			//Debug.Log (amountByItem.Key.Name);
 		}
 	}
 

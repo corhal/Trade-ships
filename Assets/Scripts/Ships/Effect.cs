@@ -22,9 +22,9 @@ public class Effect {
 		StatEffects = statEffects;
 		ElapsedTime = 0.0f;
 
-		int index = GameManager.Instance.EffectParticleNames.IndexOf (Name);
+		int index = Player.Instance.DataBase.EffectParticleNames.IndexOf (Name);
 		if (index > -1) {
-			EffectParticlesPrefab = GameManager.Instance.EffectParticlePrefabs [index];
+			EffectParticlesPrefab = Player.Instance.DataBase.EffectParticlePrefabs [index];
 		}
 	}
 

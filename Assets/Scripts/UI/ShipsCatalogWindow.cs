@@ -66,11 +66,11 @@ public class ShipsCatalogWindow : MonoBehaviour {
 			if (!Player.Instance.Inventory.ContainsKey(shipData.Blueprint)) { // temporary fix for crash!!
 				Player.Instance.Inventory.Add (shipData.Blueprint, 0);
 			}
-			if (Player.Instance.Inventory [shipData.Blueprint] < gameManager.EvolveCosts [shipData.Stars]) {
-				shipListElement.BlueprintsSlider.maxValue = gameManager.EvolveCosts [shipData.Stars];
+			if (Player.Instance.Inventory [shipData.Blueprint] < Player.Instance.DataBase.EvolveCosts [shipData.Stars]) {
+				shipListElement.BlueprintsSlider.maxValue = Player.Instance.DataBase.EvolveCosts [shipData.Stars];
 				shipListElement.BlueprintsSlider.value = Player.Instance.Inventory [shipData.Blueprint];
 
-				shipListElement.BlueprintsSlider.GetComponentInChildren<Text>().text = Player.Instance.Inventory [shipData.Blueprint] + "/" + gameManager.EvolveCosts [shipData.Stars];
+				shipListElement.BlueprintsSlider.GetComponentInChildren<Text>().text = Player.Instance.Inventory [shipData.Blueprint] + "/" + Player.Instance.DataBase.EvolveCosts [shipData.Stars];
 			} else {
 				shipListElement.BlueprintsSlider.gameObject.SetActive (false);
 				shipListElement.SummonButton.gameObject.SetActive (true);
@@ -81,7 +81,7 @@ public class ShipsCatalogWindow : MonoBehaviour {
 			shipListElement.ItemsParent.SetActive (true);
 			for (int i = 0; i < shipListElement.ItemImages.Count; i++) {
 				//Debug.Log (shipData.PromoteCosts);
-				shipListElement.ItemImages [i].sprite = gameManager.ItemIconsByNames [shipData.PromoteCosts [(int)shipData.RankColor] [i].Name];
+				shipListElement.ItemImages [i].sprite = Player.Instance.DataBase.ItemIconsByNames [shipData.PromoteCosts [(int)shipData.RankColor] [i].Name];
 			}
 		}
 

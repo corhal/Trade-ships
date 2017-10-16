@@ -32,7 +32,7 @@ public class Selectable : MonoBehaviour {
 		actions = new List<Action> ();
 		gameManager = GameManager.Instance;
 		player = Player.Instance;
-		Action infoAction = new Action("Info", 0, gameManager.ActionIconsByNames["Info"], ShowInfo);
+		Action infoAction = new Action("Info", 0, player.DataBase.ActionIconsByNames["Info"], ShowInfo);
 		actions.Add (infoAction);
 	}
 

@@ -16,8 +16,8 @@ public class Building : Selectable {
 		MyIsland = GetComponentInParent<Island> ();
 		BuildCosts = new List<Dictionary<Item, int>> ();
 
-		buildAction = new Action ("Build", 0, gameManager.ActionIconsByNames["Build"], ShowCraftWindow);
-		upgradeAction = new Action ("Upgrade", 0, gameManager.ActionIconsByNames["Upgrade"], Upgrade);
+		buildAction = new Action ("Build", 0, player.DataBase.ActionIconsByNames["Build"], ShowCraftWindow);
+		upgradeAction = new Action ("Upgrade", 0, player.DataBase.ActionIconsByNames["Upgrade"], Upgrade);
 	}
 
 	protected override void Start () {
@@ -32,7 +32,7 @@ public class Building : Selectable {
 			Dictionary<Item, int> cost = new Dictionary<Item, int> ();
 			for (int j = 0; j < costLength; j++) {
 				List<Item> validItems = new List<Item> ();
-				foreach (var item in gameManager.TempItemLibrary) {
+				foreach (var item in player.DataBase.TempItemLibrary) {
 					if (!cost.ContainsKey(item) && !item.IsForSale) {
 						validItems.Add (item);
 					}
