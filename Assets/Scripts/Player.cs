@@ -65,6 +65,62 @@ public class Player : MonoBehaviour {
 		}
 	}
 
+	public void CreateShipDatas () {
+		ShipDatas.Clear ();
+		List<string> playerNames = new List<string> {
+			"Vulpecula", "Manticora", "Herr Mannelig", "Nexus", "Liguria", "Elephant", "Morgenstern"
+		};
+
+		Utility.Shuffle (playerNames);
+		for (int j = 0; j < playerNames.Count; j++) {
+			bool summoned = (j == 0) ? true : false;
+			int maxHp = Random.Range (150, 200);
+			float[] coordinates = new float[3];
+			coordinates [0] = Random.Range (0.0f, 5.0f);
+			coordinates [1] = Random.Range (-5.0f, 0.0f);
+			coordinates [2] = 0.0f;
+
+			float coinToss = Random.Range (0.0f, 1.0f);
+			List<Skill> skills = new List<Skill> { (coinToss > 0.5f) ? DataBase.SkillsByNames ["Slow down"] : DataBase.SkillsByNames ["Speed up"],
+				DataBase.SkillsByNames ["Trade"], DataBase.SkillsByNames ["Cannons"], DataBase.SkillsByNames ["Dummy"]
+			};
+			Item blueprint = new Item ((playerNames [j] + " blueprint"), null, null, false);
+			if (!DataBase.ItemIconsByNames.ContainsKey (blueprint.Name)) {
+				DataBase.ItemIconsByNames.Add (blueprint.Name, null);
+			}
+			if (!DataBase.TempItemLibrary.Contains (blueprint)) {
+				DataBase.TempItemLibrary.Add (blueprint);
+				Inventory.Add (blueprint, 1000);
+			}
+
+			List<List<Item>> promoteCosts = new List<List<Item>> ();
+			for (int k = 0; k < (int)RankColor.OrangeP - (int)RankColor.White; k++) {
+				int costLength = 6;
+				List<Item> cost = new List<Item> ();
+				for (int l = 0; l < costLength; l++) {
+					List<Item> validItems = new List<Item> ();
+					foreach (var item in Player.Instance.DataBase.TempItemLibrary) {
+						string nameString = item.Name;
+						string firstName = nameString.Split (' ') [0];
+						if (/*!cost.ContainsKey(item) &&*/ !item.IsForSale && firstName != "Blueprint") {
+							validItems.Add (item);
+						}
+					}
+
+					int index = Random.Range (0, validItems.Count);
+
+					cost.Add (validItems [index]);
+				}
+				promoteCosts.Add (cost);
+			}
+
+			List<int> levelRequirements = new List<int> { 10, 20, 30, 40, 50 };
+
+			ShipDatas.Add (new ShipData (playerNames [j], "Player", 1, 1, Random.Range (5, 10), 
+				maxHp, maxHp, Random.Range (10, 20), coordinates, skills, null, null, blueprint, promoteCosts, RankColor.White, summoned, levelRequirements));
+		}
+	}
+
 	public void LoadBattle () {
 		SceneManager.LoadScene (1);
 	}

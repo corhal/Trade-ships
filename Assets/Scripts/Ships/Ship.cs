@@ -8,11 +8,21 @@ public enum RankColor {
 }
 
 public class Ship : Selectable {	
-	public bool IsSummoned;
+	public ShipData ShipData;
+
 	public GameObject ShipwreckPrefab;
-	public RankColor RankColor;
-	bool initialized;
 	public GameObject CannonBallPrefab;
+
+	public Slider CargoSlider;
+
+	public Dictionary <string, ParticleSystem> ParticlesByEffectNames;
+
+	// ------------------------------------------------------
+
+	public bool IsSummoned;
+
+	public RankColor RankColor { get { return ShipData.RankColor; } set { ShipData.RankColor = value; } } 
+	bool initialized;
 
 	public Item Blueprint;
 	public int Stars;
@@ -24,9 +34,9 @@ public class Ship : Selectable {
 	public List<Skill> Skills;
 	public List<string> SkillNames;
 	public List<Shipment> Shipments;
-	public Slider CargoSlider;
 
-	public Dictionary <string, ParticleSystem> ParticlesByEffectNames;
+	public List<List<Item>> PromoteCosts;
+	public List<int> EvolveCosts;
 
 	[SerializeField]
 	int shipmentsCapacity;
@@ -50,9 +60,6 @@ public class Ship : Selectable {
 			}
 			return totalWeight;
 		}}
-
-	public List<List<Item>> PromoteCosts;
-	public List<int> EvolveCosts;
 
 	protected override void Awake () {
 		base.Awake ();
