@@ -24,23 +24,20 @@ public class Ship : Selectable {
 	public RankColor RankColor { get { return ShipData.RankColor; } set { ShipData.RankColor = value; } } 
 	bool initialized;
 
-	public Item Blueprint;
-	public int Stars;
+	public Item Blueprint { get { return ShipData.Blueprint; } set { ShipData.Blueprint = value; } }
+	public int Stars { get { return ShipData.Stars; } set { ShipData.Stars = value; } }
 
-	public int Exp;
-	public List<int> LevelRequirements;
+	public int Exp { get { return ShipData.Exp; } set { ShipData.Exp = value; } }
+	public List<int> LevelRequirements { get { return ShipData.LevelRequirements; } set { ShipData.LevelRequirements = value; } }
 
-	public List<Effect> Effects;
-	public List<Skill> Skills;
-	public List<string> SkillNames;
-	public List<Shipment> Shipments;
+	public List<Effect> Effects { get { return ShipData.Effects; } set { ShipData.Effects = value; } }
+	public List<Skill> Skills { get { return ShipData.Skills; } set { ShipData.Skills = value; } }
+	public List<Shipment> Shipments { get { return ShipData.Shipments; } set { ShipData.Shipments = value; } }
 
-	public List<List<Item>> PromoteCosts;
+	public List<List<Item>> PromoteCosts { get { return ShipData.PromoteCosts; } set { ShipData.PromoteCosts = value; } }
 	public List<int> EvolveCosts;
 
-	[SerializeField]
-	int shipmentsCapacity;
-	public int ShipmentsCapacity { get { return shipmentsCapacity; } }
+	public int ShipmentsCapacity { get { return ShipData.ShipmentsCapacity; } set { ShipData.ShipmentsCapacity = value; } }
 	int hp;
 	[SerializeField]
 	int maxHp;
@@ -53,13 +50,6 @@ public class Ship : Selectable {
 
 	BattleShip battleship;
 
-	public int TotalWeight { get {
-			int totalWeight = 0;
-			foreach (var myShipment in Shipments) {
-				totalWeight += myShipment.Cargo;
-			}
-			return totalWeight;
-		}}
 
 	protected override void Awake () {
 		base.Awake ();
@@ -110,62 +100,25 @@ public class Ship : Selectable {
 			return;
 		}
 
-		PromoteCosts = new List<List<Item>> ();
-		for (int i = 0; i < (int)RankColor.OrangeP - (int)RankColor.White; i++) {
-			int costLength = 6;
-			List<Item> cost = new List<Item> ();
-			for (int j = 0; j < costLength; j++) {
-				List<Item> validItems = new List<Item> ();
-				foreach (var item in Player.Instance.DataBase.TempItemLibrary) {
-					string nameString = item.Name;
-					string firstName = nameString.Split (' ') [0];
-					if (/*!cost.ContainsKey(item) &&*/ !item.IsForSale && firstName != "Blueprint") {
-						validItems.Add (item);
-					}
-				}
-
-				int index = Random.Range (0, validItems.Count);
-
-				cost.Add (validItems [index]);
-			}
-			PromoteCosts.Add (cost);
-		}
-
-		Stars = 1;
-		RankColor = RankColor.White;
-		Skills = new List<Skill> ();
-		foreach (var skillName in SkillNames) { // will not save between scenes! // or will
-			Skills.Add (player.DataBase.SkillsByNames [skillName]);
-		}
-
 		CargoSlider.maxValue = ShipmentsCapacity;
-		CargoSlider.value = TotalWeight;
+		CargoSlider.value = ShipData.TotalWeight;
 		battleship.HP = maxHp;
 		battleship.SetMaxHP (maxHp);
 		battleship.FirePower = Power;
 		battleship.Allegiance = Allegiance;
 	}
 
-	public void InitializeFromData (ShipData shipData) {		
-		Skills = new List<Skill> (shipData.Skills);	
-		Effects = new List<Effect> (shipData.Effects);
-		Shipments = new List<Shipment> (shipData.Shipments);
+	public void InitializeFromData (ShipData shipData) {	
 		IsSummoned = shipData.IsSummoned;
-		Blueprint = shipData.Blueprint;
-		PromoteCosts = new List<List<Item>> (shipData.PromoteCosts);
-		RankColor = shipData.RankColor;
-		Stars = shipData.Stars;
-		Level = shipData.Level;
 		Name = shipData.Name;
 		Allegiance = shipData.Allegiance;
-		shipmentsCapacity = shipData.ShipmentsCapacity;
 		maxHp = shipData.MaxHP;
 		power = shipData.Power;
 
 		transform.position = new Vector3 (shipData.Coordinates[0], shipData.Coordinates[1], shipData.Coordinates[2]);
 		LevelRequirements = new List<int> (shipData.LevelRequirements);
 		CargoSlider.maxValue = ShipmentsCapacity;
-		CargoSlider.value = TotalWeight;
+		CargoSlider.value = ShipData.TotalWeight;
 		// battleship.HP = shipData.HP;
 		battleship.HP = maxHp; // temporary heal!
 		battleship.SetMaxHP (maxHp);
@@ -215,7 +168,7 @@ public class Ship : Selectable {
 	void AddStatByString (string statName, int amount) {
 		switch (statName) {
 		case "Cargo":
-			shipmentsCapacity += amount;
+			ShipmentsCapacity += amount;
 			break;
 		case "MaxHP":
 			maxHp += amount;
@@ -289,7 +242,7 @@ public class Ship : Selectable {
 				}
 
 				CargoSlider.maxValue = ShipmentsCapacity; // kek
-				CargoSlider.value = TotalWeight;
+				CargoSlider.value = ShipData.TotalWeight;
 			} else {
 				gameManager.OpenPopUp ("Not enough gold!");
 			}
@@ -299,15 +252,13 @@ public class Ship : Selectable {
 
 
 	public void TakeShipment (Shipment shipment) {		
-		if (ShipmentsCapacity - TotalWeight >= shipment.Cargo) {
-			Shipments.Add (shipment);
-			CargoSlider.value = TotalWeight;
-		}
+		ShipData.TakeShipment (shipment);
+		CargoSlider.value = ShipData.TotalWeight;
 	}
 
 	public void GiveShipment (Shipment shipment) {
-		Shipments.Remove (shipment);
-		CargoSlider.value = TotalWeight;
+		ShipData.GiveShipment (shipment);
+		CargoSlider.value = ShipData.TotalWeight;
 	}
 
 	public void MoveMode () {

@@ -78,7 +78,7 @@ public class Player : MonoBehaviour {
 			float[] coordinates = new float[3];
 			coordinates [0] = Random.Range (0.0f, 5.0f);
 			coordinates [1] = Random.Range (-5.0f, 0.0f);
-			coordinates [2] = 0.0f;
+			coordinates [2] = -2.0f;
 
 			float coinToss = Random.Range (0.0f, 1.0f);
 			List<Skill> skills = new List<Skill> { (coinToss > 0.5f) ? DataBase.SkillsByNames ["Slow down"] : DataBase.SkillsByNames ["Speed up"],

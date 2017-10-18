@@ -23,6 +23,7 @@ public class ShipData {
 	public int MaxHP;
 	public int Power;
 	public float[] Coordinates;
+	public int Exp;
 
 	public ShipData () {
 
@@ -42,6 +43,7 @@ public class ShipData {
 		Coordinates = new float[coordinates.Length];
 		coordinates.CopyTo (Coordinates, 0);
 		Blueprint = blueprint;
+		Exp = 0;
 		if (promoteCosts != null) {
 			PromoteCosts = new List<List<Item>> (promoteCosts);
 		} else {
@@ -88,6 +90,7 @@ public class ShipData {
 		Stars = ship.Stars;
 		RankColor = ship.RankColor;
 		Level = ship.Level;
+		Exp = ship.Exp;
 		Name = ship.Name;
 		Allegiance = ship.Allegiance;
 		ShipmentsCapacity = ship.ShipmentsCapacity;
@@ -127,6 +130,10 @@ public class ShipData {
 			//Debug.Log ("Couldn't take shipment: need " + shipment.Cargo + ", have " + (ShipmentsCapacity - TotalWeight));
 			return false;
 		}
+	}
+
+	public void GiveShipment (Shipment shipment) {		
+		Shipments.Remove (shipment);
 	}
 	
 }

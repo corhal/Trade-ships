@@ -103,7 +103,8 @@ public class GameManager : MonoBehaviour {
 			foreach (var shipData in Player.Instance.ShipDatas) {				
 				if (shipData.IsSummoned) {
 					GameObject shipObject = Instantiate (ShipPrefab) as GameObject;
-					shipObject.GetComponent<Ship>().InitializeFromData (shipData);
+					shipObject.GetComponent<Ship> ().ShipData = shipData;
+					shipObject.GetComponent<Ship>().InitializeFromData (shipData); // this is probably obsolete now
 				}
 			}
 			Player.Instance.SaveShips (Ships);

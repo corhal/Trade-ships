@@ -99,7 +99,6 @@ public class ShipWindow : MonoBehaviour {
 		ExpLabel.text = ship.Exp + "/" + ship.LevelRequirements [ship.Level];
 		ExpSlider.maxValue = ship.LevelRequirements [ship.Level];
 		ExpSlider.value = ship.Exp;
-
 		for (int i = 0; i < ship.PromoteCosts[(int)ship.RankColor].Count; i++) {
 			Item item = ship.PromoteCosts [(int)ship.RankColor] [i];
 			ItemImages[i].sprite = Player.Instance.DataBase.ItemIconsByNames[item.Name];
