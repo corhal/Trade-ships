@@ -17,7 +17,6 @@ public class BattleManager : MonoBehaviour {
 	public Selectable Selection;
 
 	public void LoadVillage () {
-		Player.Instance.SaveShips (PlayerShips);
 		Player.Instance.LoadVillage ();
 	}
 

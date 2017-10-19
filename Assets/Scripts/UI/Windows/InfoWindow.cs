@@ -15,10 +15,10 @@ public class InfoWindow : MonoBehaviour {
 
 	public Text HeaderLabel;
 
-	GameManager gameManager;
+	// GameManager gameManager;
 
 	void Awake () {
-		gameManager = GameManager.Instance;
+		// gameManager = GameManager.Instance;
 	}
 
 	public void Open (Selectable selectable) {		

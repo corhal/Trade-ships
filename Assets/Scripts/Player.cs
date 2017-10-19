@@ -17,6 +17,7 @@ public class Player : MonoBehaviour {
 	public Dictionary<Item, int> Inventory;
 
 	public List<ShipData> CurrentTeam;
+	public List<ShipData> HomeTeam;
 
 	void Awake () {
 		if (Instance == null) {			
@@ -44,27 +45,6 @@ public class Player : MonoBehaviour {
 		}
 	}
 
-	public void SaveShips (List<Ship> ships) {
-		//ShipDatas.Clear ();
-		Dictionary<Ship, bool> alreadySeen = new Dictionary<Ship, bool>();
-		for (int i = 0; i < ships.Count; i++) {
-			foreach (var shipData in ShipDatas) {
-				if (shipData.Name == ships[i].Name) {
-					shipData.InitializeFromShip (ships [i]);
-					alreadySeen.Add (ships [i], true);
-				}
-			}
-		}
-
-		foreach (var ship in ships) {
-			if (!alreadySeen.ContainsKey(ship) && !(GameManager.Instance.isBattle && ship.Allegiance == "Enemy")) { // temporary fix!!
-				ShipData newShipData = new ShipData ();
-				newShipData.InitializeFromShip (ship);
-				ShipDatas.Add (newShipData);
-			}
-		}
-	}
-
 	public void CreateShipDatas () {
 		ShipDatas.Clear ();
 		List<string> playerNames = new List<string> {
@@ -74,6 +54,7 @@ public class Player : MonoBehaviour {
 		Utility.Shuffle (playerNames);
 		for (int j = 0; j < playerNames.Count; j++) {
 			bool summoned = (j == 0) ? true : false;
+
 			int maxHp = Random.Range (200, 300);
 			float[] coordinates = new float[3];
 			coordinates [0] = Random.Range (0.0f, 5.0f);
@@ -115,9 +96,14 @@ public class Player : MonoBehaviour {
 			}
 
 			List<int> levelRequirements = new List<int> { 10, 20, 30, 40, 50 };
+			ShipData newShipData = new ShipData (playerNames [j], "Player", 1, 1, Random.Range (5, 10), 
+				                       maxHp, maxHp, Random.Range (10, 20), coordinates, skills, null, null, blueprint, promoteCosts, RankColor.White, summoned, levelRequirements);
 
-			ShipDatas.Add (new ShipData (playerNames [j], "Player", 1, 1, Random.Range (5, 10), 
-				maxHp, maxHp, Random.Range (10, 20), coordinates, skills, null, null, blueprint, promoteCosts, RankColor.White, summoned, levelRequirements));
+			ShipDatas.Add (newShipData);
+
+			if (summoned) {
+				HomeTeam.Add (newShipData);
+			}
 		}
 	}
 

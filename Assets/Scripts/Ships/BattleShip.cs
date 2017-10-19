@@ -94,11 +94,6 @@ public class BattleShip : MonoBehaviour {
 				battleShip.OnBattleShipDestroyed += Enemy_OnBattleShipDestroyed;
 			}
 		}
-
-		if (Allegiance == "Player") {
-			Debug.Log (MyShip.Name);
-			Debug.Log (Enemies.Count + "");
-		}
 	}
 
 	void Enemy_OnBattleShipDestroyed (BattleShip sender) {

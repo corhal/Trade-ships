@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour {
 	public ExpeditionWindow MyExpeditionWindow;
 	public MissionWindow MyMissionWindow;
 	public PortWindow MyPortWindow;
+	public FortWindow MyFortWindow;
 	public CraftWindow MyCraftWindow;
 	public ContextButtonsOverlay MyButtonsOverlay;
 	public PopUp MyPopUp;
@@ -56,23 +57,20 @@ public class GameManager : MonoBehaviour {
 
 	void Start () {	
 		if (isBattle) {
+			foreach (var enemyData in Player.Instance.CurrentMission.EnemyShips) {
+				GameObject shipObject = Instantiate (ShipPrefab) as GameObject;
+				shipObject.GetComponent<Ship> ().ShipData = enemyData;
+				shipObject.AddComponent<EnemyMover> ();
+				shipObject.GetComponent<EnemyMover> ().SightDistance = shipObject.GetComponent<BattleShip> ().AttackRange + 1.0f;
+			}
 			foreach (var shipData in Player.Instance.CurrentTeam) {
 				if (shipData.Allegiance != "Player") {
 					continue;
 				}
 				GameObject shipObject = Instantiate (ShipPrefab) as GameObject;
-				Ship ship = shipObject.GetComponent<Ship> ();
 				shipObject.GetComponent<Ship> ().ShipData = shipData;
-				ship.InitializeFromData (shipData);
 			}
-			foreach (var enemyData in Player.Instance.CurrentMission.EnemyShips) {
-				GameObject shipObject = Instantiate (ShipPrefab) as GameObject;
-				Ship ship = shipObject.GetComponent<Ship> ();
-				shipObject.GetComponent<Ship> ().ShipData = enemyData;
-				ship.InitializeFromData (enemyData);
-				shipObject.AddComponent<EnemyMover> ();
-				shipObject.GetComponent<EnemyMover> ().SightDistance = shipObject.GetComponent<BattleShip> ().AttackRange + 1.0f;
-			}
+
 		}
 
 		Ships = new List<Ship> (GameObject.FindObjectsOfType<Ship>());
@@ -89,35 +87,31 @@ public class GameManager : MonoBehaviour {
 					}
 				}
 			}
-			List<Ship> ShipsToRemove = new List<Ship> ();
+
 			foreach (var ship in Ships) {
 				Destroy (ship.gameObject);
 			}
 			Ships.Clear ();
 			foreach (var shipData in Player.Instance.ShipDatas) {				
-				if (shipData.IsSummoned) {
+				if (Player.Instance.HomeTeam.Contains(shipData)) {
 					GameObject shipObject = Instantiate (ShipPrefab) as GameObject;
 					shipObject.GetComponent<Ship> ().ShipData = shipData;
-					shipObject.GetComponent<Ship>().InitializeFromData (shipData); // this is probably obsolete now
 				}
 			}
 		} else if (!isBattle) {			
 			Player.Instance.CreateShipDatas ();
 			foreach (var shipData in Player.Instance.ShipDatas) {				
-				if (shipData.IsSummoned) {
+				if (Player.Instance.HomeTeam.Contains(shipData)) {
 					GameObject shipObject = Instantiate (ShipPrefab) as GameObject;
 					shipObject.GetComponent<Ship> ().ShipData = shipData;
-					shipObject.GetComponent<Ship>().InitializeFromData (shipData); // this is probably obsolete now
 				}
 			}
-			Player.Instance.SaveShips (Ships);
 			Player.Instance.SaveBuildings (Buildings);
 			Player.Instance.FirstLoad = false;
 		}
 	}			
 
 	public void LoadBattle () {
-		Player.Instance.SaveShips (Ships);
 		Player.Instance.SaveBuildings (Buildings);
 		Player.Instance.LoadBattle ();
 	}
@@ -129,7 +123,6 @@ public class GameManager : MonoBehaviour {
 				PlayerShips.Add (ship);
 			}
 		}
-		Player.Instance.SaveShips (PlayerShips);
 		Player.Instance.LoadVillage ();
 	}
 
@@ -154,16 +147,6 @@ public class GameManager : MonoBehaviour {
 		return null;
 	}
 
-	/*public List<BattleShip> GetEnemies (string allegiance) {
-		List<BattleShip> enemyShips = new List<BattleShip> ();
-		foreach (var battleShip in Battleships) {
-			if (battleShip.Allegiance != allegiance) {
-				enemyShips.Add (battleShip);
-			}
-		}
-		return enemyShips;
-	}*/
-
 	public void OpenThievesWindow (ThievesGuild thievesGuild) {
 
 		MyInfoWindow.Close ();
@@ -176,6 +159,7 @@ public class GameManager : MonoBehaviour {
 		MyMissionWindow.Close ();
 		MyPopUp.Close ();
 		MyShipsCatalogWindow.Close ();
+		MyFortWindow.Close ();
 	}
 
 	public void OpenSelectableInfo (Selectable selectable) {
@@ -193,10 +177,26 @@ public class GameManager : MonoBehaviour {
 		MyMissionWindow.Close ();
 		MyPopUp.Close ();
 		MyShipsCatalogWindow.Close ();
+		MyFortWindow.Close ();
 	}
 
 	public void OpenShipWindow (Ship ship) {
 		MyShipWindow.Open (ship);
+		MyExpeditionWindow.Close ();
+		MyMissionWindow.Close ();
+		MyPortWindow.Close ();
+		MyCraftWindow.Close ();
+		MyButtonsOverlay.Close ();
+		MyMissionWindow.Close ();
+		MyPopUp.Close ();
+		MyInfoWindow.Close ();
+		MyShipsCatalogWindow.Close ();
+		MyFortWindow.Close ();
+	}
+
+	public void OpenFortWindow () {
+		MyFortWindow.Open ();
+		MyShipWindow.Close ();
 		MyExpeditionWindow.Close ();
 		MyMissionWindow.Close ();
 		MyPortWindow.Close ();
@@ -223,6 +223,7 @@ public class GameManager : MonoBehaviour {
 		MyPopUp.Close ();
 		MyInfoWindow.Close ();
 		MyShipsCatalogWindow.Close ();
+		MyFortWindow.Close ();
 	}
 
 	public void CloseExpeditionWindow () {
@@ -239,6 +240,7 @@ public class GameManager : MonoBehaviour {
 		MyPopUp.Close ();
 		MyInfoWindow.Close ();
 		MyShipsCatalogWindow.Close ();
+		MyFortWindow.Close ();
 	}
 
 	public void CloseMissionWindow () {
@@ -256,6 +258,7 @@ public class GameManager : MonoBehaviour {
 		MyPopUp.Close ();
 		MyInfoWindow.Close ();
 		MyShipsCatalogWindow.Close ();
+		MyFortWindow.Close ();
 	}
 
 	public void OpenPortWindow (Port port, Ship ship) {
@@ -271,6 +274,7 @@ public class GameManager : MonoBehaviour {
 		MyPopUp.Close ();
 		MyInfoWindow.Close ();
 		MyShipsCatalogWindow.Close ();
+		MyFortWindow.Close ();
 	}
 
 	public void ClosePortWindow () {
@@ -291,6 +295,7 @@ public class GameManager : MonoBehaviour {
 		MyPopUp.Close ();
 		MyInfoWindow.Close ();
 		MyShipsCatalogWindow.Close ();
+		MyFortWindow.Close ();
 	}
 
 	public void CloseCraftWindow () {
@@ -313,6 +318,7 @@ public class GameManager : MonoBehaviour {
 		MyPopUp.Close ();
 		MyInfoWindow.Close ();
 		MyShipsCatalogWindow.Close ();
+		MyFortWindow.Close ();
 	}
 
 	public ShipsCatalogWindow MyShipsCatalogWindow;
@@ -327,6 +333,7 @@ public class GameManager : MonoBehaviour {
 		MyShipWindow.Close ();
 		MyPopUp.Close ();
 		MyInfoWindow.Close ();
+		MyFortWindow.Close ();
 	}
 
 	public void CloseContextButtons (bool deselect) {

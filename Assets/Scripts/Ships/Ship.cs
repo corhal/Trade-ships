@@ -22,7 +22,6 @@ public class Ship : Selectable {
 	public bool IsSummoned { get { return ShipData.IsSummoned; } set { ShipData.IsSummoned = value; } } 
 
 	public RankColor RankColor { get { return ShipData.RankColor; } set { ShipData.RankColor = value; } } 
-	bool initialized;
 
 	public Item Blueprint { get { return ShipData.Blueprint; } set { ShipData.Blueprint = value; } }
 	public int Stars { get { return ShipData.Stars; } set { ShipData.Stars = value; } }
@@ -47,7 +46,6 @@ public class Ship : Selectable {
 
 	BattleShip battleship;
 
-
 	protected override void Awake () {
 		base.Awake ();
 		mover = gameObject.GetComponent<MoveOnClick> ();
@@ -55,7 +53,7 @@ public class Ship : Selectable {
 		mover.OnStartedMoving += Mover_OnStartedMoving;
 		battleship.OnBattleShipDestroyed += Battleship_OnBattleShipDestroyed;
 		ParticlesByEffectNames = new Dictionary<string, ParticleSystem> ();
-		if (!initialized) { // awful temporary solution
+		//if (!initialized) { // awful temporary solution
 			Blueprint = new Item ((Name + " blueprint"), null, null, false);
 			if (!player.DataBase.ItemIconsByNames.ContainsKey(Blueprint.Name)) {
 				player.DataBase.ItemIconsByNames.Add (Blueprint.Name, null);
@@ -64,7 +62,7 @@ public class Ship : Selectable {
 				Player.Instance.DataBase.TempItemLibrary.Add (Blueprint);
 				Player.Instance.Inventory.Add (Blueprint, 1000);
 			}
-		}
+		//}
 	}
 
 	void Battleship_OnBattleShipDestroyed (BattleShip sender) {
@@ -93,9 +91,9 @@ public class Ship : Selectable {
 
 		Action useSkillAction = new Action ("Skill", 0, player.DataBase.ActionIconsByNames ["Show missions"], UseSkill);
 		actions.Add (useSkillAction);
-		if (initialized) {
+		/*if (initialized) {
 			return;
-		}
+		}*/
 
 		Name = ShipData.Name;
 		Allegiance = ShipData.Allegiance;
@@ -111,22 +109,6 @@ public class Ship : Selectable {
 		battleship.SetMaxHP (MaxHP);
 		battleship.FirePower = Power;
 		battleship.Allegiance = Allegiance;
-	}
-
-	public void InitializeFromData (ShipData shipData) {	
-		/*Name = shipData.Name;
-		Allegiance = shipData.Allegiance;
-
-		transform.position = new Vector3 (shipData.Coordinates[0], shipData.Coordinates[1], shipData.Coordinates[2]);
-		LevelRequirements = new List<int> (shipData.LevelRequirements);
-		CargoSlider.maxValue = ShipmentsCapacity;
-		CargoSlider.value = ShipData.TotalWeight;
-		// battleship.HP = shipData.HP;
-		battleship.HP = MaxHP; // temporary heal!
-		battleship.SetMaxHP (MaxHP);
-		battleship.FirePower = Power;
-		battleship.Allegiance = Allegiance;
-		initialized = true;*/
 	}
 
 	void UseSkill () {

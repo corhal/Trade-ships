@@ -72,40 +72,6 @@ public class ShipData {
 		}
 		IsSummoned = isSummoned;
 	}
-	
-	public void InitializeFromShip (Ship ship) {
-		/*if (ship.Skills != null) {
-			Skills = new List<Skill> (ship.Skills);
-		}
-		if (ship.Shipments != null) {
-			Shipments = new List<Shipment> (ship.Shipments);
-		}
-		if (ship.Effects != null) {
-			Effects = new List<Effect> (ship.Effects);
-		}
-		if (ship.PromoteCosts != null) {
-			PromoteCosts = new List<List<Item>> (ship.PromoteCosts);
-		}
-		Blueprint = ship.Blueprint;
-		Stars = ship.Stars;
-		RankColor = ship.RankColor;
-		Level = ship.Level;
-		Exp = ship.Exp;
-		Name = ship.Name;
-		Allegiance = ship.Allegiance;
-		ShipmentsCapacity = ship.ShipmentsCapacity;
-		HP = ship.HP;
-		MaxHP = ship.MaxHP;
-		Power = ship.Power;
-		Coordinates = new float[3];
-		Coordinates [0] = ship.transform.position.x;
-		Coordinates [1] = ship.transform.position.y;
-		Coordinates [2] = ship.transform.position.z;
-		IsSummoned = ship.IsSummoned;
-		if (ship.LevelRequirements != null) {
-			LevelRequirements = new List<int> (ship.LevelRequirements);
-		}*/
-	}
 
 	public int TotalWeight { get {
 			int totalWeight = 0;
@@ -118,8 +84,6 @@ public class ShipData {
 	public void TakeShipment (Shipment shipment) {		
 		if (ShipmentsCapacity - TotalWeight >= shipment.Cargo) {
 			Shipments.Add (shipment);
-		} else {
-			//Debug.Log ("Couldn't take shipment: need " + shipment.Cargo + ", have " + (ShipmentsCapacity - TotalWeight));
 		}
 	}
 
@@ -127,7 +91,6 @@ public class ShipData {
 		if (ShipmentsCapacity - TotalWeight >= shipment.Cargo) {
 			return true;
 		} else {
-			//Debug.Log ("Couldn't take shipment: need " + shipment.Cargo + ", have " + (ShipmentsCapacity - TotalWeight));
 			return false;
 		}
 	}

@@ -8,6 +8,7 @@ public class ShipElement : MonoBehaviour {
 	public ShipData ShipData;
 	public Text NameLabel;
 	public Text LevelLabel;
+	public Image SelectionShade;
 	public List<GameObject> Stars;
 
 	public delegate void ShipElementClickedEventHandler (ShipElement sender);

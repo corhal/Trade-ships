@@ -29,7 +29,6 @@ public class ShipsCatalogWindow : MonoBehaviour {
 		}
 		ShipObjects.Clear ();
 
-		Player.Instance.SaveShips (gameManager.Ships);
 		AllShipDatas = new List<ShipData> ();
 		foreach (var ship in Player.Instance.ShipDatas) {
 			//if (ship.Allegiance == "Player") {
