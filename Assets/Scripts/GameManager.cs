@@ -62,11 +62,13 @@ public class GameManager : MonoBehaviour {
 				}
 				GameObject shipObject = Instantiate (ShipPrefab) as GameObject;
 				Ship ship = shipObject.GetComponent<Ship> ();
+				shipObject.GetComponent<Ship> ().ShipData = shipData;
 				ship.InitializeFromData (shipData);
 			}
 			foreach (var enemyData in Player.Instance.CurrentMission.EnemyShips) {
 				GameObject shipObject = Instantiate (ShipPrefab) as GameObject;
 				Ship ship = shipObject.GetComponent<Ship> ();
+				shipObject.GetComponent<Ship> ().ShipData = enemyData;
 				ship.InitializeFromData (enemyData);
 				shipObject.AddComponent<EnemyMover> ();
 				shipObject.GetComponent<EnemyMover> ().SightDistance = shipObject.GetComponent<BattleShip> ().AttackRange + 1.0f;
@@ -92,13 +94,14 @@ public class GameManager : MonoBehaviour {
 				Destroy (ship.gameObject);
 			}
 			Ships.Clear ();
-			foreach (var shipData in Player.Instance.ShipDatas) {
+			foreach (var shipData in Player.Instance.ShipDatas) {				
 				if (shipData.IsSummoned) {
 					GameObject shipObject = Instantiate (ShipPrefab) as GameObject;
-					shipObject.GetComponent<Ship>().InitializeFromData (shipData);
+					shipObject.GetComponent<Ship> ().ShipData = shipData;
+					shipObject.GetComponent<Ship>().InitializeFromData (shipData); // this is probably obsolete now
 				}
 			}
-		} else {			
+		} else if (!isBattle) {			
 			Player.Instance.CreateShipDatas ();
 			foreach (var shipData in Player.Instance.ShipDatas) {				
 				if (shipData.IsSummoned) {
@@ -151,7 +154,7 @@ public class GameManager : MonoBehaviour {
 		return null;
 	}
 
-	public List<BattleShip> GetEnemies (string allegiance) {
+	/*public List<BattleShip> GetEnemies (string allegiance) {
 		List<BattleShip> enemyShips = new List<BattleShip> ();
 		foreach (var battleShip in Battleships) {
 			if (battleShip.Allegiance != allegiance) {
@@ -159,7 +162,7 @@ public class GameManager : MonoBehaviour {
 			}
 		}
 		return enemyShips;
-	}
+	}*/
 
 	public void OpenThievesWindow (ThievesGuild thievesGuild) {
 

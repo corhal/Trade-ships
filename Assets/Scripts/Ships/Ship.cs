@@ -19,7 +19,7 @@ public class Ship : Selectable {
 
 	// ------------------------------------------------------
 
-	public bool IsSummoned;
+	public bool IsSummoned { get { return ShipData.IsSummoned; } set { ShipData.IsSummoned = value; } } 
 
 	public RankColor RankColor { get { return ShipData.RankColor; } set { ShipData.RankColor = value; } } 
 	bool initialized;
@@ -38,14 +38,11 @@ public class Ship : Selectable {
 	public List<int> EvolveCosts;
 
 	public int ShipmentsCapacity { get { return ShipData.ShipmentsCapacity; } set { ShipData.ShipmentsCapacity = value; } }
-	int hp;
-	[SerializeField]
-	int maxHp;
-	public int MaxHP { get { return maxHp; } }
-	public int HP { get { return battleship.HP; } }
-	[SerializeField]
-	int power;
-	public int Power { get { return power; } }
+
+	public int MaxHP { get { return ShipData.MaxHP; } set { ShipData.MaxHP = value; } }
+	public int HP { get { return ShipData.HP; } set { ShipData.HP = value; } } // not a great solution
+	public int Power { get { return ShipData.Power; } set { ShipData.Power = value; } }
+
 	MoveOnClick mover;
 
 	BattleShip battleship;
@@ -100,31 +97,36 @@ public class Ship : Selectable {
 			return;
 		}
 
+		Name = ShipData.Name;
+		Allegiance = ShipData.Allegiance;
+
+		transform.position = new Vector3 (ShipData.Coordinates[0], ShipData.Coordinates[1], ShipData.Coordinates[2]);
+		LevelRequirements = new List<int> (ShipData.LevelRequirements);
 		CargoSlider.maxValue = ShipmentsCapacity;
 		CargoSlider.value = ShipData.TotalWeight;
-		battleship.HP = maxHp;
-		battleship.SetMaxHP (maxHp);
+
+		CargoSlider.maxValue = ShipmentsCapacity;
+		CargoSlider.value = ShipData.TotalWeight;
+		battleship.HP = MaxHP;
+		battleship.SetMaxHP (MaxHP);
 		battleship.FirePower = Power;
 		battleship.Allegiance = Allegiance;
 	}
 
 	public void InitializeFromData (ShipData shipData) {	
-		IsSummoned = shipData.IsSummoned;
-		Name = shipData.Name;
+		/*Name = shipData.Name;
 		Allegiance = shipData.Allegiance;
-		maxHp = shipData.MaxHP;
-		power = shipData.Power;
 
 		transform.position = new Vector3 (shipData.Coordinates[0], shipData.Coordinates[1], shipData.Coordinates[2]);
 		LevelRequirements = new List<int> (shipData.LevelRequirements);
 		CargoSlider.maxValue = ShipmentsCapacity;
 		CargoSlider.value = ShipData.TotalWeight;
 		// battleship.HP = shipData.HP;
-		battleship.HP = maxHp; // temporary heal!
-		battleship.SetMaxHP (maxHp);
+		battleship.HP = MaxHP; // temporary heal!
+		battleship.SetMaxHP (MaxHP);
 		battleship.FirePower = Power;
 		battleship.Allegiance = Allegiance;
-		initialized = true;
+		initialized = true;*/
 	}
 
 	void UseSkill () {
@@ -171,12 +173,12 @@ public class Ship : Selectable {
 			ShipmentsCapacity += amount;
 			break;
 		case "MaxHP":
-			maxHp += amount;
-			battleship.SetMaxHP (maxHp);
+			MaxHP += amount;
+			battleship.SetMaxHP (MaxHP);
 			break;
 		case "Firepower":
-			power += amount;
-			battleship.FirePower = power;
+			Power += amount;
+			battleship.FirePower = Power;
 			break;
 		case "Range":
 			battleship.AttackRange += (float)amount / 1000.0f; // munits

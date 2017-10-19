@@ -74,7 +74,7 @@ public class ShipData {
 	}
 	
 	public void InitializeFromShip (Ship ship) {
-		if (ship.Skills != null) {
+		/*if (ship.Skills != null) {
 			Skills = new List<Skill> (ship.Skills);
 		}
 		if (ship.Shipments != null) {
@@ -104,7 +104,7 @@ public class ShipData {
 		IsSummoned = ship.IsSummoned;
 		if (ship.LevelRequirements != null) {
 			LevelRequirements = new List<int> (ship.LevelRequirements);
-		}
+		}*/
 	}
 
 	public int TotalWeight { get {

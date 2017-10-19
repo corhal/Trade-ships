@@ -74,7 +74,7 @@ public class Player : MonoBehaviour {
 		Utility.Shuffle (playerNames);
 		for (int j = 0; j < playerNames.Count; j++) {
 			bool summoned = (j == 0) ? true : false;
-			int maxHp = Random.Range (150, 200);
+			int maxHp = Random.Range (200, 300);
 			float[] coordinates = new float[3];
 			coordinates [0] = Random.Range (0.0f, 5.0f);
 			coordinates [1] = Random.Range (-5.0f, 0.0f);

@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class BattleShip : MonoBehaviour {
 
+	public Ship MyShip; // temp solution
 	public ParticleSystem smokeParticles;
 
 	public GameObject CannonBallPrefab;
@@ -44,6 +45,7 @@ public class BattleShip : MonoBehaviour {
 	void Awake () {
 		smokeParticles = gameObject.GetComponentInChildren<ParticleSystem> ();
 		initialSmokeZ = smokeParticles.transform.position.z;
+		MyShip = GetComponent<Ship> (); // temp solution
 	}
 
 	void Start () {
@@ -86,12 +88,16 @@ public class BattleShip : MonoBehaviour {
 
 	public void GetEnemies () {
 		List<BattleShip> battleships = new List<BattleShip> (FindObjectsOfType<BattleShip>());
-
 		foreach (var battleShip in battleships) {
 			if (battleShip.Allegiance != Allegiance) {
 				Enemies.Add (battleShip);
 				battleShip.OnBattleShipDestroyed += Enemy_OnBattleShipDestroyed;
 			}
+		}
+
+		if (Allegiance == "Player") {
+			Debug.Log (MyShip.Name);
+			Debug.Log (Enemies.Count + "");
 		}
 	}
 
@@ -105,6 +111,7 @@ public class BattleShip : MonoBehaviour {
 
 	public void TakeDamage (int damage) {
 		HP -= damage;
+		MyShip.HP = HP; // temp solution
 		HPSlider.value = HP;
 		if (HP <= 0) {
 			OnBattleShipDestroyed (this);
