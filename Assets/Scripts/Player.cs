@@ -53,7 +53,7 @@ public class Player : MonoBehaviour {
 
 		Utility.Shuffle (playerNames);
 		for (int j = 0; j < playerNames.Count; j++) {
-			bool summoned = (j == 0) ? true : false;
+			bool summoned = (j < 3) ? true : false;
 
 			int maxHp = Random.Range (200, 300);
 			float[] coordinates = new float[3];

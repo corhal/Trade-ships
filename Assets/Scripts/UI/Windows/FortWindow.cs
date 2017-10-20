@@ -22,6 +22,9 @@ public class FortWindow : MonoBehaviour {
 
 	public List<ShipData> AllShipDatas;
 
+	//bool teamChanged;
+	List<ShipData> initialTeam;
+
 	void Awake () {
 		gameManager = GameManager.Instance;
 
@@ -29,7 +32,7 @@ public class FortWindow : MonoBehaviour {
 
 	public void Open () {		
 		Window.SetActive (true);
-
+		initialTeam = new List<ShipData> (Player.Instance.HomeTeam);
 		foreach (var shipObject in AllShipObjects) {
 			shipObject.GetComponent<ShipElement> ().OnShipElementClicked -= ShipElement_OnShipElementClicked;
 			Destroy (shipObject);
@@ -106,6 +109,21 @@ public class FortWindow : MonoBehaviour {
 
 	public void Close () {
 		Window.SetActive (false);
+		bool teamChanged = false;
+		if (initialTeam == null) {
+			return;
+		}
+		if (Player.Instance.HomeTeam.Count != initialTeam.Count) {
+			teamChanged = true;
+		}
+		foreach (var shipData in Player.Instance.HomeTeam) {
+			if (!initialTeam.Contains(shipData)) {
+				teamChanged = true;
+			}
+		}
+		if (teamChanged) {
+			gameManager.RespawnShips ();
+		}
 	}
 
 

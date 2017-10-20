@@ -55,6 +55,21 @@ public class GameManager : MonoBehaviour {
 
 	public bool isBattle; // ew
 
+	public void RespawnShips () {
+		
+		foreach (var ship in Ships) {
+			Destroy (ship.gameObject);
+		}
+		Ships.Clear ();
+		foreach (var shipData in Player.Instance.ShipDatas) {				
+			if (Player.Instance.HomeTeam.Contains(shipData)) {
+				GameObject shipObject = Instantiate (ShipPrefab) as GameObject;
+				shipObject.GetComponent<Ship> ().ShipData = shipData;
+				Ships.Add (shipObject.GetComponent<Ship> ());
+			}
+		}
+	}
+
 	void Start () {	
 		if (isBattle) {
 			foreach (var enemyData in Player.Instance.CurrentMission.EnemyShips) {
@@ -73,7 +88,8 @@ public class GameManager : MonoBehaviour {
 
 		}
 
-		Ships = new List<Ship> (GameObject.FindObjectsOfType<Ship>());
+		Ships = new List<Ship> ();
+		// Ships = new List<Ship> (GameObject.FindObjectsOfType<Ship>());
 		Buildings = new List<Building> (GameObject.FindObjectsOfType<Building>());
 
 		if (!Player.Instance.FirstLoad && !isBattle) { // ?..
@@ -96,6 +112,7 @@ public class GameManager : MonoBehaviour {
 				if (Player.Instance.HomeTeam.Contains(shipData)) {
 					GameObject shipObject = Instantiate (ShipPrefab) as GameObject;
 					shipObject.GetComponent<Ship> ().ShipData = shipData;
+					Ships.Add (shipObject.GetComponent<Ship> ());
 				}
 			}
 		} else if (!isBattle) {			
@@ -104,6 +121,7 @@ public class GameManager : MonoBehaviour {
 				if (Player.Instance.HomeTeam.Contains(shipData)) {
 					GameObject shipObject = Instantiate (ShipPrefab) as GameObject;
 					shipObject.GetComponent<Ship> ().ShipData = shipData;
+					Ships.Add (shipObject.GetComponent<Ship> ());
 				}
 			}
 			Player.Instance.SaveBuildings (Buildings);
@@ -318,7 +336,7 @@ public class GameManager : MonoBehaviour {
 		MyPopUp.Close ();
 		MyInfoWindow.Close ();
 		MyShipsCatalogWindow.Close ();
-		MyFortWindow.Close ();
+		// MyFortWindow.Close (); // here is the bug!!! think about it!
 	}
 
 	public ShipsCatalogWindow MyShipsCatalogWindow;
