@@ -1,0 +1,107 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class TradeShip : Selectable {	
+	public TradeShipData TradeShipData;
+
+	public Slider CargoSlider;
+
+	// ------------------------------------------------------
+
+	public List<Shipment> Shipments { get { return TradeShipData.Shipments; } set { TradeShipData.Shipments = value; } }
+
+	public int ShipmentsCapacity { get { return TradeShipData.ShipmentsCapacity; } set { TradeShipData.ShipmentsCapacity = value; } }
+
+	MoveOnClick mover;
+
+	protected override void Awake () {
+		base.Awake ();
+		mover = gameObject.GetComponent<MoveOnClick> ();
+		mover.OnStartedMoving += Mover_OnStartedMoving;
+	}
+
+	protected override void Start () {
+		base.Start ();
+	
+		Process = "Moving";
+		Action moveAction = new Action ("Move", 0, player.DataBase.ActionIconsByNames["Move"], MoveMode);
+		actions.Add (moveAction);
+
+		Name = TradeShipData.Name;
+		Allegiance = TradeShipData.Allegiance;
+
+		transform.position = new Vector3 (TradeShipData.Coordinates[0], TradeShipData.Coordinates[1], TradeShipData.Coordinates[2]);
+
+		CargoSlider.maxValue = ShipmentsCapacity;
+		CargoSlider.value = TradeShipData.TotalWeight;
+
+		CargoSlider.maxValue = ShipmentsCapacity;
+		CargoSlider.value = TradeShipData.TotalWeight;
+	}
+
+	protected override void Update () {
+		base.Update ();
+	}
+
+	public void TakeShipment (Shipment shipment) {		
+		TradeShipData.TakeShipment (shipment);
+		CargoSlider.value = TradeShipData.TotalWeight;
+	}
+
+	public void GiveShipment (Shipment shipment) {
+		TradeShipData.GiveShipment (shipment);
+		CargoSlider.value = TradeShipData.TotalWeight;
+	}
+
+	public void MoveMode () {
+		gameManager.MoveMode ();
+		mover.InMoveMode = true;
+	}
+
+	void Mover_OnStartedMoving (MoveOnClick sender) {
+		InitialProcessSeconds = mover.TimeLeft;
+		InProcess = true;
+	}
+
+	public override float GetProcessSeconds () {		
+		if (mover.TimeLeft <= 0.1f) {
+			return 0.0f;
+		}
+		return mover.TimeLeft;
+	}
+
+	public override void ShowInfo () {
+		gameManager.OpenSelectableInfo (this);
+	}
+
+	void OnTriggerEnter2D (Collider2D other) { // will work even when passing through another port
+		if (Allegiance != "Enemy" && other.gameObject.GetComponent<Port> () != null) {
+			UnloadCargo (other.gameObject.GetComponent<Port> ());
+		}
+	}
+
+	public void UnloadCargo (Port port) {
+		List<Shipment> shipmentsToDestroy = new List<Shipment> ();
+		foreach (var shipment in Shipments) {
+			if (port.Name == "Shipwreck") { // bleargh
+				continue;
+			}
+			if (shipment.DestinationIslandName == port.MyIsland.Name) {
+				if (shipment.Goods.IsForSale) {
+					Player.Instance.TakeGold (shipment.Reward);
+					shipmentsToDestroy.Add (shipment);
+				} else {
+					Player.Instance.TakeItems (new Dictionary<Item, int> { { shipment.Goods, 1 } });
+					shipmentsToDestroy.Add (shipment);
+				}
+			}
+		}
+
+		foreach (var shipment in shipmentsToDestroy) {
+			GiveShipment (shipment);
+		}
+		shipmentsToDestroy.Clear ();
+	}
+}

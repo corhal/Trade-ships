@@ -8,6 +8,7 @@ public class Player : MonoBehaviour {
 	public Mission CurrentMission;
 	public List<BuildingData> BuildingDatas;
 	public List<ShipData> ShipDatas;
+	public List<TradeShipData> TradeShipDatas;
 	public bool FirstLoad = true;
 	public int Gold;
 
@@ -17,7 +18,7 @@ public class Player : MonoBehaviour {
 	public Dictionary<Item, int> Inventory;
 
 	public List<ShipData> CurrentTeam;
-	public List<ShipData> HomeTeam;
+	public List<TradeShipData> HomeTeam;
 
 	void Awake () {
 		if (Instance == null) {			
@@ -42,6 +43,27 @@ public class Player : MonoBehaviour {
 				buildingData.InitializeFromBuilding (buildings [i]);
 				BuildingDatas.Add (buildingData);
 			}
+		}
+	}
+
+	public void CreateTradeShipDatas () {
+		TradeShipDatas.Clear ();
+		List<string> playerNames = new List<string> {
+			"Sindbad", "Marco Pollo", "Nasreddin"
+		};
+
+		Utility.Shuffle (playerNames);
+		for (int j = 0; j < playerNames.Count; j++) {			
+			float[] coordinates = new float[3];
+			coordinates [0] = Random.Range (0.0f, 5.0f);
+			coordinates [1] = Random.Range (-5.0f, 0.0f);
+			coordinates [2] = -2.0f;
+
+			TradeShipData newShipData = new TradeShipData (playerNames [j], "Player", Random.Range (5, 10), coordinates, null);
+
+			TradeShipDatas.Add (newShipData);
+
+			HomeTeam.Add (newShipData);
 		}
 	}
 
@@ -102,7 +124,7 @@ public class Player : MonoBehaviour {
 			ShipDatas.Add (newShipData);
 
 			if (summoned) {
-				HomeTeam.Add (newShipData);
+				//HomeTeam.Add (newShipData);
 			}
 		}
 	}

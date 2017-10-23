@@ -91,9 +91,9 @@ public class TeamSelectionWindow : MonoBehaviour {
 	}
 
 	void ShipElement_OnShipElementClicked (ShipElement sender) {
-		if (AllShipObjects.Contains(sender.gameObject) && Player.Instance.HomeTeam.Contains(sender.ShipData)) {
+		/*if (AllShipObjects.Contains(sender.gameObject) && Player.Instance.HomeTeam.Contains(sender.ShipData)) {
 			gameManager.OpenPopUp ("This ship is on the home map. Later this pop-up will offer to speed it up");
-		}
+		}*/
 		if (AllShipObjects.Contains(sender.gameObject) && Player.Instance.CurrentTeam.Count < 5 && !Player.Instance.CurrentTeam.Contains(sender.ShipData)) {
 			GameObject shipElementObject = CreateShipElementObject (sender.ShipData);
 

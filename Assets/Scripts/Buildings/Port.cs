@@ -6,8 +6,8 @@ using UnityEngine.UI;
 public class Port : Building {
 	public Slider CargoSlider;
 	public Text IslandLabel;
-	public List<Ship> DockedShips;
-	Ship dockedShip;
+	public List<TradeShip> DockedTradeShips;
+	TradeShip dockedTradeShip;
 
 	public List<int> ShipmentsCapacities;
 	public int ShipmentsCapacity { get { return ShipmentsCapacities [Level]; } }
@@ -23,8 +23,6 @@ public class Port : Building {
 
 	protected override void Start () {
 		base.Start ();
-		//Shipments = new List<Shipment> ();
-		//Debug.Log ("here we nullify shipments");
 		showShipmentsAction = new Action ("Show shipments", 0, player.DataBase.ActionIconsByNames["Show shipments"], ShowShipments);
 		actions.Add (showShipmentsAction);
 		CargoSlider.maxValue = ShipmentsCapacity;
@@ -51,27 +49,27 @@ public class Port : Building {
 	}
 
 	void ShowShipments () {
-		gameManager.OpenPortWindow (this, dockedShip);
+		gameManager.OpenPortWindow (this, dockedTradeShip);
 	}
 
 	void OnTriggerEnter2D (Collider2D other) {
-		if (other.gameObject.GetComponent<Ship>() != null) {
-			DockedShips.Add(other.gameObject.GetComponent<Ship> ());
-			other.gameObject.GetComponent<Ship> ().Actions.Add (showShipmentsAction);
-			if (dockedShip == null) {
-				dockedShip = DockedShips [0];
+		if (other.gameObject.GetComponent<TradeShip>() != null) {
+			DockedTradeShips.Add(other.gameObject.GetComponent<TradeShip> ());
+			other.gameObject.GetComponent<TradeShip> ().Actions.Add (showShipmentsAction);
+			if (dockedTradeShip == null) {
+				dockedTradeShip = DockedTradeShips [0];
 			}
 		}
 	}
 
 	void OnTriggerExit2D (Collider2D other) {
-		if (other.gameObject.GetComponent<Ship>() != null) {
-			DockedShips.Remove(other.gameObject.GetComponent<Ship> ());
-			other.gameObject.GetComponent<Ship> ().Actions.Remove (showShipmentsAction);
-			if (DockedShips.Count == 0) {
-				dockedShip = null;
+		if (other.gameObject.GetComponent<TradeShip>() != null) {
+			DockedTradeShips.Remove(other.gameObject.GetComponent<TradeShip> ());
+			other.gameObject.GetComponent<TradeShip> ().Actions.Remove (showShipmentsAction);
+			if (DockedTradeShips.Count == 0) {
+				dockedTradeShip = null;
 			} else {
-				dockedShip = DockedShips [0];
+				dockedTradeShip = DockedTradeShips [0];
 			}
 		}
 	}

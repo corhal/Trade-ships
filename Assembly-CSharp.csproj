@@ -77,9 +77,12 @@
      <Compile Include="Assets\Scripts\Ships\BattleShip.cs" />
      <Compile Include="Assets\Scripts\Ships\Effect.cs" />
      <Compile Include="Assets\Scripts\Ships\EnemyMover.cs" />
+     <Compile Include="Assets\Scripts\Ships\RewardChest.cs" />
      <Compile Include="Assets\Scripts\Ships\Ship.cs" />
      <Compile Include="Assets\Scripts\Ships\ShipData.cs" />
      <Compile Include="Assets\Scripts\Ships\Skill.cs" />
+     <Compile Include="Assets\Scripts\Ships\TradeShip.cs" />
+     <Compile Include="Assets\Scripts\Ships\TradeShipData.cs" />
      <Compile Include="Assets\Scripts\UI\Elements\ContextButton.cs" />
      <Compile Include="Assets\Scripts\UI\Elements\CraftElement.cs" />
      <Compile Include="Assets\Scripts\UI\Elements\ShipElement.cs" />

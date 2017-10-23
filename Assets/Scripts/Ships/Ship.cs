@@ -8,6 +8,8 @@ public enum RankColor {
 }
 
 public class Ship : Selectable {	
+	public RewardChest RewardChest;
+
 	public ShipData ShipData;
 
 	public GameObject ShipwreckPrefab;
@@ -31,12 +33,12 @@ public class Ship : Selectable {
 
 	public List<Effect> Effects { get { return ShipData.Effects; } set { ShipData.Effects = value; } }
 	public List<Skill> Skills { get { return ShipData.Skills; } set { ShipData.Skills = value; } }
-	public List<Shipment> Shipments { get { return ShipData.Shipments; } set { ShipData.Shipments = value; } }
+	//public List<Shipment> Shipments { get { return ShipData.Shipments; } set { ShipData.Shipments = value; } }
 
 	public List<List<Item>> PromoteCosts { get { return ShipData.PromoteCosts; } set { ShipData.PromoteCosts = value; } }
 	public List<int> EvolveCosts;
 
-	public int ShipmentsCapacity { get { return ShipData.ShipmentsCapacity; } set { ShipData.ShipmentsCapacity = value; } }
+	//public int ShipmentsCapacity { get { return ShipData.ShipmentsCapacity; } set { ShipData.ShipmentsCapacity = value; } }
 
 	public int MaxHP { get { return ShipData.MaxHP; } set { ShipData.MaxHP = value; } }
 	public int HP { get { return ShipData.HP; } set { ShipData.HP = value; } } // not a great solution
@@ -53,16 +55,6 @@ public class Ship : Selectable {
 		mover.OnStartedMoving += Mover_OnStartedMoving;
 		battleship.OnBattleShipDestroyed += Battleship_OnBattleShipDestroyed;
 		ParticlesByEffectNames = new Dictionary<string, ParticleSystem> ();
-		//if (!initialized) { // awful temporary solution
-			Blueprint = new Item ((Name + " blueprint"), null, null, false);
-			if (!player.DataBase.ItemIconsByNames.ContainsKey(Blueprint.Name)) {
-				player.DataBase.ItemIconsByNames.Add (Blueprint.Name, null);
-			}
-			if (!Player.Instance.DataBase.TempItemLibrary.Contains(Blueprint)) {
-				Player.Instance.DataBase.TempItemLibrary.Add (Blueprint);
-				Player.Instance.Inventory.Add (Blueprint, 1000);
-			}
-		//}
 	}
 
 	void Battleship_OnBattleShipDestroyed (BattleShip sender) {
@@ -91,20 +83,17 @@ public class Ship : Selectable {
 
 		Action useSkillAction = new Action ("Skill", 0, player.DataBase.ActionIconsByNames ["Show missions"], UseSkill);
 		actions.Add (useSkillAction);
-		/*if (initialized) {
-			return;
-		}*/
 
 		Name = ShipData.Name;
 		Allegiance = ShipData.Allegiance;
 
 		transform.position = new Vector3 (ShipData.Coordinates[0], ShipData.Coordinates[1], ShipData.Coordinates[2]);
 		LevelRequirements = new List<int> (ShipData.LevelRequirements);
-		CargoSlider.maxValue = ShipmentsCapacity;
+		/*CargoSlider.maxValue = ShipmentsCapacity;
 		CargoSlider.value = ShipData.TotalWeight;
 
 		CargoSlider.maxValue = ShipmentsCapacity;
-		CargoSlider.value = ShipData.TotalWeight;
+		CargoSlider.value = ShipData.TotalWeight;*/
 		battleship.HP = MaxHP;
 		battleship.SetMaxHP (MaxHP);
 		battleship.FirePower = Power;
@@ -130,8 +119,8 @@ public class Ship : Selectable {
 
 	public override int GetStatByString (string statName) {
 		switch (statName) {
-		case "Cargo":
-			return ShipmentsCapacity;
+		/*case "Cargo":
+			return ShipmentsCapacity;*/
 		case "HP":
 			return HP;
 		case "MaxHP":
@@ -151,9 +140,9 @@ public class Ship : Selectable {
 
 	void AddStatByString (string statName, int amount) {
 		switch (statName) {
-		case "Cargo":
+		/*case "Cargo":
 			ShipmentsCapacity += amount;
-			break;
+			break;*/
 		case "MaxHP":
 			MaxHP += amount;
 			battleship.SetMaxHP (MaxHP);
@@ -225,7 +214,7 @@ public class Ship : Selectable {
 					}
 				}
 
-				CargoSlider.maxValue = ShipmentsCapacity; // kek
+				// CargoSlider.maxValue = ShipmentsCapacity; // kek
 				CargoSlider.value = ShipData.TotalWeight;
 			} else {
 				gameManager.OpenPopUp ("Not enough gold!");
@@ -235,7 +224,7 @@ public class Ship : Selectable {
 
 
 
-	public void TakeShipment (Shipment shipment) {		
+	/*public void TakeShipment (Shipment shipment) {		
 		ShipData.TakeShipment (shipment);
 		CargoSlider.value = ShipData.TotalWeight;
 	}
@@ -243,7 +232,7 @@ public class Ship : Selectable {
 	public void GiveShipment (Shipment shipment) {
 		ShipData.GiveShipment (shipment);
 		CargoSlider.value = ShipData.TotalWeight;
-	}
+	}*/
 
 	public void MoveMode () {
 		gameManager.MoveMode ();
@@ -268,11 +257,11 @@ public class Ship : Selectable {
 
 	void OnTriggerEnter2D (Collider2D other) { // will work even when passing through another port
 		if (Allegiance != "Enemy" && other.gameObject.GetComponent<Port> () != null) {
-			UnloadCargo (other.gameObject.GetComponent<Port> ());
+			//UnloadCargo (other.gameObject.GetComponent<Port> ());
 		}
 	}
 
-	public void UnloadCargo (Port port) {
+	/*public void UnloadCargo (Port port) {
 		List<Shipment> shipmentsToDestroy = new List<Shipment> ();
 		foreach (var shipment in Shipments) {
 			if (port.Name == "Shipwreck") { // bleargh
@@ -293,16 +282,16 @@ public class Ship : Selectable {
 			GiveShipment (shipment);
 		}
 		shipmentsToDestroy.Clear ();
-	}
+	}*/
 
 	public void SpawnShipwreck () {
 		GameObject shipwreckObject = Instantiate (ShipwreckPrefab) as GameObject;
 		shipwreckObject.transform.position = transform.position;
-		Port shipwreckPort = shipwreckObject.GetComponent<Port> ();
+		/*Port shipwreckPort = shipwreckObject.GetComponent<Port> ();
 		shipwreckPort.ShipmentsCapacities [1] = Shipments.Count;
 		foreach (var shipment in Shipments) {
 			shipwreckPort.TakeShipment (shipment);
-		}
+		}*/
 	}
 
 	public void AddExp (int amount) {

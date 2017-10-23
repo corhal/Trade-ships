@@ -40,8 +40,8 @@ MonoBehaviour:
     y: 704
     width: 485
     height: 243
-  m_MinSize: {x: 102, y: 121}
-  m_MaxSize: {x: 4002, y: 4021}
+  m_MinSize: {x: 100, y: 100}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 17}
   m_Panes:
   - {fileID: 17}
@@ -70,7 +70,7 @@ MonoBehaviour:
   m_MinSize: {x: 277, y: 192}
   m_MaxSize: {x: 4002, y: 8042}
   vertical: 1
-  controlID: 129
+  controlID: 102
 --- !u!114 &4
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -160,7 +160,7 @@ MonoBehaviour:
   m_MinSize: {x: 917, y: 271}
   m_MaxSize: {x: 22012, y: 10021}
   vertical: 0
-  controlID: 40
+  controlID: 68
 --- !u!114 &8
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -372,9 +372,9 @@ MonoBehaviour:
   m_isRotationLocked: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 1.6772796, y: -1.2779839, z: -6}
+    m_Target: {x: 0.37239045, y: -0.31415048, z: -6}
     speed: 2
-    m_Value: {x: 1.6772796, y: -1.2779839, z: -6}
+    m_Value: {x: 0.37239045, y: -0.31415048, z: -6}
   m_RenderMode: 0
   m_ValidateTrueMetals: 0
   m_SceneViewState:
@@ -401,9 +401,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 5.7623663
+    m_Target: 8.144983
     speed: 2
-    m_Value: 5.7623663
+    m_Value: 8.144983
   m_Ortho:
     m_Target: 1
     speed: 2
@@ -468,9 +468,9 @@ MonoBehaviour:
     height: 926
   m_TreeViewState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 2e82fdff
-    m_LastClickedID: -163282
-    m_ExpandedIDs: d456feff7e97feff4ef3ffff0ef4ffff3af5ffff00000000ca36000048370000
+    m_SelectedIDs: 
+    m_LastClickedID: 0
+    m_ExpandedIDs: 0a90feff0e90feffacc7ffff32faffffb4fbffff16fcffff00000000e4290000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -530,8 +530,7 @@ MonoBehaviour:
     m_ScenePaths: []
     m_ShowAllHits: 0
     m_SearchArea: 0
-    m_Folders:
-    - Assets/Scripts/UI/Windows
+    m_Folders: []
   m_ViewMode: 0
   m_StartGridSize: 64
   m_LastFolders: []
@@ -542,7 +541,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: d4210000
     m_LastClickedID: 8660
-    m_ExpandedIDs: 0000000064320000ee340000343500003635000040350000ac350000c2350000ce3500002c3600002e360000403600004c36000056360000
+    m_ExpandedIDs: 00000000ac260000f2260000f4260000fc2600001027000098270000b8270000c4270000382800003a2800004e2800007828000086280000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -567,24 +566,24 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_AssetTreeState:
-    scrollPos: {x: 0, y: 300}
+    scrollPos: {x: 0, y: 60}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 0000000064320000ee340000343500003635000040350000ac350000c2350000ce3500002c3600002e360000403600004c36000056360000
+    m_ExpandedIDs: 00000000ac260000f2260000f4260000fc2600001027000098270000b8270000c4270000382800003a2800004e2800007828000086280000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
-      m_Name: FortWindow
-      m_OriginalName: FortWindow
+      m_Name: 
+      m_OriginalName: 
       m_EditFieldRect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 0
         height: 0
-      m_UserData: 1332
+      m_UserData: 0
       m_IsWaitingForDelay: 0
       m_IsRenaming: 0
-      m_OriginalEventType: 0
+      m_OriginalEventType: 11
       m_IsRenamingFilename: 1
       m_ClientGUIView: {fileID: 10}
     m_SearchString: 

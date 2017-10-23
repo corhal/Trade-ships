@@ -31,7 +31,7 @@ public class FortWindow : MonoBehaviour {
 	}
 
 	public void Open () {		
-		Window.SetActive (true);
+		/*Window.SetActive (true);
 		initialTeam = new List<ShipData> (Player.Instance.HomeTeam);
 		foreach (var shipObject in AllShipObjects) {
 			shipObject.GetComponent<ShipElement> ().OnShipElementClicked -= ShipElement_OnShipElementClicked;
@@ -66,7 +66,7 @@ public class FortWindow : MonoBehaviour {
 			shipElementObject.transform.SetParent (TeamShipsElementContainer.transform);
 			shipElementObject.transform.localScale = Vector3.one;
 			TeamShipObjects.Add (shipElementObject);
-		}
+		}*/
 	}
 
 	GameObject CreateShipElementObject (ShipData shipData) {
@@ -91,7 +91,7 @@ public class FortWindow : MonoBehaviour {
 	}
 
 	void ShipElement_OnShipElementClicked (ShipElement sender) {		
-		if (AllShipObjects.Contains(sender.gameObject) && Player.Instance.HomeTeam.Count < 5 && !Player.Instance.HomeTeam.Contains(sender.ShipData)) {
+		/*if (AllShipObjects.Contains(sender.gameObject) && Player.Instance.HomeTeam.Count < 5 && !Player.Instance.HomeTeam.Contains(sender.ShipData)) {
 			GameObject shipElementObject = CreateShipElementObject (sender.ShipData);
 
 			shipElementObject.transform.SetParent (TeamShipsElementContainer.transform);
@@ -104,12 +104,12 @@ public class FortWindow : MonoBehaviour {
 			Player.Instance.HomeTeam.Remove (sender.ShipData);
 			TeamShipObjects.Remove (sender.gameObject);
 			Destroy (sender.gameObject);
-		}
+		}*/
 	}
 
 	public void Close () {
 		Window.SetActive (false);
-		bool teamChanged = false;
+		/*bool teamChanged = false;
 		if (initialTeam == null) {
 			return;
 		}
@@ -123,7 +123,7 @@ public class FortWindow : MonoBehaviour {
 		}
 		if (teamChanged) {
 			gameManager.RespawnShips ();
-		}
+		}*/
 	}
 
 

@@ -57,14 +57,8 @@ public class Selectable : MonoBehaviour {
 		initialColor = mySprite.color;
 	}
 
-	bool tempTest = false;
 	protected virtual void Update () {
 		if (animate) {
-			//Debug.Log (tempTest);
-			if (!tempTest) {
-				Debug.Log (mySprite);
-				tempTest = true;
-			}
 			mySprite.color = Color.Lerp(initialColor, Color.black, Mathf.PingPong(Time.time, 1));
 		}
 	}
@@ -74,14 +68,12 @@ public class Selectable : MonoBehaviour {
 	}
 
 	public virtual void Deanimate () {
-		Debug.Log ("deanimating " + mySprite);
 		animate = false;
 		mySprite.color = initialColor;
 	}
 
 	public virtual void Animate () {
 		animate = true;
-		Debug.Log ("animating " + mySprite);
 	}
 
 	void OnMouseDown () {

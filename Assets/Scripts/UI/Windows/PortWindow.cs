@@ -13,7 +13,7 @@ public class PortWindow : MonoBehaviour {
 	public List<GameObject> ShipShipmentNodeObjects;
 
 	public Port CurrentPort;
-	public Ship CurrentShip;
+	public TradeShip CurrentTradeShip;
 
 	public Text LocationLabel;
 	public Text LocationCargo;
@@ -24,7 +24,7 @@ public class PortWindow : MonoBehaviour {
 	public GameObject LeftButtonObject;
 	public GameObject RightButtonObject;
 
-	public void Open (Port port, Ship ship) {
+	public void Open (Port port, TradeShip tradeShip) {
 		if (CurrentPort != null) {
 			 CurrentPort.OnProducedShipment -= CurrentPort_OnProducedShipment;
 		}
@@ -32,7 +32,7 @@ public class PortWindow : MonoBehaviour {
 		if (CurrentPort != null) {
 			CurrentPort.OnProducedShipment += CurrentPort_OnProducedShipment;
 		}
-		CurrentShip = ship;
+		CurrentTradeShip = tradeShip;
 		Window.SetActive (true);
 		foreach (var shipmentNodeObject in PortShipmentNodeObjects) {
 			Destroy (shipmentNodeObject);
@@ -51,8 +51,8 @@ public class PortWindow : MonoBehaviour {
 			PortShipmentNodeObjects.Add (shipmentNodeObject);
 		}
 
-		if (CurrentShip != null) {
-			foreach (var shipment in ship.Shipments) {
+		if (CurrentTradeShip != null) {
+			foreach (var shipment in tradeShip.Shipments) {
 				GameObject shipmentNodeObject = FormShipmentNodeObject (shipment);
 
 				shipmentNodeObject.transform.SetParent (ShipContainer.transform);
@@ -76,25 +76,25 @@ public class PortWindow : MonoBehaviour {
 		LocationCargoSlider.value = CurrentPort.Shipments.Count;
 		LocationCargo.text = CurrentPort.Shipments.Count + "/" + CurrentPort.ShipmentsCapacity;
 
-		if (CurrentShip != null) {
+		if (CurrentTradeShip != null) {
 			ShipLabel.text = "Docked ship";
-			ShipCargo.text = CurrentShip.ShipData.TotalWeight + "/" + CurrentShip.ShipmentsCapacity;
+			ShipCargo.text = CurrentTradeShip.TradeShipData.TotalWeight + "/" + CurrentTradeShip.ShipmentsCapacity;
 		} else {
 			ShipLabel.text = "No docked ships";
 			ShipCargo.text = "";
 		}
 
-		if (CurrentPort.DockedShips.Count > 1) {
-			if (CurrentPort.DockedShips.IndexOf (CurrentShip) > 0) {
+		if (CurrentPort.DockedTradeShips.Count > 1) {
+			if (CurrentPort.DockedTradeShips.IndexOf (CurrentTradeShip) > 0) {
 				LeftButtonObject.SetActive (true);
 			}
-			if (CurrentPort.DockedShips.IndexOf (CurrentShip) < CurrentPort.DockedShips.Count - 1) {
+			if (CurrentPort.DockedTradeShips.IndexOf (CurrentTradeShip) < CurrentPort.DockedTradeShips.Count - 1) {
 				RightButtonObject.SetActive (true);
 			}
-			if (CurrentPort.DockedShips.IndexOf (CurrentShip) == 0) {
+			if (CurrentPort.DockedTradeShips.IndexOf (CurrentTradeShip) == 0) {
 				LeftButtonObject.SetActive (false);
 			}
-			if (CurrentPort.DockedShips.IndexOf (CurrentShip) == CurrentPort.DockedShips.Count - 1) {
+			if (CurrentPort.DockedTradeShips.IndexOf (CurrentTradeShip) == CurrentPort.DockedTradeShips.Count - 1) {
 				RightButtonObject.SetActive (false);
 			}
 		} else {
@@ -133,7 +133,7 @@ public class PortWindow : MonoBehaviour {
 	}
 
 	public void ShipmentClicked (GameObject shipmentNodeObject) {
-		if (CurrentShip == null) {
+		if (CurrentTradeShip == null) {
 			return;
 		}
 		if (PortShipmentNodeObjects.Contains(shipmentNodeObject)) {
@@ -144,42 +144,42 @@ public class PortWindow : MonoBehaviour {
 		LocationCargoSlider.maxValue = CurrentPort.ShipmentsCapacity;
 		LocationCargoSlider.value = CurrentPort.Shipments.Count;
 		LocationCargo.text = CurrentPort.Shipments.Count + "/" + CurrentPort.ShipmentsCapacity;
-		ShipCargo.text = CurrentShip.ShipData.TotalWeight + "/" + CurrentShip.ShipmentsCapacity;
+		ShipCargo.text = CurrentTradeShip.TradeShipData.TotalWeight + "/" + CurrentTradeShip.ShipmentsCapacity;
 	}
 
 	void PortToShip (GameObject shipmentNodeObject) {
-		if (CurrentShip == null) {
+		if (CurrentTradeShip == null) {
 			return;
 		}
-		if (CurrentShip.ShipmentsCapacity - CurrentShip.ShipData.TotalWeight >= shipmentNodeObject.GetComponent<ShipmentNode> ().MyShipment.Cargo) {
+		if (CurrentTradeShip.ShipmentsCapacity - CurrentTradeShip.TradeShipData.TotalWeight >= shipmentNodeObject.GetComponent<ShipmentNode> ().MyShipment.Cargo) {
 			PortShipmentNodeObjects.Remove (shipmentNodeObject);
 			ShipShipmentNodeObjects.Add (shipmentNodeObject);
 			shipmentNodeObject.transform.SetParent (ShipContainer.transform);
 			CurrentPort.GiveShipment (shipmentNodeObject.GetComponent<ShipmentNode> ().MyShipment);
-			CurrentShip.TakeShipment (shipmentNodeObject.GetComponent<ShipmentNode> ().MyShipment);
+			CurrentTradeShip.TakeShipment (shipmentNodeObject.GetComponent<ShipmentNode> ().MyShipment);
 		}
 	}
 
 	void ShipToPort (GameObject shipmentNodeObject) {	
-		if (CurrentShip == null) {
+		if (CurrentTradeShip == null) {
 			return;
 		}	
 		if (CurrentPort.Shipments.Count < CurrentPort.ShipmentsCapacity) {
 			ShipShipmentNodeObjects.Remove (shipmentNodeObject);
 			PortShipmentNodeObjects.Add (shipmentNodeObject);
 			shipmentNodeObject.transform.SetParent (PortContainer.transform);
-			CurrentShip.GiveShipment (shipmentNodeObject.GetComponent<ShipmentNode> ().MyShipment);
+			CurrentTradeShip.GiveShipment (shipmentNodeObject.GetComponent<ShipmentNode> ().MyShipment);
 			CurrentPort.TakeShipment (shipmentNodeObject.GetComponent<ShipmentNode> ().MyShipment);
 		}
 	}
 
 	public void ScrollLeft () { // if it bites my ass later: probably should also change dockedShip in Port
-		CurrentShip = CurrentPort.DockedShips[CurrentPort.DockedShips.IndexOf(CurrentShip) - 1];
+		CurrentTradeShip = CurrentPort.DockedTradeShips[CurrentPort.DockedTradeShips.IndexOf(CurrentTradeShip) - 1];
 		RefreshData ();
 	}
 
 	public void ScrollRight () {
-		CurrentShip = CurrentPort.DockedShips[CurrentPort.DockedShips.IndexOf(CurrentShip) + 1];
+		CurrentTradeShip = CurrentPort.DockedTradeShips[CurrentPort.DockedTradeShips.IndexOf(CurrentTradeShip) + 1];
 		RefreshData ();
 	}
 }

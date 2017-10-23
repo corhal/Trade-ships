@@ -27,13 +27,13 @@ public class EnemyMover : MonoBehaviour {
 	}
 
 	void Start () {
-		for (int i = 0; i < Random.Range(4, ship.ShipmentsCapacity); i++) {
+		/*for (int i = 0; i < Random.Range(4, ship.ShipmentsCapacity); i++) {
 			int reward = Random.Range (2, 6);
 			int cargo = Random.Range (1, 4);
 			Item goods = GameManager.Instance.GetRandomItem (false);
 			Shipment shipment = new Shipment (goods, "Tortuga", "Santiago", cargo, reward);
 			ship.TakeShipment (shipment);
-		}
+		}*/
 		enemies = gameObject.GetComponent<BattleShip> ().Enemies;
 		foreach (var enemy in enemies) {
 			enemy.OnBattleShipDestroyed += Enemy_OnBattleShipDestroyed;
