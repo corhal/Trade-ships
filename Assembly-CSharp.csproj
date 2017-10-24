@@ -80,6 +80,7 @@
      <Compile Include="Assets\Scripts\Ships\RewardChest.cs" />
      <Compile Include="Assets\Scripts\Ships\Ship.cs" />
      <Compile Include="Assets\Scripts\Ships\ShipData.cs" />
+     <Compile Include="Assets\Scripts\Ships\Shipwreck.cs" />
      <Compile Include="Assets\Scripts\Ships\Skill.cs" />
      <Compile Include="Assets\Scripts\Ships\TradeShip.cs" />
      <Compile Include="Assets\Scripts\Ships\TradeShipData.cs" />

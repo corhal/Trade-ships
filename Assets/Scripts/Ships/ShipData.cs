@@ -5,10 +5,10 @@ using UnityEngine;
 [System.Serializable]
 public class ShipData {	
 
+	public List<RewardChest> RewardChests;
 	public bool IsSummoned;
 	public List<Skill> Skills;
 	public List<Effect> Effects;
-	public List<Shipment> Shipments;
 
 	public Item Blueprint;
 	public List<List<Item>> PromoteCosts;
@@ -18,7 +18,6 @@ public class ShipData {
 	public int Level;
 	public string Name;
 	public string Allegiance;
-	public int ShipmentsCapacity;
 	public int HP;
 	public int MaxHP;
 	public int Power;
@@ -29,14 +28,13 @@ public class ShipData {
 
 	}
 
-	public ShipData (string name, string allegiance, int level, int stars, int shipmentsCapacity, int maxHP, 
-		int hp, int power, float[] coordinates, List<Skill> skills, List<Effect> effects, List<Shipment> shipments,
-		Item blueprint, List<List<Item>> promoteCosts, RankColor rankColor, bool isSummoned, List<int> levelRequirements) {
+	public ShipData (string name, string allegiance, int level, int stars, int maxHP, 
+		int hp, int power, float[] coordinates, List<Skill> skills, List<Effect> effects,
+		Item blueprint, List<List<Item>> promoteCosts, RankColor rankColor, bool isSummoned, List<int> levelRequirements, List<RewardChest> rewardChests) {
 		Name = name;
 		Allegiance = allegiance;
 		Level = level;
 		Stars = stars;
-		ShipmentsCapacity = shipmentsCapacity;
 		MaxHP = maxHP;
 		HP = hp;
 		Power = power;
@@ -60,43 +58,17 @@ public class ShipData {
 		} else {
 			Effects = new List<Effect> ();
 		}
-		if (shipments != null) {
-			Shipments = new List<Shipment> (shipments);
-		} else {
-			Shipments = new List<Shipment> ();
-		}
 		if (levelRequirements != null) {
 			this.LevelRequirements = new List<int> (levelRequirements);
 		} else {
 			LevelRequirements = new List<int> ();
 		}
-		IsSummoned = isSummoned;
-	}
-
-	public int TotalWeight { get {
-			int totalWeight = 0;
-			foreach (var myShipment in Shipments) {
-				totalWeight += myShipment.Cargo;
-			}
-			return totalWeight;
-		}}
-
-	public void TakeShipment (Shipment shipment) {		
-		if (ShipmentsCapacity - TotalWeight >= shipment.Cargo) {
-			Shipments.Add (shipment);
-		}
-	}
-
-	public bool CanTakeShipment (Shipment shipment) {
-		if (ShipmentsCapacity - TotalWeight >= shipment.Cargo) {
-			return true;
+		if (rewardChests != null) {
+			RewardChests = new List<RewardChest> (rewardChests);
 		} else {
-			return false;
+			RewardChests = new List<RewardChest> ();
 		}
-	}
-
-	public void GiveShipment (Shipment shipment) {		
-		Shipments.Remove (shipment);
+		IsSummoned = isSummoned;
 	}
 	
 }

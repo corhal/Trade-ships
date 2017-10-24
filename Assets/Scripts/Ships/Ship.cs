@@ -8,7 +8,7 @@ public enum RankColor {
 }
 
 public class Ship : Selectable {	
-	public RewardChest RewardChest;
+	public List<RewardChest> RewardChests { get { return ShipData.RewardChests; } set { ShipData.RewardChests = value; } }
 
 	public ShipData ShipData;
 
@@ -33,12 +33,9 @@ public class Ship : Selectable {
 
 	public List<Effect> Effects { get { return ShipData.Effects; } set { ShipData.Effects = value; } }
 	public List<Skill> Skills { get { return ShipData.Skills; } set { ShipData.Skills = value; } }
-	//public List<Shipment> Shipments { get { return ShipData.Shipments; } set { ShipData.Shipments = value; } }
 
 	public List<List<Item>> PromoteCosts { get { return ShipData.PromoteCosts; } set { ShipData.PromoteCosts = value; } }
 	public List<int> EvolveCosts;
-
-	//public int ShipmentsCapacity { get { return ShipData.ShipmentsCapacity; } set { ShipData.ShipmentsCapacity = value; } }
 
 	public int MaxHP { get { return ShipData.MaxHP; } set { ShipData.MaxHP = value; } }
 	public int HP { get { return ShipData.HP; } set { ShipData.HP = value; } } // not a great solution
@@ -89,11 +86,6 @@ public class Ship : Selectable {
 
 		transform.position = new Vector3 (ShipData.Coordinates[0], ShipData.Coordinates[1], ShipData.Coordinates[2]);
 		LevelRequirements = new List<int> (ShipData.LevelRequirements);
-		/*CargoSlider.maxValue = ShipmentsCapacity;
-		CargoSlider.value = ShipData.TotalWeight;
-
-		CargoSlider.maxValue = ShipmentsCapacity;
-		CargoSlider.value = ShipData.TotalWeight;*/
 		battleship.HP = MaxHP;
 		battleship.SetMaxHP (MaxHP);
 		battleship.FirePower = Power;
@@ -119,8 +111,6 @@ public class Ship : Selectable {
 
 	public override int GetStatByString (string statName) {
 		switch (statName) {
-		/*case "Cargo":
-			return ShipmentsCapacity;*/
 		case "HP":
 			return HP;
 		case "MaxHP":
@@ -140,9 +130,6 @@ public class Ship : Selectable {
 
 	void AddStatByString (string statName, int amount) {
 		switch (statName) {
-		/*case "Cargo":
-			ShipmentsCapacity += amount;
-			break;*/
 		case "MaxHP":
 			MaxHP += amount;
 			battleship.SetMaxHP (MaxHP);
@@ -214,25 +201,12 @@ public class Ship : Selectable {
 					}
 				}
 
-				// CargoSlider.maxValue = ShipmentsCapacity; // kek
-				CargoSlider.value = ShipData.TotalWeight;
+				//CargoSlider.value = ShipData.TotalWeight;
 			} else {
 				gameManager.OpenPopUp ("Not enough gold!");
 			}
 		}
 	}
-
-
-
-	/*public void TakeShipment (Shipment shipment) {		
-		ShipData.TakeShipment (shipment);
-		CargoSlider.value = ShipData.TotalWeight;
-	}
-
-	public void GiveShipment (Shipment shipment) {
-		ShipData.GiveShipment (shipment);
-		CargoSlider.value = ShipData.TotalWeight;
-	}*/
 
 	public void MoveMode () {
 		gameManager.MoveMode ();
@@ -256,42 +230,22 @@ public class Ship : Selectable {
 	}
 
 	void OnTriggerEnter2D (Collider2D other) { // will work even when passing through another port
-		if (Allegiance != "Enemy" && other.gameObject.GetComponent<Port> () != null) {
-			//UnloadCargo (other.gameObject.GetComponent<Port> ());
+		if (Allegiance != "Enemy" && other.gameObject.GetComponent<Shipwreck> () != null) {
+			foreach (var rewardChest in other.gameObject.GetComponent<Shipwreck> ().RewardChests) {
+				player.TakeItems (rewardChest.RewardItems);
+			}
+			Destroy (other.gameObject);
 		}
 	}
 
-	/*public void UnloadCargo (Port port) {
-		List<Shipment> shipmentsToDestroy = new List<Shipment> ();
-		foreach (var shipment in Shipments) {
-			if (port.Name == "Shipwreck") { // bleargh
-				continue;
-			}
-			if (shipment.DestinationIslandName == port.MyIsland.Name) {
-				if (shipment.Goods.IsForSale) {
-					Player.Instance.TakeGold (shipment.Reward);
-					shipmentsToDestroy.Add (shipment);
-				} else {
-					Player.Instance.TakeItems (new Dictionary<Item, int> { { shipment.Goods, 1 } });
-					shipmentsToDestroy.Add (shipment);
-				}
-			}
-		}
-
-		foreach (var shipment in shipmentsToDestroy) {
-			GiveShipment (shipment);
-		}
-		shipmentsToDestroy.Clear ();
-	}*/
 
 	public void SpawnShipwreck () {
 		GameObject shipwreckObject = Instantiate (ShipwreckPrefab) as GameObject;
 		shipwreckObject.transform.position = transform.position;
-		/*Port shipwreckPort = shipwreckObject.GetComponent<Port> ();
-		shipwreckPort.ShipmentsCapacities [1] = Shipments.Count;
-		foreach (var shipment in Shipments) {
-			shipwreckPort.TakeShipment (shipment);
-		}*/
+		Shipwreck shipwreck = shipwreckObject.GetComponent<Shipwreck> ();
+		foreach (var rewardChest in RewardChests) {
+			shipwreck.RewardChests.Add (rewardChest);
+		}
 	}
 
 	public void AddExp (int amount) {
