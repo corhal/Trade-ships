@@ -25,6 +25,7 @@ public class GameManager : MonoBehaviour {
 	public CraftWindow MyCraftWindow;
 	public ContextButtonsOverlay MyButtonsOverlay;
 	public PopUp MyPopUp;
+	public ImagesPopUp MyImagesPopUp;
 
 	public static GameManager Instance;
 
@@ -109,18 +110,11 @@ public class GameManager : MonoBehaviour {
 		if (!Player.Instance.FirstLoad && !isBattle) { // ?..
 			for (int i = 0; i < Buildings.Count; i++) {
 				for (int j = 0; j < Player.Instance.BuildingDatas.Count; j++) { // ОЛОЛО ОЛОЛО Я ВОДИТЕЛЬ НЛО
-					Vector3 buildingPosition = new Vector3 (Player.Instance.BuildingDatas [i].Coordinates [0],
-						                           Player.Instance.BuildingDatas [i].Coordinates [1],
-						                           Player.Instance.BuildingDatas [i].Coordinates [2]);
-					if (Buildings[i].Name == Player.Instance.BuildingDatas[j].Name) {
-						Debug.Log ("-----");
-						Debug.Log (buildingPosition);
-						Debug.Log (Buildings [i].transform.position);
-						Debug.Log ("-----");
-					}
-					if (Buildings[i].Name == Player.Instance.BuildingDatas[j].Name && Vector3.Distance(Buildings[i].transform.position, buildingPosition) < 0.01f) {
-						Buildings [i].InitializeFromData (Player.Instance.BuildingDatas [i]);
-						Debug.Log ("should init from data");
+					Vector3 buildingPosition = new Vector3 (Player.Instance.BuildingDatas [j].Coordinates [0],
+						                           Player.Instance.BuildingDatas [j].Coordinates [1],
+						                           Player.Instance.BuildingDatas [j].Coordinates [2]);
+					if (Buildings[i].Name == Player.Instance.BuildingDatas[j].Name && Vector3.Distance(Buildings[i].transform.position, buildingPosition) < 0.001f) {
+						Buildings [i].InitializeFromData (Player.Instance.BuildingDatas [j]);
 					}
 				}
 			}
@@ -269,6 +263,10 @@ public class GameManager : MonoBehaviour {
 
 	public void OpenPopUp (string message) {
 		MyPopUp.Open (message);
+	}
+
+	public void OpenImagesPopUp (string message, Dictionary<Item, int> items) {
+		MyImagesPopUp.Open (message, items);
 	}
 
 	public void OpenExpeditionWindow (ExpeditionCenter expeditionCenter) {

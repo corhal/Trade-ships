@@ -231,9 +231,14 @@ public class Ship : Selectable {
 
 	void OnTriggerEnter2D (Collider2D other) { // will work even when passing through another port
 		if (Allegiance != "Enemy" && other.gameObject.GetComponent<Shipwreck> () != null) {
+			Dictionary<Item, int> rewards = new Dictionary<Item, int> ();
 			foreach (var rewardChest in other.gameObject.GetComponent<Shipwreck> ().RewardChests) {
 				player.TakeItems (rewardChest.RewardItems);
+				foreach (var amountByItem in rewardChest.RewardItems) {
+					rewards.Add (amountByItem.Key, amountByItem.Value);
+				}
 			}
+			gameManager.OpenImagesPopUp ("Reward: ", rewards);
 			Destroy (other.gameObject);
 		}
 	}
