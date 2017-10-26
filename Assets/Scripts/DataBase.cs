@@ -83,7 +83,7 @@ public class DataBase : MonoBehaviour {
 		};
 
 		foreach (var item in TempItemLibrary) {
-			Player.Instance.TakeItems (new Dictionary<Item, int> { { item, 100 } });
+			Player.Instance.TakeItems (new Dictionary<Item, int> { { item, 0 } });
 		}
 
 		Effect slowDown = new Effect ("Slow down", 0, 10.0f, new List<Dictionary<string, int>> {

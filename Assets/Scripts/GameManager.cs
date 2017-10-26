@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour {
 
+	public GameObject CityHUD;
+	public GameObject BattleHUD;
+
 	public Selectable Selection;
 	public GameObject ShipPrefab;
 	public GameObject TradeShipPrefab;
@@ -15,6 +18,7 @@ public class GameManager : MonoBehaviour {
 	public List<TradeShip> TradeShips;
 	public List<Building> Buildings;
 
+	public BattleSkillsWindow MyBattleSkillsWindow;
 	public TeamSelectionWindow MyTeamSelectionWindow;
 	public InfoWindow MyInfoWindow;
 	public ShipWindow MyShipWindow;
@@ -100,12 +104,21 @@ public class GameManager : MonoBehaviour {
 				GameObject shipObject = Instantiate (ShipPrefab) as GameObject;
 				shipObject.GetComponent<Ship> ().ShipData = shipData;
 			}
-
+			Ships = new List<Ship> (GameObject.FindObjectsOfType<Ship>());
+			CityHUD.SetActive (false);
+			BattleHUD.SetActive (true);
+			MyBattleSkillsWindow.Open ();
 		}
 
-		Ships = new List<Ship> ();
+		// Ships = new List<Ship> ();
 		// Ships = new List<Ship> (GameObject.FindObjectsOfType<Ship>());
 		Buildings = new List<Building> (GameObject.FindObjectsOfType<Building>());
+
+		if (!isBattle) {
+			MyBattleSkillsWindow.Close ();
+			CityHUD.SetActive (true);
+			BattleHUD.SetActive (false);
+		}
 
 		if (!Player.Instance.FirstLoad && !isBattle) { // ?..
 			for (int i = 0; i < Buildings.Count; i++) {

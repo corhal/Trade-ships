@@ -92,7 +92,7 @@ public class Ship : Selectable {
 		battleship.Allegiance = Allegiance;
 	}
 
-	void UseSkill () {
+	public void UseSkill () {
 		Skills [0].Use (this);
 	}
 

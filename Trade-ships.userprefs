@@ -1,17 +1,17 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\UI\Elements\ShipSkillButton.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\DataBase.cs">
     <Files>
       <File FileName="Assets\Scripts\Shipment.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\GameManager.cs" Line="268" Column="36" />
+      <File FileName="Assets\Scripts\GameManager.cs" Line="105" Column="27" />
       <File FileName="Assets\Scripts\Utility.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\MoveOnClick.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Action.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Player.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Item.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Mission.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Buildings\ExpeditionCenter.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Buildings\Port.cs" Line="37" Column="48" />
+      <File FileName="Assets\Scripts\Buildings\ExpeditionCenter.cs" Line="54" Column="77" />
+      <File FileName="Assets\Scripts\Buildings\Port.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Buildings\Building.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Island.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Selectable.cs" Line="1" Column="1" />
@@ -20,7 +20,7 @@
       <File FileName="Assets\Scripts\DragController.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\CannonBall.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Ships\BattleShip.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Ships\Ship.cs" Line="243" Column="4" />
+      <File FileName="Assets\Scripts\Ships\Ship.cs" Line="95" Column="9" />
       <File FileName="Assets\Scripts\Region.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Buildings\ThievesGuild.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Ships\Skill.cs" Line="1" Column="1" />
@@ -28,8 +28,8 @@
       <File FileName="Assets\Scripts\Ships\ShipData.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Ships\EnemyMover.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\BattleManager.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\DataBase.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\UI\Windows\TeamSelectionWindow.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\DataBase.cs" Line="86" Column="68" />
+      <File FileName="Assets\Scripts\UI\Windows\TeamSelectionWindow.cs" Line="112" Column="2" />
       <File FileName="Assets\Scripts\UI\Windows\ShipWindow.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\UI\Windows\PortWindow.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\UI\Windows\FortWindow.cs" Line="1" Column="1" />
@@ -37,10 +37,13 @@
       <File FileName="Assets\Scripts\Ships\TradeShipData.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Ships\RewardChest.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Ships\Shipwreck.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\UI\Windows\ImagesPopUp.cs" Line="29" Column="43" />
-      <File FileName="Assets\Scripts\UI\Windows\PopUp.cs" Line="18" Column="24" />
-      <File FileName="Assets\Scripts\UI\Windows\MissionWindow.cs" Line="46" Column="33" />
-      <File FileName="Assets\Scripts\UI\Elements\ShipSkillButton.cs" Line="7" Column="2" />
+      <File FileName="Assets\Scripts\UI\Windows\ImagesPopUp.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\UI\Windows\PopUp.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\UI\Windows\MissionWindow.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\UI\Elements\ShipSkillButton.cs" Line="15" Column="24" />
+      <File FileName="Assets\Scripts\UI\Windows\BattleSkillsWindow.cs" Line="60" Column="5" />
+      <File FileName="Assets\Scripts\UI\Elements\SkillElement.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\UI\Elements\ShipListElement.cs" Line="18" Column="3" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

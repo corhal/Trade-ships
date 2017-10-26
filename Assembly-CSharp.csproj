@@ -91,6 +91,7 @@
      <Compile Include="Assets\Scripts\UI\Elements\ShipmentNode.cs" />
      <Compile Include="Assets\Scripts\UI\Elements\ShipSkillButton.cs" />
      <Compile Include="Assets\Scripts\UI\Elements\SkillElement.cs" />
+     <Compile Include="Assets\Scripts\UI\Windows\BattleSkillsWindow.cs" />
      <Compile Include="Assets\Scripts\UI\Windows\ContextButtonsOverlay.cs" />
      <Compile Include="Assets\Scripts\UI\Windows\CraftWindow.cs" />
      <Compile Include="Assets\Scripts\UI\Windows\ExpeditionWindow.cs" />
