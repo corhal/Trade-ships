@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Shipwreck : MonoBehaviour {
+public class Shipwreck : Selectable {
 
 	public List<RewardChest> RewardChests = new List<RewardChest> ();
 }

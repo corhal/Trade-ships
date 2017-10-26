@@ -92,13 +92,13 @@ public class ShipsCatalogWindow : MonoBehaviour {
 
 	void ShipListElement_OnShipListElementClicked (ShipListElement sender) {		
 		if (sender.gameObject.GetComponentInChildren<ShipElement>().ShipData.IsSummoned) {
-			List<Ship> AllShips = new List<Ship> (FindObjectsOfType<Ship> ());
-			foreach (var ship in AllShips) {
-				if (ship.Name == sender.gameObject.GetComponentInChildren<ShipElement>().ShipData.Name) {
-					gameManager.OpenShipWindow (ship);
-					break;
-				}
-			}
+			//List<Ship> AllShips = new List<Ship> (FindObjectsOfType<Ship> ());
+			//foreach (var ship in AllShips) {
+				//if (ship.Name == sender.gameObject.GetComponentInChildren<ShipElement>().ShipData.Name) {
+					gameManager.OpenShipWindow (sender.gameObject.GetComponentInChildren<ShipElement>().ShipData);
+					//break;
+				//}
+			//}
 		} else {
 			gameManager.FindMissionForItem (sender.gameObject.GetComponentInChildren<ShipElement> ().ShipData.Blueprint);
 		}

@@ -39,15 +39,16 @@ public class MoveOnClick : MonoBehaviour {
 				start = transform.position;
 
 				RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
-				if (hit.collider != null) {				
+				if (hit.collider != null) {		
 					if (hit.collider.gameObject.GetComponent<Region> () != null) {
 						return;
 					}	
 					if (hit.collider.gameObject.GetComponent<Selectable> () != null) { // If you see that object stops too far - here is why
+						Debug.Log (hit.collider.gameObject);
 						target = hit.collider.gameObject.transform.position;
 						target = start + (target - start) * 0.9f;
 					}
-				} else {
+				} else {					
 					target = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 				}
 

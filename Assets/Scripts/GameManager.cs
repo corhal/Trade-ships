@@ -230,7 +230,8 @@ public class GameManager : MonoBehaviour {
 
 	public void OpenSelectableInfo (Selectable selectable) {
 		if (selectable is Ship) {
-			OpenShipWindow (selectable as Ship);
+			Ship ship = selectable as Ship;
+			OpenShipWindow (ship.ShipData);
 			return;
 		}
 		MyInfoWindow.Open (selectable);
@@ -246,8 +247,8 @@ public class GameManager : MonoBehaviour {
 		MyFortWindow.Close ();
 	}
 
-	public void OpenShipWindow (Ship ship) {
-		MyShipWindow.Open (ship);
+	public void OpenShipWindow (ShipData shipData) {
+		MyShipWindow.Open (shipData);
 		MyExpeditionWindow.Close ();
 		MyMissionWindow.Close ();
 		MyPortWindow.Close ();

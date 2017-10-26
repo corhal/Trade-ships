@@ -43,6 +43,26 @@ public class ProductionBuilding : Building {
 		}
 	}
 
+	public override int GetUpgradedStatByString (string statName) { // :\
+		if (Level == MaxLevel) {
+			return 0;
+		}
+		switch (statName) {
+		case "MinReward":
+			return MinRewards [Level + 1] - MinRewards [Level];
+		case "MaxReward":
+			return MaxRewards [Level + 1] - MaxRewards [Level];
+		case "MinCargo":
+			return MinCargos [Level + 1] - MinCargos [Level];
+		case "MaxCargo":
+			return MaxCargos [Level + 1] - MaxCargos [Level];
+		case "SecPerShipment":
+			return 0;
+		default:
+			return 0;
+		}
+	} 
+
 	protected override void Update () {
 		base.Update ();
 		if (MyIsland.MyPort.Shipments.Count < MyIsland.MyPort.ShipmentsCapacity) {

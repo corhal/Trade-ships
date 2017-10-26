@@ -31,6 +31,8 @@ public class ImagesPopUp : MonoBehaviour {
 				Debug.Log (amountByItem.Key);
 			}*/
 			texts [1].text = amountByItem.Value.ToString ();
+			Image rewardImage = rewardElementObject.GetComponentInChildren<Image> ();
+			rewardImage.sprite = amountByItem.Key.Icon;
 
 			rewardElementObject.transform.SetParent (ImagesParent.transform);
 			rewardElementObject.transform.localScale = Vector3.one;

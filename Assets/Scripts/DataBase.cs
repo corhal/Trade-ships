@@ -58,16 +58,16 @@ public class DataBase : MonoBehaviour {
 			{ RankColor.OrangeP, Color.yellow },
 		};
 
-		Item wood = new Item ("Wood", null, ItemIconsByNames["Wood"], false);
-		Item food = new Item ("Food", null, ItemIconsByNames["Food"], true);
-		Item steel = new Item ("Steel", null, ItemIconsByNames["Steel"], false);
-		Item nails = new Item ("Nails", new Dictionary<Item, int> { { steel, 2 } }, ItemIconsByNames["Nails"], false);
-		Item hammers = new Item ("Picks", new Dictionary<Item, int> { { steel, 1 }, {wood, 1} }, ItemIconsByNames["Picks"], false);
-		Item saws = new Item ("Shovels", new Dictionary<Item, int> { { steel, 2 }, {wood, 1} }, ItemIconsByNames["Shovels"], false);
-		Item tools = new Item ("Tools", new Dictionary<Item, int> { { hammers, 1 }, {saws, 1} }, ItemIconsByNames["Tools"], false);
-		Item spices = new Item ("Spices", null, ItemIconsByNames["Spices"], true);
-		Item ale = new Item ("Ale", null, ItemIconsByNames["Ale"], true);
-		Item fish = new Item ("Fish", null, ItemIconsByNames["Fish"], true);
+		Item wood = new Item ("Wood", null, ItemIconsByNames["Wood"], false, true, new Dictionary<string, int> {{"MinReward", 1}, {"MaxReward", 1}});
+		Item food = new Item ("Food", null, ItemIconsByNames["Food"], true, false, null);
+		Item steel = new Item ("Steel", null, ItemIconsByNames["Steel"], false, true, new Dictionary<string, int> {{"Firepower", 5}});
+		Item nails = new Item ("Nails", new Dictionary<Item, int> { { steel, 2 } }, ItemIconsByNames["Nails"], false, true, null);
+		Item hammers = new Item ("Picks", new Dictionary<Item, int> { { steel, 1 }, {wood, 1} }, ItemIconsByNames["Picks"], false, true, null);
+		Item saws = new Item ("Shovels", new Dictionary<Item, int> { { steel, 2 }, {wood, 1} }, ItemIconsByNames["Shovels"], false, true, null);
+		Item tools = new Item ("Tools", new Dictionary<Item, int> { { hammers, 1 }, {saws, 1} }, ItemIconsByNames["Tools"], false, true, null);
+		Item spices = new Item ("Spices", null, ItemIconsByNames["Spices"], true, false, null);
+		Item ale = new Item ("Ale", null, ItemIconsByNames["Ale"], true, false, null);
+		Item fish = new Item ("Fish", null, ItemIconsByNames["Fish"], true, false, null);
 
 		TempItemLibrary = new List<Item> {
 			wood,

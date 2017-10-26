@@ -226,7 +226,7 @@ public class Ship : Selectable {
 	}
 
 	public override void ShowInfo () {
-		gameManager.OpenShipWindow (this);
+		gameManager.OpenShipWindow (this.ShipData);
 	}
 
 	void OnTriggerEnter2D (Collider2D other) { // will work even when passing through another port
@@ -235,7 +235,11 @@ public class Ship : Selectable {
 			foreach (var rewardChest in other.gameObject.GetComponent<Shipwreck> ().RewardChests) {
 				player.TakeItems (rewardChest.RewardItems);
 				foreach (var amountByItem in rewardChest.RewardItems) {
-					rewards.Add (amountByItem.Key, amountByItem.Value);
+					if (!rewards.ContainsKey(amountByItem.Key)) {
+						rewards.Add (amountByItem.Key, amountByItem.Value);
+					} else {
+						rewards [amountByItem.Key] += amountByItem.Value;
+					}
 				}
 			}
 			gameManager.OpenImagesPopUp ("Reward: ", rewards);

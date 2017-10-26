@@ -67,6 +67,10 @@ public class Selectable : MonoBehaviour {
 		return 0;
 	}
 
+	public virtual int GetUpgradedStatByString (string statName) {
+		return 0;
+	}
+
 	public virtual void Deanimate () {
 		animate = false;
 		mySprite.color = initialColor;

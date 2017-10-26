@@ -87,13 +87,13 @@ public class Player : MonoBehaviour {
 			List<Skill> skills = new List<Skill> { (coinToss > 0.5f) ? DataBase.SkillsByNames ["Slow down"] : DataBase.SkillsByNames ["Speed up"],
 				DataBase.SkillsByNames ["Trade"], DataBase.SkillsByNames ["Cannons"], DataBase.SkillsByNames ["Dummy"]
 			};
-			Item blueprint = new Item ((playerNames [j] + " blueprint"), null, null, false);
+			Item blueprint = new Item ((playerNames [j] + " blueprint"), null, null, false, false, null);
 			if (!DataBase.ItemIconsByNames.ContainsKey (blueprint.Name)) {
 				DataBase.ItemIconsByNames.Add (blueprint.Name, null);
 			}
 			if (!DataBase.TempItemLibrary.Contains (blueprint)) {
 				DataBase.TempItemLibrary.Add (blueprint);
-				Inventory.Add (blueprint, 1000);
+				Inventory.Add (blueprint, 0);
 			}
 
 			List<List<Item>> promoteCosts = new List<List<Item>> ();
@@ -105,7 +105,7 @@ public class Player : MonoBehaviour {
 					foreach (var item in Player.Instance.DataBase.TempItemLibrary) {
 						string nameString = item.Name;
 						string firstName = nameString.Split (' ') [0];
-						if (/*!cost.ContainsKey(item) &&*/ !item.IsForSale && firstName != "Blueprint") {
+						if (/*!cost.ContainsKey(item) &&*/ !item.IsForSale && item.IsForCraft /*firstName != "Blueprint"*/) {
 							validItems.Add (item);
 						}
 					}

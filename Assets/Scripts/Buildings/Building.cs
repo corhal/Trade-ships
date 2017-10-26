@@ -33,7 +33,7 @@ public class Building : Selectable {
 			for (int j = 0; j < costLength; j++) {
 				List<Item> validItems = new List<Item> ();
 				foreach (var item in player.DataBase.TempItemLibrary) {
-					if (!cost.ContainsKey(item) && !item.IsForSale) {
+					if (!cost.ContainsKey(item) && !item.IsForSale && item.IsForCraft) {
 						validItems.Add (item);
 					}
 				}

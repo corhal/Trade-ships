@@ -58,7 +58,8 @@ public class MissionWindow : MonoBehaviour {
 				Debug.Log (amountByItem.Key);
 			}*/
 			texts [1].text = amountByItem.Value.ToString ();
-
+			Image rewardImage = rewardElementObject.GetComponentInChildren<Image> ();
+			rewardImage.sprite = amountByItem.Key.Icon;
 			rewardElementObject.transform.SetParent (RewardsElementContainer.transform);
 			rewardElementObject.transform.localScale = Vector3.one;
 			RewardElementObjects.Add (rewardElementObject);

@@ -13,14 +13,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_PixelRect:
     serializedVersion: 2
-    x: 1920
-    y: 44
+    x: 3840
+    y: 43
     width: 1920
     height: 997
   m_ShowMode: 4
   m_Title: 
   m_RootView: {fileID: 4}
-  m_MinSize: {x: 950, y: 300}
+  m_MinSize: {x: 950, y: 321}
   m_MaxSize: {x: 10000, y: 10000}
 --- !u!114 &2
 MonoBehaviour:
@@ -70,7 +70,7 @@ MonoBehaviour:
   m_MinSize: {x: 277, y: 192}
   m_MaxSize: {x: 4002, y: 8042}
   vertical: 1
-  controlID: 125
+  controlID: 132
 --- !u!114 &4
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -92,7 +92,7 @@ MonoBehaviour:
     y: 0
     width: 1920
     height: 997
-  m_MinSize: {x: 950, y: 300}
+  m_MinSize: {x: 950, y: 321}
   m_MaxSize: {x: 10000, y: 10000}
 --- !u!114 &5
 MonoBehaviour:
@@ -286,8 +286,8 @@ MonoBehaviour:
   m_DepthBufferBits: 32
   m_Pos:
     serializedVersion: 2
-    x: 1920
-    y: 93
+    x: 3840
+    y: 92
     width: 877
     height: 926
   m_MaximizeOnPlay: 0
@@ -362,19 +362,19 @@ MonoBehaviour:
   m_DepthBufferBits: 32
   m_Pos:
     serializedVersion: 2
-    x: 1920
-    y: 93
+    x: 3840
+    y: 92
     width: 877
     height: 926
   m_SceneLighting: 1
-  lastFramingTime: 1542.5700708316767
+  lastFramingTime: 2066.5181658965807
   m_2DMode: 1
   m_isRotationLocked: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 0.34655693, y: -0.12042265, z: -6}
+    m_Target: {x: 0.02000004, y: 0.099999994, z: -6}
     speed: 2
-    m_Value: {x: 0.34655693, y: -0.12042265, z: -6}
+    m_Value: {x: 0.02000004, y: 0.099999994, z: -6}
   m_RenderMode: 0
   m_ValidateTrueMetals: 0
   m_SceneViewState:
@@ -401,9 +401,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 8.894526
+    m_Target: 6.9957542
     speed: 2
-    m_Value: 8.894526
+    m_Value: 6.9957542
   m_Ortho:
     m_Target: 1
     speed: 2
@@ -462,15 +462,15 @@ MonoBehaviour:
   m_DepthBufferBits: 0
   m_Pos:
     serializedVersion: 2
-    x: 2801
-    y: 93
+    x: 4721
+    y: 92
     width: 251
     height: 926
   m_TreeViewState:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 043dfeff203dfeff243dfeff3054feff485efeff4c5efeff505efeff585efeff5c5efefff65efeffa6d9feffaa0dffff1460fffff4fbffff16fcffff18fcffff00000000762900007a2900008e2900009a2900001a2a0000422a0000c2780000
+    m_ExpandedIDs: 82d0f9ffa0d0f9ff3471faff7a2ffdffac4ffdffea20feffd6f4feff2034ffff2e34ffff746cfffff0f2ffff9cf3ffffd6f3ffff58f4ffffaef4ffffc2f4fffff4ffffff00000000583800007638000084380000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -515,8 +515,8 @@ MonoBehaviour:
   m_DepthBufferBits: 0
   m_Pos:
     serializedVersion: 2
-    x: 3056
-    y: 93
+    x: 4976
+    y: 92
     width: 297
     height: 926
   m_SearchFilter:
@@ -531,18 +531,18 @@ MonoBehaviour:
     m_ShowAllHits: 0
     m_SearchArea: 0
     m_Folders:
-    - Assets/Prefabs/UI
+    - Assets/Prefabs
   m_ViewMode: 0
   m_StartGridSize: 64
   m_LastFolders: []
   m_LastFoldersGridSize: -1
-  m_LastProjectPath: C:\Users\a.panfilov\Desktop\cr-calc\Trade-ships
+  m_LastProjectPath: D:\repositories\Trade ships
   m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: d4210000
     m_LastClickedID: 8660
-    m_ExpandedIDs: 00000000b8260000fe260000082700001c270000a4270000aa270000c6270000d22700004e28000050280000642800008e2800009c280000
+    m_ExpandedIDs: 000000007a3300002c3600006e360000703600007a360000e6360000ec360000fe3600000a370000683700006a3700007c3700008837000092370000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -570,21 +570,21 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000b8260000fe260000082700001c270000a4270000aa270000c6270000d22700004e28000050280000642800008e2800009c280000ae280000
+    m_ExpandedIDs: 00000000783300002c3600006e360000703600007a360000e6360000ec360000fe3600000a370000683700006a3700007c3700008837000092370000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
-      m_Name: BattleSkillsWindow
-      m_OriginalName: BattleSkillsWindow
+      m_Name: 
+      m_OriginalName: 
       m_EditFieldRect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 0
         height: 0
-      m_UserData: 13898
+      m_UserData: 0
       m_IsWaitingForDelay: 0
       m_IsRenaming: 0
-      m_OriginalEventType: 0
+      m_OriginalEventType: 11
       m_IsRenamingFilename: 1
       m_ClientGUIView: {fileID: 10}
     m_SearchString: 
@@ -647,8 +647,8 @@ MonoBehaviour:
   m_DepthBufferBits: 0
   m_Pos:
     serializedVersion: 2
-    x: 3357
-    y: 797
+    x: 5277
+    y: 796
     width: 483
     height: 222
 --- !u!114 &18
@@ -673,8 +673,8 @@ MonoBehaviour:
   m_DepthBufferBits: 0
   m_Pos:
     serializedVersion: 2
-    x: 3357
-    y: 93
+    x: 5277
+    y: 92
     width: 483
     height: 683
   m_ScrollPosition: {x: 0, y: 0}

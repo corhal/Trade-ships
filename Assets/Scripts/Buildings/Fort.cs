@@ -17,6 +17,6 @@ public class Fort : Building {
 	}
 
 	void ShowShips () {
-		gameManager.OpenFortWindow ();
+		//gameManager.OpenFortWindow ();
 	}
 }
