@@ -112,7 +112,8 @@ public class ShipWindow : MonoBehaviour {
 					});
 				} else {
 					ItemImages [stupidLambdaCounter].GetComponent<Button> ().onClick.AddListener (delegate {
-						gameManager.FindMissionForItem(item);
+						gameManager.OpenCraftWindow(null, item);
+						//gameManager.FindMissionForItem(item);
 					});
 				}
 			}
@@ -299,7 +300,7 @@ public class ShipWindow : MonoBehaviour {
 					SkillElements [stupidLambdaCounter].SkillUpgradeButton.gameObject.SetActive (true);
 					SkillElements [i].UnlockNode.SetActive (false);
 
-					SkillElements [i].SkillLevelLabel.text = currentShipData.Skills [i].Level.ToString ();
+					SkillElements [i].SkillLevelLabel.text = "level: " + currentShipData.Skills [i].Level;
 					SkillElements [i].UpgradeCostLabel.text = "$ " + currentShipData.Skills [i].UpgradeCosts [currentShipData.Skills [i].Level];
 
 					SkillElements [stupidLambdaCounter].SkillUpgradeButton.onClick.RemoveAllListeners ();

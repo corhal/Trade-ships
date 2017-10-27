@@ -23,23 +23,15 @@ public class Ship : Selectable {
 
 	public bool IsSummoned { get { return ShipData.IsSummoned; } set { ShipData.IsSummoned = value; } } 
 
-	public RankColor RankColor { get { return ShipData.RankColor; } set { ShipData.RankColor = value; } } 
-
-	public Item Blueprint { get { return ShipData.Blueprint; } set { ShipData.Blueprint = value; } }
-	public int Stars { get { return ShipData.Stars; } set { ShipData.Stars = value; } }
-
-	public int Exp { get { return ShipData.Exp; } set { ShipData.Exp = value; } }
-	public List<int> LevelRequirements { get { return ShipData.LevelRequirements; } set { ShipData.LevelRequirements = value; } }
-
 	public List<Effect> Effects { get { return ShipData.Effects; } set { ShipData.Effects = value; } }
 	public List<Skill> Skills { get { return ShipData.Skills; } set { ShipData.Skills = value; } }
-
-	public List<List<Item>> PromoteCosts { get { return ShipData.PromoteCosts; } set { ShipData.PromoteCosts = value; } }
-	public List<int> EvolveCosts;
 
 	public int MaxHP { get { return ShipData.MaxHP; } set { ShipData.MaxHP = value; } }
 	public int HP { get { return ShipData.HP; } set { ShipData.HP = value; } } // not a great solution
 	public int Power { get { return ShipData.Power; } set { ShipData.Power = value; } }
+
+	public float SecPerShot { get { return ShipData.SecPerShot; } set { ShipData.SecPerShot = value; } }
+	public float AttackRange { get { return ShipData.AttackRange; } set { ShipData.AttackRange = value; } }
 
 	MoveOnClick mover;
 
@@ -64,6 +56,7 @@ public class Ship : Selectable {
 
 	protected override void Start () {
 		base.Start ();
+		mover.Speed = ShipData.Speed;
 		StatNames = new List<string> {
 			"Cargo",
 			"HP",
@@ -73,7 +66,6 @@ public class Ship : Selectable {
 			"Attack speed",
 			"Speed",
 		};
-		EvolveCosts = player.DataBase.EvolveCosts;
 		Process = "Moving";
 		Action moveAction = new Action ("Move", 0, player.DataBase.ActionIconsByNames["Move"], MoveMode);
 		actions.Add (moveAction);
@@ -85,11 +77,6 @@ public class Ship : Selectable {
 		Allegiance = ShipData.Allegiance;
 
 		transform.position = new Vector3 (ShipData.Coordinates[0], ShipData.Coordinates[1], ShipData.Coordinates[2]);
-		LevelRequirements = new List<int> (ShipData.LevelRequirements);
-		battleship.HP = MaxHP;
-		battleship.SetMaxHP (MaxHP);
-		battleship.FirePower = Power;
-		battleship.Allegiance = Allegiance;
 	}
 
 	public void UseSkill () {
@@ -110,46 +97,12 @@ public class Ship : Selectable {
 	}
 
 	public override int GetStatByString (string statName) {
-		switch (statName) {
-		case "HP":
-			return HP;
-		case "MaxHP":
-			return MaxHP;
-		case "Firepower":
-			return Power;
-		case "Range":
-			return (int)(battleship.AttackRange * 1000.0f);
-		case "Attack speed":
-			return (int)(battleship.SecPerShot * 1000.0f);
-		case "Speed":
-			return (int)(mover.Speed * 1000.0f);
-		default:
-			return 0;
-		}
+		return ShipData.GetStatByString (statName);
 	}
 
 	void AddStatByString (string statName, int amount) {
-		switch (statName) {
-		case "MaxHP":
-			MaxHP += amount;
-			battleship.SetMaxHP (MaxHP);
-			break;
-		case "Firepower":
-			Power += amount;
-			battleship.FirePower = Power;
-			break;
-		case "Range":
-			battleship.AttackRange += (float)amount / 1000.0f; // munits
-			break;
-		case "Attack speed":
-			battleship.SecPerShot += (float)amount / 1000.0f; // msec
-			break;
-		case "Speed":
-			mover.Speed += (float)amount / 1000.0f; // munits
-			break;
-		default:
-			break;
-		}
+		ShipData.AddStatByString (statName, amount);
+		mover.Speed = ShipData.Speed;
 	}
 
 	void ReduceStatByString (string statName, int amount) {
@@ -157,54 +110,39 @@ public class Ship : Selectable {
 	}
 
 	public void ApplyEffect (Effect effect) {
-		foreach (var myEffect in Effects) {
+		ShipData.ApplyEffect (effect);
+		/*foreach (var myEffect in Effects) {
 			if (effect.Name == myEffect.Name) { // effects don't stack right now
 				RemoveEffect (myEffect);
 				break;
 			}
 		}
-		Effects.Add (effect.Copy());
+		Effects.Add (effect.Copy());*/
 		if (effect.EffectParticlesPrefab != null) {
 			GameObject effectParticlesObject = Instantiate (effect.EffectParticlesPrefab) as GameObject;
 			ParticleSystem effectParticles = effectParticlesObject.GetComponent<ParticleSystem> ();
 			effectParticlesObject.transform.SetParent (transform);
 			effectParticles.transform.position = transform.position;
 			effectParticles.Play ();
-			ParticlesByEffectNames.Add (effect.Name, effectParticles);
+			if (!ParticlesByEffectNames.ContainsKey(effect.Name)) {
+				ParticlesByEffectNames.Add (effect.Name, effectParticles);
+			}
 		}
-		foreach (var statEffect in effect.StatEffects[effect.Level]) {					
+		/*foreach (var statEffect in effect.StatEffects[effect.Level]) {					
 			AddStatByString (statEffect.Key, statEffect.Value);					
-		}
+		}*/
 	}
 
 	public void RemoveEffect (Effect effect) {
-		foreach (var statEffect in effect.StatEffects[effect.Level]) {					
+		ShipData.RemoveEffect (effect);
+		/*foreach (var statEffect in effect.StatEffects[effect.Level]) {					
 			ReduceStatByString (statEffect.Key, statEffect.Value);					
 		}
-		Effects.Remove (effect);
+		Effects.Remove (effect);*/
 
 		if (ParticlesByEffectNames.ContainsKey(effect.Name)) {
 			Destroy (ParticlesByEffectNames[effect.Name].gameObject);
 			ParticlesByEffectNames.Remove (effect.Name);
-		}
-	}
-
-	public void UpgradeSkill (Skill skill) {		
-		if (Skills.Contains(skill)) {			
-			if (player.Gold >= skill.UpgradeCosts[skill.Level]) {
-				player.GiveGold (skill.UpgradeCosts [skill.Level]);
-				skill.Upgrade ();
-
-				foreach (var effectByTarget in skill.EffectsByTargets) {
-					if (effectByTarget.Value != null && effectByTarget.Key == "self" && effectByTarget.Value.Duration == -1.0f) { // kinda sorta determine if skill is passive
-						ApplyEffect (effectByTarget.Value);
-					}
-				}
-
-				//CargoSlider.value = ShipData.TotalWeight;
-			} else {
-				gameManager.OpenPopUp ("Not enough gold!");
-			}
 		}
 	}
 
@@ -255,42 +193,5 @@ public class Ship : Selectable {
 		foreach (var rewardChest in RewardChests) {
 			shipwreck.RewardChests.Add (rewardChest);
 		}
-	}
-
-	public void AddExp (int amount) {
-		Exp += amount;
-		if (Exp >= LevelRequirements[Level]) {
-			LevelUp ();
-		}
-	}
-
-	public void LevelUp () {
-		Level += 1;
-	}
-
-	public void PromoteRank () {
-		for (int i = 0; i < PromoteCosts[(int)RankColor].Count; i++) {
-			Item item = PromoteCosts [(int)RankColor] [i];
-
-			if (!Player.Instance.Inventory.ContainsKey(item) || Player.Instance.Inventory[item] == 0) {
-				gameManager.OpenPopUp ("Not enough items!");
-				return;
-			}
-		}
-
-		foreach (var item in PromoteCosts[(int)RankColor]) {
-			player.GiveItems (new Dictionary<Item, int> { { item, 1 } });
-		}
-
-		RankColor += 1;
-	}
-
-	public void EvolveStar () {
-		if (!Player.Instance.Inventory.ContainsKey(Blueprint) || Player.Instance.Inventory[Blueprint] < EvolveCosts[Stars]) {
-			gameManager.OpenPopUp ("Not enough blueprints!");
-			return;
-		}
-		player.GiveItems (new Dictionary<Item, int> { { Blueprint, EvolveCosts [Stars] } });
-		Stars += 1;
 	}
 }

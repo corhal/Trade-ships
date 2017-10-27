@@ -6,18 +6,18 @@ using UnityEngine.UI;
 public class BattleShip : MonoBehaviour {
 
 	public Ship MyShip; // temp solution
-	public ParticleSystem smokeParticles;
 
+	public ParticleSystem smokeParticles;
 	public GameObject CannonBallPrefab;
 	public List<BattleShip> Enemies;
 	public BattleShip Enemy;
 
-	public string Allegiance;
-	public int FirePower;
-	public int MaxHP;
-	public int HP;
-	public float SecPerShot;
-	public float AttackRange;
+	public string Allegiance { get { return MyShip.Allegiance; } }
+	public int FirePower { get { return MyShip.Power; } }
+	public int MaxHP { get { return MyShip.MaxHP; } }
+	public int HP { get { return MyShip.HP; } }
+	public float SecPerShot { get { return MyShip.SecPerShot; } }
+	public float AttackRange { get { return MyShip.AttackRange; } }
 
 	float timer;
 	float initialSmokeZ;
@@ -26,12 +26,6 @@ public class BattleShip : MonoBehaviour {
 	public event BattleshipDestroyedEventHandler OnBattleShipDestroyed;
 
 	public Slider HPSlider;
-
-	public void SetMaxHP (int maxHp) {		
-		MaxHP = maxHp;
-		HPSlider.maxValue = maxHp;
-		HPSlider.value = HP;
-	}
 
 	public void Shoot () {
 		GameObject cannonBallObject = Instantiate (CannonBallPrefab) as GameObject;
@@ -50,7 +44,6 @@ public class BattleShip : MonoBehaviour {
 
 	void Start () {
 		GetEnemies ();
-		//Enemies = GameManager.Instance.GetEnemies (Allegiance);
 
 		if (Allegiance == "Enemy") {
 			Image[] images = HPSlider.GetComponentsInChildren<Image> ();
@@ -60,6 +53,8 @@ public class BattleShip : MonoBehaviour {
 				} 
 			}
 		}
+		HPSlider.maxValue = MaxHP;
+		HPSlider.value = HP;
 	}
 
 	void Update () {
@@ -105,8 +100,7 @@ public class BattleShip : MonoBehaviour {
 	}
 
 	public void TakeDamage (int damage) {
-		HP -= damage;
-		MyShip.HP = HP; // temp solution
+		MyShip.HP -= damage;
 		HPSlider.value = HP;
 		if (HP <= 0) {
 			OnBattleShipDestroyed (this);

@@ -26,13 +26,18 @@ public class ShipData {
 	public List<int> EvolveCosts;
 	public List<string> StatNames;
 
+	public float SecPerShot;
+	public float AttackRange;
+	public float Speed = 1.0f; // change later
+
 	public ShipData () {
 
 	}
 
 	public ShipData (string name, string allegiance, int level, int stars, int maxHP, 
 		int hp, int power, float[] coordinates, List<Skill> skills, List<Effect> effects,
-		Item blueprint, List<List<Item>> promoteCosts, RankColor rankColor, bool isSummoned, List<int> levelRequirements, List<RewardChest> rewardChests) {
+		Item blueprint, List<List<Item>> promoteCosts, RankColor rankColor, bool isSummoned, List<int> levelRequirements, List<RewardChest> rewardChests,
+		float secPerShot, float attackRange) {
 		Name = name;
 		Allegiance = allegiance;
 		Level = level;
@@ -45,7 +50,9 @@ public class ShipData {
 		Blueprint = blueprint;
 		Exp = 0;
 		EvolveCosts = Player.Instance.DataBase.EvolveCosts;
-		StatNames = new List<string> { "Cargo", "MaxHP", "Firepower" };
+		StatNames = new List<string> { /*"Cargo",*/ "MaxHP", "Firepower", "Range", "Attack speed", "Speed"};
+		SecPerShot = secPerShot;
+		AttackRange = attackRange;
 		if (promoteCosts != null) {
 			PromoteCosts = new List<List<Item>> (promoteCosts);
 		} else {
@@ -84,41 +91,39 @@ public class ShipData {
 		case "Firepower":
 			return Power;
 		case "Range":
-			return 0; //(int)(battleship.AttackRange * 1000.0f);
+			return (int)(AttackRange * 1000.0f);
 		case "Attack speed":
-			return 0; // (int)(battleship.SecPerShot * 1000.0f);
+			return (int)(SecPerShot * 1000.0f);
 		case "Speed":
-			return 0; // (int)(mover.Speed * 1000.0f);
+			return (int)(Speed * 1000.0f);
 		default:
 			return 0;
 		}
 	}
 
-	void AddStatByString (string statName, int amount) {
+	public void AddStatByString (string statName, int amount) {
 		switch (statName) {
 		case "MaxHP":
 			MaxHP += amount;
-			//battleship.SetMaxHP (MaxHP);
 			break;
 		case "Firepower":
 			Power += amount;
-			//battleship.FirePower = Power;
 			break;
 		case "Range":
-			//battleship.AttackRange += (float)amount / 1000.0f; // munits
+			AttackRange += (float)amount / 1000.0f; // munits
 			break;
 		case "Attack speed":
-			//battleship.SecPerShot += (float)amount / 1000.0f; // msec
+			SecPerShot += (float)amount / 1000.0f; // msec
 			break;
 		case "Speed":
-			//mover.Speed += (float)amount / 1000.0f; // munits
+			Speed += (float)amount / 1000.0f; // munits
 			break;
 		default:
 			break;
 		}
 	}
 
-	void ReduceStatByString (string statName, int amount) {
+	public void ReduceStatByString (string statName, int amount) {
 		AddStatByString (statName, -amount);
 	}
 

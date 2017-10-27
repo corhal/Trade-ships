@@ -119,7 +119,7 @@ public class Player : MonoBehaviour {
 
 			List<int> levelRequirements = new List<int> { 10, 20, 30, 40, 50 };
 			ShipData newShipData = new ShipData (playerNames [j], "Player", 1, 1,
-				                       maxHp, maxHp, Random.Range (10, 20), coordinates, skills, null, blueprint, promoteCosts, RankColor.White, summoned, levelRequirements, null);
+				                       maxHp, maxHp, Random.Range (10, 20), coordinates, skills, null, blueprint, promoteCosts, RankColor.White, summoned, levelRequirements, null, 1.5f, 3.0f);
 
 			ShipDatas.Add (newShipData);
 
