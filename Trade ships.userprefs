@@ -5,14 +5,14 @@
       <File FileName="Assets\Scripts\MoveOnClick.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Shipment.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\GameManager.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Player.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Player.cs" Line="25" Column="20" />
       <File FileName="Assets\Scripts\Action.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Selectable.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Buildings\ProductionBuilding.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\CameraDrag.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Buildings\Port.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Ships\Ship.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Ships\BattleShip.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Ships\BattleShip.cs" Line="23" Column="22" />
       <File FileName="Assets\Scripts\CannonBall.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Region.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Island.cs" Line="1" Column="1" />
@@ -43,8 +43,12 @@
       <File FileName="Assets\Scripts\Ships\Shipwreck.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\BattleJack\BJCard.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\BattleJack\BJCardObject.cs" Line="10" Column="28" />
-      <File FileName="Assets\Scripts\BattleJack\BJGameController.cs" Line="32" Column="4" />
-      <File FileName="Assets\Scripts\BattleJack\BJDataBase.cs" Line="13" Column="42" />
+      <File FileName="Assets\Scripts\BattleJack\BJGameController.cs" Line="66" Column="71" />
+      <File FileName="Assets\Scripts\BattleJack\BJDataBase.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\BattleJack\BJDeck.cs" Line="58" Column="3" />
+      <File FileName="Assets\Scripts\BattleJack\BJShip.cs" Line="23" Column="35" />
+      <File FileName="Assets\Scripts\BattleJack\BJShipObject.cs" Line="17" Column="30" />
+      <File FileName="Assets\Scripts\BattleJack\BJPlayer.cs" Line="22" Column="35" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

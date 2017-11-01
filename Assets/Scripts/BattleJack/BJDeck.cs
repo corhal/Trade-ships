@@ -29,4 +29,41 @@ public class BJDeck {
 		BJCard card = Cards [Cards.Count - 1];
 		return card;
 	}
+
+	public void Add (BJCard card) {
+		Cards.Add (card);
+
+	}
+
+	public void Flush () {
+		Cards.Clear ();
+	}
+
+	public int CountScore () {		
+		List<BJCard> cards = new List<BJCard> ();
+		List<BJCard> aces = new List<BJCard> ();
+
+		int score = 0;
+		foreach (var card in Cards) {			
+			if (card.Rank == Ranks.Ace) { 
+				aces.Add (card);
+			} else {
+				cards.Add (card);
+			}
+		}
+
+		foreach (var card in cards) {
+			score += (int)card.Rank;
+		}
+
+		foreach (var ace in aces) {
+			if (score + (int)ace.Rank > 21) {
+				score += 1;
+			} else {
+				score += (int)ace.Rank;
+			}
+		}
+
+		return score;
+	}
 }

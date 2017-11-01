@@ -20,7 +20,7 @@ MonoBehaviour:
   m_ShowMode: 4
   m_Title: 
   m_RootView: {fileID: 4}
-  m_MinSize: {x: 950, y: 300}
+  m_MinSize: {x: 950, y: 321}
   m_MaxSize: {x: 10000, y: 10000}
 --- !u!114 &2
 MonoBehaviour:
@@ -40,8 +40,8 @@ MonoBehaviour:
     y: 704
     width: 485
     height: 243
-  m_MinSize: {x: 100, y: 100}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 102, y: 121}
+  m_MaxSize: {x: 4002, y: 4021}
   m_ActualView: {fileID: 17}
   m_Panes:
   - {fileID: 17}
@@ -70,7 +70,7 @@ MonoBehaviour:
   m_MinSize: {x: 277, y: 192}
   m_MaxSize: {x: 4002, y: 8042}
   vertical: 1
-  controlID: 114
+  controlID: 55
 --- !u!114 &4
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -160,7 +160,7 @@ MonoBehaviour:
   m_MinSize: {x: 917, y: 271}
   m_MaxSize: {x: 22012, y: 10021}
   vertical: 0
-  controlID: 113
+  controlID: 110
 --- !u!114 &8
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -256,8 +256,8 @@ MonoBehaviour:
     y: 0
     width: 485
     height: 704
-  m_MinSize: {x: 275, y: 50}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 277, y: 71}
+  m_MaxSize: {x: 4002, y: 4021}
   m_ActualView: {fileID: 18}
   m_Panes:
   - {fileID: 18}
@@ -372,9 +372,9 @@ MonoBehaviour:
   m_isRotationLocked: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: -0.96518964, y: -0.93807006, z: -3.5742188}
+    m_Target: {x: -1.57067, y: -1.0471573, z: -3.5742188}
     speed: 2
-    m_Value: {x: -0.96518964, y: -0.93807006, z: -3.5742188}
+    m_Value: {x: -1.57067, y: -1.0471573, z: -3.5742188}
   m_RenderMode: 0
   m_ValidateTrueMetals: 0
   m_SceneViewState:
@@ -401,9 +401,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 7.634241
+    m_Target: 9.508148
     speed: 2
-    m_Value: 7.634241
+    m_Value: 9.508148
   m_Ortho:
     m_Target: 1
     speed: 2
@@ -470,7 +470,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: c0c6ffffb8f3ffff00000000c6390000f83d00004c3e00009a3f00006a4000008a4000009e400000a8400000
+    m_ExpandedIDs: 920fffffaa0fffffac0fffffdefbffff18fcfffff4ffffff000000002c2a0000ce2b00005e2e0000e2300000f0300000043100000e310000b0320000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -530,8 +530,7 @@ MonoBehaviour:
     m_ScenePaths: []
     m_ShowAllHits: 0
     m_SearchArea: 0
-    m_Folders:
-    - Assets/Scripts/BattleJack
+    m_Folders: []
   m_ViewMode: 0
   m_StartGridSize: 64
   m_LastFolders: []
@@ -542,7 +541,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: d4210000
     m_LastClickedID: 8660
-    m_ExpandedIDs: 000000008434000082370000c8370000ca37000010380000223800006a38000070380000823800008e380000d0380000d2380000f4380000f6380000083900001839000022390000
+    m_ExpandedIDs: 00000000c8260000122700001c27000082270000a2270000f4270000fa2700000028000016280000282800007628000078280000ac280000ae280000c2280000f028000002290000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -567,10 +566,10 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_AssetTreeState:
-    scrollPos: {x: 0, y: 680}
+    scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 000000008434000082370000c8370000ca37000010380000223800006a38000070380000823800008e380000d0380000d2380000f4380000f6380000083900001839000022390000
+    m_ExpandedIDs: 00000000c8260000122700001c27000082270000a2270000f4270000fa2700000028000016280000282800007628000078280000ac280000ae280000c2280000f028000002290000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 

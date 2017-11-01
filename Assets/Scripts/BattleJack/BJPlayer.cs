@@ -4,13 +4,21 @@ using UnityEngine;
 
 public class BJPlayer : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-		
+	public List<BJShip> Ships;
+
+	public static BJPlayer Instance;
+
+	void Awake () {
+		if (Instance == null) {			
+			Instance = this;
+		} else if (Instance != this) {
+			Destroy (gameObject);  
+		}
+		DontDestroyOnLoad(gameObject);
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
+
+	void Start () {
+		Ships = new List<BJShip> ();
+		Ships.Add (new BJShip (1000, 100));
 	}
 }

@@ -59,6 +59,7 @@
      <Compile Include="Assets\Scripts\BattleJack\BJGameController.cs" />
      <Compile Include="Assets\Scripts\BattleJack\BJPlayer.cs" />
      <Compile Include="Assets\Scripts\BattleJack\BJShip.cs" />
+     <Compile Include="Assets\Scripts\BattleJack\BJShipObject.cs" />
      <Compile Include="Assets\Scripts\BattleManager.cs" />
      <Compile Include="Assets\Scripts\Buildings\Building.cs" />
      <Compile Include="Assets\Scripts\Buildings\BuildingData.cs" />
