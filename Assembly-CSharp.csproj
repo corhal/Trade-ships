@@ -52,6 +52,13 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\Action.cs" />
+     <Compile Include="Assets\Scripts\BattleJack\BJCard.cs" />
+     <Compile Include="Assets\Scripts\BattleJack\BJCardObject.cs" />
+     <Compile Include="Assets\Scripts\BattleJack\BJDataBase.cs" />
+     <Compile Include="Assets\Scripts\BattleJack\BJDeck.cs" />
+     <Compile Include="Assets\Scripts\BattleJack\BJGameController.cs" />
+     <Compile Include="Assets\Scripts\BattleJack\BJPlayer.cs" />
+     <Compile Include="Assets\Scripts\BattleJack\BJShip.cs" />
      <Compile Include="Assets\Scripts\BattleManager.cs" />
      <Compile Include="Assets\Scripts\Buildings\Building.cs" />
      <Compile Include="Assets\Scripts\Buildings\BuildingData.cs" />
