@@ -5,6 +5,12 @@ using UnityEngine.UI;
 
 public class BJGameController : MonoBehaviour {
 
+	public Slider PlayerHPSlider;
+	public Text PlayerHPLabel;
+	public GameObject PlayerShipPrefab;
+	public GameObject PlayerShipsContainer;
+	public List<BJPlayerShipObject> PlayerShipObjects;
+
 	public GameObject ShipObjectsContainer;
 	public GameObject ShipObjectPrefab;
 	public List<BJShipObject> EnemyShipObjects;
@@ -25,30 +31,60 @@ public class BJGameController : MonoBehaviour {
 		Hand = new BJDeck ();
 		Hand.Flush ();
 
-		DealCards (2);
+		StartCoroutine (DealCards (2, 0.0f));
 
 		SpawnShips (3);
+
+		BJPlayer.Instance.OnDamageTaken += BJPlayer_Instance_OnDamageTaken;
+
+		PlayerHPSlider.maxValue = BJPlayer.Instance.MaxHP;
+		PlayerHPSlider.value = BJPlayer.Instance.HP;
+		PlayerHPLabel.text = BJPlayer.Instance.HP + "/" + BJPlayer.Instance.MaxHP;
+
+		SpawnPlayerShips ();
+	}
+
+	void BJPlayer_Instance_OnDamageTaken ()	{
+		PlayerHPSlider.value = BJPlayer.Instance.HP;
+		PlayerHPLabel.text = BJPlayer.Instance.HP + "/" + BJPlayer.Instance.MaxHP;
 	}
 
 	public void PlayerAttack () {
-		BJShip currentTarget = null;
+		BJShipObject currentTarget = null;
 		foreach (var enemyShip in EnemyShipObjects) {
 			if (enemyShip.Ship.HP > 0) {
-				currentTarget = enemyShip.Ship;
+				currentTarget = enemyShip;
 				break;
 			}
 		}
 
-		float multiplier = 1.0f + currentScore / 21.0f;
-		foreach (var ship in BJPlayer.Instance.Ships) {
-			ship.DealDamage (multiplier, currentTarget);
+		float multiplier = 1.0f + currentScore / 21.0f; 
+		foreach (var shipObject in PlayerShipObjects) {
+			 shipObject.DealDamage (multiplier, currentTarget);
 		}
 
 		FlushCards ();
-		DealCards (2);
+		// EnemyAttack ();
+		Invoke ("EnemyAttack", 0.5f);
 	}
 
-	public void DealCards (int count) {
+	public void EnemyAttack () {
+		float multiplier = 1.0f;
+		foreach (var shipObject in EnemyShipObjects) {
+			if (shipObject.Ship.HP > 0) {
+				shipObject.DealDamage (multiplier, BJPlayer.Instance);
+			}
+		}
+
+		StartCoroutine (DealCards (2, 0.5f));
+	}
+
+	public void ClickDealButton () {
+		StartCoroutine (DealCards (1, 0.0f));
+	}
+
+	public IEnumerator DealCards (int count, float pause) {
+		yield return new WaitForSeconds (pause);
 		for (int i = 0; i < count; i++) {
 			GameObject cardObject = Instantiate (CardObjectPrefab) as GameObject;
 			BJCardObject bjCardObject = cardObject.GetComponent<BJCardObject> ();
@@ -64,6 +100,7 @@ public class BJGameController : MonoBehaviour {
 
 		if (currentScore > 21) {
 			Invoke ("FlushCards", 0.5f); // maybe should use coroutines instead
+			Invoke ("EnemyAttack", 0.5f);
 		}
 	}
 
@@ -75,6 +112,17 @@ public class BJGameController : MonoBehaviour {
 		CardObjects.Clear ();
 		currentScore = 0;
 		ScoreLabel.text = "" + currentScore;
+	}
+
+	public void SpawnPlayerShips () {
+		foreach (var ship in BJPlayer.Instance.Ships) {
+			GameObject shipObject = Instantiate (PlayerShipPrefab) as GameObject;
+			BJPlayerShipObject bjPlayerShipObject = shipObject.GetComponent<BJPlayerShipObject> ();
+			bjPlayerShipObject.Ship = ship;
+			shipObject.transform.SetParent (PlayerShipsContainer.transform);
+			shipObject.transform.localScale = Vector3.one;
+			PlayerShipObjects.Add (bjPlayerShipObject);
+		}
 	}
 
 	public void SpawnShips (int amount) {

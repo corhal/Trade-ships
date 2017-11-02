@@ -44,11 +44,15 @@
       <File FileName="Assets\Scripts\UI\Windows\BattleSkillsWindow.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\UI\Elements\SkillElement.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\UI\Elements\ShipListElement.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\BattleJack\BJCard.cs" Line="8" Column="13" />
-      <File FileName="Assets\Scripts\BattleJack\BJDeck.cs" Line="29" Column="41" />
-      <File FileName="Assets\Scripts\BattleJack\BJGameController.cs" Line="26" Column="50" />
-      <File FileName="Assets\Scripts\BattleJack\BJDataBase.cs" Line="11" Column="2" />
-      <File FileName="Assets\Scripts\BattleJack\BJCardObject.cs" Line="7" Column="21" />
+      <File FileName="Assets\Scripts\BattleJack\BJCard.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\BattleJack\BJDeck.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\BattleJack\BJGameController.cs" Line="76" Column="5" />
+      <File FileName="Assets\Scripts\BattleJack\BJDataBase.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\BattleJack\BJCardObject.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\BattleJack\BJShip.cs" Line="38" Column="29" />
+      <File FileName="Assets\Scripts\BattleJack\BJPlayer.cs" Line="35" Column="14" />
+      <File FileName="Assets\Scripts\BattleJack\BJShipObject.cs" Line="22" Column="40" />
+      <File FileName="Assets\Scripts\BattleJack\BJPlayerShipObject.cs" Line="13" Column="2" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
