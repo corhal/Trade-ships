@@ -26,8 +26,15 @@ public class BJPlayer : MonoBehaviour {
 
 	void Start () {
 		Ships = new List<BJShip> ();
-		Ships.Add (new BJShip (1000, 100));
-		Ships.Add (new BJShip (1000, 100));
+		if (Player.Instance != null) {
+			foreach (var shipData in Player.Instance.CurrentTeam) {
+				Ships.Add (new BJShip (shipData.MaxHP, shipData.Power));
+			}
+		} else {
+			Ships.Add (new BJShip (1000, 100));
+			Ships.Add (new BJShip (1000, 100));
+		}
+
 		hp = 0;
 		foreach (var ship in Ships) {
 			hp += ship.HP;

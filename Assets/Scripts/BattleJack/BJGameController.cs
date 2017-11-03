@@ -24,6 +24,7 @@ public class BJGameController : MonoBehaviour {
 
 	int currentScore;
 	public Text ScoreLabel;
+	public Slider ScoreSlider;
 
 	void Start () {
 		Deck = new BJDeck ();
@@ -42,6 +43,7 @@ public class BJGameController : MonoBehaviour {
 		PlayerHPLabel.text = BJPlayer.Instance.HP + "/" + BJPlayer.Instance.MaxHP;
 
 		SpawnPlayerShips ();
+		ScoreSlider.maxValue = 21;
 	}
 
 	void BJPlayer_Instance_OnDamageTaken ()	{
@@ -65,7 +67,19 @@ public class BJGameController : MonoBehaviour {
 
 		FlushCards ();
 		// EnemyAttack ();
-		Invoke ("EnemyAttack", 0.5f);
+		int deadCount = 0;
+		foreach (var enemyShipObject in EnemyShipObjects) {
+			if (enemyShipObject.Ship.HP <= 0) {
+				deadCount++;
+			}
+		}
+		if (deadCount == EnemyShipObjects.Count) {
+			//Player.Instance.TakeItems (Player.Instance.CurrentMission.GiveReward ());
+			BJPlayer.Instance.OnDamageTaken -= BJPlayer_Instance_OnDamageTaken;
+			Player.Instance.LoadVillage ();
+		} else {
+			Invoke ("EnemyAttack", 0.5f);
+		}
 	}
 
 	public void EnemyAttack () {
@@ -97,6 +111,7 @@ public class BJGameController : MonoBehaviour {
 		}
 		currentScore = Hand.CountScore ();
 		ScoreLabel.text = "" + currentScore;
+		ScoreSlider.value = currentScore;
 
 		if (currentScore > 21) {
 			Invoke ("FlushCards", 0.5f); // maybe should use coroutines instead
@@ -126,14 +141,24 @@ public class BJGameController : MonoBehaviour {
 	}
 
 	public void SpawnShips (int amount) {
-		for (int i = 0; i < amount; i++) {
-			GameObject shipObject = Instantiate (ShipObjectPrefab) as GameObject;
-			BJShipObject bjShipObject = shipObject.GetComponent<BJShipObject> ();
-			bjShipObject.Ship = new BJShip (400, 100);
-			shipObject.transform.SetParent (ShipObjectsContainer.transform);
-			shipObject.transform.localScale = Vector3.one;
-			EnemyShipObjects.Add (bjShipObject);
+		if (Player.Instance != null) { // kostyll
+			foreach (var enemyShipData in Player.Instance.CurrentMission.EnemyShips) {
+				SpawnShip (enemyShipData.MaxHP, enemyShipData.Power);
+			}
+		} else {
+			for (int i = 0; i < amount; i++) {
+				SpawnShip (400, 10);
+			}
 		}
+	}
+
+	void SpawnShip (int hp, int baseDamage) {
+		GameObject shipObject = Instantiate (ShipObjectPrefab) as GameObject;
+		BJShipObject bjShipObject = shipObject.GetComponent<BJShipObject> ();
+		bjShipObject.Ship = new BJShip (hp, baseDamage);
+		shipObject.transform.SetParent (ShipObjectsContainer.transform);
+		shipObject.transform.localScale = Vector3.one;
+		EnemyShipObjects.Add (bjShipObject);
 	}
 
 	IEnumerator Pause (float seconds) {

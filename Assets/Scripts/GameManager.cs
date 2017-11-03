@@ -155,6 +155,14 @@ public class GameManager : MonoBehaviour {
 					Ships.Add (shipObject.GetComponent<Ship> ());
 				}
 			}*/
+
+			// temp solution:
+			if (Player.Instance.CurrentMission != null) {
+				Dictionary<Item, int> reward = Player.Instance.CurrentMission.GiveReward ();
+				Player.Instance.TakeItems (reward);
+				OpenImagesPopUp ("Your reward:", reward);
+			}
+
 		} else if (!isBattle) {			
 			Player.Instance.CreateShipDatas ();
 			Player.Instance.CreateTradeShipDatas ();
