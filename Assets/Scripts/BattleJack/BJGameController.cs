@@ -26,6 +26,16 @@ public class BJGameController : MonoBehaviour {
 	public Text ScoreLabel;
 	public Slider ScoreSlider;
 
+	public static BJGameController Instance;
+
+	public delegate void DealCardsEventHandler (float multiplier);
+
+	public event DealCardsEventHandler OnCardsDealt;
+
+	void Awake () {
+		Instance = this;
+	}
+
 	void Start () {
 		Deck = new BJDeck ();
 		Deck.Shuffle ();
@@ -116,6 +126,9 @@ public class BJGameController : MonoBehaviour {
 		if (currentScore > 21) {
 			Invoke ("FlushCards", 0.5f); // maybe should use coroutines instead
 			Invoke ("EnemyAttack", 0.5f);
+		} else {
+			float multiplier = 1.0f + currentScore / 21.0f; 
+			OnCardsDealt (multiplier);
 		}
 	}
 
