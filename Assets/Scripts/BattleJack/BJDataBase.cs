@@ -12,13 +12,8 @@ public enum Ranks {
 
 public class BJDataBase : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+	public List<Sprite> CharacterSprites;
+	public List<Sprite> ShipSprites;
+	public List<Sprite> CharacterPortraits;
+	public List<Sprite> CharacterFigurines;
 }

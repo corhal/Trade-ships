@@ -9,7 +9,8 @@ public class BJPlayer : MonoBehaviour {
 	int maxhp;
 	public int MaxHP { get { return maxhp; } }
 
-	public List<BJShip> Ships;
+	public List<BJCreature> Creatures;
+	public BJDataBase DataBase;
 
 	public static BJPlayer Instance;
 
@@ -25,21 +26,24 @@ public class BJPlayer : MonoBehaviour {
 	}
 
 	void Start () {
-		Ships = new List<BJShip> ();
+		Creatures = new List<BJCreature> ();
 		if (Player.Instance != null) {
 			foreach (var shipData in Player.Instance.CurrentTeam) {
-				Ships.Add (new BJShip (shipData.MaxHP, shipData.Power));
+				Creatures.Add (new BJCreature (shipData.MaxHP, shipData.Power));
 			}
 		} else {
-			Ships.Add (new BJShip (1000, 100));
-			Ships.Add (new BJShip (1000, 100));
+			Creatures.Add (new BJCreature (1000, 100));
+			Creatures.Add (new BJCreature (1000, 100));
 		}
 
-		hp = 0;
+		hp = 500;
+		maxhp = hp;
+
+		/*hp = 0;
 		foreach (var ship in Ships) {
 			hp += ship.HP;
 		}
-		maxhp = hp;
+		maxhp = hp;*/
 	}
 
 	public void TakeDamage (int amount) {

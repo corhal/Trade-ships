@@ -7,13 +7,15 @@ public class BJGameController : MonoBehaviour {
 
 	public Slider PlayerHPSlider;
 	public Text PlayerHPLabel;
-	public GameObject PlayerShipPrefab;
-	public GameObject PlayerShipsContainer;
-	public List<BJPlayerShipObject> PlayerShipObjects;
+	public GameObject PlayerCreaturePrefab;
+	public GameObject PlayerCreaturesContainer;
+	public List<BJCreatureObject> PlayerCreatureObjects;
 
-	public GameObject ShipObjectsContainer;
-	public GameObject ShipObjectPrefab;
-	public List<BJShipObject> EnemyShipObjects;
+	public Slider EnemyShipHPSlider;
+	public Text EnemyShipHPLabel;
+	public GameObject CreatureObjectsContainer;
+	public GameObject CreatureObjectPrefab;
+	public List<BJCreatureObject> EnemyCreatureObjects;
 
 	public BJDeck Deck;
 	public BJDeck Hand;
@@ -32,6 +34,9 @@ public class BJGameController : MonoBehaviour {
 
 	public event DealCardsEventHandler OnCardsDealt;
 
+	public int EnemyShipMaxHP = 500;
+	public int EnemyShipHP = 500;
+
 	void Awake () {
 		Instance = this;
 	}
@@ -44,7 +49,7 @@ public class BJGameController : MonoBehaviour {
 
 		StartCoroutine (DealCards (2, 0.0f));
 
-		SpawnShips (3);
+		SpawnCreatures (3);
 
 		BJPlayer.Instance.OnDamageTaken += BJPlayer_Instance_OnDamageTaken;
 
@@ -52,39 +57,67 @@ public class BJGameController : MonoBehaviour {
 		PlayerHPSlider.value = BJPlayer.Instance.HP;
 		PlayerHPLabel.text = BJPlayer.Instance.HP + "/" + BJPlayer.Instance.MaxHP;
 
-		SpawnPlayerShips ();
+		EnemyShipHPSlider.maxValue = EnemyShipMaxHP;
+		EnemyShipHPSlider.value = EnemyShipHP;
+		EnemyShipHPLabel.text = EnemyShipHP + "/" + EnemyShipMaxHP;
+
+		SpawnPlayerCreatures ();
 		ScoreSlider.maxValue = 21;
 	}
 
 	void BJPlayer_Instance_OnDamageTaken ()	{
 		PlayerHPSlider.value = BJPlayer.Instance.HP;
 		PlayerHPLabel.text = BJPlayer.Instance.HP + "/" + BJPlayer.Instance.MaxHP;
+		if (BJPlayer.Instance.HP <= 0 && PlayerHPSlider.gameObject.activeSelf && PlayerHPLabel.gameObject.activeSelf) {
+			PlayerHPSlider.gameObject.SetActive (false);
+			PlayerHPLabel.gameObject.SetActive (false);
+		}
+	}
+
+	public void TakeDamage (int amount) {
+		EnemyShipHP = Mathf.Max (0, EnemyShipHP - amount);
+		EnemyShipHPSlider.value = EnemyShipHP;
+		EnemyShipHPLabel.text = EnemyShipHP + "/" + EnemyShipMaxHP;
+		if (EnemyShipHP <= 0 && EnemyShipHPSlider.gameObject.activeSelf && EnemyShipHPLabel.gameObject.activeSelf) {
+			EnemyShipHPSlider.gameObject.SetActive (false);
+			EnemyShipHPLabel.gameObject.SetActive (false);
+		}
 	}
 
 	public void PlayerAttack () {
-		BJShipObject currentTarget = null;
-		foreach (var enemyShip in EnemyShipObjects) {
-			if (enemyShip.Ship.HP > 0) {
-				currentTarget = enemyShip;
-				break;
+		if (EnemyShipHP > 0) {
+			float multiplier = 1.0f + currentScore / 21.0f; 
+			foreach (var creatureObject in PlayerCreatureObjects) {
+				if (creatureObject.Creature.HP > 0) {
+					creatureObject.DealDamage (multiplier, this);
+				}
 			}
-		}
+		} else {
+			BJCreatureObject currentTarget = null;
+			foreach (var enemyCreature in EnemyCreatureObjects) {
+				if (enemyCreature.Creature.HP > 0) {
+					currentTarget = enemyCreature;
+					break;
+				}
+			}
 
-		float multiplier = 1.0f + currentScore / 21.0f; 
-		foreach (var shipObject in PlayerShipObjects) {
-			 shipObject.DealDamage (multiplier, currentTarget);
+			float multiplier = 1.0f + currentScore / 21.0f; 
+			foreach (var creatureObject in PlayerCreatureObjects) {
+				if (creatureObject.Creature.HP > 0) {
+					creatureObject.DealDamage (multiplier, currentTarget);
+				}
+			}
 		}
 
 		FlushCards ();
-		// EnemyAttack ();
+
 		int deadCount = 0;
-		foreach (var enemyShipObject in EnemyShipObjects) {
-			if (enemyShipObject.Ship.HP <= 0) {
+		foreach (var enemyCreatureObject in EnemyCreatureObjects) {
+			if (enemyCreatureObject.Creature.HP <= 0) {
 				deadCount++;
 			}
 		}
-		if (deadCount == EnemyShipObjects.Count) {
-			//Player.Instance.TakeItems (Player.Instance.CurrentMission.GiveReward ());
+		if (deadCount == EnemyCreatureObjects.Count) {			
 			BJPlayer.Instance.OnDamageTaken -= BJPlayer_Instance_OnDamageTaken;
 			Player.Instance.LoadVillage ();
 		} else {
@@ -93,10 +126,27 @@ public class BJGameController : MonoBehaviour {
 	}
 
 	public void EnemyAttack () {
-		float multiplier = 1.0f;
-		foreach (var shipObject in EnemyShipObjects) {
-			if (shipObject.Ship.HP > 0) {
-				shipObject.DealDamage (multiplier, BJPlayer.Instance);
+		if (BJPlayer.Instance.HP > 0) {
+			float multiplier = 1.0f;
+			foreach (var enemyCreatureObject in EnemyCreatureObjects) {
+				if (enemyCreatureObject.Creature.HP > 0) {
+					enemyCreatureObject.DealDamage (multiplier, BJPlayer.Instance);
+				}
+			}
+		} else {
+			BJCreatureObject currentTarget = null;
+			foreach (var playerCreature in PlayerCreatureObjects) {
+				if (playerCreature.Creature.HP > 0) {
+					currentTarget = playerCreature;
+					break;
+				}
+			}
+
+			float multiplier = 1.0f + currentScore / 21.0f; 
+			foreach (var enemyCreatureObject in EnemyCreatureObjects) {
+				if (enemyCreatureObject.Creature.HP > 0) {
+					enemyCreatureObject.DealDamage (multiplier, currentTarget);
+				}
 			}
 		}
 
@@ -109,6 +159,10 @@ public class BJGameController : MonoBehaviour {
 
 	public IEnumerator DealCards (int count, float pause) {
 		yield return new WaitForSeconds (pause);
+		if (Deck.Cards.Count == 0) {
+			Deck = new BJDeck ();
+			Deck.Shuffle ();
+		}
 		for (int i = 0; i < count; i++) {
 			GameObject cardObject = Instantiate (CardObjectPrefab) as GameObject;
 			BJCardObject bjCardObject = cardObject.GetComponent<BJCardObject> ();
@@ -142,36 +196,41 @@ public class BJGameController : MonoBehaviour {
 		ScoreLabel.text = "" + currentScore;
 	}
 
-	public void SpawnPlayerShips () {
-		foreach (var ship in BJPlayer.Instance.Ships) {
-			GameObject shipObject = Instantiate (PlayerShipPrefab) as GameObject;
-			BJPlayerShipObject bjPlayerShipObject = shipObject.GetComponent<BJPlayerShipObject> ();
-			bjPlayerShipObject.Ship = ship;
-			shipObject.transform.SetParent (PlayerShipsContainer.transform);
-			shipObject.transform.localScale = Vector3.one;
-			PlayerShipObjects.Add (bjPlayerShipObject);
+	public void SpawnPlayerCreatures () {
+		foreach (var creature in BJPlayer.Instance.Creatures) {
+			GameObject creatureObject = Instantiate (PlayerCreaturePrefab) as GameObject;
+			BJCreatureObject bjCreatureObject = creatureObject.GetComponent<BJCreatureObject> (); 
+			int index = Random.Range (0, BJPlayer.Instance.DataBase.CharacterSprites.Count);
+			creatureObject.GetComponent<Image> ().sprite = BJPlayer.Instance.DataBase.CharacterSprites [index];
+			bjCreatureObject.Creature = creature;
+			OnCardsDealt += bjCreatureObject.BJGameController_Instance_OnCardsDealt;
+			creatureObject.transform.SetParent (PlayerCreaturesContainer.transform);
+			creatureObject.transform.localScale = Vector3.one;
+			PlayerCreatureObjects.Add (bjCreatureObject);
 		}
 	}
 
-	public void SpawnShips (int amount) {
+	public void SpawnCreatures (int amount) {
 		if (Player.Instance != null) { // kostyll
 			foreach (var enemyShipData in Player.Instance.CurrentMission.EnemyShips) {
-				SpawnShip (enemyShipData.MaxHP, enemyShipData.Power);
+				SpawnCreature (enemyShipData.MaxHP, enemyShipData.Power);
 			}
 		} else {
 			for (int i = 0; i < amount; i++) {
-				SpawnShip (400, 10);
+				SpawnCreature (400, 10);
 			}
 		}
 	}
 
-	void SpawnShip (int hp, int baseDamage) {
-		GameObject shipObject = Instantiate (ShipObjectPrefab) as GameObject;
-		BJShipObject bjShipObject = shipObject.GetComponent<BJShipObject> ();
-		bjShipObject.Ship = new BJShip (hp, baseDamage);
-		shipObject.transform.SetParent (ShipObjectsContainer.transform);
-		shipObject.transform.localScale = Vector3.one;
-		EnemyShipObjects.Add (bjShipObject);
+	void SpawnCreature (int hp, int baseDamage) {
+		GameObject creatureObject = Instantiate (CreatureObjectPrefab) as GameObject;
+		BJCreatureObject bjCreatureObject = creatureObject.GetComponent<BJCreatureObject> ();
+		int index = Random.Range (0, BJPlayer.Instance.DataBase.CharacterFigurines.Count);
+		bjCreatureObject.GetComponent<Image> ().sprite = BJPlayer.Instance.DataBase.CharacterFigurines [index];
+		bjCreatureObject.Creature = new BJCreature (hp, baseDamage);
+		creatureObject.transform.SetParent (CreatureObjectsContainer.transform);
+		creatureObject.transform.localScale = Vector3.one;
+		EnemyCreatureObjects.Add (bjCreatureObject);
 	}
 
 	IEnumerator Pause (float seconds) {

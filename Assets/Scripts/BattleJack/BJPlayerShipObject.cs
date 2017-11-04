@@ -12,7 +12,7 @@ public class BJPlayerShipObject : MonoBehaviour {
 	public Text DamageLabel;
 	public Text MultiplierLabel;
 
-	public BJShip Ship;
+	public BJCreature Ship;
 
 	void Awake () {
 		BJGameController.Instance.OnCardsDealt += BJGameController_Instance_OnCardsDealt;
@@ -25,7 +25,7 @@ public class BJPlayerShipObject : MonoBehaviour {
 		MultiplierLabel.text = "x" + multiplier.ToString("0.0");
 	}
 
-	public void DealDamage (float multiplier, BJShipObject enemy) {
+	public void DealDamage (float multiplier, BJCreatureObject enemy) {
 		DamageLabel.gameObject.SetActive (false);
 		MultiplierLabel.gameObject.SetActive (false);
 		GameObject lineShooterObject = Instantiate (LineShooterPrefab) as GameObject;
@@ -34,7 +34,7 @@ public class BJPlayerShipObject : MonoBehaviour {
 			new Vector3(enemy.transform.position.x, enemy.transform.position.y, -7.0f)});
 		LineShooter = lineShooterObject;
 		StartCoroutine (TurnOffEffects ());
-		Ship.DealDamage (multiplier, enemy.Ship);
+		Ship.DealDamage (multiplier, enemy.Creature);
 	}
 
 	IEnumerator TurnOffEffects () {
