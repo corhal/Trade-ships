@@ -14,6 +14,8 @@ public class BJCreatureObject : MonoBehaviour {
 	public Slider HPSlider;
 	public BJCreature Creature;
 
+	public Image HPFill;
+
 	void Awake () {
 		// BJGameController.Instance.OnCardsDealt += BJGameController_Instance_OnCardsDealt; should listen from gameController
 	}
@@ -26,6 +28,9 @@ public class BJCreatureObject : MonoBehaviour {
 
 	void Ship_OnDamageTaken () {
 		HPSlider.value = Creature.HP;
+		if (Creature.HP <= 0) {
+			gameObject.SetActive (false);
+		}
 	}
 
 	public void DealDamage (float multiplier, BJPlayer player) {

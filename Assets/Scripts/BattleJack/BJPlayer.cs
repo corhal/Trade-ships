@@ -36,7 +36,7 @@ public class BJPlayer : MonoBehaviour {
 			Creatures.Add (new BJCreature (1000, 100));
 		}
 
-		hp = 500;
+		hp = 0;
 		maxhp = hp;
 
 		/*hp = 0;

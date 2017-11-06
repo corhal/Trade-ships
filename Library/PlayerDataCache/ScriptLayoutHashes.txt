@@ -1,5 +1,5 @@
 WebGL
-a3c98b0b211a4b3889f9dee68c3a849d Assembly-CSharp.dll:.BJGameController
+722172c2eeeb763d780396d3d6cc3638 Assembly-CSharp.dll:.BJGameController
 dc07d7ad69b399a46e92c483bf1c04ca UnityEngine.Analytics.dll:UnityEngine.Analytics.AnalyticsTracker
 ec59d4b6985db7c2869bf414e00850ee Assembly-CSharp.dll:.ContextButtonsOverlay
 05524b8f659e7bfe5756d1335fec24ba UnityEngine.Timeline.dll:UnityEngine.Timeline.ActivationPlayableAsset
@@ -84,7 +84,7 @@ c63db43c730fa2cbb8ca07de15898cb6 UnityEngine.UI.dll:UnityEngine.UI.Toggle
 f61c0793411f10cf5fbfa1473fef5ef2 UnityEngine.UI.dll:UnityEngine.UI.ToggleGroup
 86d36c43c53541d667100dc90b89cfba UnityEngine.UI.dll:UnityEngine.EventSystems.TouchInputModule
 1b8c02d0aa82fbf036a2b9b2d713eec3 UnityEngine.UI.dll:UnityEngine.UI.VerticalLayoutGroup
-21f25582e2e13bbedf95d7ab5936ae33 Assembly-CSharp.dll:.BJCreatureObject
+00bf2477facf25b0b2f4818b8b4ea448 Assembly-CSharp.dll:.BJCreatureObject
 05524b8f659e7bfe5756d1335fec24ba UnityEngine.Timeline.dll:UnityEngine.Timeline.ActivationPlayableAsset
 cac917711d0e84d412d48737b6fc9ae7 UnityEngine.Timeline.dll:UnityEngine.Timeline.ActivationTrack
 706b890efe0a474d76b40e459ddb3e76 UnityEngine.Timeline.dll:UnityEngine.Timeline.AnimationPlayableAsset
@@ -155,7 +155,7 @@ cf6b149fc339c6dc2437fa6346f39c38 Assembly-CSharp.dll:.DragController
 5f2ad81aa8994e8fbe25d1e57afe6773 UnityEngine.TestRunner.dll:UnityEngine.TestTools.TestRunner.PlaymodeTestsController
 64eb32cc721b1cc68a91ed57461e188c UnityEngine.TestRunner.dll:UnityEngine.TestTools.TestRunner.Callbacks.RemoteTestResultSender
 d72955a96ddad0ded0299db8b9768ba5 Assembly-CSharp.dll:.Fort
-e5770d3a47a9fde857e91c9db0425da9 Assembly-CSharp.dll:.BJPlayerShipObject
+e03e8094dae55071cccefa75ec717c03 Assembly-CSharp.dll:.BJPlayerShipObject
 dc2ea2aa5f2064325955b89f8ca87b70 Assembly-CSharp.dll:.CameraDrag
 82016091725e32f05ca0a6434b74cdbc Assembly-CSharp.dll:.ShipElement
 bc68edb0af574bf79f9550ead8ebae5c UnityEngine.HoloLens.dll:UnityEngine.Audio.AudioSpatializerMicrosoft

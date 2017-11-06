@@ -8,21 +8,22 @@ public class BJPlayerShipObject : MonoBehaviour {
 	public GameObject LineShooterPrefab;
 	public GameObject LineShooter;
 
-	public Image CaptainImage;
+	public Image PortraitImage;
+
 	public Text DamageLabel;
 	public Text MultiplierLabel;
 
 	public BJCreature Ship;
 
 	void Awake () {
-		BJGameController.Instance.OnCardsDealt += BJGameController_Instance_OnCardsDealt;
+		//BJGameController.Instance.OnCardsDealt += BJGameController_Instance_OnCardsDealt;
 	}
 
 	void BJGameController_Instance_OnCardsDealt (float multiplier) {
-		DamageLabel.gameObject.SetActive (true);
+		/*DamageLabel.gameObject.SetActive (true);
 		DamageLabel.text = Ship.BaseDamage + "";
 		MultiplierLabel.gameObject.SetActive (true);
-		MultiplierLabel.text = "x" + multiplier.ToString("0.0");
+		MultiplierLabel.text = "x" + multiplier.ToString("0.0");*/
 	}
 
 	public void DealDamage (float multiplier, BJCreatureObject enemy) {

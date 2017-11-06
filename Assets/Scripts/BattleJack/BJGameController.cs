@@ -34,8 +34,11 @@ public class BJGameController : MonoBehaviour {
 
 	public event DealCardsEventHandler OnCardsDealt;
 
-	public int EnemyShipMaxHP = 500;
-	public int EnemyShipHP = 500;
+	public int EnemyShipMaxHP = 0;
+	public int EnemyShipHP = 0;
+
+	public List<Transform> PlayerSpawnPoints;
+	public List<Transform> EnemySpawnPoints;
 
 	void Awake () {
 		Instance = this;
@@ -51,6 +54,12 @@ public class BJGameController : MonoBehaviour {
 
 		SpawnCreatures (3);
 
+		for (int i = 0; i < EnemyCreatureObjects.Count; i++) {
+			EnemyCreatureObjects [i].gameObject.transform.SetParent (EnemySpawnPoints [i]);
+			EnemyCreatureObjects [i].gameObject.transform.localScale = Vector3.one;
+			EnemyCreatureObjects [i].gameObject.transform.localPosition = Vector3.zero;
+		}
+
 		BJPlayer.Instance.OnDamageTaken += BJPlayer_Instance_OnDamageTaken;
 
 		PlayerHPSlider.maxValue = BJPlayer.Instance.MaxHP;
@@ -62,6 +71,11 @@ public class BJGameController : MonoBehaviour {
 		EnemyShipHPLabel.text = EnemyShipHP + "/" + EnemyShipMaxHP;
 
 		SpawnPlayerCreatures ();
+		for (int i = 0; i < PlayerCreatureObjects.Count; i++) {
+			PlayerCreatureObjects [i].gameObject.transform.SetParent (PlayerSpawnPoints [i]);
+			PlayerCreatureObjects [i].gameObject.transform.localScale = Vector3.one;
+			PlayerCreatureObjects [i].gameObject.transform.localPosition = Vector3.zero;
+		}
 		ScoreSlider.maxValue = 21;
 	}
 
@@ -196,16 +210,25 @@ public class BJGameController : MonoBehaviour {
 		ScoreLabel.text = "" + currentScore;
 	}
 
+	public GameObject PlayerPortraitPrefab;
+
 	public void SpawnPlayerCreatures () {
 		foreach (var creature in BJPlayer.Instance.Creatures) {
 			GameObject creatureObject = Instantiate (PlayerCreaturePrefab) as GameObject;
 			BJCreatureObject bjCreatureObject = creatureObject.GetComponent<BJCreatureObject> (); 
-			int index = Random.Range (0, BJPlayer.Instance.DataBase.CharacterSprites.Count);
-			creatureObject.GetComponent<Image> ().sprite = BJPlayer.Instance.DataBase.CharacterSprites [index];
+			int index = Random.Range (0, BJPlayer.Instance.DataBase.CharacterFigurines.Count);
+			creatureObject.GetComponent<Image> ().sprite = BJPlayer.Instance.DataBase.CharacterFigurines [index];
 			bjCreatureObject.Creature = creature;
+			bjCreatureObject.HPFill.color = Color.green;
 			OnCardsDealt += bjCreatureObject.BJGameController_Instance_OnCardsDealt;
-			creatureObject.transform.SetParent (PlayerCreaturesContainer.transform);
-			creatureObject.transform.localScale = Vector3.one;
+
+			GameObject portraitObject = Instantiate (PlayerPortraitPrefab) as GameObject;
+			portraitObject.GetComponent<BJPlayerShipObject> ().PortraitImage.sprite = BJPlayer.Instance.DataBase.CharacterPortraits [index];
+			portraitObject.transform.SetParent (PlayerCreaturesContainer.transform);
+			portraitObject.transform.localScale = Vector3.one;
+
+			/*creatureObject.transform.SetParent (PlayerCreaturesContainer.transform);
+			creatureObject.transform.localScale = Vector3.one;*/
 			PlayerCreatureObjects.Add (bjCreatureObject);
 		}
 	}
@@ -228,8 +251,8 @@ public class BJGameController : MonoBehaviour {
 		int index = Random.Range (0, BJPlayer.Instance.DataBase.CharacterFigurines.Count);
 		bjCreatureObject.GetComponent<Image> ().sprite = BJPlayer.Instance.DataBase.CharacterFigurines [index];
 		bjCreatureObject.Creature = new BJCreature (hp, baseDamage);
-		creatureObject.transform.SetParent (CreatureObjectsContainer.transform);
-		creatureObject.transform.localScale = Vector3.one;
+		/*creatureObject.transform.SetParent (CreatureObjectsContainer.transform);
+		creatureObject.transform.localScale = Vector3.one;*/
 		EnemyCreatureObjects.Add (bjCreatureObject);
 	}
 
