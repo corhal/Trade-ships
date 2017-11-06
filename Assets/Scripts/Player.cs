@@ -130,7 +130,7 @@ public class Player : MonoBehaviour {
 	}
 
 	public void LoadBattle () {
-		SceneManager.LoadScene (2);
+		SceneManager.LoadScene (1);
 	}
 
 	public void LoadVillage () {

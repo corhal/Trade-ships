@@ -22,18 +22,18 @@ public class BJPlayer : MonoBehaviour {
 		} else if (Instance != this) {
 			Destroy (gameObject);  
 		}
-		DontDestroyOnLoad(gameObject);
+		//DontDestroyOnLoad(gameObject);
 	}
 
 	void Start () {
 		Creatures = new List<BJCreature> ();
 		if (Player.Instance != null) {
 			foreach (var shipData in Player.Instance.CurrentTeam) {
-				Creatures.Add (new BJCreature (shipData.MaxHP, shipData.Power));
+				Creatures.Add (new BJCreature (shipData.MaxHP, shipData.Power, Random.Range(1, 7), Allegiance.Player));
 			}
 		} else {
-			Creatures.Add (new BJCreature (1000, 100));
-			Creatures.Add (new BJCreature (1000, 100));
+			Creatures.Add (new BJCreature (1000, 100, Random.Range(1, 7), Allegiance.Player));
+			Creatures.Add (new BJCreature (1000, 100, Random.Range(1, 7), Allegiance.Player));
 		}
 
 		hp = 0;

@@ -40,6 +40,8 @@ public class BJGameController : MonoBehaviour {
 	public List<Transform> PlayerSpawnPoints;
 	public List<Transform> EnemySpawnPoints;
 
+	public Queue<BJCreatureObject> TurnQueue;
+
 	void Awake () {
 		Instance = this;
 	}
@@ -77,6 +79,50 @@ public class BJGameController : MonoBehaviour {
 			PlayerCreatureObjects [i].gameObject.transform.localPosition = Vector3.zero;
 		}
 		ScoreSlider.maxValue = 21;
+
+		FormQueue ();
+		StartTurn ();
+	}
+
+	void FormQueue () {
+		List<BJCreatureObject> allCreaturesList = new List<BJCreatureObject> ();
+		foreach (var playerCreatureObject in PlayerCreatureObjects) {
+			if (playerCreatureObject.Creature.HP > 0) {
+				allCreaturesList.Add (playerCreatureObject);
+			}
+		}
+		foreach (var enemyCreatureObject in EnemyCreatureObjects) {
+			if (enemyCreatureObject.Creature.HP > 0) {
+				allCreaturesList.Add (enemyCreatureObject);
+			}
+		}
+
+		allCreaturesList.Sort((x,y) =>
+			x.Creature.Speed.CompareTo(y.Creature.Speed));
+
+		TurnQueue = new Queue<BJCreatureObject> (allCreaturesList);
+	}
+
+	BJCreatureObject currentCreatureObject;
+	void StartTurn () {
+		if (TurnQueue.Count == 0) {
+			FormQueue ();
+		}
+		currentCreatureObject = TurnQueue.Dequeue ();
+		if (currentCreatureObject != null && currentCreatureObject.Creature.HP <= 0) {
+			StartTurn ();
+		}
+		currentCreatureObject.Animate ();
+
+		if (currentCreatureObject != null && currentCreatureObject.Creature.Allegiance == Allegiance.Enemy && PlayerCreatureObjects.Count > 0) {
+			int index = 0;
+			do {
+				index = Random.Range (0, PlayerCreatureObjects.Count);
+			} while (PlayerCreatureObjects[index].Creature.HP <= 0);
+			currentCreatureObject.DealDamage (2.0f, PlayerCreatureObjects [index]);
+			currentCreatureObject.Deanimate ();
+			Invoke ("StartTurn", 0.5f);
+		}
 	}
 
 	void BJPlayer_Instance_OnDamageTaken ()	{
@@ -250,10 +296,31 @@ public class BJGameController : MonoBehaviour {
 		BJCreatureObject bjCreatureObject = creatureObject.GetComponent<BJCreatureObject> ();
 		int index = Random.Range (0, BJPlayer.Instance.DataBase.CharacterFigurines.Count);
 		bjCreatureObject.GetComponent<Image> ().sprite = BJPlayer.Instance.DataBase.CharacterFigurines [index];
-		bjCreatureObject.Creature = new BJCreature (hp, baseDamage);
+		bjCreatureObject.Creature = new BJCreature (hp, baseDamage, Random.Range(1, 7), Allegiance.Enemy);
 		/*creatureObject.transform.SetParent (CreatureObjectsContainer.transform);
 		creatureObject.transform.localScale = Vector3.one;*/
 		EnemyCreatureObjects.Add (bjCreatureObject);
+		bjCreatureObject.OnCreatureObjectClicked += BjCreatureObject_OnCreatureObjectClicked;
+	}
+
+	void BjCreatureObject_OnCreatureObjectClicked (BJCreatureObject creatureObject) { // non-player can't be clicked
+		if (currentCreatureObject != null && currentCreatureObject.Creature.Allegiance == Allegiance.Player) {
+			currentCreatureObject.DealDamage (2.0f, creatureObject);
+			currentCreatureObject.Deanimate ();
+
+			int deadCount = 0; // not a good place for this script
+			foreach (var enemyCreatureObject in EnemyCreatureObjects) {
+				if (enemyCreatureObject.Creature.HP <= 0) {
+					deadCount++;
+				}
+			}
+			if (deadCount == EnemyCreatureObjects.Count) {			
+				BJPlayer.Instance.OnDamageTaken -= BJPlayer_Instance_OnDamageTaken;
+				Player.Instance.LoadVillage ();
+			}
+
+			Invoke ("StartTurn", 0.5f);
+		}
 	}
 
 	IEnumerator Pause (float seconds) {
