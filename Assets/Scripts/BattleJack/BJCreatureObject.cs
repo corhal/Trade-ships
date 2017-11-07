@@ -20,8 +20,10 @@ public class BJCreatureObject : MonoBehaviour {
 	public delegate void CreatureObjectClickedEventHandler (BJCreatureObject creatureObject);
 	public event CreatureObjectClickedEventHandler OnCreatureObjectClicked;
 
+	public delegate void CreatureTurnFinishedEventHandler (BJCreatureObject creatureObject);
+	public event CreatureTurnFinishedEventHandler OnCreatureTurnFinished;
+
 	void Awake () {
-		// BJGameController.Instance.OnCardsDealt += BJGameController_Instance_OnCardsDealt; should listen from gameController
 		initialColor = CreatureImage.color;
 	}
 
@@ -29,6 +31,7 @@ public class BJCreatureObject : MonoBehaviour {
 		Creature.OnDamageTaken += Ship_OnDamageTaken;
 		HPSlider.maxValue = Creature.MaxHP;
 		HPSlider.value = Creature.HP;
+		initialPosition = transform.position;
 	}
 
 	void Ship_OnDamageTaken () {
@@ -38,44 +41,40 @@ public class BJCreatureObject : MonoBehaviour {
 		}
 	}
 
-	public void DealDamage (float multiplier, BJPlayer player) {
-		GameObject lineShooterObject = Instantiate (LineShooterPrefab) as GameObject;
-		lineShooterObject.transform.position = transform.position;
-		lineShooterObject.GetComponent<LineRenderer> ().SetPositions (new Vector3 [] {new Vector3(transform.position.x, transform.position.y, -7.0f),
-			new Vector3(BJGameController.Instance.PlayerHPSlider.transform.position.x, BJGameController.Instance.PlayerHPSlider.transform.position.y, -7.0f)});
-		LineShooter = lineShooterObject;
-		StartCoroutine (TurnOffEffects ());
-		Creature.DealDamage (multiplier, player);
+	bool moveToEnemy;
+	bool moveBack;
+	Vector3 initialPosition;
+	Vector3 secondaryPosition;
+	Vector3 targetPosition;
+
+	public void Attack (BJCreatureObject enemyCreature) {
+		if (Creature.AttackType == AttackType.Melee) {
+			moveToEnemy = true;
+			float xCoord = (Creature.Allegiance == Allegiance.Player) ? 1.0f : -1.0f;
+			targetPosition = enemyCreature.transform.position - new Vector3(xCoord, 0.0f, 0.0f);
+
+			startTime = Time.time;
+			journeyLength = Vector3.Distance(initialPosition, targetPosition );
+
+			float delay = journeyLength / moveSpeed;
+			StartCoroutine(DealDamage(delay, enemyCreature));
+		}
 	}
 
-	public void DealDamage (float multiplier, BJGameController enemy) {
-		GameObject lineShooterObject = Instantiate (LineShooterPrefab) as GameObject;
-		lineShooterObject.transform.position = transform.position;
-		lineShooterObject.GetComponent<LineRenderer> ().SetPositions (new Vector3 [] {new Vector3(transform.position.x, transform.position.y, -7.0f),
-			new Vector3(enemy.EnemyShipHPSlider.transform.position.x, enemy.EnemyShipHPSlider.transform.position.y, -7.0f)});
-		LineShooter = lineShooterObject;
-		StartCoroutine (TurnOffEffects ());
-		Creature.DealDamage (multiplier, enemy);
-	}
-
-	public void DealDamage (float multiplier, BJCreatureObject enemy) {
-		//DamageLabel.gameObject.SetActive (false);
-		//MultiplierLabel.gameObject.SetActive (false);
-		GameObject lineShooterObject = Instantiate (LineShooterPrefab) as GameObject;
+	public IEnumerator DealDamage (float delay, BJCreatureObject enemy) {		
+		yield return new WaitForSeconds(delay);
+		/*GameObject lineShooterObject = Instantiate (LineShooterPrefab) as GameObject;
 		lineShooterObject.transform.position = transform.position;
 		lineShooterObject.GetComponent<LineRenderer> ().SetPositions (new Vector3 [] {new Vector3(transform.position.x, transform.position.y, -7.0f),
 			new Vector3(enemy.transform.position.x, enemy.transform.position.y, -7.0f)});
 		LineShooter = lineShooterObject;
-		StartCoroutine (TurnOffEffects ());
-		Creature.DealDamage (multiplier, enemy.Creature);
+		StartCoroutine (TurnOffEffects ());*/
+		Creature.DealDamage (2.0f, enemy.Creature);
 	}
 
 
 	public void BJGameController_Instance_OnCardsDealt (float multiplier) {
-		//DamageLabel.gameObject.SetActive (true);
-		//DamageLabel.text = Creature.BaseDamage + "";
-		//MultiplierLabel.gameObject.SetActive (true);
-		//MultiplierLabel.text = "x" + multiplier.ToString("0.0");
+		
 	}
 
 	IEnumerator TurnOffEffects () {
@@ -83,11 +82,41 @@ public class BJCreatureObject : MonoBehaviour {
 		Destroy (LineShooter);
 	}
 
+	float moveSpeed = 10.0F;
+	private float startTime;
+	private float journeyLength;
+
 	Color initialColor;
 	bool animate;
 	void Update () {
 		if (animate) {
 			CreatureImage.color = Color.Lerp(initialColor, Color.black, Mathf.PingPong(Time.time, 1));
+		}
+
+		if (moveToEnemy) {
+			float distCovered = (Time.time - startTime) * moveSpeed;
+			float fracJourney = distCovered / journeyLength;
+			transform.position = Vector3.Lerp(initialPosition, targetPosition, fracJourney);
+			if (Vector3.Distance(transform.position, targetPosition) < 0.01f) {
+				moveToEnemy = false;
+				moveBack = true;
+				targetPosition = initialPosition;
+				secondaryPosition = transform.position;
+
+				startTime = Time.time;
+				journeyLength = Vector3.Distance(secondaryPosition, targetPosition );
+			}
+		}
+		if (moveBack) {
+			float distCovered = (Time.time - startTime) * moveSpeed;
+			float fracJourney = distCovered / journeyLength;
+			transform.position = Vector3.Lerp(secondaryPosition, targetPosition, fracJourney);
+			if (Vector3.Distance(transform.position, targetPosition) < 0.01f) {
+				moveBack = false;
+				if (OnCreatureTurnFinished != null) {
+					OnCreatureTurnFinished (this);
+				}
+			}
 		}
 	}
 

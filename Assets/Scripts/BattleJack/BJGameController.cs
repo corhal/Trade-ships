@@ -105,6 +105,7 @@ public class BJGameController : MonoBehaviour {
 
 	BJCreatureObject currentCreatureObject;
 	void StartTurn () {
+		CheckDead ();
 		if (TurnQueue.Count == 0) {
 			FormQueue ();
 		}
@@ -119,9 +120,23 @@ public class BJGameController : MonoBehaviour {
 			do {
 				index = Random.Range (0, PlayerCreatureObjects.Count);
 			} while (PlayerCreatureObjects[index].Creature.HP <= 0);
-			currentCreatureObject.DealDamage (2.0f, PlayerCreatureObjects [index]);
+			//currentCreatureObject.DealDamage (2.0f, PlayerCreatureObjects [index]);
+			currentCreatureObject.Attack(PlayerCreatureObjects[index]);
 			currentCreatureObject.Deanimate ();
-			Invoke ("StartTurn", 0.5f);
+			// Invoke ("StartTurn", 0.5f);
+		}
+	}
+
+	void CheckDead () {
+		int deadCount = 0;
+		foreach (var enemyCreatureObject in EnemyCreatureObjects) {
+			if (enemyCreatureObject.Creature.HP <= 0) {
+				deadCount++;
+			}
+		}
+		if (deadCount == EnemyCreatureObjects.Count) {			
+			BJPlayer.Instance.OnDamageTaken -= BJPlayer_Instance_OnDamageTaken;
+			Player.Instance.LoadVillage ();
 		}
 	}
 
@@ -144,7 +159,7 @@ public class BJGameController : MonoBehaviour {
 		}
 	}
 
-	public void PlayerAttack () {
+	/*public void PlayerAttack () {
 		if (EnemyShipHP > 0) {
 			float multiplier = 1.0f + currentScore / 21.0f; 
 			foreach (var creatureObject in PlayerCreatureObjects) {
@@ -183,9 +198,9 @@ public class BJGameController : MonoBehaviour {
 		} else {
 			Invoke ("EnemyAttack", 0.5f);
 		}
-	}
+	}*/
 
-	public void EnemyAttack () {
+	/*public void EnemyAttack () {
 		if (BJPlayer.Instance.HP > 0) {
 			float multiplier = 1.0f;
 			foreach (var enemyCreatureObject in EnemyCreatureObjects) {
@@ -211,7 +226,7 @@ public class BJGameController : MonoBehaviour {
 		}
 
 		StartCoroutine (DealCards (2, 0.5f));
-	}
+	}*/
 
 	public void ClickDealButton () {
 		StartCoroutine (DealCards (1, 0.0f));
@@ -272,7 +287,7 @@ public class BJGameController : MonoBehaviour {
 			portraitObject.GetComponent<BJPlayerShipObject> ().PortraitImage.sprite = BJPlayer.Instance.DataBase.CharacterPortraits [index];
 			portraitObject.transform.SetParent (PlayerCreaturesContainer.transform);
 			portraitObject.transform.localScale = Vector3.one;
-
+			bjCreatureObject.OnCreatureTurnFinished += BjCreatureObject_OnCreatureTurnFinished;
 			/*creatureObject.transform.SetParent (PlayerCreaturesContainer.transform);
 			creatureObject.transform.localScale = Vector3.one;*/
 			PlayerCreatureObjects.Add (bjCreatureObject);
@@ -291,21 +306,27 @@ public class BJGameController : MonoBehaviour {
 		}
 	}
 
+	void BjCreatureObject_OnCreatureTurnFinished (BJCreatureObject creatureObject) {
+		Invoke ("StartTurn", 0.25f);
+	}
+
 	void SpawnCreature (int hp, int baseDamage) {
 		GameObject creatureObject = Instantiate (CreatureObjectPrefab) as GameObject;
 		BJCreatureObject bjCreatureObject = creatureObject.GetComponent<BJCreatureObject> ();
 		int index = Random.Range (0, BJPlayer.Instance.DataBase.CharacterFigurines.Count);
 		bjCreatureObject.GetComponent<Image> ().sprite = BJPlayer.Instance.DataBase.CharacterFigurines [index];
-		bjCreatureObject.Creature = new BJCreature (hp, baseDamage, Random.Range(1, 7), Allegiance.Enemy);
+		bjCreatureObject.Creature = new BJCreature (hp, baseDamage, Random.Range(1, 7), Allegiance.Enemy, AttackType.Melee);
 		/*creatureObject.transform.SetParent (CreatureObjectsContainer.transform);
 		creatureObject.transform.localScale = Vector3.one;*/
 		EnemyCreatureObjects.Add (bjCreatureObject);
 		bjCreatureObject.OnCreatureObjectClicked += BjCreatureObject_OnCreatureObjectClicked;
+		bjCreatureObject.OnCreatureTurnFinished += BjCreatureObject_OnCreatureTurnFinished;
 	}
 
 	void BjCreatureObject_OnCreatureObjectClicked (BJCreatureObject creatureObject) { // non-player can't be clicked
 		if (currentCreatureObject != null && currentCreatureObject.Creature.Allegiance == Allegiance.Player) {
-			currentCreatureObject.DealDamage (2.0f, creatureObject);
+			//currentCreatureObject.DealDamage (2.0f, creatureObject);
+			currentCreatureObject.Attack(creatureObject);
 			currentCreatureObject.Deanimate ();
 
 			int deadCount = 0; // not a good place for this script
@@ -317,9 +338,7 @@ public class BJGameController : MonoBehaviour {
 			if (deadCount == EnemyCreatureObjects.Count) {			
 				BJPlayer.Instance.OnDamageTaken -= BJPlayer_Instance_OnDamageTaken;
 				Player.Instance.LoadVillage ();
-			}
-
-			Invoke ("StartTurn", 0.5f);
+			}			
 		}
 	}
 

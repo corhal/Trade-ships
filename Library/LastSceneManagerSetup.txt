@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Scenes/homeScene.unity
+- path: Assets/Scenes/battlejack.unity
   isLoaded: 1
   isActive: 1

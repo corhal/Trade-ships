@@ -29,11 +29,11 @@ public class BJPlayer : MonoBehaviour {
 		Creatures = new List<BJCreature> ();
 		if (Player.Instance != null) {
 			foreach (var shipData in Player.Instance.CurrentTeam) {
-				Creatures.Add (new BJCreature (shipData.MaxHP, shipData.Power, Random.Range(1, 7), Allegiance.Player));
+				Creatures.Add (new BJCreature (shipData.MaxHP, shipData.Power, Random.Range(1, 7), Allegiance.Player, AttackType.Melee));
 			}
 		} else {
-			Creatures.Add (new BJCreature (1000, 100, Random.Range(1, 7), Allegiance.Player));
-			Creatures.Add (new BJCreature (1000, 100, Random.Range(1, 7), Allegiance.Player));
+			Creatures.Add (new BJCreature (1000, 100, Random.Range(1, 7), Allegiance.Player, AttackType.Melee));
+			Creatures.Add (new BJCreature (1000, 100, Random.Range(1, 7), Allegiance.Player, AttackType.Melee));
 		}
 
 		hp = 0;

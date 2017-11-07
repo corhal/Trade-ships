@@ -7,6 +7,10 @@ public enum Allegiance {
 	Player, Enemy
 }
 
+public enum AttackType {
+	Melee, Ranged
+}
+
 [System.Serializable]
 public class BJCreature {
 	public event TakeDamageEventHandler OnDamageTaken;
@@ -23,15 +27,19 @@ public class BJCreature {
 	int speed;
 	public int Speed { get { return speed; } }
 
+	AttackType attackType;
+	public AttackType AttackType { get { return attackType; } }
+
 	Allegiance allegiance;
 	public Allegiance Allegiance { get { return allegiance; } }
 
-	public BJCreature (int maxhp, int baseDamage, int speed, Allegiance allegiance) {
+	public BJCreature (int maxhp, int baseDamage, int speed, Allegiance allegiance, AttackType attackType) {
 		this.maxhp = maxhp;
 		this.hp = maxhp;
 		this.baseDamage = baseDamage;
 		this.speed = speed;
 		this.allegiance = allegiance;
+		this.attackType = attackType;
 	}
 
 	public void TakeDamage (int amount) {
