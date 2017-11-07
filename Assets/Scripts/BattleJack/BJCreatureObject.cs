@@ -17,8 +17,14 @@ public class BJCreatureObject : MonoBehaviour {
 	public Image CreatureImage;
 	public Image HPFill;
 
+	public BJSkill CurrentSkill;
+	public List<BJSkill> Skills;
+
 	public delegate void CreatureObjectClickedEventHandler (BJCreatureObject creatureObject);
 	public event CreatureObjectClickedEventHandler OnCreatureObjectClicked;
+
+	public delegate void CreatureMovementFinishedEventHandler (BJCreatureObject creatureObject);
+	public event CreatureMovementFinishedEventHandler OnCreatureMovementFinished;
 
 	public delegate void CreatureTurnFinishedEventHandler (BJCreatureObject creatureObject);
 	public event CreatureTurnFinishedEventHandler OnCreatureTurnFinished;
@@ -28,37 +34,38 @@ public class BJCreatureObject : MonoBehaviour {
 	}
 
 	void Start () {
-		Creature.OnDamageTaken += Ship_OnDamageTaken;
+		Creature.OnDamageTaken += Creature_OnDamageTaken;
 		HPSlider.maxValue = Creature.MaxHP;
 		HPSlider.value = Creature.HP;
-		initialPosition = transform.position;
+		InitialPosition = transform.position;
+		CurrentSkill = Skills [0];
+		foreach (var skill in Skills) {
+			OnCreatureMovementFinished += skill.User_OnCreatureMovementFinished;
+			skill.OnSkillFinished += CurrentSkill_OnSkillFinished;
+		}
 	}
 
-	void Ship_OnDamageTaken () {
+	void CurrentSkill_OnSkillFinished (BJSkill sender) {
+		// ?..
+		if (OnCreatureTurnFinished != null) {
+			OnCreatureTurnFinished (this);
+		}
+	}
+
+	void Creature_OnDamageTaken () {
 		HPSlider.value = Creature.HP;
 		if (Creature.HP <= 0) {
 			gameObject.SetActive (false);
 		}
 	}
 
-	bool moveToEnemy;
-	bool moveBack;
-	Vector3 initialPosition;
+	bool shouldMove;
+	public Vector3 InitialPosition;
 	Vector3 secondaryPosition;
 	Vector3 targetPosition;
 
 	public void Attack (BJCreatureObject enemyCreature) {
-		if (Creature.AttackType == AttackType.Melee) {
-			moveToEnemy = true;
-			float xCoord = (Creature.Allegiance == Allegiance.Player) ? 1.0f : -1.0f;
-			targetPosition = enemyCreature.transform.position - new Vector3(xCoord, 0.0f, 0.0f);
-
-			startTime = Time.time;
-			journeyLength = Vector3.Distance(initialPosition, targetPosition );
-
-			float delay = journeyLength / moveSpeed;
-			StartCoroutine(DealDamage(delay, enemyCreature));
-		}
+		CurrentSkill.UseSkill (this, enemyCreature);
 	}
 
 	public IEnumerator DealDamage (float delay, BJCreatureObject enemy) {		
@@ -70,6 +77,14 @@ public class BJCreatureObject : MonoBehaviour {
 		LineShooter = lineShooterObject;
 		StartCoroutine (TurnOffEffects ());*/
 		Creature.DealDamage (2.0f, enemy.Creature);
+	}
+
+	public void MoveToPoint (Vector3 target) {
+		shouldMove = true;
+		startTime = Time.time;
+		secondaryPosition = transform.position;
+		targetPosition = target;
+		journeyLength = Vector3.Distance(secondaryPosition, targetPosition );
 	}
 
 
@@ -93,7 +108,19 @@ public class BJCreatureObject : MonoBehaviour {
 			CreatureImage.color = Color.Lerp(initialColor, Color.black, Mathf.PingPong(Time.time, 1));
 		}
 
-		if (moveToEnemy) {
+		if (shouldMove) {
+			float distCovered = (Time.time - startTime) * moveSpeed;
+			float fracJourney = distCovered / journeyLength;
+			transform.position = Vector3.Lerp(secondaryPosition, targetPosition, fracJourney);
+			if (Vector3.Distance(transform.position, targetPosition) < 0.01f) {
+				shouldMove = false;
+				if (OnCreatureMovementFinished != null) {
+					OnCreatureMovementFinished (this);
+				}
+			}
+		}
+
+		/*if (moveToEnemy) {
 			float distCovered = (Time.time - startTime) * moveSpeed;
 			float fracJourney = distCovered / journeyLength;
 			transform.position = Vector3.Lerp(initialPosition, targetPosition, fracJourney);
@@ -117,7 +144,7 @@ public class BJCreatureObject : MonoBehaviour {
 					OnCreatureTurnFinished (this);
 				}
 			}
-		}
+		}*/
 	}
 
 	public void Deanimate () {

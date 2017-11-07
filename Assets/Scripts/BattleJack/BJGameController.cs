@@ -81,7 +81,7 @@ public class BJGameController : MonoBehaviour {
 		ScoreSlider.maxValue = 21;
 
 		FormQueue ();
-		StartTurn ();
+		Invoke ("StartTurn", 0.25f);
 	}
 
 	void FormQueue () {

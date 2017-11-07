@@ -1,6 +1,6 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\BattleJack\BJGameController.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\BattleJack\BJSkills\BJMeleeAttack.cs">
     <Files>
       <File FileName="Assets\Scripts\Shipment.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\GameManager.cs" Line="1" Column="1" />
@@ -46,13 +46,15 @@
       <File FileName="Assets\Scripts\UI\Elements\ShipListElement.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\BattleJack\BJCard.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\BattleJack\BJDeck.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\BattleJack\BJGameController.cs" Line="108" Column="16" />
+      <File FileName="Assets\Scripts\BattleJack\BJGameController.cs" Line="84" Column="31" />
       <File FileName="Assets\Scripts\BattleJack\BJDataBase.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\BattleJack\BJCardObject.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\BattleJack\BJPlayer.cs" Line="36" Column="101" />
+      <File FileName="Assets\Scripts\BattleJack\BJPlayer.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\BattleJack\BJPlayerShipObject.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\BattleJack\BJCreatureObject.cs" Line="117" Column="34" />
+      <File FileName="Assets\Scripts\BattleJack\BJCreatureObject.cs" Line="40" Column="28" />
       <File FileName="Assets\Scripts\BattleJack\BJCreature.cs" Line="42" Column="32" />
+      <File FileName="Assets\Scripts\BattleJack\BJSkills\BJMeleeAttack.cs" Line="17" Column="78" />
+      <File FileName="Assets\Scripts\BattleJack\BJSkills\BJSkill.cs" Line="22" Column="26" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
