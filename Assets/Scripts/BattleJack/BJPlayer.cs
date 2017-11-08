@@ -34,6 +34,9 @@ public class BJPlayer : MonoBehaviour {
 		} else {
 			Creatures.Add (new BJCreature (1000, 100, Random.Range(1, 7), Allegiance.Player, AttackType.Melee));
 			Creatures.Add (new BJCreature (1000, 100, Random.Range(1, 7), Allegiance.Player, AttackType.Melee));
+			Creatures.Add (new BJCreature (1000, 100, Random.Range(1, 7), Allegiance.Player, AttackType.Melee));
+			Creatures.Add (new BJCreature (1000, 100, Random.Range(1, 7), Allegiance.Player, AttackType.Ranged));
+			Creatures.Add (new BJCreature (1000, 100, Random.Range(1, 7), Allegiance.Player, AttackType.Ranged));
 		}
 
 		hp = 0;

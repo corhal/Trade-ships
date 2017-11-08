@@ -16,4 +16,5 @@ public class BJDataBase : MonoBehaviour {
 	public List<Sprite> ShipSprites;
 	public List<Sprite> CharacterPortraits;
 	public List<Sprite> CharacterFigurines;
+	public List<BJSkill> Skills;
 }

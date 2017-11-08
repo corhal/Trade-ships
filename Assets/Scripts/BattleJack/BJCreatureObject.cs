@@ -29,6 +29,11 @@ public class BJCreatureObject : MonoBehaviour {
 	public delegate void CreatureTurnFinishedEventHandler (BJCreatureObject creatureObject);
 	public event CreatureTurnFinishedEventHandler OnCreatureTurnFinished;
 
+	bool shouldMove;
+	public Vector3 InitialPosition;
+	Vector3 secondaryPosition;
+	Vector3 targetPosition;
+
 	void Awake () {
 		initialColor = CreatureImage.color;
 	}
@@ -39,6 +44,8 @@ public class BJCreatureObject : MonoBehaviour {
 		HPSlider.value = Creature.HP;
 		InitialPosition = transform.position;
 		CurrentSkill = Skills [0];
+		// Debug.Log (CurrentSkill);
+		CurrentSkill.CurrentUser = this;
 		foreach (var skill in Skills) {
 			OnCreatureMovementFinished += skill.User_OnCreatureMovementFinished;
 			skill.OnSkillFinished += CurrentSkill_OnSkillFinished;
@@ -46,7 +53,6 @@ public class BJCreatureObject : MonoBehaviour {
 	}
 
 	void CurrentSkill_OnSkillFinished (BJSkill sender) {
-		// ?..
 		if (OnCreatureTurnFinished != null) {
 			OnCreatureTurnFinished (this);
 		}
@@ -59,24 +65,13 @@ public class BJCreatureObject : MonoBehaviour {
 		}
 	}
 
-	bool shouldMove;
-	public Vector3 InitialPosition;
-	Vector3 secondaryPosition;
-	Vector3 targetPosition;
-
 	public void Attack (BJCreatureObject enemyCreature) {
 		CurrentSkill.UseSkill (this, enemyCreature);
 	}
 
 	public IEnumerator DealDamage (float delay, BJCreatureObject enemy) {		
 		yield return new WaitForSeconds(delay);
-		/*GameObject lineShooterObject = Instantiate (LineShooterPrefab) as GameObject;
-		lineShooterObject.transform.position = transform.position;
-		lineShooterObject.GetComponent<LineRenderer> ().SetPositions (new Vector3 [] {new Vector3(transform.position.x, transform.position.y, -7.0f),
-			new Vector3(enemy.transform.position.x, enemy.transform.position.y, -7.0f)});
-		LineShooter = lineShooterObject;
-		StartCoroutine (TurnOffEffects ());*/
-		Creature.DealDamage (2.0f, enemy.Creature);
+		Creature.DealDamage (1.0f, enemy.Creature);
 	}
 
 	public void MoveToPoint (Vector3 target) {
@@ -119,32 +114,6 @@ public class BJCreatureObject : MonoBehaviour {
 				}
 			}
 		}
-
-		/*if (moveToEnemy) {
-			float distCovered = (Time.time - startTime) * moveSpeed;
-			float fracJourney = distCovered / journeyLength;
-			transform.position = Vector3.Lerp(initialPosition, targetPosition, fracJourney);
-			if (Vector3.Distance(transform.position, targetPosition) < 0.01f) {
-				moveToEnemy = false;
-				moveBack = true;
-				targetPosition = initialPosition;
-				secondaryPosition = transform.position;
-
-				startTime = Time.time;
-				journeyLength = Vector3.Distance(secondaryPosition, targetPosition );
-			}
-		}
-		if (moveBack) {
-			float distCovered = (Time.time - startTime) * moveSpeed;
-			float fracJourney = distCovered / journeyLength;
-			transform.position = Vector3.Lerp(secondaryPosition, targetPosition, fracJourney);
-			if (Vector3.Distance(transform.position, targetPosition) < 0.01f) {
-				moveBack = false;
-				if (OnCreatureTurnFinished != null) {
-					OnCreatureTurnFinished (this);
-				}
-			}
-		}*/
 	}
 
 	public void Deanimate () {

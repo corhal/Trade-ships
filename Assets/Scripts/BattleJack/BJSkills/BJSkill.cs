@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum RangeType {
+	Melee, Ranged
+}
+
 public class BJSkill : MonoBehaviour {
 
 	public delegate void FinishSkillEventHandler (BJSkill sender);
@@ -9,6 +13,9 @@ public class BJSkill : MonoBehaviour {
 
 	public BJCreatureObject CurrentUser; // :(((
 	public BJCreatureObject CurrentMainTarget;
+
+	public RangeType RangeType;
+	public List<int> ValidTargetIndexes;
 
 	public virtual void UseSkill (BJCreatureObject user, BJCreatureObject mainTarget) {
 
@@ -20,5 +27,9 @@ public class BJSkill : MonoBehaviour {
 
 	protected virtual void FinishSkill () {
 		OnSkillFinished (this);
+	}
+
+	public virtual void AssignSkillIndexes () {
+
 	}
 }

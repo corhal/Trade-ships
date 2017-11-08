@@ -54,7 +54,7 @@ public class BJGameController : MonoBehaviour {
 
 		StartCoroutine (DealCards (2, 0.0f));
 
-		SpawnCreatures (3);
+		SpawnCreatures (5);
 
 		for (int i = 0; i < EnemyCreatureObjects.Count; i++) {
 			EnemyCreatureObjects [i].gameObject.transform.SetParent (EnemySpawnPoints [i]);
@@ -114,16 +114,19 @@ public class BJGameController : MonoBehaviour {
 			StartTurn ();
 		}
 		currentCreatureObject.Animate ();
+		currentCreatureObject.CurrentSkill.AssignSkillIndexes ();
 
 		if (currentCreatureObject != null && currentCreatureObject.Creature.Allegiance == Allegiance.Enemy && PlayerCreatureObjects.Count > 0) {
 			int index = 0;
+			int indexOfIndex = 0;
 			do {
-				index = Random.Range (0, PlayerCreatureObjects.Count);
+				indexOfIndex = Random.Range (0, currentCreatureObject.CurrentSkill.ValidTargetIndexes.Count);
+				index = currentCreatureObject.CurrentSkill.ValidTargetIndexes[indexOfIndex];
 			} while (PlayerCreatureObjects[index].Creature.HP <= 0);
-			//currentCreatureObject.DealDamage (2.0f, PlayerCreatureObjects [index]);
+
 			currentCreatureObject.Attack(PlayerCreatureObjects[index]);
 			currentCreatureObject.Deanimate ();
-			// Invoke ("StartTurn", 0.5f);
+
 		}
 	}
 
@@ -158,75 +161,6 @@ public class BJGameController : MonoBehaviour {
 			EnemyShipHPLabel.gameObject.SetActive (false);
 		}
 	}
-
-	/*public void PlayerAttack () {
-		if (EnemyShipHP > 0) {
-			float multiplier = 1.0f + currentScore / 21.0f; 
-			foreach (var creatureObject in PlayerCreatureObjects) {
-				if (creatureObject.Creature.HP > 0) {
-					creatureObject.DealDamage (multiplier, this);
-				}
-			}
-		} else {
-			BJCreatureObject currentTarget = null;
-			foreach (var enemyCreature in EnemyCreatureObjects) {
-				if (enemyCreature.Creature.HP > 0) {
-					currentTarget = enemyCreature;
-					break;
-				}
-			}
-
-			float multiplier = 1.0f + currentScore / 21.0f; 
-			foreach (var creatureObject in PlayerCreatureObjects) {
-				if (creatureObject.Creature.HP > 0) {
-					creatureObject.DealDamage (multiplier, currentTarget);
-				}
-			}
-		}
-
-		FlushCards ();
-
-		int deadCount = 0;
-		foreach (var enemyCreatureObject in EnemyCreatureObjects) {
-			if (enemyCreatureObject.Creature.HP <= 0) {
-				deadCount++;
-			}
-		}
-		if (deadCount == EnemyCreatureObjects.Count) {			
-			BJPlayer.Instance.OnDamageTaken -= BJPlayer_Instance_OnDamageTaken;
-			Player.Instance.LoadVillage ();
-		} else {
-			Invoke ("EnemyAttack", 0.5f);
-		}
-	}*/
-
-	/*public void EnemyAttack () {
-		if (BJPlayer.Instance.HP > 0) {
-			float multiplier = 1.0f;
-			foreach (var enemyCreatureObject in EnemyCreatureObjects) {
-				if (enemyCreatureObject.Creature.HP > 0) {
-					enemyCreatureObject.DealDamage (multiplier, BJPlayer.Instance);
-				}
-			}
-		} else {
-			BJCreatureObject currentTarget = null;
-			foreach (var playerCreature in PlayerCreatureObjects) {
-				if (playerCreature.Creature.HP > 0) {
-					currentTarget = playerCreature;
-					break;
-				}
-			}
-
-			float multiplier = 1.0f + currentScore / 21.0f; 
-			foreach (var enemyCreatureObject in EnemyCreatureObjects) {
-				if (enemyCreatureObject.Creature.HP > 0) {
-					enemyCreatureObject.DealDamage (multiplier, currentTarget);
-				}
-			}
-		}
-
-		StartCoroutine (DealCards (2, 0.5f));
-	}*/
 
 	public void ClickDealButton () {
 		StartCoroutine (DealCards (1, 0.0f));
@@ -281,6 +215,8 @@ public class BJGameController : MonoBehaviour {
 			creatureObject.GetComponent<Image> ().sprite = BJPlayer.Instance.DataBase.CharacterFigurines [index];
 			bjCreatureObject.Creature = creature;
 			bjCreatureObject.HPFill.color = Color.green;
+			BJSkill skill = (bjCreatureObject.Creature.AttackType == AttackType.Melee) ? BJPlayer.Instance.DataBase.Skills [0] : BJPlayer.Instance.DataBase.Skills [1];
+			bjCreatureObject.Skills.Add (skill);
 			OnCardsDealt += bjCreatureObject.BJGameController_Instance_OnCardsDealt;
 
 			GameObject portraitObject = Instantiate (PlayerPortraitPrefab) as GameObject;
@@ -297,11 +233,12 @@ public class BJGameController : MonoBehaviour {
 	public void SpawnCreatures (int amount) {
 		if (Player.Instance != null) { // kostyll
 			foreach (var enemyShipData in Player.Instance.CurrentMission.EnemyShips) {
-				SpawnCreature (enemyShipData.MaxHP, enemyShipData.Power);
+				SpawnCreature (enemyShipData.MaxHP, enemyShipData.Power, AttackType.Melee);
 			}
 		} else {
 			for (int i = 0; i < amount; i++) {
-				SpawnCreature (400, 10);
+				AttackType attackType = (i < 3) ? AttackType.Melee : AttackType.Ranged;
+				SpawnCreature (400, 70, attackType);
 			}
 		}
 	}
@@ -310,22 +247,24 @@ public class BJGameController : MonoBehaviour {
 		Invoke ("StartTurn", 0.25f);
 	}
 
-	void SpawnCreature (int hp, int baseDamage) {
+	void SpawnCreature (int hp, int baseDamage, AttackType attackType) {
 		GameObject creatureObject = Instantiate (CreatureObjectPrefab) as GameObject;
 		BJCreatureObject bjCreatureObject = creatureObject.GetComponent<BJCreatureObject> ();
 		int index = Random.Range (0, BJPlayer.Instance.DataBase.CharacterFigurines.Count);
 		bjCreatureObject.GetComponent<Image> ().sprite = BJPlayer.Instance.DataBase.CharacterFigurines [index];
-		bjCreatureObject.Creature = new BJCreature (hp, baseDamage, Random.Range(1, 7), Allegiance.Enemy, AttackType.Melee);
-		/*creatureObject.transform.SetParent (CreatureObjectsContainer.transform);
-		creatureObject.transform.localScale = Vector3.one;*/
+		bjCreatureObject.Creature = new BJCreature (hp, baseDamage, Random.Range(1, 7), Allegiance.Enemy, attackType);
+		BJSkill skill = (attackType == AttackType.Melee) ? BJPlayer.Instance.DataBase.Skills [0] : BJPlayer.Instance.DataBase.Skills [1];
+		bjCreatureObject.Skills.Add (skill);
 		EnemyCreatureObjects.Add (bjCreatureObject);
 		bjCreatureObject.OnCreatureObjectClicked += BjCreatureObject_OnCreatureObjectClicked;
 		bjCreatureObject.OnCreatureTurnFinished += BjCreatureObject_OnCreatureTurnFinished;
 	}
 
-	void BjCreatureObject_OnCreatureObjectClicked (BJCreatureObject creatureObject) { // non-player can't be clicked
-		if (currentCreatureObject != null && currentCreatureObject.Creature.Allegiance == Allegiance.Player) {
-			//currentCreatureObject.DealDamage (2.0f, creatureObject);
+	void BjCreatureObject_OnCreatureObjectClicked (BJCreatureObject creatureObject) { // non-player can't click
+		if (currentCreatureObject != null && currentCreatureObject.Creature.Allegiance == Allegiance.Player) {		
+			if (!currentCreatureObject.CurrentSkill.ValidTargetIndexes.Contains(EnemyCreatureObjects.IndexOf(creatureObject))) {
+				return;
+			}	
 			currentCreatureObject.Attack(creatureObject);
 			currentCreatureObject.Deanimate ();
 
