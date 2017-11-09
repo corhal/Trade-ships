@@ -23,8 +23,10 @@ public class BJSkill : MonoBehaviour {
 
 	}
 
-	public virtual void User_OnCreatureMovementFinished (BJCreatureObject creatureObject) {
-
+	public virtual void User_OnCreatureMovementFinished (BJCreatureObject creatureObject) {		
+		if (creatureObject.CurrentSkill != this) { // whoops :(
+			return;
+		}
 	}
 
 	protected IEnumerator FinishSkill (float delay) {

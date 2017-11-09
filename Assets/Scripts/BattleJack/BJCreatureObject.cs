@@ -38,7 +38,7 @@ public class BJCreatureObject : MonoBehaviour {
 	public List<BJEffect> Effects;
 
 	void Awake () {
-		initialColor = CreatureImage.color;
+		InitialColor = CreatureImage.color;
 	}
 
 	void Start () {
@@ -62,6 +62,7 @@ public class BJCreatureObject : MonoBehaviour {
 		BJEffect effectCopy = Instantiate (effect);
 		Effects.Add (effectCopy);
 		effectCopy.Victim = this;
+		effectCopy.Activate ();
 	}
 
 	public void RemoveEffect (BJEffect effect) {
@@ -69,6 +70,12 @@ public class BJCreatureObject : MonoBehaviour {
 	}
 
 	void CurrentSkill_OnSkillFinished (BJSkill sender) {
+		foreach (var effect in Effects) {	
+			if (effect.Duration <= effect.CurrentLifetime) {
+				effect.Deactivate ();
+				Destroy (effect);
+			}
+		}
 		if (OnCreatureTurnFinished != null) {
 			OnCreatureTurnFinished (this);
 		}
@@ -97,8 +104,6 @@ public class BJCreatureObject : MonoBehaviour {
 		journeyLength = Vector3.Distance(secondaryPosition, targetPosition );
 	}
 
-
-
 	public void BJGameController_Instance_OnCardsDealt (float multiplier) {
 		
 	}
@@ -108,19 +113,19 @@ public class BJCreatureObject : MonoBehaviour {
 		Destroy (LineShooter);
 	}
 
-	float moveSpeed = 10.0F;
+	public float MoveSpeed = 10.0F;
 	private float startTime;
 	private float journeyLength;
 
-	Color initialColor;
+	public Color InitialColor;
 	bool animate;
 	void Update () {
 		if (animate) {
-			CreatureImage.color = Color.Lerp(initialColor, Color.black, Mathf.PingPong(Time.time, 1));
+			CreatureImage.color = Color.Lerp(InitialColor, Color.black, Mathf.PingPong(Time.time, 1));
 		}
 
 		if (shouldMove) {
-			float distCovered = (Time.time - startTime) * moveSpeed;
+			float distCovered = (Time.time - startTime) * MoveSpeed;
 			float fracJourney = distCovered / journeyLength;
 			transform.position = Vector3.Lerp(secondaryPosition, targetPosition, fracJourney);
 			if (Vector3.Distance(transform.position, targetPosition) < 0.01f) {
@@ -142,16 +147,17 @@ public class BJCreatureObject : MonoBehaviour {
 			if (effect.Duration > effect.CurrentLifetime && (effect.TickPeriod == 0 || effect.CurrentLifetime % effect.TickPeriod == 0)) {
 				effect.Tick ();
 			}
-			if (effect.Duration <= effect.CurrentLifetime) {
+			/*if (effect.Duration <= effect.CurrentLifetime) {
+				effect.Deactivate ();
 				Destroy (effect);
-			}
+			}*/
 		}
 		Animate ();
 	}
 
 	public void Deanimate () {
 		animate = false;
-		CreatureImage.color = initialColor;
+		CreatureImage.color = InitialColor;
 	}
 
 	public void Animate () {

@@ -10,7 +10,15 @@ public class BJEffect : MonoBehaviour {
 	public int Duration;
 	public int CurrentLifetime = 0;
 
+	public virtual void Activate () {
+
+	}
+
 	public virtual void Tick () {
 		CurrentLifetime++;
+	}
+
+	public virtual void Deactivate () {
+
 	}
 }

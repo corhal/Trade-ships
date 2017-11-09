@@ -4,9 +4,13 @@ using UnityEngine;
 
 public class BJStun : BJEffect {
 
-	public override void Tick () {
-		base.Tick ();
+	public override void Activate () {
+		base.Activate ();
 		Victim.IsStunned = true;
-		Debug.Log (Victim + " is stunned!");
+	}
+
+	public override void Deactivate () {
+		base.Deactivate ();
+		Victim.IsStunned = false;
 	}
 }

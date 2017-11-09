@@ -98,6 +98,10 @@ public class BJMeleeAttack : BJSkill {
 	}
 
 	public override void User_OnCreatureMovementFinished (BJCreatureObject creatureObject) {
+		base.User_OnCreatureMovementFinished (creatureObject);
+		if (creatureObject.CurrentSkill != this) { // whoops :(
+			return;
+		}
 		moveCounter++;
 		if (moveCounter == 1) {
 			CurrentUser.DealDamage (Damage, 1.0f, CurrentMainTarget);

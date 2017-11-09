@@ -103,6 +103,7 @@ public class BJGameController : MonoBehaviour {
 		TurnQueue = new Queue<BJCreatureObject> (allCreaturesList);
 	}
 
+	public List<Button> SkillButtons;
 	BJCreatureObject currentCreatureObject;
 	void StartTurn () {
 		CheckDead ();
@@ -112,6 +113,14 @@ public class BJGameController : MonoBehaviour {
 		currentCreatureObject = TurnQueue.Dequeue ();
 		if (currentCreatureObject != null && currentCreatureObject.Creature.HP <= 0) {
 			StartTurn ();
+		}
+		CurrentCreatureChooseSkill (0);
+		for (int i = 0; i < SkillButtons.Count; i++) {
+			if (i >= currentCreatureObject.Skills.Count) {
+				SkillButtons [i].interactable = false;
+			} else {
+				SkillButtons [i].interactable = true;
+			}
 		}
 		currentCreatureObject.StartTurn ();
 		currentCreatureObject.CurrentSkill.AssignSkillIndexes ();
@@ -215,9 +224,13 @@ public class BJGameController : MonoBehaviour {
 			creatureObject.GetComponent<Image> ().sprite = BJPlayer.Instance.DataBase.CharacterFigurines [index];
 			bjCreatureObject.Creature = creature;
 			bjCreatureObject.HPFill.color = Color.green;
-			BJSkill skill = (bjCreatureObject.Creature.AttackType == AttackType.Melee) ? BJPlayer.Instance.DataBase.Skills [3] : BJPlayer.Instance.DataBase.Skills [1];
+			BJSkill skill = (bjCreatureObject.Creature.AttackType == AttackType.Melee) ? BJPlayer.Instance.DataBase.Skills [0] : BJPlayer.Instance.DataBase.Skills [1];
 			// bjCreatureObject.Skills.Add (skill);
 			bjCreatureObject.AddSkill (skill);
+			if (bjCreatureObject.Creature.AttackType == AttackType.Melee) {
+				int skillIndex = Random.Range (2, BJPlayer.Instance.DataBase.Skills.Count);
+				bjCreatureObject.AddSkill (BJPlayer.Instance.DataBase.Skills[skillIndex]);
+			}
 			OnCardsDealt += bjCreatureObject.BJGameController_Instance_OnCardsDealt;
 
 			GameObject portraitObject = Instantiate (PlayerPortraitPrefab) as GameObject;
@@ -229,6 +242,11 @@ public class BJGameController : MonoBehaviour {
 			creatureObject.transform.localScale = Vector3.one;*/
 			PlayerCreatureObjects.Add (bjCreatureObject);
 		}
+	}
+
+	public void CurrentCreatureChooseSkill (int index) {
+		currentCreatureObject.CurrentSkill = currentCreatureObject.Skills [index];
+		currentCreatureObject.CurrentSkill.AssignSkillIndexes ();
 	}
 
 	public void SpawnCreatures (int amount) {

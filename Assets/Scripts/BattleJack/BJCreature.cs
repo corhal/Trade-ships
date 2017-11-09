@@ -25,7 +25,7 @@ public class BJCreature {
 	public int BaseDamage { get { return baseDamage; } }
 
 	int speed;
-	public int Speed { get { return speed; } }
+	public int Speed { get { return speed; } set { speed = value; } }
 
 	AttackType attackType;
 	public AttackType AttackType { get { return attackType; } }
