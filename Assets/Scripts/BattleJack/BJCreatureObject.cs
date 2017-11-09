@@ -4,7 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class BJCreatureObject : MonoBehaviour {
-	
+
+	public bool IsStunned = false;
 	public GameObject LineShooterPrefab;
 	public GameObject LineShooter;
 
@@ -34,6 +35,8 @@ public class BJCreatureObject : MonoBehaviour {
 	Vector3 secondaryPosition;
 	Vector3 targetPosition;
 
+	public List<BJEffect> Effects;
+
 	void Awake () {
 		initialColor = CreatureImage.color;
 	}
@@ -43,13 +46,26 @@ public class BJCreatureObject : MonoBehaviour {
 		HPSlider.maxValue = Creature.MaxHP;
 		HPSlider.value = Creature.HP;
 		InitialPosition = transform.position;
+		Skills [0].Damage = Creature.BaseDamage;
 		CurrentSkill = Skills [0];
-		// Debug.Log (CurrentSkill);
-		CurrentSkill.CurrentUser = this;
-		foreach (var skill in Skills) {
-			OnCreatureMovementFinished += skill.User_OnCreatureMovementFinished;
-			skill.OnSkillFinished += CurrentSkill_OnSkillFinished;
-		}
+	}
+
+	public void AddSkill (BJSkill skill) {
+		BJSkill skillCopy = Instantiate (skill);
+		Skills.Add (skillCopy);
+		skillCopy.CurrentUser = this;
+		OnCreatureMovementFinished += skillCopy.User_OnCreatureMovementFinished;
+		skillCopy.OnSkillFinished += CurrentSkill_OnSkillFinished;
+	}
+
+	public void ApplyEffect (BJEffect effect) { // effects will strangely stack for now
+		BJEffect effectCopy = Instantiate (effect);
+		Effects.Add (effectCopy);
+		effectCopy.Victim = this;
+	}
+
+	public void RemoveEffect (BJEffect effect) {
+		Effects.Remove (effect);
 	}
 
 	void CurrentSkill_OnSkillFinished (BJSkill sender) {
@@ -69,9 +85,8 @@ public class BJCreatureObject : MonoBehaviour {
 		CurrentSkill.UseSkill (this, enemyCreature);
 	}
 
-	public IEnumerator DealDamage (float delay, BJCreatureObject enemy) {		
-		yield return new WaitForSeconds(delay);
-		Creature.DealDamage (1.0f, enemy.Creature);
+	public void DealDamage (int damage, float multiplier, BJCreatureObject enemy) {	
+		Creature.DealDamage (damage, multiplier, enemy.Creature);
 	}
 
 	public void MoveToPoint (Vector3 target) {
@@ -81,6 +96,7 @@ public class BJCreatureObject : MonoBehaviour {
 		targetPosition = target;
 		journeyLength = Vector3.Distance(secondaryPosition, targetPosition );
 	}
+
 
 
 	public void BJGameController_Instance_OnCardsDealt (float multiplier) {
@@ -114,6 +130,23 @@ public class BJCreatureObject : MonoBehaviour {
 				}
 			}
 		}
+	}
+
+	public void StartTurn () {
+		for (int i = Effects.Count - 1; i >= 0; i--) {
+			if (Effects [i] == null) {
+				Effects.Remove (Effects [i]);
+			}
+		}
+		foreach (var effect in Effects) {			
+			if (effect.Duration > effect.CurrentLifetime && (effect.TickPeriod == 0 || effect.CurrentLifetime % effect.TickPeriod == 0)) {
+				effect.Tick ();
+			}
+			if (effect.Duration <= effect.CurrentLifetime) {
+				Destroy (effect);
+			}
+		}
+		Animate ();
 	}
 
 	public void Deanimate () {

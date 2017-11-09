@@ -1,0 +1,16 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class BJEffect : MonoBehaviour {
+
+	public int Damage;
+	public BJCreatureObject Victim;
+	public int TickPeriod;
+	public int Duration;
+	public int CurrentLifetime = 0;
+
+	public virtual void Tick () {
+		CurrentLifetime++;
+	}
+}

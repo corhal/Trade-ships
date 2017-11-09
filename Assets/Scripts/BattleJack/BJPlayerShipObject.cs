@@ -26,7 +26,7 @@ public class BJPlayerShipObject : MonoBehaviour {
 		MultiplierLabel.text = "x" + multiplier.ToString("0.0");*/
 	}
 
-	public void DealDamage (float multiplier, BJCreatureObject enemy) {
+	/*public void DealDamage (float multiplier, BJCreatureObject enemy) {
 		DamageLabel.gameObject.SetActive (false);
 		MultiplierLabel.gameObject.SetActive (false);
 		GameObject lineShooterObject = Instantiate (LineShooterPrefab) as GameObject;
@@ -36,7 +36,7 @@ public class BJPlayerShipObject : MonoBehaviour {
 		LineShooter = lineShooterObject;
 		StartCoroutine (TurnOffEffects ());
 		Ship.DealDamage (multiplier, enemy.Creature);
-	}
+	}*/
 
 	IEnumerator TurnOffEffects () {
 		yield return new WaitForSeconds (0.25f);

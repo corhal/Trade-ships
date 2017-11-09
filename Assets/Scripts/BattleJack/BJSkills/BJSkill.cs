@@ -8,6 +8,8 @@ public enum RangeType {
 
 public class BJSkill : MonoBehaviour {
 
+	public int Damage;
+
 	public delegate void FinishSkillEventHandler (BJSkill sender);
 	public event FinishSkillEventHandler OnSkillFinished;
 
@@ -25,7 +27,8 @@ public class BJSkill : MonoBehaviour {
 
 	}
 
-	protected virtual void FinishSkill () {
+	protected IEnumerator FinishSkill (float delay) {
+		yield return new WaitForSeconds (delay);
 		OnSkillFinished (this);
 	}
 

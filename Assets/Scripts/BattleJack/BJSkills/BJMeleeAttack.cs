@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class BJMeleeAttack : BJSkill {
-
+	
 	int moveCounter;
 	void Awake () {
 		RangeType = RangeType.Melee;
@@ -100,11 +100,11 @@ public class BJMeleeAttack : BJSkill {
 	public override void User_OnCreatureMovementFinished (BJCreatureObject creatureObject) {
 		moveCounter++;
 		if (moveCounter == 1) {
-			StartCoroutine(CurrentUser.DealDamage (0.0f, CurrentMainTarget));
+			CurrentUser.DealDamage (Damage, 1.0f, CurrentMainTarget);
 			CurrentUser.MoveToPoint (CurrentUser.InitialPosition);
 		}
 		if (moveCounter == 2) {
-			FinishSkill ();
+			StartCoroutine(FinishSkill (0.1f));
 		}
 	}
 }

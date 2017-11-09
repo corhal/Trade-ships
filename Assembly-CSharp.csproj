@@ -58,10 +58,15 @@
      <Compile Include="Assets\Scripts\BattleJack\BJCreatureObject.cs" />
      <Compile Include="Assets\Scripts\BattleJack\BJDataBase.cs" />
      <Compile Include="Assets\Scripts\BattleJack\BJDeck.cs" />
+     <Compile Include="Assets\Scripts\BattleJack\BJEffects\BJBleed.cs" />
+     <Compile Include="Assets\Scripts\BattleJack\BJEffects\BJEffect.cs" />
+     <Compile Include="Assets\Scripts\BattleJack\BJEffects\BJStun.cs" />
      <Compile Include="Assets\Scripts\BattleJack\BJGameController.cs" />
      <Compile Include="Assets\Scripts\BattleJack\BJPlayer.cs" />
      <Compile Include="Assets\Scripts\BattleJack\BJPlayerShipObject.cs" />
      <Compile Include="Assets\Scripts\BattleJack\BJSkills\BJMeleeAttack.cs" />
+     <Compile Include="Assets\Scripts\BattleJack\BJSkills\BJMeleeBleed.cs" />
+     <Compile Include="Assets\Scripts\BattleJack\BJSkills\BJMeleeStun.cs" />
      <Compile Include="Assets\Scripts\BattleJack\BJSkills\BJRangedAttack.cs" />
      <Compile Include="Assets\Scripts\BattleJack\BJSkills\BJSkill.cs" />
      <Compile Include="Assets\Scripts\BattleManager.cs" />

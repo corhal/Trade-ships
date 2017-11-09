@@ -113,7 +113,7 @@ public class BJGameController : MonoBehaviour {
 		if (currentCreatureObject != null && currentCreatureObject.Creature.HP <= 0) {
 			StartTurn ();
 		}
-		currentCreatureObject.Animate ();
+		currentCreatureObject.StartTurn ();
 		currentCreatureObject.CurrentSkill.AssignSkillIndexes ();
 
 		if (currentCreatureObject != null && currentCreatureObject.Creature.Allegiance == Allegiance.Enemy && PlayerCreatureObjects.Count > 0) {
@@ -215,8 +215,9 @@ public class BJGameController : MonoBehaviour {
 			creatureObject.GetComponent<Image> ().sprite = BJPlayer.Instance.DataBase.CharacterFigurines [index];
 			bjCreatureObject.Creature = creature;
 			bjCreatureObject.HPFill.color = Color.green;
-			BJSkill skill = (bjCreatureObject.Creature.AttackType == AttackType.Melee) ? BJPlayer.Instance.DataBase.Skills [0] : BJPlayer.Instance.DataBase.Skills [1];
-			bjCreatureObject.Skills.Add (skill);
+			BJSkill skill = (bjCreatureObject.Creature.AttackType == AttackType.Melee) ? BJPlayer.Instance.DataBase.Skills [3] : BJPlayer.Instance.DataBase.Skills [1];
+			// bjCreatureObject.Skills.Add (skill);
+			bjCreatureObject.AddSkill (skill);
 			OnCardsDealt += bjCreatureObject.BJGameController_Instance_OnCardsDealt;
 
 			GameObject portraitObject = Instantiate (PlayerPortraitPrefab) as GameObject;
@@ -254,7 +255,8 @@ public class BJGameController : MonoBehaviour {
 		bjCreatureObject.GetComponent<Image> ().sprite = BJPlayer.Instance.DataBase.CharacterFigurines [index];
 		bjCreatureObject.Creature = new BJCreature (hp, baseDamage, Random.Range(1, 7), Allegiance.Enemy, attackType);
 		BJSkill skill = (attackType == AttackType.Melee) ? BJPlayer.Instance.DataBase.Skills [0] : BJPlayer.Instance.DataBase.Skills [1];
-		bjCreatureObject.Skills.Add (skill);
+		// bjCreatureObject.Skills.Add (skill);
+		bjCreatureObject.AddSkill(skill);
 		EnemyCreatureObjects.Add (bjCreatureObject);
 		bjCreatureObject.OnCreatureObjectClicked += BjCreatureObject_OnCreatureObjectClicked;
 		bjCreatureObject.OnCreatureTurnFinished += BjCreatureObject_OnCreatureTurnFinished;
