@@ -53,14 +53,4 @@ public class BJCreature {
 		damage = (int)(damage * multiplier);
 		enemy.TakeDamage (damage);
 	}
-
-	/*public void DealDamage (float multiplier, BJPlayer enemy) {
-		int damage = (int)(baseDamage * multiplier);
-		enemy.TakeDamage (damage);
-	}
-
-	public void DealDamage (float multiplier, BJGameController enemy) { // cuckoo
-		int damage = (int)(baseDamage * multiplier);
-		enemy.TakeDamage (damage);
-	}*/
 }

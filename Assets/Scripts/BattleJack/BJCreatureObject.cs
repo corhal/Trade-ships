@@ -6,15 +6,11 @@ using UnityEngine.UI;
 public class BJCreatureObject : MonoBehaviour {
 
 	public bool IsStunned = false;
-	public GameObject LineShooterPrefab;
-	public GameObject LineShooter;
-
-	public Text DamageLabel;
-	public Text MultiplierLabel;
 
 	public Slider HPSlider;
 	public BJCreature Creature;
 
+	public Image SelectionCircle;
 	public Image CreatureImage;
 	public Image HPFill;
 
@@ -99,6 +95,9 @@ public class BJCreatureObject : MonoBehaviour {
 		HPSlider.value = Creature.HP;
 		if (Creature.HP <= 0) {
 			gameObject.SetActive (false);
+			if (OnCreatureTurnFinished != null) {
+				OnCreatureTurnFinished (this);
+			}
 		}
 	}
 
@@ -116,15 +115,6 @@ public class BJCreatureObject : MonoBehaviour {
 		secondaryPosition = transform.position;
 		targetPosition = target;
 		journeyLength = Vector3.Distance(secondaryPosition, targetPosition );
-	}
-
-	public void BJGameController_Instance_OnCardsDealt (float multiplier) {
-		
-	}
-
-	IEnumerator TurnOffEffects () {
-		yield return new WaitForSeconds (0.25f);
-		Destroy (LineShooter);
 	}
 
 	public float MoveSpeed = 10.0F;

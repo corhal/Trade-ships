@@ -22,13 +22,13 @@ public class BJMeleeBleed : BJSkill {
 		int userIndex = ourCreatureObjects.IndexOf (CurrentUser);
 		switch (userIndex) { // кошмарный говнокод
 		case 0:
-			ValidTargetIndexes = new List<int> { 0, 1 };
+			ValidTargetIndexes = new List<int> { 0 };
 			break;
 		case 1:
-			ValidTargetIndexes = new List<int> { 0, 1, 2 };
+			ValidTargetIndexes = new List<int> { 1 };
 			break;
 		case 2:
-			ValidTargetIndexes = new List<int> { 1, 2 };
+			ValidTargetIndexes = new List<int> { 2 };
 			break;
 		case 3:
 		case 4:
@@ -49,13 +49,13 @@ public class BJMeleeBleed : BJSkill {
 		if (allDead) {
 			switch (userIndex) {
 			case 0:
-				ValidTargetIndexes = new List<int> { 2 };
+				ValidTargetIndexes = new List<int> { 1 };
 				break;
 			case 1:
-				ValidTargetIndexes = new List<int> { 0, 1, 2 };
+				ValidTargetIndexes = new List<int> { 0, 2 };
 				break;
 			case 2:
-				ValidTargetIndexes = new List<int> { 0 };
+				ValidTargetIndexes = new List<int> { 1 };
 				break;
 			case 3:
 			case 4:
