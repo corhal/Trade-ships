@@ -10,9 +10,6 @@ public class BJRangedAttack : BJSkill {
 	float speed = 10.0f;
 	float initialZ = -7.0f;
 
-	void Awake () {
-		RangeType = RangeType.Ranged;
-	}
 
 	public override void UseSkill (BJCreatureObject user, BJCreatureObject mainTarget) {		
 		CurrentUser = user;

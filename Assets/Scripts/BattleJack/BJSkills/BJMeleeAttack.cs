@@ -5,13 +5,6 @@ using UnityEngine;
 public class BJMeleeAttack : BJSkill {
 	
 	int moveCounter;
-	void Awake () {
-		RangeType = RangeType.Melee;
-	}
-
-	void Start () {
-		
-	}
 
 	public override void UseSkill (BJCreatureObject user, BJCreatureObject mainTarget) {
 		moveCounter = 0;

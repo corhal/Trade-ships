@@ -7,13 +7,6 @@ public class BJMeleeSkill : BJSkill {
 	public BJEffect Effect;
 
 	int moveCounter;
-	void Awake () {
-		RangeType = RangeType.Melee;
-	}
-
-	void Start () {
-
-	}
 
 	public override void UseSkill (BJCreatureObject user, BJCreatureObject mainTarget) {
 		moveCounter = 0;

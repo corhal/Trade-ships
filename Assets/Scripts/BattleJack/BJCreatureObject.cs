@@ -36,6 +36,9 @@ public class BJCreatureObject : MonoBehaviour {
 	Vector3 targetPosition;
 
 	public List<BJEffect> Effects;
+	public List<GameObject> EffectIcons;
+	public GameObject EffectIconPrefab;
+	public GameObject EffectIconsContainer;
 
 	void Awake () {
 		InitialColor = CreatureImage.color;
@@ -62,10 +65,18 @@ public class BJCreatureObject : MonoBehaviour {
 		BJEffect effectCopy = Instantiate (effect);
 		Effects.Add (effectCopy);
 		effectCopy.Victim = this;
+		GameObject effectIconObject = Instantiate (EffectIconPrefab) as GameObject;
+		effectIconObject.GetComponent<Image> ().sprite = effectCopy.EffectIcon;
+		effectIconObject.transform.SetParent (EffectIconsContainer.transform);
+		effectIconObject.transform.localScale = Vector3.one;
+		EffectIcons.Add (effectIconObject);
 		effectCopy.Activate ();
 	}
 
 	public void RemoveEffect (BJEffect effect) {
+		int index = Effects.IndexOf (effect);
+		Destroy (EffectIcons [index]);
+		EffectIcons.RemoveAt (index);
 		Effects.Remove (effect);
 	}
 
@@ -73,6 +84,9 @@ public class BJCreatureObject : MonoBehaviour {
 		foreach (var effect in Effects) {	
 			if (effect.Duration <= effect.CurrentLifetime) {
 				effect.Deactivate ();
+				int index = Effects.IndexOf (effect);
+				Destroy (EffectIcons [index]);
+				EffectIcons.RemoveAt (index);
 				Destroy (effect);
 			}
 		}
@@ -147,10 +161,9 @@ public class BJCreatureObject : MonoBehaviour {
 			if (effect.Duration > effect.CurrentLifetime && (effect.TickPeriod == 0 || effect.CurrentLifetime % effect.TickPeriod == 0)) {
 				effect.Tick ();
 			}
-			/*if (effect.Duration <= effect.CurrentLifetime) {
-				effect.Deactivate ();
-				Destroy (effect);
-			}*/
+		}
+		foreach (var skill in Skills) {
+			skill.CurrentCooldown = Mathf.Max (0, skill.CurrentCooldown - 1);
 		}
 		Animate ();
 	}

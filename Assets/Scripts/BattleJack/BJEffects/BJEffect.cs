@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class BJEffect : MonoBehaviour {
 
+	public Sprite EffectIcon;
 	public int Damage;
 	public BJCreatureObject Victim;
 	public int TickPeriod;

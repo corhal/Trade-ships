@@ -47,12 +47,12 @@ public class BJGameController : MonoBehaviour {
 	}
 
 	void Start () {
-		Deck = new BJDeck ();
+		/*Deck = new BJDeck ();
 		Deck.Shuffle ();
 		Hand = new BJDeck ();
 		Hand.Flush ();
 
-		StartCoroutine (DealCards (2, 0.0f));
+		StartCoroutine (DealCards (2, 0.0f));*/
 
 		SpawnCreatures (5);
 
@@ -64,13 +64,13 @@ public class BJGameController : MonoBehaviour {
 
 		BJPlayer.Instance.OnDamageTaken += BJPlayer_Instance_OnDamageTaken;
 
-		PlayerHPSlider.maxValue = BJPlayer.Instance.MaxHP;
+		/*PlayerHPSlider.maxValue = BJPlayer.Instance.MaxHP;
 		PlayerHPSlider.value = BJPlayer.Instance.HP;
 		PlayerHPLabel.text = BJPlayer.Instance.HP + "/" + BJPlayer.Instance.MaxHP;
 
 		EnemyShipHPSlider.maxValue = EnemyShipMaxHP;
 		EnemyShipHPSlider.value = EnemyShipHP;
-		EnemyShipHPLabel.text = EnemyShipHP + "/" + EnemyShipMaxHP;
+		EnemyShipHPLabel.text = EnemyShipHP + "/" + EnemyShipMaxHP;*/
 
 		SpawnPlayerCreatures ();
 		for (int i = 0; i < PlayerCreatureObjects.Count; i++) {
@@ -78,7 +78,7 @@ public class BJGameController : MonoBehaviour {
 			PlayerCreatureObjects [i].gameObject.transform.localScale = Vector3.one;
 			PlayerCreatureObjects [i].gameObject.transform.localPosition = Vector3.zero;
 		}
-		ScoreSlider.maxValue = 21;
+		//ScoreSlider.maxValue = 21;
 
 		FormQueue ();
 		Invoke ("StartTurn", 0.25f);
@@ -115,15 +115,28 @@ public class BJGameController : MonoBehaviour {
 			StartTurn ();
 		}
 		CurrentCreatureChooseSkill (0);
-		for (int i = 0; i < SkillButtons.Count; i++) {
-			if (i >= currentCreatureObject.Skills.Count) {
-				SkillButtons [i].interactable = false;
-			} else {
-				SkillButtons [i].interactable = true;
-			}
-		}
+
 		currentCreatureObject.StartTurn ();
 		currentCreatureObject.CurrentSkill.AssignSkillIndexes ();
+
+		for (int i = 0; i < SkillButtons.Count; i++) {
+			if (i >= currentCreatureObject.Skills.Count - 1) {
+				SkillButtons [i].interactable = false;
+				SkillButtons [i].GetComponent<BJSkillButton> ().CooldownSlider.maxValue = 0;
+				SkillButtons [i].GetComponent<BJSkillButton> ().CooldownSlider.value = 0;
+				SkillButtons [i].GetComponent<BJSkillButton> ().CooldownLabel.gameObject.SetActive (false);
+			} else {
+				SkillButtons [i].interactable = true;
+				SkillButtons [i].GetComponent<BJSkillButton> ().CooldownSlider.maxValue = currentCreatureObject.Skills [i + 1].Cooldown;
+				SkillButtons [i].GetComponent<BJSkillButton> ().CooldownSlider.value = currentCreatureObject.Skills [i + 1].CurrentCooldown;
+				if (currentCreatureObject.Skills [i + 1].CurrentCooldown > 0) {
+					SkillButtons [i].GetComponent<BJSkillButton> ().CooldownLabel.gameObject.SetActive (true);
+					SkillButtons [i].GetComponent<BJSkillButton> ().CooldownLabel.text = currentCreatureObject.Skills [i + 1].CurrentCooldown + "";
+				} else {
+					SkillButtons [i].GetComponent<BJSkillButton> ().CooldownLabel.gameObject.SetActive (false);
+				}
+			}
+		}
 
 		if (currentCreatureObject != null && currentCreatureObject.Creature.Allegiance == Allegiance.Enemy && PlayerCreatureObjects.Count > 0) {
 			int index = 0;
@@ -133,10 +146,14 @@ public class BJGameController : MonoBehaviour {
 				index = currentCreatureObject.CurrentSkill.ValidTargetIndexes[indexOfIndex];
 			} while (PlayerCreatureObjects[index].Creature.HP <= 0);
 
-			currentCreatureObject.Attack(PlayerCreatureObjects[index]);
-			currentCreatureObject.Deanimate ();
-
+			StartCoroutine(EnemyAttack(0.25f, PlayerCreatureObjects[index]));
 		}
+	}
+
+	IEnumerator EnemyAttack (float delay, BJCreatureObject creatureObject) {
+		yield return new WaitForSeconds (delay);
+		currentCreatureObject.Attack(creatureObject);
+		currentCreatureObject.Deanimate ();
 	}
 
 	void CheckDead () {
@@ -153,29 +170,29 @@ public class BJGameController : MonoBehaviour {
 	}
 
 	void BJPlayer_Instance_OnDamageTaken ()	{
-		PlayerHPSlider.value = BJPlayer.Instance.HP;
+		/*PlayerHPSlider.value = BJPlayer.Instance.HP;
 		PlayerHPLabel.text = BJPlayer.Instance.HP + "/" + BJPlayer.Instance.MaxHP;
 		if (BJPlayer.Instance.HP <= 0 && PlayerHPSlider.gameObject.activeSelf && PlayerHPLabel.gameObject.activeSelf) {
 			PlayerHPSlider.gameObject.SetActive (false);
 			PlayerHPLabel.gameObject.SetActive (false);
-		}
+		}*/
 	}
 
 	public void TakeDamage (int amount) {
-		EnemyShipHP = Mathf.Max (0, EnemyShipHP - amount);
+		/*EnemyShipHP = Mathf.Max (0, EnemyShipHP - amount);
 		EnemyShipHPSlider.value = EnemyShipHP;
 		EnemyShipHPLabel.text = EnemyShipHP + "/" + EnemyShipMaxHP;
 		if (EnemyShipHP <= 0 && EnemyShipHPSlider.gameObject.activeSelf && EnemyShipHPLabel.gameObject.activeSelf) {
 			EnemyShipHPSlider.gameObject.SetActive (false);
 			EnemyShipHPLabel.gameObject.SetActive (false);
-		}
+		}*/
 	}
 
-	public void ClickDealButton () {
+	/*public void ClickDealButton () {
 		StartCoroutine (DealCards (1, 0.0f));
-	}
+	}*/
 
-	public IEnumerator DealCards (int count, float pause) {
+	/*public IEnumerator DealCards (int count, float pause) {
 		yield return new WaitForSeconds (pause);
 		if (Deck.Cards.Count == 0) {
 			Deck = new BJDeck ();
@@ -212,7 +229,7 @@ public class BJGameController : MonoBehaviour {
 		CardObjects.Clear ();
 		currentScore = 0;
 		ScoreLabel.text = "" + currentScore;
-	}
+	}*/
 
 	public GameObject PlayerPortraitPrefab;
 
@@ -244,8 +261,19 @@ public class BJGameController : MonoBehaviour {
 		}
 	}
 
+	public GameObject SelectionImageObject;
+
 	public void CurrentCreatureChooseSkill (int index) {
-		currentCreatureObject.CurrentSkill = currentCreatureObject.Skills [index];
+		if (currentCreatureObject.Skills [index].CurrentCooldown > 0) {
+			return;
+		}
+		if (currentCreatureObject.CurrentSkill == currentCreatureObject.Skills [index]) {
+			currentCreatureObject.CurrentSkill = currentCreatureObject.Skills [0];
+			SelectionImageObject.gameObject.SetActive (false);
+		} else {
+			currentCreatureObject.CurrentSkill = currentCreatureObject.Skills [index];
+			SelectionImageObject.gameObject.SetActive (true);
+		}
 		currentCreatureObject.CurrentSkill.AssignSkillIndexes ();
 	}
 
