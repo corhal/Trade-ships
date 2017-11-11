@@ -9,6 +9,7 @@ public class ShipWindow : MonoBehaviour {
 
 	public GameObject[] StarObjects;
 
+	public Image CreatureFigurineImage;
 	public Image[] ItemImages;
 
 	public GameObject StatsBlock;
@@ -49,6 +50,7 @@ public class ShipWindow : MonoBehaviour {
 	public void Open (ShipData shipData) {		
 		Window.SetActive (true);
 		currentShipData = shipData;
+		CreatureFigurineImage.sprite = Player.Instance.DataBase.CreatureFigurinesByNames [shipData.Name];
 		HeaderLabel.text = shipData.Name;
 		ColorPanel.color = Player.Instance.DataBase.ColorsByRankColors [shipData.RankColor];
 		string rankString = shipData.RankColor.ToString ();

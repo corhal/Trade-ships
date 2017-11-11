@@ -49,6 +49,7 @@ public class ShipsCatalogWindow : MonoBehaviour {
 		GameObject shipListElementObject = Instantiate (ShipListElementPrefab) as GameObject;
 		ShipElement shipElement = shipListElementObject.GetComponentInChildren<ShipElement> ();
 		shipElement.ShipData = shipData;
+		shipElement.PortraitImage.sprite = Player.Instance.DataBase.CreaturePortraitsByNames [shipData.Name];
 		shipElement.NameLabel.text = shipData.Name;
 		shipElement.LevelLabel.text = shipData.Level.ToString ();
 

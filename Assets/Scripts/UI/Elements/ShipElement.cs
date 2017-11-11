@@ -8,6 +8,7 @@ public class ShipElement : MonoBehaviour {
 	public ShipData ShipData;
 	public Text NameLabel;
 	public Text LevelLabel;
+	public Image PortraitImage;
 	public Image SelectionShade;
 	public List<GameObject> Stars;
 

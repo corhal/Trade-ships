@@ -69,9 +69,7 @@ public class Player : MonoBehaviour {
 
 	public void CreateShipDatas () {
 		ShipDatas.Clear ();
-		List<string> playerNames = new List<string> {
-			"Vulpecula", "Manticora", "Herr Mannelig", "Nexus", "Liguria", "Elephant", "Morgenstern"
-		};
+		List<string> playerNames = new List<string> (DataBase.CreatureNames);
 
 		Utility.Shuffle (playerNames);
 		for (int j = 0; j < playerNames.Count; j++) {

@@ -16,6 +16,7 @@ public class BJSkill : MonoBehaviour {
 	public BJCreatureObject CurrentUser; // :(((
 	public BJCreatureObject CurrentMainTarget;
 
+	public Dictionary<int, int> TargetPriorities;
 	public List<int> ValidTargetIndexes;
 
 	public virtual void UseSkill (BJCreatureObject user, BJCreatureObject mainTarget) {

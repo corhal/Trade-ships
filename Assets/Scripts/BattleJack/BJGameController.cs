@@ -91,9 +91,14 @@ public class BJGameController : MonoBehaviour {
 		currentCreatureObject = TurnQueue.Dequeue ();
 		if (currentCreatureObject != null && currentCreatureObject.Creature.HP <= 0) {
 			StartTurn ();
+			return;
 		}
 		CurrentCreatureChooseSkill (0);
 
+		currentCreatureObject.GetReadyForTurn ();
+	}
+
+	void BjCreatureObject_OnCreatureReadyForTurn (BJCreatureObject creatureObject) {
 		currentCreatureObject.StartTurn ();
 
 		for (int i = 0; i < SkillButtons.Count; i++) {
@@ -115,7 +120,7 @@ public class BJGameController : MonoBehaviour {
 			}
 		}
 
-		if (currentCreatureObject != null && currentCreatureObject.Creature.Allegiance == Allegiance.Enemy && currentCreatureObject.Creature.HP > 0 && !currentCreatureObject.IsStunned && PlayerCreatureObjects.Count > 0) {
+		if (currentCreatureObject != null && currentCreatureObject.Creature.Allegiance == Allegiance.Enemy && PlayerCreatureObjects.Count > 0) {			
 			int index = 0;
 			int indexOfIndex = 0;
 			do {
@@ -220,6 +225,7 @@ public class BJGameController : MonoBehaviour {
 		} else {
 			PlayerCreatureObjects.Add (bjCreatureObject);
 		}
+		bjCreatureObject.OnCreatureReadyForTurn += BjCreatureObject_OnCreatureReadyForTurn;
 		bjCreatureObject.OnCreatureTurnFinished += BjCreatureObject_OnCreatureTurnFinished;
 	}
 

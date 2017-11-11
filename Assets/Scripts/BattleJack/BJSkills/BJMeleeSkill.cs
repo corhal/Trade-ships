@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class BJMeleeSkill : BJSkill {
@@ -20,76 +21,56 @@ public class BJMeleeSkill : BJSkill {
 		List<BJCreatureObject> ourCreatureObjects = (CurrentUser.Creature.Allegiance == Allegiance.Player) ? BJGameController.Instance.PlayerCreatureObjects : BJGameController.Instance.EnemyCreatureObjects;
 		List<BJCreatureObject> enemyCreatureObjects = (CurrentUser.Creature.Allegiance == Allegiance.Player) ? BJGameController.Instance.EnemyCreatureObjects : BJGameController.Instance.PlayerCreatureObjects;
 		int userIndex = ourCreatureObjects.IndexOf (CurrentUser);
+
 		switch (userIndex) { // кошмарный говнокод
 		case 0:
-			ValidTargetIndexes = new List<int> { 0, 1 };
+			TargetPriorities = new Dictionary<int, int> { {0, 0}, {1, 1}, {2, 2}, {3, 3}, {4, 4} };
+			// ValidTargetIndexes = new List<int> { 0, 1 };
 			break;
 		case 1:
-			ValidTargetIndexes = new List<int> { 0, 1, 2 };
+			TargetPriorities = new Dictionary<int, int> { {0, 1}, {1, 0}, {2, 1}, {3, 2}, {4, 2} };
+			// ValidTargetIndexes = new List<int> { 0, 1, 2 };
 			break;
 		case 2:
-			ValidTargetIndexes = new List<int> { 1, 2 };
+			TargetPriorities = new Dictionary<int, int> { {0, 2}, {1, 1}, {2, 0}, {3, 4}, {4, 3} };
+			// ValidTargetIndexes = new List<int> { 1, 2 };
 			break;
 		case 3:
 		case 4:
 		case 5:
-			ValidTargetIndexes = new List<int> { 0, 1, 2};
+			TargetPriorities = new Dictionary<int, int> { {0, 0}, {1, 0}, {2, 0}, {3, 1}, {4, 1} };
+			// ValidTargetIndexes = new List<int> { 0, 1, 2};
 			break;
 		default:
-			ValidTargetIndexes = new List<int> { 0, 1, 2, 3, 4};
+			// ValidTargetIndexes = new List<int> { 0, 1, 2, 3, 4};
 			break;
 		}
 
-		bool allDead = true;
-		foreach (var validTargetIndex in ValidTargetIndexes) {
-			if (enemyCreatureObjects.Count > validTargetIndex && enemyCreatureObjects[validTargetIndex].Creature.HP > 0) {
-				allDead = false;
+		int minPriority = 10;
+		List<int> KeysToList = TargetPriorities.Keys.ToList ();
+		for (int i = TargetPriorities.Keys.Count - 1; i >= 0; i--) {
+			if (enemyCreatureObjects[KeysToList[i]].Creature.HP <= 0) {
+				TargetPriorities.Remove (KeysToList [i]);
+			} else if (TargetPriorities[KeysToList [i]] < minPriority) {
+				minPriority = TargetPriorities [KeysToList [i]];
 			}
 		}
-		if (allDead) {
-			switch (userIndex) {
-			case 0:
-				ValidTargetIndexes = new List<int> { 2 };
-				break;
-			case 1:
-				ValidTargetIndexes = new List<int> { 0, 1, 2 };
-				break;
-			case 2:
-				ValidTargetIndexes = new List<int> { 0 };
-				break;
-			case 3:
-			case 4:
-			case 5:
-				ValidTargetIndexes = new List<int> { 0, 1, 2};
-				break;
-			default:
-				ValidTargetIndexes = new List<int> { 0, 1, 2, 3, 4};
-				break;
+		KeysToList = TargetPriorities.Keys.ToList ();
+		for (int i = TargetPriorities.Keys.Count - 1; i >= 0; i--) {
+			if (TargetPriorities[KeysToList[i]] > minPriority) {
+				TargetPriorities.Remove (KeysToList [i]);
 			}
 		}
 
-		allDead = true;
-		foreach (var validTargetIndex in ValidTargetIndexes) {
-			if (enemyCreatureObjects.Count > validTargetIndex && enemyCreatureObjects[validTargetIndex].Creature.HP > 0) {
-				allDead = false;
-			}
-		}
+		ValidTargetIndexes = new List<int> (TargetPriorities.Keys);
 
-		if (allDead) {
-			switch (userIndex) {
-			case 0:
-			case 1:
-			case 2:
-			case 3:
-			case 4:
-			case 5:
-				ValidTargetIndexes = new List<int> { 3, 4};
-				break;
-			default:
-				ValidTargetIndexes = new List<int> { 0, 1, 2, 3, 4};
-				break;
-			}
-		}
+		/*var myList = TargetPriorities.ToList();
+		myList.Sort((pair1,pair2) => pair1.Value.CompareTo(pair2.Value));
+		ValidTargetIndexes = new List<int> ();
+		foreach (var keyValPair in myList) {
+			ValidTargetIndexes.Add (keyValPair.Key); // AI will just attack every creature by order for now
+		}*/
+			
 	}
 
 	public override void User_OnCreatureMovementFinished (BJCreatureObject creatureObject) {

@@ -12,6 +12,15 @@ public class DataBase : MonoBehaviour {
 	public List<Sprite> ActionIcons;
 	public List<string> ActionNames;
 
+	public Dictionary<string, Sprite> CreatureFigurinesByNames;
+	public List<Sprite> CreatureFigurines;
+
+	public Dictionary<string, Sprite> CreaturePortraitsByNames;
+	public List<Sprite> CreaturePortraits;
+	public List<string> CreatureNames = new List<string> {
+		"Vulpecula", "Manticora", "Herr Mannelig", "Nexus", "Liguria"
+	};
+
 	public List<Item> TempItemLibrary;
 
 	public List<int> EvolveCosts = new List<int> {
@@ -38,6 +47,16 @@ public class DataBase : MonoBehaviour {
 		ItemIconsByNames = new Dictionary<string, Sprite> ();
 		for (int i = 0; i < ItemIcons.Count; i++) {
 			ItemIconsByNames.Add (ItemNames [i], ItemIcons [i]);
+		}
+
+		CreaturePortraitsByNames = new Dictionary<string, Sprite> ();
+		for (int i = 0; i < CreaturePortraits.Count; i++) {
+			CreaturePortraitsByNames.Add (CreatureNames [i], CreaturePortraits [i]);
+		}
+
+		CreatureFigurinesByNames = new Dictionary<string, Sprite> ();
+		for (int i = 0; i < CreatureFigurines.Count; i++) {
+			CreatureFigurinesByNames.Add (CreatureNames [i], CreatureFigurines [i]);
 		}
 	}
 

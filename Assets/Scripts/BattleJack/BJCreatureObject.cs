@@ -19,14 +19,11 @@ public class BJCreatureObject : MonoBehaviour {
 	public BJSkill CurrentSkill;
 	public List<BJSkill> Skills;
 
-	public delegate void CreatureObjectClickedEventHandler (BJCreatureObject creatureObject);
-	public event CreatureObjectClickedEventHandler OnCreatureObjectClicked;
-
-	public delegate void CreatureMovementFinishedEventHandler (BJCreatureObject creatureObject);
-	public event CreatureMovementFinishedEventHandler OnCreatureMovementFinished;
-
-	public delegate void CreatureTurnFinishedEventHandler (BJCreatureObject creatureObject);
-	public event CreatureTurnFinishedEventHandler OnCreatureTurnFinished;
+	public delegate void CreatureEventHandler (BJCreatureObject creatureObject);
+	public event CreatureEventHandler OnCreatureObjectClicked;
+	public event CreatureEventHandler OnCreatureMovementFinished;
+	public event CreatureEventHandler OnCreatureReadyForTurn;
+	public event CreatureEventHandler OnCreatureTurnFinished;
 
 	bool shouldMove;
 	public Vector3 InitialPosition;
@@ -144,7 +141,7 @@ public class BJCreatureObject : MonoBehaviour {
 		}
 	}
 
-	public void StartTurn () {
+	public void GetReadyForTurn () {
 		for (int i = Effects.Count - 1; i >= 0; i--) {
 			if (Effects [i] == null) {
 				Effects.Remove (Effects [i]);
@@ -158,6 +155,12 @@ public class BJCreatureObject : MonoBehaviour {
 		foreach (var skill in Skills) {
 			skill.CurrentCooldown = Mathf.Max (0, skill.CurrentCooldown - 1);
 		}
+		if (Creature.HP > 0) {
+			OnCreatureReadyForTurn (this);
+		}
+	}
+
+	public void StartTurn () {
 		if (IsStunned) {
 			if (OnCreatureTurnFinished != null) {
 				OnCreatureTurnFinished (this);

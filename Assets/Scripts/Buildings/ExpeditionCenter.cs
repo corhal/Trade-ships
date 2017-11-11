@@ -26,9 +26,7 @@ public class ExpeditionCenter : Building {
 	}
 
 	public void CreateMissions () {
-		List<string> enemyNames = new List<string> {
-			"Dragon", "Brave", "Nebula", "Theseus", "Sagittarius", "Lion", "Sir Galahad"
-		};
+		List<string> enemyNames = new List<string> (Player.Instance.DataBase.CreatureNames);
 
 		for (int i = 0; i < 5; i++) {
 			Utility.Shuffle (enemyNames);
