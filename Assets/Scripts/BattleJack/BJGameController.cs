@@ -40,6 +40,24 @@ public class BJGameController : MonoBehaviour {
 			PlayerCreatureObjects [i].gameObject.transform.localPosition = Vector3.zero;
 		}
 
+		List<BJCreatureObject> AllCreatureObjects = new List<BJCreatureObject> (EnemyCreatureObjects);
+		AllCreatureObjects.AddRange (PlayerCreatureObjects);
+
+		List<string> CreatureNames = new List<string> {
+			"Ron",
+			"Harry",
+			"Hermione",
+			"Jeanny",
+			"Draco",
+			"Nevill",
+			"Crabb",
+			"Goyle",
+			"Parvati",
+			"Chou"
+		};
+		for (int i = 0; i < CreatureNames.Count; i++) {
+			AllCreatureObjects [i].Name = CreatureNames [i];
+		}
 		FormQueue ();
 		Invoke ("StartTurn", 0.25f);
 	}
@@ -97,14 +115,13 @@ public class BJGameController : MonoBehaviour {
 			}
 		}
 
-		if (currentCreatureObject != null && currentCreatureObject.Creature.Allegiance == Allegiance.Enemy && PlayerCreatureObjects.Count > 0) {
+		if (currentCreatureObject != null && currentCreatureObject.Creature.Allegiance == Allegiance.Enemy && currentCreatureObject.Creature.HP > 0 && !currentCreatureObject.IsStunned && PlayerCreatureObjects.Count > 0) {
 			int index = 0;
 			int indexOfIndex = 0;
 			do {
 				indexOfIndex = Random.Range (0, currentCreatureObject.CurrentSkill.ValidTargetIndexes.Count);
 				index = currentCreatureObject.CurrentSkill.ValidTargetIndexes[indexOfIndex];
 			} while (PlayerCreatureObjects[index].Creature.HP <= 0);
-
 			StartCoroutine(EnemyAttack(0.25f, PlayerCreatureObjects[index]));
 		}
 	}
@@ -175,7 +192,13 @@ public class BJGameController : MonoBehaviour {
 		foreach (var enemyCreatureObject in EnemyCreatureObjects) {
 			enemyCreatureObject.SelectionCircle.gameObject.SetActive (false);
 		}
-		Invoke ("StartTurn", 0.25f);
+		/*if (creatureObject.Creature.HP <= 0) {
+			StopAllCoroutines ();
+			// StopCoroutine ("EnemyAttack");
+		}*/
+		if (currentCreatureObject == creatureObject) {
+			Invoke ("StartTurn", 0.25f);
+		}
 	}
 
 	void SpawnCreatureObject (int hp, int attack, Allegiance allegiance, AttackType attackType) {
@@ -183,16 +206,16 @@ public class BJGameController : MonoBehaviour {
 		BJCreatureObject bjCreatureObject = creatureObject.GetComponent<BJCreatureObject> ();
 		int index = Random.Range (0, BJPlayer.Instance.DataBase.CharacterFigurines.Count);
 		bjCreatureObject.CreatureImage.sprite = BJPlayer.Instance.DataBase.CharacterFigurines [index];
-		bjCreatureObject.Creature = new BJCreature (hp, attack, Random.Range(1, 7), allegiance, attackType); // 
-		bjCreatureObject.HPFill.color = (allegiance == Allegiance.Player) ? Color.green : Color.red; // 
+		bjCreatureObject.Creature = new BJCreature (hp, attack, Random.Range(1, 7), allegiance, attackType);
+		bjCreatureObject.HPFill.color = (allegiance == Allegiance.Player) ? Color.green : Color.red; 
 		BJSkill skill = (attackType == AttackType.Melee) ? BJPlayer.Instance.DataBase.Skills [0] : BJPlayer.Instance.DataBase.Skills [1];
 		bjCreatureObject.AddSkill(skill);
-		if (bjCreatureObject.Creature.AttackType == AttackType.Melee) { // 
+		if (bjCreatureObject.Creature.AttackType == AttackType.Melee) {
 			int skillIndex = Random.Range (2, BJPlayer.Instance.DataBase.Skills.Count);
-			bjCreatureObject.AddSkill (BJPlayer.Instance.DataBase.Skills[3]);
+			bjCreatureObject.AddSkill (BJPlayer.Instance.DataBase.Skills[3]); // for debugging purposes
 		}
 		if (allegiance == Allegiance.Enemy) {
-			bjCreatureObject.OnCreatureObjectClicked += BjCreatureObject_OnCreatureObjectClicked; //
+			bjCreatureObject.OnCreatureObjectClicked += BjCreatureObject_OnCreatureObjectClicked;
 			EnemyCreatureObjects.Add (bjCreatureObject);
 		} else {
 			PlayerCreatureObjects.Add (bjCreatureObject);

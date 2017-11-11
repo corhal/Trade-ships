@@ -104,7 +104,7 @@ public class Player : MonoBehaviour {
 					List<Item> validItems = new List<Item> ();
 					foreach (var item in Player.Instance.DataBase.TempItemLibrary) {
 						string nameString = item.Name;
-						string firstName = nameString.Split (' ') [0];
+						// string firstName = nameString.Split (' ') [0];
 						if (/*!cost.ContainsKey(item) &&*/ !item.IsForSale && item.IsForCraft /*firstName != "Blueprint"*/) {
 							validItems.Add (item);
 						}

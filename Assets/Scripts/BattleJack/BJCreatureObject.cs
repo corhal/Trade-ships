@@ -5,7 +5,9 @@ using UnityEngine.UI;
 
 public class BJCreatureObject : MonoBehaviour {
 
+	public string Name;
 	public bool IsStunned = false;
+	public bool IsDead = false;
 
 	public Slider HPSlider;
 	public BJCreature Creature;
@@ -86,14 +88,15 @@ public class BJCreatureObject : MonoBehaviour {
 				Destroy (effect);
 			}
 		}
-		if (OnCreatureTurnFinished != null) {
+		if (Creature.HP > 0 && OnCreatureTurnFinished != null) {
 			OnCreatureTurnFinished (this);
 		}
 	}
 
 	void Creature_OnDamageTaken () {
 		HPSlider.value = Creature.HP;
-		if (Creature.HP <= 0) {
+		if (Creature.HP <= 0 && ! IsDead) {
+			IsDead = true;
 			gameObject.SetActive (false);
 			if (OnCreatureTurnFinished != null) {
 				OnCreatureTurnFinished (this);
@@ -154,6 +157,11 @@ public class BJCreatureObject : MonoBehaviour {
 		}
 		foreach (var skill in Skills) {
 			skill.CurrentCooldown = Mathf.Max (0, skill.CurrentCooldown - 1);
+		}
+		if (IsStunned) {
+			if (OnCreatureTurnFinished != null) {
+				OnCreatureTurnFinished (this);
+			}
 		}
 		Animate ();
 	}
