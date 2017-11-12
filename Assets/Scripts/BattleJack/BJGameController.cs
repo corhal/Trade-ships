@@ -183,12 +183,12 @@ public class BJGameController : MonoBehaviour {
 	public void SpawnCreatures (int amount) {
 		if (Player.Instance != null) { // kostyll
 			foreach (var enemyShipData in Player.Instance.CurrentMission.EnemyShips) {
-				SpawnCreatureObject (enemyShipData.MaxHP, enemyShipData.Power, Allegiance.Enemy, AttackType.Melee);
+				SpawnCreatureObject (enemyShipData.Name, enemyShipData.MaxHP, enemyShipData.Power, Allegiance.Enemy, AttackType.Melee);
 			}
 		} else {
 			for (int i = 0; i < amount; i++) {
 				AttackType attackType = (i < 3) ? AttackType.Melee : AttackType.Ranged;
-				SpawnCreatureObject (400, 70, Allegiance.Enemy, attackType);
+				SpawnCreatureObject ("Cutthroat Bill", 400, 70, Allegiance.Enemy, attackType);
 			}
 		}
 	}
@@ -206,12 +206,16 @@ public class BJGameController : MonoBehaviour {
 		}
 	}
 
-	void SpawnCreatureObject (int hp, int attack, Allegiance allegiance, AttackType attackType) {
+	void SpawnCreatureObject (string name, int hp, int attack, Allegiance allegiance, AttackType attackType) {
 		GameObject creatureObject = Instantiate (CreatureObjectPrefab) as GameObject;
 		BJCreatureObject bjCreatureObject = creatureObject.GetComponent<BJCreatureObject> ();
-		int index = Random.Range (0, BJPlayer.Instance.DataBase.CharacterFigurines.Count);
-		bjCreatureObject.CreatureImage.sprite = BJPlayer.Instance.DataBase.CharacterFigurines [index];
-		bjCreatureObject.Creature = new BJCreature (hp, attack, Random.Range(1, 7), allegiance, attackType);
+		bjCreatureObject.Creature = new BJCreature (name, hp, attack, Random.Range(1, 7), allegiance, attackType);
+		if (allegiance == Allegiance.Enemy) {
+			int index = Random.Range (0, BJPlayer.Instance.DataBase.CharacterFigurines.Count);
+			bjCreatureObject.CreatureImage.sprite = BJPlayer.Instance.DataBase.CharacterFigurines [index];
+		} else {
+			bjCreatureObject.CreatureImage.sprite = BJPlayer.Instance.DataBase.FigurinesByNames [name];
+		}
 		bjCreatureObject.HPFill.color = (allegiance == Allegiance.Player) ? Color.green : Color.red; 
 		BJSkill skill = (attackType == AttackType.Melee) ? BJPlayer.Instance.DataBase.Skills [0] : BJPlayer.Instance.DataBase.Skills [1];
 		bjCreatureObject.AddSkill(skill);
@@ -231,7 +235,7 @@ public class BJGameController : MonoBehaviour {
 
 	public void SpawnPlayerCreatures () {
 		foreach (var creature in BJPlayer.Instance.Creatures) {
-			SpawnCreatureObject (creature.HP, creature.BaseDamage, creature.Allegiance, creature.AttackType);
+			SpawnCreatureObject (creature.Name, creature.HP, creature.BaseDamage, creature.Allegiance, creature.AttackType);
 		}
 	}
 

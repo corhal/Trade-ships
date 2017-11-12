@@ -15,7 +15,8 @@ public enum AttackType {
 public class BJCreature {
 	public event TakeDamageEventHandler OnDamageTaken;
 
-	public string CaptainName;
+	string creatureName;
+	public string Name { get { return creatureName; } }
 
 	int hp;
 	public int HP { get { return hp; } }
@@ -33,7 +34,8 @@ public class BJCreature {
 	Allegiance allegiance;
 	public Allegiance Allegiance { get { return allegiance; } }
 
-	public BJCreature (int maxhp, int baseDamage, int speed, Allegiance allegiance, AttackType attackType) {
+	public BJCreature (string name, int maxhp, int baseDamage, int speed, Allegiance allegiance, AttackType attackType) {
+		this.creatureName = name;
 		this.maxhp = maxhp;
 		this.hp = maxhp;
 		this.baseDamage = baseDamage;
