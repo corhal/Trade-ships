@@ -56,6 +56,7 @@
      <Compile Include="Assets\Scripts\BattleJack\BJCreatureObject.cs" />
      <Compile Include="Assets\Scripts\BattleJack\BJDataBase.cs" />
      <Compile Include="Assets\Scripts\BattleJack\BJDeck.cs" />
+     <Compile Include="Assets\Scripts\BattleJack\BJEffects\BJArmorBuff.cs" />
      <Compile Include="Assets\Scripts\BattleJack\BJEffects\BJBleed.cs" />
      <Compile Include="Assets\Scripts\BattleJack\BJEffects\BJEffect.cs" />
      <Compile Include="Assets\Scripts\BattleJack\BJEffects\BJSlow.cs" />
@@ -63,6 +64,7 @@
      <Compile Include="Assets\Scripts\BattleJack\BJGameController.cs" />
      <Compile Include="Assets\Scripts\BattleJack\BJPlayer.cs" />
      <Compile Include="Assets\Scripts\BattleJack\BJSkillButton.cs" />
+     <Compile Include="Assets\Scripts\BattleJack\BJSkills\BJArmorBuffSkill.cs" />
      <Compile Include="Assets\Scripts\BattleJack\BJSkills\BJMeleeAttack.cs" />
      <Compile Include="Assets\Scripts\BattleJack\BJSkills\BJMeleeBleed.cs" />
      <Compile Include="Assets\Scripts\BattleJack\BJSkills\BJMeleeSkill.cs" />

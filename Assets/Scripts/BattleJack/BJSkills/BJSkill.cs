@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class BJSkill : MonoBehaviour {
 
+	public Allegiance TargetAllegiance;
 	public Sprite SkillIcon;
 	public int Damage;
 
@@ -15,6 +16,7 @@ public class BJSkill : MonoBehaviour {
 
 	public BJCreatureObject CurrentUser; // :(((
 	public BJCreatureObject CurrentMainTarget;
+	public List<BJCreatureObject> CurrentSecondaryTargets;
 
 	public Dictionary<int, int> TargetPriorities;
 	public List<int> ValidTargetIndexes;

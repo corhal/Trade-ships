@@ -25,12 +25,12 @@ public class BJDataBase : MonoBehaviour {
 	//public Dictionary<string, Sprite>
 
 	void Start () {		
-		Creatures.Add (new BJCreature ("Evil Eye Jeanny", 200, 300, 3, Allegiance.Player, AttackType.Ranged));
-		Creatures.Add (new BJCreature ("Johnny Two Knives", 500, 250, 5, Allegiance.Player, AttackType.Melee));
-		Creatures.Add (new BJCreature ("Bill the Bull", 1000, 100, 1, Allegiance.Player, AttackType.Melee));
-		Creatures.Add (new BJCreature ("Cutthroat Jack", 600, 200, 4, Allegiance.Player, AttackType.Melee));
-		Creatures.Add (new BJCreature ("One-Shot Ed", 250, 250, 2, Allegiance.Player, AttackType.Ranged));
-		Creatures.Add (new BJCreature ("Lucky Ellie", 200, 300, 3, Allegiance.Player, AttackType.Ranged));
+		Creatures.Add (new BJCreature ("Evil Eye Jeanny", 200, 250, 2, 3, Allegiance.Player, AttackType.Ranged));
+		Creatures.Add (new BJCreature ("Johnny Two Knives", 500, 200, 4, 5, Allegiance.Player, AttackType.Melee));
+		Creatures.Add (new BJCreature ("Bill the Bull", 1000, 50, 1, 10, Allegiance.Player, AttackType.Melee));
+		Creatures.Add (new BJCreature ("Cutthroat Jack", 600, 150, 4, 4, Allegiance.Player, AttackType.Melee));
+		Creatures.Add (new BJCreature ("One-Shot Ed", 250, 200, 2, 2, Allegiance.Player, AttackType.Ranged));
+		Creatures.Add (new BJCreature ("Lucky Ellie", 200, 250, 3, 1, Allegiance.Player, AttackType.Ranged));
 		FigurinesByNames = new Dictionary<string, Sprite> ();
 		for (int i = 0; i < Creatures.Count; i++) {
 			FigurinesByNames.Add (Creatures [i].Name, CharacterFigurines [i]);

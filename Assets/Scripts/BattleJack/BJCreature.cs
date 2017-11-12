@@ -25,6 +25,9 @@ public class BJCreature {
 	int baseDamage;
 	public int BaseDamage { get { return baseDamage; } }
 
+	int armor;
+	public int Armor { get { return armor; } set { armor = value; } }
+
 	int speed;
 	public int Speed { get { return speed; } set { speed = value; } }
 
@@ -34,18 +37,31 @@ public class BJCreature {
 	Allegiance allegiance;
 	public Allegiance Allegiance { get { return allegiance; } }
 
-	public BJCreature (string name, int maxhp, int baseDamage, int speed, Allegiance allegiance, AttackType attackType) {
+	public BJCreature (string name, int maxhp, int baseDamage, int armor, int speed, Allegiance allegiance, AttackType attackType) {
 		this.creatureName = name;
 		this.maxhp = maxhp;
 		this.hp = maxhp;
 		this.baseDamage = baseDamage;
+		this.armor = armor;
 		this.speed = speed;
 		this.allegiance = allegiance;
 		this.attackType = attackType;
 	}
 
+	// For positive Armor, damage reduction =((armor)*0.06)/(1+0.06*(armor))
+	// For negative Armor, it is damage increase = 2-0.94^(-armor) since you take more damage for negative armor scores.
+	// A negative armor of 10 increases damage by 46.1%
+
 	public void TakeDamage (int amount) {
-		hp = Mathf.Max (0, hp - amount);
+		float armorCoef = 1.0f;
+		if (armor >= 0) {
+			armorCoef = 1.0f - ((float)armor * 0.06f) / (1.0f + 0.06f * (float)armor);
+		} else {
+			armorCoef = 2.0f - Mathf.Pow(0.94f, (float)armor);
+		}
+		float damage = (float)amount * armorCoef;
+		int intDamage = (int)damage;
+		hp = Mathf.Max (0, hp - intDamage);
 		if (OnDamageTaken != null) {
 			OnDamageTaken ();
 		}

@@ -172,9 +172,18 @@ public class BJGameController : MonoBehaviour {
 			foreach (var enemyCreatureObject in EnemyCreatureObjects) {
 				enemyCreatureObject.SelectionCircle.gameObject.SetActive (false);
 			}
+			foreach (var creatureObject in PlayerCreatureObjects) {
+				creatureObject.SelectionCircle.gameObject.SetActive (false);
+			}
 			foreach (var validTargetIndex in currentCreatureObject.CurrentSkill.ValidTargetIndexes) {
-				if (validTargetIndex < EnemyCreatureObjects.Count && EnemyCreatureObjects[validTargetIndex].Creature.HP > 0) {
-					EnemyCreatureObjects [validTargetIndex].SelectionCircle.gameObject.SetActive (true);
+				if (currentCreatureObject.CurrentSkill.TargetAllegiance == Allegiance.Enemy) {
+					if (validTargetIndex < EnemyCreatureObjects.Count && EnemyCreatureObjects[validTargetIndex].Creature.HP > 0) {
+						EnemyCreatureObjects [validTargetIndex].SelectionCircle.gameObject.SetActive (true);
+					}
+				} else {
+					if (validTargetIndex < PlayerCreatureObjects.Count && PlayerCreatureObjects[validTargetIndex].Creature.HP > 0) {
+						PlayerCreatureObjects [validTargetIndex].SelectionCircle.gameObject.SetActive (true);
+					}
 				}
 			}
 		}
@@ -188,7 +197,7 @@ public class BJGameController : MonoBehaviour {
 		} else {
 			for (int i = 0; i < amount; i++) {
 				AttackType attackType = (i < 3) ? AttackType.Melee : AttackType.Ranged;
-				SpawnCreatureObject ("Cutthroat Bill", 400, 70, Allegiance.Enemy, attackType);
+				SpawnCreatureObject ("Cutthroat Bill", 400, 200, Allegiance.Enemy, attackType);
 			}
 		}
 	}
@@ -197,10 +206,9 @@ public class BJGameController : MonoBehaviour {
 		foreach (var enemyCreatureObject in EnemyCreatureObjects) {
 			enemyCreatureObject.SelectionCircle.gameObject.SetActive (false);
 		}
-		/*if (creatureObject.Creature.HP <= 0) {
-			StopAllCoroutines ();
-			// StopCoroutine ("EnemyAttack");
-		}*/
+		foreach (var playerCreatureObject in PlayerCreatureObjects) {
+			playerCreatureObject.SelectionCircle.gameObject.SetActive (false);
+		}
 		if (currentCreatureObject == creatureObject) {
 			Invoke ("StartTurn", 0.25f);
 		}
@@ -209,7 +217,7 @@ public class BJGameController : MonoBehaviour {
 	void SpawnCreatureObject (string name, int hp, int attack, Allegiance allegiance, AttackType attackType) {
 		GameObject creatureObject = Instantiate (CreatureObjectPrefab) as GameObject;
 		BJCreatureObject bjCreatureObject = creatureObject.GetComponent<BJCreatureObject> ();
-		bjCreatureObject.Creature = new BJCreature (name, hp, attack, Random.Range(1, 7), allegiance, attackType);
+		bjCreatureObject.Creature = new BJCreature (name, hp, attack, 3, Random.Range(1, 7), allegiance, attackType);
 		if (allegiance == Allegiance.Enemy) {
 			int index = Random.Range (0, BJPlayer.Instance.DataBase.CharacterFigurines.Count);
 			bjCreatureObject.CreatureImage.sprite = BJPlayer.Instance.DataBase.CharacterFigurines [index];
@@ -218,17 +226,24 @@ public class BJGameController : MonoBehaviour {
 		}
 		bjCreatureObject.HPFill.color = (allegiance == Allegiance.Player) ? Color.green : Color.red; 
 		BJSkill skill = (attackType == AttackType.Melee) ? BJPlayer.Instance.DataBase.Skills [0] : BJPlayer.Instance.DataBase.Skills [1];
+		if (allegiance == Allegiance.Enemy) {
+			skill.TargetAllegiance = Allegiance.Player;
+		} else {
+			skill.TargetAllegiance = Allegiance.Enemy;
+		}
 		bjCreatureObject.AddSkill(skill);
 		if (bjCreatureObject.Creature.AttackType == AttackType.Melee) {
 			int skillIndex = Random.Range (2, BJPlayer.Instance.DataBase.Skills.Count);
-			bjCreatureObject.AddSkill (BJPlayer.Instance.DataBase.Skills[3]); // for debugging purposes
+			BJSkill newSkill = BJPlayer.Instance.DataBase.Skills [5];
+			newSkill.TargetAllegiance = Allegiance.Player;
+			bjCreatureObject.AddSkill (newSkill); // for debugging purposes
 		}
-		if (allegiance == Allegiance.Enemy) {
-			bjCreatureObject.OnCreatureObjectClicked += BjCreatureObject_OnCreatureObjectClicked;
+		if (allegiance == Allegiance.Enemy) {			
 			EnemyCreatureObjects.Add (bjCreatureObject);
 		} else {
 			PlayerCreatureObjects.Add (bjCreatureObject);
 		}
+		bjCreatureObject.OnCreatureObjectClicked += BjCreatureObject_OnCreatureObjectClicked;
 		bjCreatureObject.OnCreatureReadyForTurn += BjCreatureObject_OnCreatureReadyForTurn;
 		bjCreatureObject.OnCreatureTurnFinished += BjCreatureObject_OnCreatureTurnFinished;
 	}
@@ -240,7 +255,7 @@ public class BJGameController : MonoBehaviour {
 	}
 
 	void BjCreatureObject_OnCreatureObjectClicked (BJCreatureObject creatureObject) { // non-player can't click
-		if (currentCreatureObject != null && currentCreatureObject.Creature.Allegiance == Allegiance.Player) {		
+		if (currentCreatureObject != null && currentCreatureObject.Creature.Allegiance == Allegiance.Player && currentCreatureObject.CurrentSkill.TargetAllegiance == Allegiance.Enemy) {		
 			if (!currentCreatureObject.CurrentSkill.ValidTargetIndexes.Contains(EnemyCreatureObjects.IndexOf(creatureObject))) {
 				return;
 			}	
@@ -256,6 +271,13 @@ public class BJGameController : MonoBehaviour {
 			if (deadCount == EnemyCreatureObjects.Count) {			
 				Player.Instance.LoadVillage ();
 			}			
+		}
+		if (currentCreatureObject != null && currentCreatureObject.Creature.Allegiance == Allegiance.Player && currentCreatureObject.CurrentSkill.TargetAllegiance == Allegiance.Player) {		
+			if (!currentCreatureObject.CurrentSkill.ValidTargetIndexes.Contains(PlayerCreatureObjects.IndexOf(creatureObject))) {
+				return;
+			}	
+			currentCreatureObject.Attack(creatureObject);
+			currentCreatureObject.Deanimate ();
 		}
 	}
 
