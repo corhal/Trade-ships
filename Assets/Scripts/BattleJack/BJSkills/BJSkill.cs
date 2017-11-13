@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class BJSkill : MonoBehaviour {
 
-	public Allegiance TargetAllegiance;
+	public bool IsPassive = false;
+	public string TargetTeam;
+	// public Allegiance TargetAllegiance;
 	public Sprite SkillIcon;
 	public int Damage;
 

@@ -58,8 +58,34 @@ public class BJGameController : MonoBehaviour {
 		for (int i = 0; i < CreatureNames.Count; i++) {
 			AllCreatureObjects [i].Name = CreatureNames [i];
 		}
+		ApplyPassiveSkills ();
 		FormQueue ();
 		Invoke ("StartTurn", 0.25f);
+	}
+
+	void ApplyPassiveSkills () { // REALLY should optimize that
+		List<BJCreatureObject> AllCreatureObjects = new List<BJCreatureObject> (EnemyCreatureObjects);
+		AllCreatureObjects.AddRange (PlayerCreatureObjects);
+		foreach (var creatureObject in AllCreatureObjects) {
+			foreach (var skill in creatureObject.Skills) {
+				if (skill.IsPassive) {
+					skill.AssignSkillIndexes ();
+					int index = 0;
+					int indexOfIndex = 0;
+					do {
+						indexOfIndex = Random.Range (0, skill.ValidTargetIndexes.Count);
+						index = skill.ValidTargetIndexes[indexOfIndex];
+					} while (PlayerCreatureObjects[index].Creature.HP <= 0);
+					List<BJCreatureObject> ourCreatureObjects = (creatureObject.Creature.Allegiance == Allegiance.Player) ? BJGameController.Instance.PlayerCreatureObjects : BJGameController.Instance.EnemyCreatureObjects;
+					List<BJCreatureObject> enemyCreatureObjects = (creatureObject.Creature.Allegiance == Allegiance.Player) ? BJGameController.Instance.EnemyCreatureObjects : BJGameController.Instance.PlayerCreatureObjects;
+					if (skill.TargetTeam == "My team") {
+						creatureObject.UseSkill (ourCreatureObjects[index], skill);
+					} else {
+						creatureObject.UseSkill (enemyCreatureObjects[index], skill);
+					}
+				}
+			}
+		}
 	}
 
 	void FormQueue () {
@@ -102,7 +128,7 @@ public class BJGameController : MonoBehaviour {
 		currentCreatureObject.StartTurn ();
 
 		for (int i = 0; i < SkillButtons.Count; i++) {
-			if (i >= currentCreatureObject.Skills.Count - 1) {
+			if (i >= currentCreatureObject.Skills.Count - 1 || currentCreatureObject.Skills [i + 1].IsPassive) {
 				SkillButtons [i].interactable = false;
 				SkillButtons [i].GetComponent<BJSkillButton> ().CooldownSlider.maxValue = 0;
 				SkillButtons [i].GetComponent<BJSkillButton> ().CooldownSlider.value = 0;
@@ -176,7 +202,7 @@ public class BJGameController : MonoBehaviour {
 				creatureObject.SelectionCircle.gameObject.SetActive (false);
 			}
 			foreach (var validTargetIndex in currentCreatureObject.CurrentSkill.ValidTargetIndexes) {
-				if (currentCreatureObject.CurrentSkill.TargetAllegiance == Allegiance.Enemy) {
+				if (currentCreatureObject.CurrentSkill.TargetTeam == "Another team") {
 					if (validTargetIndex < EnemyCreatureObjects.Count && EnemyCreatureObjects[validTargetIndex].Creature.HP > 0) {
 						EnemyCreatureObjects [validTargetIndex].SelectionCircle.gameObject.SetActive (true);
 					}
@@ -192,12 +218,12 @@ public class BJGameController : MonoBehaviour {
 	public void SpawnCreatures (int amount) {
 		if (Player.Instance != null) { // kostyll
 			foreach (var enemyShipData in Player.Instance.CurrentMission.EnemyShips) {
-				SpawnCreatureObject (enemyShipData.Name, enemyShipData.MaxHP, enemyShipData.Power, Allegiance.Enemy, AttackType.Melee);
+				SpawnCreatureObject (enemyShipData.Name, enemyShipData.MaxHP, enemyShipData.Power, Allegiance.Enemy, AttackType.Melee, new List<string>{ "Melee attack" });
 			}
 		} else {
 			for (int i = 0; i < amount; i++) {
 				AttackType attackType = (i < 3) ? AttackType.Melee : AttackType.Ranged;
-				SpawnCreatureObject ("Cutthroat Bill", 400, 200, Allegiance.Enemy, attackType);
+				SpawnCreatureObject ("Cutthroat Bill", 400, 200, Allegiance.Enemy, attackType, new List<string>{ "Melee attack" });
 			}
 		}
 	}
@@ -214,10 +240,10 @@ public class BJGameController : MonoBehaviour {
 		}
 	}
 
-	void SpawnCreatureObject (string name, int hp, int attack, Allegiance allegiance, AttackType attackType) {
+	void SpawnCreatureObject (string name, int hp, int attack, Allegiance allegiance, AttackType attackType, List<string> skillNames) {
 		GameObject creatureObject = Instantiate (CreatureObjectPrefab) as GameObject;
 		BJCreatureObject bjCreatureObject = creatureObject.GetComponent<BJCreatureObject> ();
-		bjCreatureObject.Creature = new BJCreature (name, hp, attack, 3, Random.Range(1, 7), allegiance, attackType);
+		bjCreatureObject.Creature = new BJCreature (name, hp, attack, 3, Random.Range(1, 7), allegiance, attackType, skillNames);
 		if (allegiance == Allegiance.Enemy) {
 			int index = Random.Range (0, BJPlayer.Instance.DataBase.CharacterFigurines.Count);
 			bjCreatureObject.CreatureImage.sprite = BJPlayer.Instance.DataBase.CharacterFigurines [index];
@@ -225,18 +251,8 @@ public class BJGameController : MonoBehaviour {
 			bjCreatureObject.CreatureImage.sprite = BJPlayer.Instance.DataBase.FigurinesByNames [name];
 		}
 		bjCreatureObject.HPFill.color = (allegiance == Allegiance.Player) ? Color.green : Color.red; 
-		BJSkill skill = (attackType == AttackType.Melee) ? BJPlayer.Instance.DataBase.Skills [0] : BJPlayer.Instance.DataBase.Skills [1];
-		if (allegiance == Allegiance.Enemy) {
-			skill.TargetAllegiance = Allegiance.Player;
-		} else {
-			skill.TargetAllegiance = Allegiance.Enemy;
-		}
-		bjCreatureObject.AddSkill(skill);
-		if (bjCreatureObject.Creature.AttackType == AttackType.Melee) {
-			int skillIndex = Random.Range (2, BJPlayer.Instance.DataBase.Skills.Count);
-			BJSkill newSkill = BJPlayer.Instance.DataBase.Skills [5];
-			newSkill.TargetAllegiance = Allegiance.Player;
-			bjCreatureObject.AddSkill (newSkill); // for debugging purposes
+		foreach (var skillName in skillNames) {
+			bjCreatureObject.AddSkill (BJPlayer.Instance.DataBase.SkillsByNames [skillName]);
 		}
 		if (allegiance == Allegiance.Enemy) {			
 			EnemyCreatureObjects.Add (bjCreatureObject);
@@ -250,12 +266,12 @@ public class BJGameController : MonoBehaviour {
 
 	public void SpawnPlayerCreatures () {
 		foreach (var creature in BJPlayer.Instance.Creatures) {
-			SpawnCreatureObject (creature.Name, creature.HP, creature.BaseDamage, creature.Allegiance, creature.AttackType);
+			SpawnCreatureObject (creature.Name, creature.HP, creature.BaseDamage, creature.Allegiance, creature.AttackType, creature.SkillNames);
 		}
 	}
 
 	void BjCreatureObject_OnCreatureObjectClicked (BJCreatureObject creatureObject) { // non-player can't click
-		if (currentCreatureObject != null && currentCreatureObject.Creature.Allegiance == Allegiance.Player && currentCreatureObject.CurrentSkill.TargetAllegiance == Allegiance.Enemy) {		
+		if (currentCreatureObject != null && currentCreatureObject.Creature.Allegiance == Allegiance.Player && currentCreatureObject.CurrentSkill.TargetTeam == "Another team") {		
 			if (!currentCreatureObject.CurrentSkill.ValidTargetIndexes.Contains(EnemyCreatureObjects.IndexOf(creatureObject))) {
 				return;
 			}	
@@ -272,7 +288,7 @@ public class BJGameController : MonoBehaviour {
 				Player.Instance.LoadVillage ();
 			}			
 		}
-		if (currentCreatureObject != null && currentCreatureObject.Creature.Allegiance == Allegiance.Player && currentCreatureObject.CurrentSkill.TargetAllegiance == Allegiance.Player) {		
+		if (currentCreatureObject != null && currentCreatureObject.Creature.Allegiance == Allegiance.Player && currentCreatureObject.CurrentSkill.TargetTeam == "My team") {		
 			if (!currentCreatureObject.CurrentSkill.ValidTargetIndexes.Contains(PlayerCreatureObjects.IndexOf(creatureObject))) {
 				return;
 			}	

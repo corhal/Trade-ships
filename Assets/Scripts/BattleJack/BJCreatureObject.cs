@@ -104,6 +104,9 @@ public class BJCreatureObject : MonoBehaviour {
 	public void Attack (BJCreatureObject enemyCreature) {
 		CurrentSkill.UseSkill (this, enemyCreature);
 	}
+	public void UseSkill (BJCreatureObject target, BJSkill skill) {
+		skill.UseSkill (this, target);
+	}
 
 	public void DealDamage (int damage, float multiplier, BJCreatureObject enemy) {	
 		Creature.DealDamage (damage, multiplier, enemy.Creature);
