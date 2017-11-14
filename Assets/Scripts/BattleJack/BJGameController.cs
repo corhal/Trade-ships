@@ -153,6 +153,13 @@ public class BJGameController : MonoBehaviour {
 				indexOfIndex = Random.Range (0, currentCreatureObject.CurrentSkill.ValidTargetIndexes.Count);
 				index = currentCreatureObject.CurrentSkill.ValidTargetIndexes[indexOfIndex];
 			} while (PlayerCreatureObjects[index].Creature.HP <= 0);
+			foreach (var playerCreatureObject in PlayerCreatureObjects) {
+				foreach (var effect in playerCreatureObject.Effects) {
+					if (effect is BJAggroEffect) {
+						index = PlayerCreatureObjects.IndexOf (playerCreatureObject);
+					}
+				}
+			}
 			StartCoroutine(EnemyAttack(0.25f, PlayerCreatureObjects[index]));
 		}
 	}
@@ -201,7 +208,19 @@ public class BJGameController : MonoBehaviour {
 			foreach (var creatureObject in PlayerCreatureObjects) {
 				creatureObject.SelectionCircle.gameObject.SetActive (false);
 			}
-			foreach (var validTargetIndex in currentCreatureObject.CurrentSkill.ValidTargetIndexes) {
+			List<int> targetIndexes = new List<int> ();
+			foreach (var enemyCreatureObject in EnemyCreatureObjects) {
+				foreach (var effect in enemyCreatureObject.Effects) {
+					if (effect is BJAggroEffect) {
+						targetIndexes.Add (EnemyCreatureObjects.IndexOf(enemyCreatureObject));
+					}
+				}
+			}
+
+			if (targetIndexes.Count == 0) {
+				targetIndexes = new List<int> (currentCreatureObject.CurrentSkill.ValidTargetIndexes);
+			}
+			foreach (var validTargetIndex in targetIndexes) {
 				if (currentCreatureObject.CurrentSkill.TargetTeam == "Another team") {
 					if (validTargetIndex < EnemyCreatureObjects.Count && EnemyCreatureObjects[validTargetIndex].Creature.HP > 0) {
 						EnemyCreatureObjects [validTargetIndex].SelectionCircle.gameObject.SetActive (true);

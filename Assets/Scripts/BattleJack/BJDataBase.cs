@@ -29,8 +29,8 @@ public class BJDataBase : MonoBehaviour {
 
 	void Start () {		
 		Creatures.Add (new BJCreature ("Evil Eye Jeanny", 200, 250, 2, 3, Allegiance.Player, AttackType.Ranged, new List<string>{ "Ranged attack" }));
-		Creatures.Add (new BJCreature ("Johnny Two Knives", 500, 200, 4, 5, Allegiance.Player, AttackType.Melee, new List<string>{ "Melee attack", "Melee bleed", "Armor buff" }));
-		Creatures.Add (new BJCreature ("Bill the Bull", 1000, 50, 1, 10, Allegiance.Player, AttackType.Melee, new List<string>{ "Melee attack", "Dodge buff", "Melee stun" }));
+		Creatures.Add (new BJCreature ("Johnny Two Knives", 500, 200, 4, 5, Allegiance.Player, AttackType.Melee, new List<string>{ "Melee attack", "Melee bleed", "Flurry" }));
+		Creatures.Add (new BJCreature ("Bill the Bull", 1000, 50, 1, 10, Allegiance.Player, AttackType.Melee, new List<string>{ "Melee attack", "Aggro", "Dodge buff", "Melee stun" }));
 		Creatures.Add (new BJCreature ("Cutthroat Jack", 600, 150, 4, 4, Allegiance.Player, AttackType.Melee, new List<string>{ "Melee attack", "Melee slow" }));
 		Creatures.Add (new BJCreature ("One-Shot Ed", 250, 200, 2, 2, Allegiance.Player, AttackType.Ranged, new List<string>{ "Ranged attack" }));
 		Creatures.Add (new BJCreature ("Lucky Ellie", 200, 250, 3, 1, Allegiance.Player, AttackType.Ranged, new List<string>{ "Ranged attack" }));

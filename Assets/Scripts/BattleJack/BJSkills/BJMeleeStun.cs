@@ -42,7 +42,7 @@ public class BJMeleeStun : BJSkill {
 
 		int minPriority = 10;
 		List<int> KeysToList = TargetPriorities.Keys.ToList ();
-		for (int i = TargetPriorities.Keys.Count; i >= 0; i--) {
+		for (int i = TargetPriorities.Keys.Count - 1; i >= 0; i--) {
 			if (enemyCreatureObjects[KeysToList[i]].Creature.HP <= 0) {
 				TargetPriorities.Remove (KeysToList [i]);
 			} else if (TargetPriorities[KeysToList [i]] < minPriority) {

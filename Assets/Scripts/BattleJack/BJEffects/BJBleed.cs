@@ -6,6 +6,6 @@ public class BJBleed : BJEffect {
 
 	public override void Tick () {
 		base.Tick ();
-		Victim.Creature.TakeDamage (Damage);
+		Victim.Creature.TakeDamage (Damage, 0);
 	}
 }
