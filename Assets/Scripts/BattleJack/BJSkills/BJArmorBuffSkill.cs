@@ -5,9 +5,10 @@ using UnityEngine;
 
 public class BJArmorBuffSkill : BJSkill {
 
-	public BJEffect ArmorBuffEffect;
+	// public BJEffect ArmorBuffEffect;
 
-	public override void UseSkill (BJCreatureObject user, BJCreatureObject mainTarget) {		
+	public override void UseSkill (BJCreatureObject user, BJCreatureObject mainTarget) {	
+		base.UseSkill (user, mainTarget);	
 		CurrentUser = user;
 		CurrentMainTarget = mainTarget;
 
@@ -20,9 +21,11 @@ public class BJArmorBuffSkill : BJSkill {
 				secondaryTargets.Add (creatureObject);
 			}
 		}
-		mainTarget.ApplyEffect (ArmorBuffEffect);
+		Effects [0].Applier = user;
+		mainTarget.ApplyEffect (Effects [0]);
 		foreach (var secondaryTarget in secondaryTargets) {
-			secondaryTarget.ApplyEffect (ArmorBuffEffect);
+			Effects [0].Applier = user;
+			secondaryTarget.ApplyEffect (Effects [0]);
 		}
 		StartCoroutine (FinishSkill (0.1f));
 	}

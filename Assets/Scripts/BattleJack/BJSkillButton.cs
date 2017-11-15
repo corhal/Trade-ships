@@ -7,4 +7,5 @@ public class BJSkillButton : MonoBehaviour {
 
 	public Slider CooldownSlider;
 	public Text CooldownLabel;
+	public Image ButtonImage;
 }

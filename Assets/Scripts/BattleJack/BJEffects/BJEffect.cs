@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class BJEffect : MonoBehaviour {
 
+	public BJCreatureObject Applier;
 	public Sprite EffectIcon;
 	public int Damage;
 	public BJCreatureObject Victim;

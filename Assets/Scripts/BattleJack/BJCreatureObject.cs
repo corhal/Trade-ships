@@ -4,13 +4,13 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class BJCreatureObject : MonoBehaviour {
-
-	public string Name;
+	
 	public bool IsStunned = false;
 	public bool IsDead = false;
 
 	public Slider HPSlider;
 	public BJCreature Creature;
+	public string Name { get { return Creature.Name; } }
 
 	public Image SelectionCircle;
 	public Image CreatureImage;
@@ -68,25 +68,26 @@ public class BJCreatureObject : MonoBehaviour {
 		effectCopy.Activate ();
 	}
 
-	public void RemoveEffect (BJEffect effect) {
-		int index = Effects.IndexOf (effect);
-		Destroy (EffectIcons [index]);
-		EffectIcons.RemoveAt (index);
-		Effects.Remove (effect);
+	void CurrentSkill_OnSkillFinished (BJSkill sender) {
+		FinishTurn (sender);
 	}
 
-	void CurrentSkill_OnSkillFinished (BJSkill sender) {
-		foreach (var effect in Effects) {	
-			if (effect.Duration <= effect.CurrentLifetime) {
-				effect.Deactivate ();
-				int index = Effects.IndexOf (effect);
-				Destroy (EffectIcons [index]);
-				EffectIcons.RemoveAt (index);
-				Destroy (effect);
+	void FinishTurn (BJSkill sender) {
+		if (Creature.HP > 0) {
+			foreach (var effect in Effects) {	
+				if (effect.Duration <= effect.CurrentLifetime) {
+					effect.Deactivate ();
+					int index = Effects.IndexOf (effect);
+					Destroy (EffectIcons [index]);
+					EffectIcons.RemoveAt (index);
+					Destroy (effect);
+				}
 			}
 		}
-		if (Creature.HP > 0 && OnCreatureTurnFinished != null) {
-			OnCreatureTurnFinished (this);
+		if (/*Creature.HP > 0 &&*/ OnCreatureTurnFinished != null) {
+			if (sender == null || !sender.IsPassive) {
+				OnCreatureTurnFinished (this);
+			}
 		}
 	}
 
@@ -95,20 +96,32 @@ public class BJCreatureObject : MonoBehaviour {
 		if (Creature.HP <= 0 && ! IsDead) {
 			IsDead = true;
 			gameObject.SetActive (false);
-			if (OnCreatureTurnFinished != null) {
+			FinishTurn (null);
+			/*if (OnCreatureTurnFinished != null) {
 				OnCreatureTurnFinished (this);
-			}
+			}*/
 		}
 	}
 
 	public void Attack (BJCreatureObject enemyCreature) {
 		CurrentSkill.UseSkill (this, enemyCreature);
 	}
+
 	public void UseSkill (BJCreatureObject target, BJSkill skill) {
 		skill.UseSkill (this, target);
 	}
 
 	public void DealDamage (int damage, float multiplier, BJCreatureObject enemy) {	
+		foreach (var effect in enemy.Effects) {
+			if (effect is BJDelayDamageEffect) {
+				(effect as BJDelayDamageEffect).DelayedDamage += damage;
+				return;
+			}
+
+			if (effect is BJAdjustmentFireEffect && effect.Applier == this) {
+				damage += effect.Damage;
+			}
+		}
 		Creature.DealDamage (damage, multiplier, enemy.Creature);
 	}
 
@@ -158,17 +171,15 @@ public class BJCreatureObject : MonoBehaviour {
 		foreach (var skill in Skills) {
 			skill.CurrentCooldown = Mathf.Max (0, skill.CurrentCooldown - 1);
 		}
-		if (Creature.HP > 0) {
+		if (IsStunned) {
+			FinishTurn (null);
+			return;
+		} else if (Creature.HP > 0) {
 			OnCreatureReadyForTurn (this);
 		}
 	}
 
-	public void StartTurn () {
-		if (IsStunned) {
-			if (OnCreatureTurnFinished != null) {
-				OnCreatureTurnFinished (this);
-			}
-		}
+	public void StartTurn () {		
 		Animate ();
 	}
 

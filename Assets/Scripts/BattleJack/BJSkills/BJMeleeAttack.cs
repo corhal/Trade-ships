@@ -8,6 +8,7 @@ public class BJMeleeAttack : BJSkill {
 	int moveCounter;
 
 	public override void UseSkill (BJCreatureObject user, BJCreatureObject mainTarget) {
+		base.UseSkill (user, mainTarget);
 		moveCounter = 0;
 		CurrentUser = user;
 		CurrentMainTarget = mainTarget;
@@ -71,7 +72,13 @@ public class BJMeleeAttack : BJSkill {
 		}
 		moveCounter++;
 		if (moveCounter == 1) {
-			CurrentUser.DealDamage (Damage, 1.0f, CurrentMainTarget);
+			CurrentUser.DealDamage ((int)CurrentUser.Creature.BaseDamage, 1.0f, CurrentMainTarget);
+			for (int i = 0; i < Effects.Count; i++) {
+				if (Random.Range(0.0f, 0.99f) < EffectChances [i]) {
+					Effects [i].Applier = CurrentUser;
+					CurrentMainTarget.ApplyEffect (Effects [i]);
+				}
+			}
 			CurrentUser.MoveToPoint (CurrentUser.InitialPosition);
 		}
 		if (moveCounter == 2) {

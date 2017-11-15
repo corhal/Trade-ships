@@ -5,11 +5,12 @@ using UnityEngine;
 
 public class BJMeleeStun : BJSkill {
 
-	public BJEffect StunEffect;
+	// public BJEffect StunEffect;
 
 	int moveCounter;
 
 	public override void UseSkill (BJCreatureObject user, BJCreatureObject mainTarget) {
+		base.UseSkill (user, mainTarget);
 		moveCounter = 0;
 		CurrentUser = user;
 		CurrentMainTarget = mainTarget;
@@ -67,7 +68,12 @@ public class BJMeleeStun : BJSkill {
 		moveCounter++;
 		if (moveCounter == 1) {
 			CurrentUser.DealDamage (Damage, 1.0f, CurrentMainTarget);
-			CurrentMainTarget.ApplyEffect (StunEffect);
+			for (int i = 0; i < Effects.Count; i++) {
+				if (Random.Range(0.0f, 0.99f) < EffectChances [i]) {
+					Effects [i].Applier = CurrentUser;
+					CurrentMainTarget.ApplyEffect (Effects [i]);
+				}
+			}
 			CurrentUser.MoveToPoint (CurrentUser.InitialPosition);
 		}
 		if (moveCounter == 2) {

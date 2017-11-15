@@ -2,10 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum Teams {
+	MyTeam, AnotherTeam
+}
+
 public class BJSkill : MonoBehaviour {
 
+	public List<BJEffect> Effects;
+	public List<float> EffectChances;
 	public bool IsPassive = false;
-	public string TargetTeam;
+	public Teams TargetTeam;
 	// public Allegiance TargetAllegiance;
 	public Sprite SkillIcon;
 	public int Damage;
@@ -24,7 +30,7 @@ public class BJSkill : MonoBehaviour {
 	public List<int> ValidTargetIndexes;
 
 	public virtual void UseSkill (BJCreatureObject user, BJCreatureObject mainTarget) {
-
+		CurrentCooldown = Cooldown;
 	}
 
 	public virtual void User_OnCreatureMovementFinished (BJCreatureObject creatureObject) {		

@@ -15,6 +15,9 @@ public enum AttackType {
 public class BJCreature {
 	public event TakeDamageEventHandler OnDamageTaken;
 
+	public delegate void CreatureDiedEventHandler (BJCreature sender);
+	public event CreatureDiedEventHandler OnCreatureDied;
+
 	string creatureName;
 	public string Name { get { return creatureName; } }
 
@@ -23,7 +26,7 @@ public class BJCreature {
 	int maxhp;
 	public int MaxHP { get { return maxhp; } }
 	int baseDamage;
-	public int BaseDamage { get { return baseDamage; } }
+	public int BaseDamage { get { return baseDamage; } set { baseDamage = value; } }
 
 	int armor;
 	public int Armor { get { return armor; } set { armor = value; } }
@@ -67,6 +70,13 @@ public class BJCreature {
 	// For negative Armor, it is damage increase = 2-0.94^(-armor) since you take more damage for negative armor scores.
 	// A negative armor of 10 increases damage by 46.1%
 
+	public void Heal (int amount) {
+		hp = Mathf.Min (maxhp, hp + amount);
+		if (OnDamageTaken != null) {
+			OnDamageTaken ();
+		}
+	}
+
 	public void TakeDamage (int amount, int armorPierce) {
 		float diceRoll = Random.Range (0.0f, 0.99f);
 		if (dodge < diceRoll) {
@@ -75,13 +85,16 @@ public class BJCreature {
 			if (currentArmor >= 0) {
 				armorCoef = 1.0f - ((float)currentArmor * 0.06f) / (1.0f + 0.06f * (float)currentArmor);
 			} else {
-				armorCoef = 2.0f - Mathf.Pow(0.94f, (float)currentArmor);
+				armorCoef = 2.0f - Mathf.Pow(0.94f, -(float)currentArmor);
 			}
 			float damage = (float)amount * armorCoef;
 			int intDamage = (int)damage;
 			hp = Mathf.Max (0, hp - intDamage);
 			if (OnDamageTaken != null) {
 				OnDamageTaken ();
+			}
+			if (hp <= 0 && OnCreatureDied != null) {
+				OnCreatureDied (this);
 			}
 		} else {
 			Debug.Log ("Dodge!");

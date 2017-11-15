@@ -6,10 +6,12 @@ using UnityEngine;
 public class BJFlurrySkill : BJSkill {
 
 	public int HitsAmount;
+	public float DamageMultiplier;
 	bool shouldHit;
 	int moveCounter;
 
 	public override void UseSkill (BJCreatureObject user, BJCreatureObject mainTarget) {
+		base.UseSkill (user, mainTarget);
 		moveCounter = 0;
 		CurrentUser = user;
 		CurrentMainTarget = mainTarget;
@@ -57,13 +59,6 @@ public class BJFlurrySkill : BJSkill {
 		}
 
 		ValidTargetIndexes = new List<int> (TargetPriorities.Keys);
-
-		/*var myList = TargetPriorities.ToList();
-		myList.Sort((pair1,pair2) => pair1.Value.CompareTo(pair2.Value));
-		ValidTargetIndexes = new List<int> ();
-		foreach (var keyValPair in myList) {
-			ValidTargetIndexes.Add (keyValPair.Key); // AI will just attack every creature by order for now
-		}*/
 	}
 
 	public override void User_OnCreatureMovementFinished (BJCreatureObject creatureObject) {
@@ -77,7 +72,14 @@ public class BJFlurrySkill : BJSkill {
 		if (moveCounter < HitsAmount) {
 			float xCoord = (CurrentUser.Creature.Allegiance == Allegiance.Player) ? 0.5f : -0.5f;
 			if (shouldHit) {
-				CurrentUser.DealDamage (CurrentUser.Creature.BaseDamage, 1.0f, CurrentMainTarget);
+				CurrentUser.DealDamage ((int)(CurrentUser.Creature.BaseDamage * DamageMultiplier), 1.0f, CurrentMainTarget);
+				float diceRoll = Random.Range (0.0f, 0.99f);
+				for (int i = 0; i < Effects.Count; i++) {
+					if (Random.Range(0.0f, 0.99f) < EffectChances [i]) {
+						Effects [i].Applier = CurrentUser;
+						CurrentMainTarget.ApplyEffect (Effects [i]);
+					}
+				}
 				CurrentUser.MoveToPoint (CurrentMainTarget.transform.position - new Vector3(xCoord, 0.0f, 0.0f));
 				shouldHit = false;
 			} else {
@@ -86,7 +88,14 @@ public class BJFlurrySkill : BJSkill {
 			}
 		}
 		if (moveCounter == HitsAmount) {
-			CurrentUser.DealDamage (CurrentUser.Creature.BaseDamage, 1.0f, CurrentMainTarget);
+			CurrentUser.DealDamage ((int)(CurrentUser.Creature.BaseDamage * DamageMultiplier), 1.0f, CurrentMainTarget);
+			float diceRoll = Random.Range (0.0f, 0.99f);
+			for (int i = 0; i < Effects.Count; i++) {
+				if (Random.Range(0.0f, 0.99f) < EffectChances [i]) {
+					Effects [i].Applier = CurrentUser;
+					CurrentMainTarget.ApplyEffect (Effects [i]);
+				}
+			}
 			CurrentUser.MoveToPoint (CurrentUser.InitialPosition);
 		}
 		if (moveCounter > HitsAmount) {

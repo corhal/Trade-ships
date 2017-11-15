@@ -11,7 +11,8 @@ public class BJRangedAttack : BJSkill {
 	float initialZ = -7.0f;
 
 
-	public override void UseSkill (BJCreatureObject user, BJCreatureObject mainTarget) {		
+	public override void UseSkill (BJCreatureObject user, BJCreatureObject mainTarget) {	
+		base.UseSkill (user, mainTarget);	
 		CurrentUser = user;
 		CurrentMainTarget = mainTarget;
 		Projectile = Instantiate (ProjectilePrefab) as GameObject;
@@ -31,7 +32,13 @@ public class BJRangedAttack : BJSkill {
 			if (Vector2.Distance (Projectile.transform.position, CurrentMainTarget.transform.position) < 0.001f) {				
 				shouldMoveProjectile = false;
 				Destroy (Projectile);
-				CurrentUser.DealDamage (Damage, 1.0f, CurrentMainTarget);
+				CurrentUser.DealDamage ((int)CurrentUser.Creature.BaseDamage, 1.0f, CurrentMainTarget);
+				for (int i = 0; i < Effects.Count; i++) {
+					if (Random.Range(0.0f, 0.99f) < EffectChances [i]) {
+						Effects [i].Applier = CurrentUser;
+						CurrentMainTarget.ApplyEffect (Effects [i]);
+					}
+				}
 				StartCoroutine(FinishSkill (0.1f));
 			}
 		}

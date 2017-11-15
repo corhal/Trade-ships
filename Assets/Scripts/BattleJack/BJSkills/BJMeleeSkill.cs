@@ -5,11 +5,12 @@ using UnityEngine;
 
 public class BJMeleeSkill : BJSkill {
 
-	public BJEffect Effect;
+	// public BJEffect Effect;
 
 	int moveCounter;
 
 	public override void UseSkill (BJCreatureObject user, BJCreatureObject mainTarget) {
+		base.UseSkill (user, mainTarget);
 		moveCounter = 0;
 		CurrentUser = user;
 		CurrentMainTarget = mainTarget;
@@ -63,13 +64,6 @@ public class BJMeleeSkill : BJSkill {
 		}
 
 		ValidTargetIndexes = new List<int> (TargetPriorities.Keys);
-
-		/*var myList = TargetPriorities.ToList();
-		myList.Sort((pair1,pair2) => pair1.Value.CompareTo(pair2.Value));
-		ValidTargetIndexes = new List<int> ();
-		foreach (var keyValPair in myList) {
-			ValidTargetIndexes.Add (keyValPair.Key); // AI will just attack every creature by order for now
-		}*/
 			
 	}
 
@@ -81,7 +75,12 @@ public class BJMeleeSkill : BJSkill {
 		moveCounter++;
 		if (moveCounter == 1) {
 			CurrentUser.DealDamage (Damage, 1.0f, CurrentMainTarget);
-			CurrentMainTarget.ApplyEffect (Effect);
+			for (int i = 0; i < Effects.Count; i++) {
+				if (Random.Range(0.0f, 0.99f) < EffectChances [i]) {
+					Effects [i].Applier = CurrentUser;
+					CurrentMainTarget.ApplyEffect (Effects [i]);
+				}
+			}
 			CurrentUser.MoveToPoint (CurrentUser.InitialPosition);
 		}
 		if (moveCounter == 2) {

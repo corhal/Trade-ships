@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class BJDodgePassiveBuff : BJSkill {
-	public BJEffect DodgeBuffEffect;
+	// public BJEffect DodgeBuffEffect;
 
-	public override void UseSkill (BJCreatureObject user, BJCreatureObject mainTarget) {		
+	public override void UseSkill (BJCreatureObject user, BJCreatureObject mainTarget) {	
+		base.UseSkill (user, mainTarget);	
 		CurrentUser = user;
 		CurrentMainTarget = mainTarget;
 
-		mainTarget.ApplyEffect (DodgeBuffEffect);
+		Effects [0].Applier = user;
+		mainTarget.ApplyEffect (Effects [0]);
 
 		StartCoroutine (FinishSkill (0.1f));
 	}

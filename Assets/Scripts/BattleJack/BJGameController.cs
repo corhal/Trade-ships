@@ -43,7 +43,7 @@ public class BJGameController : MonoBehaviour {
 		List<BJCreatureObject> AllCreatureObjects = new List<BJCreatureObject> (EnemyCreatureObjects);
 		AllCreatureObjects.AddRange (PlayerCreatureObjects);
 
-		List<string> CreatureNames = new List<string> {
+		/*List<string> CreatureNames = new List<string> {
 			"Ron",
 			"Harry",
 			"Hermione",
@@ -57,7 +57,7 @@ public class BJGameController : MonoBehaviour {
 		};
 		for (int i = 0; i < CreatureNames.Count; i++) {
 			AllCreatureObjects [i].Name = CreatureNames [i];
-		}
+		}*/
 		ApplyPassiveSkills ();
 		FormQueue ();
 		Invoke ("StartTurn", 0.25f);
@@ -78,7 +78,7 @@ public class BJGameController : MonoBehaviour {
 					} while (PlayerCreatureObjects[index].Creature.HP <= 0);
 					List<BJCreatureObject> ourCreatureObjects = (creatureObject.Creature.Allegiance == Allegiance.Player) ? BJGameController.Instance.PlayerCreatureObjects : BJGameController.Instance.EnemyCreatureObjects;
 					List<BJCreatureObject> enemyCreatureObjects = (creatureObject.Creature.Allegiance == Allegiance.Player) ? BJGameController.Instance.EnemyCreatureObjects : BJGameController.Instance.PlayerCreatureObjects;
-					if (skill.TargetTeam == "My team") {
+					if (skill.TargetTeam == Teams.MyTeam) {
 						creatureObject.UseSkill (ourCreatureObjects[index], skill);
 					} else {
 						creatureObject.UseSkill (enemyCreatureObjects[index], skill);
@@ -86,6 +86,21 @@ public class BJGameController : MonoBehaviour {
 				}
 			}
 		}
+	}
+
+
+	public void ReformQueue () {
+		List<BJCreatureObject> allCreaturesList = new List<BJCreatureObject> ();
+		foreach (var creatureObject in TurnQueue) {
+			if (creatureObject.Creature.HP > 0) {
+				allCreaturesList.Add (creatureObject);
+			}
+		}
+
+		allCreaturesList.Sort((x,y) =>
+			y.Creature.Speed.CompareTo(x.Creature.Speed));
+
+		TurnQueue = new Queue<BJCreatureObject> (allCreaturesList);
 	}
 
 	void FormQueue () {
@@ -102,7 +117,7 @@ public class BJGameController : MonoBehaviour {
 		}
 
 		allCreaturesList.Sort((x,y) =>
-			x.Creature.Speed.CompareTo(y.Creature.Speed));
+			y.Creature.Speed.CompareTo(x.Creature.Speed));
 
 		TurnQueue = new Queue<BJCreatureObject> (allCreaturesList);
 	}
@@ -128,13 +143,20 @@ public class BJGameController : MonoBehaviour {
 		currentCreatureObject.StartTurn ();
 
 		for (int i = 0; i < SkillButtons.Count; i++) {
-			if (i >= currentCreatureObject.Skills.Count - 1 || currentCreatureObject.Skills [i + 1].IsPassive) {
+			if (i >= currentCreatureObject.Skills.Count - 1) {
 				SkillButtons [i].interactable = false;
 				SkillButtons [i].GetComponent<BJSkillButton> ().CooldownSlider.maxValue = 0;
 				SkillButtons [i].GetComponent<BJSkillButton> ().CooldownSlider.value = 0;
 				SkillButtons [i].GetComponent<BJSkillButton> ().CooldownLabel.gameObject.SetActive (false);
+			} else if (currentCreatureObject.Skills [i + 1].IsPassive) {				
+				SkillButtons [i].interactable = false;
+				SkillButtons [i].GetComponent<BJSkillButton> ().CooldownSlider.maxValue = 0;
+				SkillButtons [i].GetComponent<BJSkillButton> ().ButtonImage.sprite = currentCreatureObject.Skills [i + 1].SkillIcon;
+				SkillButtons [i].GetComponent<BJSkillButton> ().CooldownSlider.value = 0;
+				SkillButtons [i].GetComponent<BJSkillButton> ().CooldownLabel.gameObject.SetActive (false);
 			} else {
 				SkillButtons [i].interactable = true;
+				SkillButtons [i].GetComponent<BJSkillButton> ().ButtonImage.sprite = currentCreatureObject.Skills [i + 1].SkillIcon;
 				SkillButtons [i].GetComponent<BJSkillButton> ().CooldownSlider.maxValue = currentCreatureObject.Skills [i + 1].Cooldown;
 				SkillButtons [i].GetComponent<BJSkillButton> ().CooldownSlider.value = currentCreatureObject.Skills [i + 1].CurrentCooldown;
 				if (currentCreatureObject.Skills [i + 1].CurrentCooldown > 0) {
@@ -155,7 +177,7 @@ public class BJGameController : MonoBehaviour {
 			} while (PlayerCreatureObjects[index].Creature.HP <= 0);
 			foreach (var playerCreatureObject in PlayerCreatureObjects) {
 				foreach (var effect in playerCreatureObject.Effects) {
-					if (effect is BJAggroEffect) {
+					if (playerCreatureObject.Creature.HP > 0 && effect is BJAggroEffect) {
 						index = PlayerCreatureObjects.IndexOf (playerCreatureObject);
 					}
 				}
@@ -166,6 +188,9 @@ public class BJGameController : MonoBehaviour {
 
 	IEnumerator EnemyAttack (float delay, BJCreatureObject creatureObject) {
 		yield return new WaitForSeconds (delay);
+		if (currentCreatureObject.Creature.Allegiance == Allegiance.Player) {
+			Debug.Log ("WHAT THE FUCK");
+		}
 		currentCreatureObject.Attack(creatureObject);
 		currentCreatureObject.Deanimate ();
 	}
@@ -193,11 +218,13 @@ public class BJGameController : MonoBehaviour {
 		if (currentCreatureObject.CurrentSkill == currentCreatureObject.Skills [index]) {
 			currentCreatureObject.CurrentSkill = currentCreatureObject.Skills [0];
 			SelectionImageObject.gameObject.SetActive (false);
-		} else {
+		} else if (index != 0) { //currentCreatureObject.CurrentSkill != currentCreatureObject.Skills [0]) {
 			currentCreatureObject.CurrentSkill = currentCreatureObject.Skills [index];
 			SelectionImageObject.gameObject.SetActive (true);
+			SelectionImageObject.transform.position = new Vector3 (SkillButtons [index - 1].transform.position.x, SkillButtons [index - 1].transform.position.y, SelectionImageObject.transform.position.z);
 		}
-		if (currentCreatureObject.CurrentSkill == currentCreatureObject.Skills [0]) {
+		if (index == 0) {
+			currentCreatureObject.CurrentSkill = currentCreatureObject.Skills [index];
 			SelectionImageObject.gameObject.SetActive (false);
 		}
 		currentCreatureObject.CurrentSkill.AssignSkillIndexes ();
@@ -221,7 +248,7 @@ public class BJGameController : MonoBehaviour {
 				targetIndexes = new List<int> (currentCreatureObject.CurrentSkill.ValidTargetIndexes);
 			}
 			foreach (var validTargetIndex in targetIndexes) {
-				if (currentCreatureObject.CurrentSkill.TargetTeam == "Another team") {
+				if (currentCreatureObject.CurrentSkill.TargetTeam == Teams.AnotherTeam) {
 					if (validTargetIndex < EnemyCreatureObjects.Count && EnemyCreatureObjects[validTargetIndex].Creature.HP > 0) {
 						EnemyCreatureObjects [validTargetIndex].SelectionCircle.gameObject.SetActive (true);
 					}
@@ -237,12 +264,12 @@ public class BJGameController : MonoBehaviour {
 	public void SpawnCreatures (int amount) {
 		if (Player.Instance != null) { // kostyll
 			foreach (var enemyShipData in Player.Instance.CurrentMission.EnemyShips) {
-				SpawnCreatureObject (enemyShipData.Name, enemyShipData.MaxHP, enemyShipData.Power, Allegiance.Enemy, AttackType.Melee, new List<string>{ "Melee attack" });
+				SpawnCreatureObject (enemyShipData.Name, enemyShipData.MaxHP, enemyShipData.Power, 3, Random.Range(1, 5), Allegiance.Enemy, AttackType.Melee, new List<string>{ "Melee attack" });
 			}
 		} else {
 			for (int i = 0; i < amount; i++) {
 				AttackType attackType = (i < 3) ? AttackType.Melee : AttackType.Ranged;
-				SpawnCreatureObject ("Cutthroat Bill", 400, 200, Allegiance.Enemy, attackType, new List<string>{ "Melee attack" });
+				SpawnCreatureObject ("Cutthroat Bill", 400, 200, 3, Random.Range(1, 5), Allegiance.Enemy, attackType, new List<string>{ "Melee attack" });
 			}
 		}
 	}
@@ -259,10 +286,10 @@ public class BJGameController : MonoBehaviour {
 		}
 	}
 
-	void SpawnCreatureObject (string name, int hp, int attack, Allegiance allegiance, AttackType attackType, List<string> skillNames) {
+	void SpawnCreatureObject (string name, int hp, int attack, int armor, int speed, Allegiance allegiance, AttackType attackType, List<string> skillNames) {
 		GameObject creatureObject = Instantiate (CreatureObjectPrefab) as GameObject;
 		BJCreatureObject bjCreatureObject = creatureObject.GetComponent<BJCreatureObject> ();
-		bjCreatureObject.Creature = new BJCreature (name, hp, attack, 3, Random.Range(1, 7), allegiance, attackType, skillNames);
+		bjCreatureObject.Creature = new BJCreature (name, hp, attack, armor, speed, allegiance, attackType, skillNames);
 		if (allegiance == Allegiance.Enemy) {
 			int index = Random.Range (0, BJPlayer.Instance.DataBase.CharacterFigurines.Count);
 			bjCreatureObject.CreatureImage.sprite = BJPlayer.Instance.DataBase.CharacterFigurines [index];
@@ -285,12 +312,12 @@ public class BJGameController : MonoBehaviour {
 
 	public void SpawnPlayerCreatures () {
 		foreach (var creature in BJPlayer.Instance.Creatures) {
-			SpawnCreatureObject (creature.Name, creature.HP, creature.BaseDamage, creature.Allegiance, creature.AttackType, creature.SkillNames);
+			SpawnCreatureObject (creature.Name, creature.HP, creature.BaseDamage, creature.Armor, creature.Speed, creature.Allegiance, creature.AttackType, creature.SkillNames);
 		}
 	}
 
 	void BjCreatureObject_OnCreatureObjectClicked (BJCreatureObject creatureObject) { // non-player can't click
-		if (currentCreatureObject != null && currentCreatureObject.Creature.Allegiance == Allegiance.Player && currentCreatureObject.CurrentSkill.TargetTeam == "Another team") {		
+		if (currentCreatureObject != null && currentCreatureObject.Creature.Allegiance == Allegiance.Player && currentCreatureObject.CurrentSkill.TargetTeam == Teams.AnotherTeam) {		
 			if (!currentCreatureObject.CurrentSkill.ValidTargetIndexes.Contains(EnemyCreatureObjects.IndexOf(creatureObject))) {
 				return;
 			}	
@@ -307,7 +334,7 @@ public class BJGameController : MonoBehaviour {
 				Player.Instance.LoadVillage ();
 			}			
 		}
-		if (currentCreatureObject != null && currentCreatureObject.Creature.Allegiance == Allegiance.Player && currentCreatureObject.CurrentSkill.TargetTeam == "My team") {		
+		if (currentCreatureObject != null && currentCreatureObject.Creature.Allegiance == Allegiance.Player && currentCreatureObject.CurrentSkill.TargetTeam == Teams.MyTeam) {		
 			if (!currentCreatureObject.CurrentSkill.ValidTargetIndexes.Contains(PlayerCreatureObjects.IndexOf(creatureObject))) {
 				return;
 			}	
