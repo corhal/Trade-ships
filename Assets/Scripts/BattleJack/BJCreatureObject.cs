@@ -91,7 +91,7 @@ public class BJCreatureObject : MonoBehaviour {
 		}
 	}
 
-	void Creature_OnDamageTaken () {
+	void Creature_OnDamageTaken (int amount) {
 		HPSlider.value = Creature.HP;
 		if (Creature.HP <= 0 && ! IsDead) {
 			IsDead = true;

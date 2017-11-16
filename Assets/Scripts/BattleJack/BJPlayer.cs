@@ -42,6 +42,6 @@ public class BJPlayer : MonoBehaviour {
 
 	public void TakeDamage (int amount) {
 		hp = Mathf.Max (0, hp - amount);
-		OnDamageTaken ();
+		OnDamageTaken (amount);
 	}
 }

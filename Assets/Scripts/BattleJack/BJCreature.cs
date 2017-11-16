@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public delegate void TakeDamageEventHandler ();
+public delegate void TakeDamageEventHandler (int amount);
 public enum Allegiance {
 	Player, Enemy
 }
@@ -73,7 +73,7 @@ public class BJCreature {
 	public void Heal (int amount) {
 		hp = Mathf.Min (maxhp, hp + amount);
 		if (OnDamageTaken != null) {
-			OnDamageTaken ();
+			OnDamageTaken (-amount);
 		}
 	}
 
@@ -91,7 +91,7 @@ public class BJCreature {
 			int intDamage = (int)damage;
 			hp = Mathf.Max (0, hp - intDamage);
 			if (OnDamageTaken != null) {
-				OnDamageTaken ();
+				OnDamageTaken (intDamage);
 			}
 			if (hp <= 0 && OnCreatureDied != null) {
 				OnCreatureDied (this);
