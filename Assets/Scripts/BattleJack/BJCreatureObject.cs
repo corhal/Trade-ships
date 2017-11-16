@@ -72,17 +72,32 @@ public class BJCreatureObject : MonoBehaviour {
 		FinishTurn (sender);
 	}
 
+	bool isFinishingTurn;
 	void FinishTurn (BJSkill sender) {
+		isFinishingTurn = true;
 		if (Creature.HP > 0) {
+			List<BJEffect> effectsToRemove = new List<BJEffect> ();
 			foreach (var effect in Effects) {	
 				if (effect.Duration <= effect.CurrentLifetime) {
 					effect.Deactivate ();
 					int index = Effects.IndexOf (effect);
-					Destroy (EffectIcons [index]);
-					EffectIcons.RemoveAt (index);
-					Destroy (effect);
+					if (index >= EffectIcons.Count) {
+						Debug.Log ("Something went wrong with " + Name + "'s effects");
+					} else {
+						Destroy (EffectIcons [index]);
+						EffectIcons.RemoveAt (index);
+					}
+					effectsToRemove.Add (effect);
+					// Destroy (effect);
 				}
 			}
+			for (int i = Effects.Count - 1; i >= 0; i--) {
+				if (effectsToRemove.Contains(Effects [i])) {
+					Destroy (Effects [i]);
+					Effects.Remove (Effects [i]);
+				}
+			}
+			effectsToRemove.Clear ();
 		}
 		if (/*Creature.HP > 0 &&*/ OnCreatureTurnFinished != null) {
 			if (sender == null || !sender.IsPassive) {
@@ -96,7 +111,9 @@ public class BJCreatureObject : MonoBehaviour {
 		if (Creature.HP <= 0 && ! IsDead) {
 			IsDead = true;
 			gameObject.SetActive (false);
-			FinishTurn (null);
+			if (!isFinishingTurn) {
+				FinishTurn (null);
+			}
 			/*if (OnCreatureTurnFinished != null) {
 				OnCreatureTurnFinished (this);
 			}*/
@@ -158,6 +175,7 @@ public class BJCreatureObject : MonoBehaviour {
 	}
 
 	public void GetReadyForTurn () {
+		isFinishingTurn = false;
 		for (int i = Effects.Count - 1; i >= 0; i--) {
 			if (Effects [i] == null) {
 				Effects.Remove (Effects [i]);

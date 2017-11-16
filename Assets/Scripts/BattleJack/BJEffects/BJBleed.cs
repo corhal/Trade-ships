@@ -6,6 +6,7 @@ public class BJBleed : BJEffect {
 
 	public override void Tick () {
 		base.Tick ();
-		Victim.Creature.TakeDamage (Damage, 0);
+		Debug.Log ("Should take " + Damage + " damage " + " with armor piercing of " + Victim.Creature.Armor);
+		Victim.Creature.TakeDamage (Damage, Victim.Creature.Armor);
 	}
 }
