@@ -73,8 +73,9 @@ public class BJCreatureObject : MonoBehaviour {
 	}
 
 	bool isFinishingTurn;
-	void FinishTurn (BJSkill sender) {
+	public void FinishTurn (BJSkill sender) {
 		isFinishingTurn = true;
+		Deanimate ();
 		if (Creature.HP > 0) {
 			List<BJEffect> effectsToRemove = new List<BJEffect> ();
 			foreach (var effect in Effects) {	
@@ -99,7 +100,7 @@ public class BJCreatureObject : MonoBehaviour {
 			}
 			effectsToRemove.Clear ();
 		}
-		if (/*Creature.HP > 0 &&*/ OnCreatureTurnFinished != null) {
+		if (OnCreatureTurnFinished != null) {
 			if (sender == null || !sender.IsPassive) {
 				OnCreatureTurnFinished (this);
 			}
@@ -114,9 +115,6 @@ public class BJCreatureObject : MonoBehaviour {
 			if (!isFinishingTurn) {
 				FinishTurn (null);
 			}
-			/*if (OnCreatureTurnFinished != null) {
-				OnCreatureTurnFinished (this);
-			}*/
 		}
 	}
 
