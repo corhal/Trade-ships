@@ -16,6 +16,7 @@ public class BJSkill : MonoBehaviour {
 	public Sprite SkillIcon;
 	public int Damage;
 
+	public int ManaCost;
 	public int Cooldown;
 	public int CurrentCooldown;
 

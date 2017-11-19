@@ -121,10 +121,14 @@ public class BJCreatureObject : MonoBehaviour {
 	}
 
 	public void Attack (BJCreatureObject enemyCreature) {
-		CurrentSkill.UseSkill (this, enemyCreature);
+		UseSkill (enemyCreature, CurrentSkill);
+		// CurrentSkill.UseSkill (this, enemyCreature);
 	}
 
 	public void UseSkill (BJCreatureObject target, BJSkill skill) {
+		BJPlayer.Instance.Mana -= skill.ManaCost;
+		BJGameController.Instance.ManaSlider.value = BJPlayer.Instance.Mana;
+		BJGameController.Instance.ManaLabel.text = BJPlayer.Instance.Mana + "";
 		skill.UseSkill (this, target);
 	}
 

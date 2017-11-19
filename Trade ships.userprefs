@@ -1,6 +1,6 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\BattleJack\BJDataBase.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\BattleJack\BJGameController.cs">
     <Files>
       <File FileName="Assets\Scripts\MoveOnClick.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Shipment.cs" Line="1" Column="1" />
@@ -41,25 +41,25 @@
       <File FileName="Assets\Scripts\UI\Windows\CraftWindow.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\UI\Windows\ImagesPopUp.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Ships\Shipwreck.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\BattleJack\BJGameController.cs" Line="239" Column="53" />
-      <File FileName="Assets\Scripts\BattleJack\BJDataBase.cs" Line="33" Column="63" />
+      <File FileName="Assets\Scripts\BattleJack\BJGameController.cs" Line="166" Column="78" />
+      <File FileName="Assets\Scripts\BattleJack\BJDataBase.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\BattleJack\BJDeck.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\BattleJack\BJPlayer.cs" Line="16" Column="2" />
-      <File FileName="Assets\Scripts\BattleJack\BJCreature.cs" Line="63" Column="31" />
-      <File FileName="Assets\Scripts\BattleJack\BJCreatureObject.cs" Line="172" Column="16" />
-      <File FileName="Assets\Scripts\BattleJack\BJSkills\BJMeleeAttack.cs" Line="10" Column="83" />
-      <File FileName="Assets\Scripts\BattleJack\BJEffects\BJArmorBuff.cs" Line="13" Column="35" />
-      <File FileName="Assets\Scripts\BattleJack\BJSkills\BJArmorBuffSkill.cs" Line="27" Column="39" />
-      <File FileName="Assets\Scripts\BattleJack\BJEffects\BJEffect.cs" Line="9" Column="26" />
-      <File FileName="Assets\Scripts\BattleJack\BJEffects\BJBleed.cs" Line="11" Column="2" />
-      <File FileName="Assets\Scripts\BattleJack\BJEffects\BJSlow.cs" Line="10" Column="9" />
+      <File FileName="Assets\Scripts\BattleJack\BJPlayer.cs" Line="17" Column="21" />
+      <File FileName="Assets\Scripts\BattleJack\BJCreature.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\BattleJack\BJCreatureObject.cs" Line="131" Column="74" />
+      <File FileName="Assets\Scripts\BattleJack\BJSkills\BJMeleeAttack.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\BattleJack\BJEffects\BJArmorBuff.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\BattleJack\BJSkills\BJArmorBuffSkill.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\BattleJack\BJEffects\BJEffect.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\BattleJack\BJEffects\BJBleed.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\BattleJack\BJEffects\BJSlow.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\BattleJack\BJEffects\BJStun.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\BattleJack\BJSkills\BJSkill.cs" Line="7" Column="37" />
-      <File FileName="Assets\Scripts\BattleJack\BJSkills\BJMeleeBleed.cs" Line="12" Column="83" />
-      <File FileName="Assets\Scripts\BattleJack\BJSkills\BJRangedAttack.cs" Line="14" Column="83" />
-      <File FileName="Assets\Scripts\BattleJack\BJSkills\BJMeleeStun.cs" Line="12" Column="83" />
-      <File FileName="Assets\Scripts\BattleJack\BJSkills\BJMeleeSkill.cs" Line="12" Column="83" />
-      <File FileName="Assets\Scripts\BattleJack\BJSkillButton.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\BattleJack\BJSkills\BJSkill.cs" Line="19" Column="22" />
+      <File FileName="Assets\Scripts\BattleJack\BJSkills\BJMeleeBleed.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\BattleJack\BJSkills\BJRangedAttack.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\BattleJack\BJSkills\BJMeleeStun.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\BattleJack\BJSkills\BJMeleeSkill.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\BattleJack\BJSkillButton.cs" Line="11" Column="24" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
