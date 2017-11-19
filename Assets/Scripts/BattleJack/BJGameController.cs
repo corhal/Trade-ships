@@ -5,9 +5,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class BJGameController : MonoBehaviour {
-
-	public Allegiance CurrentTurn;
-
+	
 	public GameObject PlayerCreaturePrefab;
 	public GameObject PlayerCreaturesContainer;
 	public List<BJCreatureObject> PlayerCreatureObjects;
@@ -21,18 +19,10 @@ public class BJGameController : MonoBehaviour {
 	public List<Transform> PlayerSpawnPoints;
 	public List<Transform> EnemySpawnPoints;
 
-	// public Queue<BJCreatureObject> TurnQueue;
-
-	public Slider ManaSlider;
-	public Text ManaLabel;
-
-	public List <BJSkill> PlayerSkills;
-	public List <BJSkill> CurrentPlayerSkills;
-	public List <BJSkill> EnemySkills;
+	public Queue<BJCreatureObject> TurnQueue;
 
 	void Awake () {
 		Instance = this;
-		PlayerSkills = new List<BJSkill> ();
 	}
 
 	void Start () {		
@@ -54,11 +44,23 @@ public class BJGameController : MonoBehaviour {
 		List<BJCreatureObject> AllCreatureObjects = new List<BJCreatureObject> (EnemyCreatureObjects);
 		AllCreatureObjects.AddRange (PlayerCreatureObjects);
 
-		ManaSlider.maxValue = BJPlayer.Instance.MaxMana;
-		ManaSlider.value = BJPlayer.Instance.Mana;
-		ManaLabel.text = BJPlayer.Instance.Mana + "";
-		
+		/*List<string> CreatureNames = new List<string> {
+			"Ron",
+			"Harry",
+			"Hermione",
+			"Jeanny",
+			"Draco",
+			"Nevill",
+			"Crabb",
+			"Goyle",
+			"Parvati",
+			"Chou"
+		};
+		for (int i = 0; i < CreatureNames.Count; i++) {
+			AllCreatureObjects [i].Name = CreatureNames [i];
+		}*/
 		ApplyPassiveSkills ();
+		FormQueue ();
 		Invoke ("StartTurn", 0.25f);
 	}
 
@@ -87,84 +89,91 @@ public class BJGameController : MonoBehaviour {
 		}
 	}
 
-	public List<Button> SkillButtons;
-	public BJCreatureObject CurrentCreatureObject;
-	void StartTurn () {		
-		CheckDead ();
-		if (CurrentTurn == Allegiance.Player) {
-			CurrentTurn = Allegiance.Enemy;
-			BJSkill randomEnemySkill = null;
-			EnemySkills.Shuffle ();
-			foreach (var enemySkill in EnemySkills) {
-				if (!(enemySkill.CurrentUser.IsDead || enemySkill.CurrentUser.IsStunned)) {
-					randomEnemySkill = enemySkill;
-				}
-			}
-			ChooseSkillAndCreature (randomEnemySkill);
-		} else {
-			CurrentTurn = Allegiance.Player;
-			BJPlayer.Instance.Mana = Mathf.Min (BJPlayer.Instance.Mana + 1, BJPlayer.Instance.MaxMana);
-			ManaSlider.value = BJPlayer.Instance.Mana;
-			ManaLabel.text = BJPlayer.Instance.Mana + "";
 
-			List<BJSkill> playerSkillsCopy = new List<BJSkill> (PlayerSkills);
-			foreach (var skill in CurrentPlayerSkills) {
-				playerSkillsCopy.Remove (skill);
-			}
-			for (int i = 0; i < CurrentPlayerSkills.Count; i++) {
-				if (CurrentPlayerSkills [i] == null) {
-					int randomIndex = Random.Range (0, playerSkillsCopy.Count);
-					CurrentPlayerSkills [i] = playerSkillsCopy [randomIndex];
-					playerSkillsCopy.RemoveAt (randomIndex);
-				}
-			}
-
-			PrepareSkillButtons ();
-		}	
-	}
-
-	void ChooseSkillAndCreature (BJSkill skill) {
-	    CurrentCreatureObject = skill.CurrentUser;
-		CurrentCreatureObject.CurrentSkill = skill;
-		CurrentCreatureObject.CurrentSkill.AssignSkillIndexes ();
-		CurrentCreatureObject.GetReadyForTurn (); // should either not be done here, or change GetReadyForTurn ()
-	}
-
-	public void SkipTurn () {
-		// CurrentCreatureObject.FinishTurn (null);
-		StartTurn ();
-	}
-
-	void PrepareSkillButtons () {
-		for (int i = 0; i < SkillButtons.Count; i++) {			
-			if (i >= CurrentPlayerSkills.Count) {
-				SkillButtons [i].interactable = false;
-			} else if (CurrentPlayerSkills [i].IsPassive) {		
-				SkillButtons [i].GetComponent<BJSkillButton> ().ManacostLabel.text = CurrentPlayerSkills [i].ManaCost + "";
-				SkillButtons [i].interactable = false;
-				SkillButtons [i].GetComponent<BJSkillButton> ().ButtonImage.sprite = CurrentPlayerSkills [i].SkillIcon;
-			} else {
-				SkillButtons [i].GetComponent<BJSkillButton> ().ManacostLabel.text = CurrentPlayerSkills [i].ManaCost + "";
-				SkillButtons [i].interactable = true;
-				SkillButtons [i].GetComponent<BJSkillButton> ().ButtonImage.sprite = CurrentPlayerSkills [i].SkillIcon;
-				if (CurrentPlayerSkills [i].ManaCost > BJPlayer.Instance.Mana) {
-					SkillButtons [i].GetComponent<BJSkillButton> ().CooldownSlider.value = SkillButtons [i].GetComponent<BJSkillButton> ().CooldownSlider.maxValue;
-				} else {
-					SkillButtons [i].GetComponent<BJSkillButton> ().CooldownSlider.value = 0;
-				}				
+	public void ReformQueue () {
+		List<BJCreatureObject> allCreaturesList = new List<BJCreatureObject> ();
+		foreach (var creatureObject in TurnQueue) {
+			if (creatureObject.Creature.HP > 0) {
+				allCreaturesList.Add (creatureObject);
 			}
 		}
+
+		allCreaturesList.Sort((x,y) =>
+			y.Creature.Speed.CompareTo(x.Creature.Speed));
+
+		TurnQueue = new Queue<BJCreatureObject> (allCreaturesList);
+	}
+
+	void FormQueue () {
+		List<BJCreatureObject> allCreaturesList = new List<BJCreatureObject> ();
+		foreach (var playerCreatureObject in PlayerCreatureObjects) {
+			if (playerCreatureObject.Creature.HP > 0) {
+				allCreaturesList.Add (playerCreatureObject);
+			}
+		}
+		foreach (var enemyCreatureObject in EnemyCreatureObjects) {
+			if (enemyCreatureObject.Creature.HP > 0) {
+				allCreaturesList.Add (enemyCreatureObject);
+			}
+		}
+
+		allCreaturesList.Sort((x,y) =>
+			y.Creature.Speed.CompareTo(x.Creature.Speed));
+
+		TurnQueue = new Queue<BJCreatureObject> (allCreaturesList);
+	}
+
+	public List<Button> SkillButtons;
+	public BJCreatureObject CurrentCreatureObject;
+	void StartTurn () {
+		CheckDead ();
+		if (TurnQueue.Count == 0) {
+			FormQueue ();
+		}
+		CurrentCreatureObject = TurnQueue.Dequeue ();
+		if (CurrentCreatureObject != null && CurrentCreatureObject.Creature.HP <= 0) {
+			StartTurn ();
+			return;
+		}
+		CurrentCreatureChooseSkill (0);
+
+		CurrentCreatureObject.GetReadyForTurn ();
 	}
 
 	void BjCreatureObject_OnCreatureReadyForTurn (BJCreatureObject creatureObject) {
-		CurrentCreatureObject.StartTurn ();		
+		CurrentCreatureObject.StartTurn ();
+
+		for (int i = 0; i < SkillButtons.Count; i++) {
+			if (i >= CurrentCreatureObject.Skills.Count - 1) {
+				SkillButtons [i].interactable = false;
+				SkillButtons [i].GetComponent<BJSkillButton> ().CooldownSlider.maxValue = 0;
+				SkillButtons [i].GetComponent<BJSkillButton> ().CooldownSlider.value = 0;
+				SkillButtons [i].GetComponent<BJSkillButton> ().CooldownLabel.gameObject.SetActive (false);
+			} else if (CurrentCreatureObject.Skills [i + 1].IsPassive) {				
+				SkillButtons [i].interactable = false;
+				SkillButtons [i].GetComponent<BJSkillButton> ().CooldownSlider.maxValue = 0;
+				SkillButtons [i].GetComponent<BJSkillButton> ().ButtonImage.sprite = CurrentCreatureObject.Skills [i + 1].SkillIcon;
+				SkillButtons [i].GetComponent<BJSkillButton> ().CooldownSlider.value = 0;
+				SkillButtons [i].GetComponent<BJSkillButton> ().CooldownLabel.gameObject.SetActive (false);
+			} else {
+				SkillButtons [i].interactable = true;
+				SkillButtons [i].GetComponent<BJSkillButton> ().ButtonImage.sprite = CurrentCreatureObject.Skills [i + 1].SkillIcon;
+				SkillButtons [i].GetComponent<BJSkillButton> ().CooldownSlider.maxValue = CurrentCreatureObject.Skills [i + 1].Cooldown;
+				SkillButtons [i].GetComponent<BJSkillButton> ().CooldownSlider.value = CurrentCreatureObject.Skills [i + 1].CurrentCooldown;
+				if (CurrentCreatureObject.Skills [i + 1].CurrentCooldown > 0) {
+					SkillButtons [i].GetComponent<BJSkillButton> ().CooldownLabel.gameObject.SetActive (true);
+					SkillButtons [i].GetComponent<BJSkillButton> ().CooldownLabel.text = CurrentCreatureObject.Skills [i + 1].CurrentCooldown + "";
+				} else {
+					SkillButtons [i].GetComponent<BJSkillButton> ().CooldownLabel.gameObject.SetActive (false);
+				}
+			}
+		}
 
 		if (CurrentCreatureObject != null && CurrentCreatureObject.Creature.Allegiance == Allegiance.Enemy && PlayerCreatureObjects.Count > 0) {			
 			int index = 0;
 			int indexOfIndex = 0;
 			do {
 				indexOfIndex = Random.Range (0, CurrentCreatureObject.CurrentSkill.ValidTargetIndexes.Count);
-				// Debug.Log(CurrentCreatureObject.CurrentSkill.ValidTargetIndexes.Count + "/" + indexOfIndex);
 				index = CurrentCreatureObject.CurrentSkill.ValidTargetIndexes[indexOfIndex];
 			} while (PlayerCreatureObjects[index].Creature.HP <= 0);
 			foreach (var playerCreatureObject in PlayerCreatureObjects) {
@@ -203,23 +212,26 @@ public class BJGameController : MonoBehaviour {
 		}
 	}
 
+	// public GameObject PlayerPortraitPrefab;
+
 	public GameObject SelectionImageObject;
 
 	public void CurrentCreatureChooseSkill (int index) {
-		
-		if (CurrentPlayerSkills [index].ManaCost > BJPlayer.Instance.Mana) {
+		if (CurrentCreatureObject.Skills [index].CurrentCooldown > 0) {
 			return;
-		} 
-
-		if (CurrentCreatureObject != null) {
-			CurrentCreatureObject.Deanimate ();
 		}
-		
-		ChooseSkillAndCreature (CurrentPlayerSkills [index]);
-			
-		SelectionImageObject.gameObject.SetActive (true);
-		SelectionImageObject.transform.position = new Vector3 (SkillButtons [index].transform.position.x, SkillButtons [index].transform.position.y, SelectionImageObject.transform.position.z);
-		
+		if (CurrentCreatureObject.CurrentSkill == CurrentCreatureObject.Skills [index]) {
+			CurrentCreatureObject.CurrentSkill = CurrentCreatureObject.Skills [0];
+			SelectionImageObject.gameObject.SetActive (false);
+		} else if (index != 0) { //currentCreatureObject.CurrentSkill != currentCreatureObject.Skills [0]) {
+			CurrentCreatureObject.CurrentSkill = CurrentCreatureObject.Skills [index];
+			SelectionImageObject.gameObject.SetActive (true);
+			SelectionImageObject.transform.position = new Vector3 (SkillButtons [index - 1].transform.position.x, SkillButtons [index - 1].transform.position.y, SelectionImageObject.transform.position.z);
+		}
+		if (index == 0) {
+			CurrentCreatureObject.CurrentSkill = CurrentCreatureObject.Skills [index];
+			SelectionImageObject.gameObject.SetActive (false);
+		}
 		CurrentCreatureObject.CurrentSkill.AssignSkillIndexes ();
 		if (CurrentCreatureObject.Creature.Allegiance == Allegiance.Player) {
 			foreach (var enemyCreatureObject in EnemyCreatureObjects) {
@@ -262,10 +274,11 @@ public class BJGameController : MonoBehaviour {
 		} else {
 			List<BJCreature> enemyCreatures = new List<BJCreature> (BJPlayer.Instance.DataBase.EnemyCreatures);
 			for (int i = 0; i < amount; i++) {
+				/*AttackType attackType = (i < 3) ? AttackType.Melee : AttackType.Ranged;
+				SpawnCreatureObject ("Cutthroat Bill", 400, 200, 3, Random.Range(1, 5), Allegiance.Enemy, attackType, new List<string>{ "Melee attack" });*/
 				SpawnCreatureObject (enemyCreatures [i].Name, enemyCreatures [i].HP, enemyCreatures [i].BaseDamage, enemyCreatures [i].Armor, enemyCreatures [i].Speed,
 					enemyCreatures [i].Allegiance, enemyCreatures [i].AttackType, new List<string> (enemyCreatures [i].SkillNames));
-			}			
-			
+			}
 		}
 	}
 
@@ -289,21 +302,15 @@ public class BJGameController : MonoBehaviour {
 		bjCreatureObject.CreatureImage.SetNativeSize ();
 		bjCreatureObject.CreatureImage.rectTransform.sizeDelta = new Vector2 (bjCreatureObject.CreatureImage.rectTransform.rect.width / 7, 
 			bjCreatureObject.CreatureImage.rectTransform.rect.height / 7);
+		//bjCreatureObject.CreatureImage.rectTransform.rect.width /= 7;
+		//bjCreatureObject.CreatureImage.rectTransform.rect.height /= 7;
 		bjCreatureObject.HPFill.color = (allegiance == Allegiance.Player) ? Color.green : Color.red; 
 		foreach (var skillName in skillNames) {
 			bjCreatureObject.AddSkill (BJPlayer.Instance.DataBase.SkillsByNames [skillName]);
 		}
 		if (allegiance == Allegiance.Enemy) {			
-			foreach (var skill in bjCreatureObject.Skills) {
-				EnemySkills.Add (skill);
-			}
 			EnemyCreatureObjects.Add (bjCreatureObject);
 		} else {
-			foreach (var skill in bjCreatureObject.Skills) {
-				if (!skill.IsPassive) {
-					PlayerSkills.Add (skill);
-				}				
-			}
 			PlayerCreatureObjects.Add (bjCreatureObject);
 		}
 		bjCreatureObject.OnCreatureObjectClicked += BjCreatureObject_OnCreatureObjectClicked;
@@ -315,12 +322,6 @@ public class BJGameController : MonoBehaviour {
 		foreach (var creature in BJPlayer.Instance.Creatures) {
 			SpawnCreatureObject (creature.Name, creature.HP, creature.BaseDamage, creature.Armor, creature.Speed, creature.Allegiance, creature.AttackType, creature.SkillNames);
 		}
-		List<BJSkill> playerSkillsCopy = new List<BJSkill> (PlayerSkills);
-		for (int j = 0; j < 4; j++) {
-			int randomIndex = Random.Range (0, playerSkillsCopy.Count);
-			CurrentPlayerSkills.Add (playerSkillsCopy [randomIndex]);
-			playerSkillsCopy.RemoveAt (randomIndex);
-		}			
 	}
 
 	void BjCreatureObject_OnCreatureObjectClicked (BJCreatureObject creatureObject) { // non-player can't click
@@ -328,7 +329,6 @@ public class BJGameController : MonoBehaviour {
 			if (!CurrentCreatureObject.CurrentSkill.ValidTargetIndexes.Contains(EnemyCreatureObjects.IndexOf(creatureObject))) {
 				return;
 			}	
-
 			CurrentCreatureObject.Attack(creatureObject);
 			CurrentCreatureObject.Deanimate ();
 
@@ -348,13 +348,6 @@ public class BJGameController : MonoBehaviour {
 			}	
 			CurrentCreatureObject.Attack(creatureObject);
 			CurrentCreatureObject.Deanimate ();
-		}
-		if (CurrentCreatureObject.Creature.Allegiance == Allegiance.Player) {
-			BJPlayer.Instance.Mana -= CurrentCreatureObject.CurrentSkill.ManaCost;
-			ManaSlider.value = BJPlayer.Instance.Mana;
-			ManaLabel.text = BJPlayer.Instance.Mana + "";
-			int index = CurrentPlayerSkills.IndexOf (CurrentCreatureObject.CurrentSkill);
-			CurrentPlayerSkills [index] = null;
 		}
 	}
 

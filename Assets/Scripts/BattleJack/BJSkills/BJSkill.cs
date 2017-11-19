@@ -12,7 +12,7 @@ public class BJSkill : MonoBehaviour {
 	public List<float> EffectChances;
 	public bool IsPassive = false;
 	public Teams TargetTeam;
-	public int ManaCost;
+	// public Allegiance TargetAllegiance;
 	public Sprite SkillIcon;
 	public int Damage;
 

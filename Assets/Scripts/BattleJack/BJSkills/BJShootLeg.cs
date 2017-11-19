@@ -39,7 +39,7 @@ public class BJShootLeg : BJSkill {
 						CurrentMainTarget.ApplyEffect (Effects [i]);
 					}
 				}
-				// BJGameController.Instance.ReformQueue ();
+				BJGameController.Instance.ReformQueue ();
 				StartCoroutine(FinishSkill (0.1f));
 			}
 		}

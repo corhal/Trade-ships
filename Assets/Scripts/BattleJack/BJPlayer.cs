@@ -13,8 +13,6 @@ public class BJPlayer : MonoBehaviour {
 	public BJDataBase DataBase;
 
 	public static BJPlayer Instance;
-	public int MaxMana;
-	public int Mana;
 
 	public event TakeDamageEventHandler OnDamageTaken;
 
