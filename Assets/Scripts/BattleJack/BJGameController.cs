@@ -59,6 +59,9 @@ public class BJGameController : MonoBehaviour {
 		ManaLabel.text = BJPlayer.Instance.Mana + "";
 		
 		ApplyPassiveSkills ();
+
+		CurrentTurn = Allegiance.Enemy;
+
 		Invoke ("StartTurn", 0.25f);
 	}
 
@@ -309,7 +312,30 @@ public class BJGameController : MonoBehaviour {
 		bjCreatureObject.OnCreatureObjectClicked += BjCreatureObject_OnCreatureObjectClicked;
 		bjCreatureObject.OnCreatureReadyForTurn += BjCreatureObject_OnCreatureReadyForTurn;
 		bjCreatureObject.OnCreatureTurnFinished += BjCreatureObject_OnCreatureTurnFinished;
+		bjCreatureObject.Creature.OnCreatureDied += BjCreatureObject_Creature_OnCreatureDied;
 	}
+
+	void BjCreatureObject_Creature_OnCreatureDied (BJCreature sender) {
+		foreach (var playerCreatureObject in PlayerCreatureObjects) {
+			if (playerCreatureObject.Creature == sender) {
+				foreach (var skill in playerCreatureObject.Skills) {
+					PlayerSkills.Remove (skill);
+					CurrentPlayerSkills.Remove (skill);
+				}
+			}
+		}
+
+		foreach (var enemyCreatureObject in EnemyCreatureObjects) {
+			if (enemyCreatureObject.Creature == sender) {
+				foreach (var skill in enemyCreatureObject.Skills) {
+					EnemySkills.Remove (skill);
+					// Curren.Remove (skill);
+				}
+			}
+		}
+	}
+
+
 
 	public void SpawnPlayerCreatures () {
 		foreach (var creature in BJPlayer.Instance.Creatures) {
