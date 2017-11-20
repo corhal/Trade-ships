@@ -16,6 +16,7 @@ public class BJSkill : MonoBehaviour {
 	public Sprite SkillIcon;
 	public int Damage;
 
+	public string Name;
 	public int ManaCost;
 	public int Cooldown;
 	public int CurrentCooldown;
@@ -47,5 +48,8 @@ public class BJSkill : MonoBehaviour {
 
 	public virtual void AssignSkillIndexes () {
 
+	}
+	public virtual string GetInfo () {
+		return "Skill info";
 	}
 }

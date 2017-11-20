@@ -80,4 +80,9 @@ public class BJExecution : BJSkill {
 			StartCoroutine(FinishSkill (0.1f));
 		}
 	}
+
+	public override string GetInfo () {
+		return "Deals " + "<color=blue>" + (int)CurrentUser.Creature.BaseDamage + "</color> damage and " + "<color=blue>" + Damage
+		+ "</color> bonus damage per " + HPForBonus + " missing target HP";
+	}
 }
