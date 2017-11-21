@@ -21,4 +21,9 @@ public class BJAggroSkill : BJSkill {
 		int userIndex = ourCreatureObjects.IndexOf (CurrentUser);	
 		ValidTargetIndexes = new List<int> { userIndex };
 	}
+
+	public override string GetInfo () {
+		string endString = (Effects [0].Duration > 1) ? " turns" : " turn";
+		return "Makes all enemies attack only this hero for <color=blue>" + Effects[0].Duration + "</color>" + endString;
+	}
 }

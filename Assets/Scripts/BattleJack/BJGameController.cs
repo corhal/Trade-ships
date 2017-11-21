@@ -10,7 +10,7 @@ public class BJGameController : MonoBehaviour {
 	public GameObject PlayerCreaturesContainer;
 	public List<BJCreatureObject> PlayerCreatureObjects;
 
-	public GameObject CreatureObjectsContainer;
+	public GameObject EnemyCreaturesContainer;
 	public GameObject CreatureObjectPrefab;
 	public List<BJCreatureObject> EnemyCreatureObjects;
 
@@ -23,6 +23,17 @@ public class BJGameController : MonoBehaviour {
 
 	/*public Slider ManaSlider;
 	public Text ManaLabel;*/
+
+	public GameObject PlayerShipObject;
+	public GameObject EnemyShipObject;
+
+	bool isPreparingForBattle;
+
+	public Transform PlayerShipTargetPosition;
+	public Transform EnemyShipTargetPosition;
+
+	public Transform PlayerCreaturesTargetPosition;
+	public Transform EnemyCreaturesTargetPosition;
 
 	void Awake () {
 		Instance = this;
@@ -53,7 +64,31 @@ public class BJGameController : MonoBehaviour {
 
 		ApplyPassiveSkills ();
 		FormQueue ();
-		Invoke ("StartTurn", 0.25f);
+		isPreparingForBattle = true;
+		// Invoke ("StartTurn", 0.25f);
+	}
+
+	void Update () {
+		if (isPreparingForBattle) {
+			if (Vector2.Distance(PlayerShipObject.transform.position, PlayerShipTargetPosition.position) < 0.01f &&
+				Vector2.Distance(EnemyShipObject.transform.position, EnemyShipTargetPosition.position) < 0.01f &&
+				Vector2.Distance(PlayerCreaturesContainer.transform.position, PlayerCreaturesTargetPosition.position) < 0.01f &&
+				Vector2.Distance(EnemyCreaturesContainer.transform.position, EnemyCreaturesTargetPosition.position) < 0.01f) {
+				isPreparingForBattle = false;
+				foreach (var playerCreatureObject in PlayerCreatureObjects) {
+					playerCreatureObject.InitialPosition = playerCreatureObject.transform.position;
+				}
+				foreach (var enemyCreatureObject in EnemyCreatureObjects) {
+					enemyCreatureObject.InitialPosition = enemyCreatureObject.transform.position;
+				}
+				Invoke ("StartTurn", 0.25f);
+			} else {
+				PlayerShipObject.GetComponent<BJMover> ().MoveToPoint (PlayerShipTargetPosition.position);
+				EnemyShipObject.GetComponent<BJMover> ().MoveToPoint (EnemyShipTargetPosition.position);
+				PlayerCreaturesContainer.GetComponent<BJMover> ().MoveToPoint (PlayerCreaturesTargetPosition.position);
+				EnemyCreaturesContainer.GetComponent<BJMover> ().MoveToPoint (EnemyCreaturesTargetPosition.position);
+			}
+		}
 	}
 
 	void ApplyPassiveSkills () { // REALLY should optimize that

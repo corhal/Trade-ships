@@ -24,4 +24,7 @@ public class BJAdjustmentFirePassiveBuff : BJSkill {
 		ValidTargetIndexes = new List<int> { userIndex };
 	}
 
+	public override string GetInfo () {		
+		return "Deals <color=blue>" + Effects [0].Damage + "</color> bonus damage to the target if attacked it on previous turn";
+	}
 }

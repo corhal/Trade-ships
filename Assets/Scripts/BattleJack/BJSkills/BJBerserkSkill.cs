@@ -41,4 +41,11 @@ public class BJBerserkSkill : BJSkill {
 
 		ValidTargetIndexes = new List<int> (TargetPriorities.Keys);
 	}
+
+	public override string GetInfo () {
+		BJBerserk berserkEffect = Effects [0] as BJBerserk;
+		string turnsString = (Effects [0].Duration > 1) ? " turns" : " turn";
+		return "For <color=blue>" + Effects [0].Duration + "</color>" + turnsString + " the target will have its armored lowered by " + berserkEffect.Damage + ", but its damage raised by " + 
+			berserkEffect.DamageBuff;
+	}
 }
