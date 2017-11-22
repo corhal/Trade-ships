@@ -103,4 +103,10 @@ public class BJComboSkill : BJSkill {
 			StartCoroutine(FinishSkill (0.1f));
 		}
 	}
+
+	public override string GetInfo () {		
+		string turnsString = (Effects [0].Duration > 1) ? " turns" : " turn";
+		return "Shoots target for <color=blue>" + CurrentUser.Creature.BaseDamage / 2 + "</color> damage, lowering target's armor by <color=blue>" + Effects [0].Damage +
+			"</color>; then deals <color=blue>" + CurrentUser.Creature.BaseDamage + "</color> damage in melee.";
+	}
 }

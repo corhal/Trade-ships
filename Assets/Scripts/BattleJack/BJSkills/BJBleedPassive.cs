@@ -22,4 +22,9 @@ public class BJBleedPassive : BJSkill {
 		ValidTargetIndexes = new List<int> { userIndex };
 	}
 
+	public override string GetInfo () {		
+		string turnsString = (Effects [0].Duration > 1) ? " turns" : " turn";
+		return "Deals <color=blue>" + CurrentUser.Creature.BaseDamage + "</color> damage; For <color=blue>" + Effects [0].Duration + "</color>" +
+			turnsString + " the target will receive <color=blue>" + Effects [0].Damage + "</color> per turn.";
+	}
 }

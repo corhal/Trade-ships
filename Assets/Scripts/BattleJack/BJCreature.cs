@@ -14,6 +14,8 @@ public enum AttackType {
 [System.Serializable]
 public class BJCreature {
 	public event TakeDamageEventHandler OnDamageTaken;
+	public event TakeDamageEventHandler OnDodge;
+	public event TakeDamageEventHandler OnMiss;
 
 	public delegate void CreatureDiedEventHandler (BJCreature sender);
 	public event CreatureDiedEventHandler OnCreatureDied;
@@ -97,6 +99,7 @@ public class BJCreature {
 				OnCreatureDied (this);
 			}
 		} else {
+			OnDodge (0);
 			Debug.Log ("Dodge!");
 		}
 	}
@@ -107,6 +110,7 @@ public class BJCreature {
 			damage = (int)(damage * multiplier);
 			enemy.TakeDamage (damage, armorPierce);
 		} else {
+			OnMiss (0);
 			Debug.Log ("Miss!");
 		}
 	}

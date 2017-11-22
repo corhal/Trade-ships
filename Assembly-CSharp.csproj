@@ -73,6 +73,7 @@
      <Compile Include="Assets\Scripts\BattleJack\BJEffects\BJSacrificeEffect.cs" />
      <Compile Include="Assets\Scripts\BattleJack\BJEffects\BJSlow.cs" />
      <Compile Include="Assets\Scripts\BattleJack\BJEffects\BJStun.cs" />
+     <Compile Include="Assets\Scripts\BattleJack\BJFlyingText.cs" />
      <Compile Include="Assets\Scripts\BattleJack\BJGameController.cs" />
      <Compile Include="Assets\Scripts\BattleJack\BJMover.cs" />
      <Compile Include="Assets\Scripts\BattleJack\BJPlayer.cs" />

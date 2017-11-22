@@ -27,7 +27,7 @@ public class BJMover : MonoBehaviour {
 	void Update () {	
 		if (IsMoving) {
 			float distCovered = (Time.time - startTime) * MoveSpeed;
-			float fracJourney = distCovered / journeyLength;
+			float fracJourney = distCovered / (journeyLength + 0.0001f);
 			transform.position = Vector3.Lerp(secondaryPosition, targetPosition, fracJourney);
 			if (Vector3.Distance(transform.position, targetPosition) < 0.01f) {
 				IsMoving = false;

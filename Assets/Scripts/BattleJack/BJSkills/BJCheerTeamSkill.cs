@@ -38,4 +38,9 @@ public class BJCheerTeamSkill : BJSkill {
 		TargetPriorities = new Dictionary<int, int> { {0, 0}, {1, 0}, {2, 0}, {3, 0}, {4, 0} };
 		ValidTargetIndexes = new List<int> { userIndex };
 	}
+
+	public override string GetInfo () {		
+		string turnsString = (Effects [0].Duration > 1) ? " turns" : " turn";
+		return "Lowers all team members' cooldowns by <color=blue>" + 1 + "</color>.";
+	}
 }

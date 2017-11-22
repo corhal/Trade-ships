@@ -4,7 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class BJCreatureObject : MonoBehaviour {
-	
+
+	public GameObject FlyingTextPrefab;
+
 	public bool IsStunned = false;
 	public bool IsDead = false;
 
@@ -41,11 +43,33 @@ public class BJCreatureObject : MonoBehaviour {
 
 	void Start () {
 		Creature.OnDamageTaken += Creature_OnDamageTaken;
+		Creature.OnDodge += Creature_OnDodge;
+		Creature.OnMiss += Creature_OnMiss;
 		HPSlider.maxValue = Creature.MaxHP;
 		HPSlider.value = Creature.HP;
 		InitialPosition = transform.position;
 		Skills [0].Damage = Creature.BaseDamage;
 		CurrentSkill = Skills [0];
+	}
+
+	void Creature_OnDodge (int amount) {
+		GameObject flyingTextObject = Instantiate (FlyingTextPrefab) as GameObject;
+		flyingTextObject.transform.SetParent (BJGameController.Instance.BattleHud.transform);
+		flyingTextObject.transform.localScale = Vector3.one;
+		flyingTextObject.transform.position = new Vector3 (transform.position.x, transform.position.y + 0.5f, transform.position.z);
+		BJFlyingText flyingText = flyingTextObject.GetComponent<BJFlyingText> ();
+		flyingText.Label.color = Color.blue;
+		flyingText.Label.text = "Dodge!";
+	}
+
+	void Creature_OnMiss (int amount) {
+		GameObject flyingTextObject = Instantiate (FlyingTextPrefab) as GameObject;
+		flyingTextObject.transform.SetParent (BJGameController.Instance.BattleHud.transform);
+		flyingTextObject.transform.localScale = Vector3.one;
+		flyingTextObject.transform.position = new Vector3 (transform.position.x, transform.position.y + 0.5f, transform.position.z);
+		BJFlyingText flyingText = flyingTextObject.GetComponent<BJFlyingText> ();
+		flyingText.Label.color = Color.blue;
+		flyingText.Label.text = "Miss!";
 	}
 
 	public void AddSkill (BJSkill skill) {
@@ -108,6 +132,18 @@ public class BJCreatureObject : MonoBehaviour {
 
 	void Creature_OnDamageTaken (int amount) {
 		HPSlider.value = Creature.HP;
+		GameObject flyingTextObject = Instantiate (FlyingTextPrefab) as GameObject;
+		flyingTextObject.transform.SetParent (BJGameController.Instance.BattleHud.transform);
+		flyingTextObject.transform.localScale = Vector3.one;
+		flyingTextObject.transform.position = new Vector3 (transform.position.x, transform.position.y + 0.5f, transform.position.z);
+		BJFlyingText flyingText = flyingTextObject.GetComponent<BJFlyingText> ();
+		string signString = (amount <= 0) ? "+" : "-";
+		flyingText.Label.color = (signString == "+") ? Color.green : Color.red;
+		flyingText.Label.text = signString + Mathf.Abs(amount);
+
+		showHit = true;
+		startTintTime = Time.time;
+
 		if (Creature.HP <= 0 && ! IsDead) {
 			IsDead = true;
 			gameObject.SetActive (false);
@@ -160,9 +196,29 @@ public class BJCreatureObject : MonoBehaviour {
 
 	public Color InitialColor;
 	bool animate;
+
+	bool showHit;
+	public float TintTime;
+	float startTintTime;
+
+	float t;
+
 	void Update () {
-		if (animate) {
+		if (animate /*&& !showHit*/) {
 			CreatureImage.color = Color.Lerp(InitialColor, Color.black, Mathf.PingPong(Time.time, 1));
+		}
+
+		if (showHit /*&& !animate*/) {
+
+			// float dTime = (Time.time - startTintTime) / TintTime;			
+			CreatureImage.color = Color.Lerp(InitialColor, Color.red, t);
+			if (t < 1){ // while t below the end limit...
+				// increment it at the desired rate every update:
+				t += Time.deltaTime/TintTime;
+			} else {
+				showHit = false;
+				CreatureImage.color = InitialColor;
+			}
 		}
 
 		if (shouldMove) {

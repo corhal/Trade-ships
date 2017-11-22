@@ -5,7 +5,9 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class BJGameController : MonoBehaviour {
-	
+
+	public GameObject BattleHud;
+
 	public GameObject PlayerCreaturePrefab;
 	public GameObject PlayerCreaturesContainer;
 	public List<BJCreatureObject> PlayerCreatureObjects;
