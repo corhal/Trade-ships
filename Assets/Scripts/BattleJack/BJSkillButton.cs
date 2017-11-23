@@ -12,6 +12,7 @@ public class BJSkillButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
 	public Text CooldownLabel;
 	public Image ButtonImage;
 	public Text ManaLabel;
+	public GameObject ReadyParticlesObject;
 
 	bool shouldShowTooltip;
 	float timer = 0.0f;

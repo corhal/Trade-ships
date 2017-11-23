@@ -179,36 +179,39 @@ public class BJGameController : MonoBehaviour {
 		CurrentCreatureObject.StartTurn ();
 
 		for (int i = 0; i < SkillButtons.Count; i++) {
-			if (i >= CurrentCreatureObject.Skills.Count - 1) {
+			BJSkillButton skillButton = SkillButtons [i].GetComponent<BJSkillButton> ();
+			skillButton.ReadyParticlesObject.SetActive (false);
+			if (i >= CurrentCreatureObject.Skills.Count - 1) {				
 				SkillButtons [i].interactable = false;
 				//SkillButtons [i].GetComponent<BJSkillButton> ().ManaLabel.gameObject.SetActive (false);
-				SkillButtons [i].GetComponent<BJSkillButton> ().CooldownSlider.maxValue = 0;
-				SkillButtons [i].GetComponent<BJSkillButton> ().CooldownSlider.value = 0;
-				SkillButtons [i].GetComponent<BJSkillButton> ().CooldownLabel.gameObject.SetActive (false);
+				skillButton.CooldownSlider.maxValue = 0;
+				skillButton.CooldownSlider.value = 0;
+				skillButton.CooldownLabel.gameObject.SetActive (false);
 			} else if (CurrentCreatureObject.Skills [i + 1].IsPassive) {				
 				SkillButtons [i].interactable = false;
 				//SkillButtons [i].GetComponent<BJSkillButton> ().ManaLabel.gameObject.SetActive (false);
-				SkillButtons [i].GetComponent<BJSkillButton> ().CooldownSlider.maxValue = 0;
-				SkillButtons [i].GetComponent<BJSkillButton> ().ButtonImage.sprite = CurrentCreatureObject.Skills [i + 1].SkillIcon;
-				SkillButtons [i].GetComponent<BJSkillButton> ().CooldownSlider.value = 0;
-				SkillButtons [i].GetComponent<BJSkillButton> ().CooldownLabel.gameObject.SetActive (false);
+				skillButton.CooldownSlider.maxValue = 0;
+				skillButton.ButtonImage.sprite = CurrentCreatureObject.Skills [i + 1].SkillIcon;
+				skillButton.CooldownSlider.value = 0;
+				skillButton.CooldownLabel.gameObject.SetActive (false);
 			} else {
 				SkillButtons [i].interactable = true;
 				/*SkillButtons [i].GetComponent<BJSkillButton> ().ManaLabel.gameObject.SetActive (true);
 				SkillButtons [i].GetComponent<BJSkillButton> ().ManaLabel.text = CurrentCreatureObject.Skills [i + 1].ManaCost + "";*/
-				SkillButtons [i].GetComponent<BJSkillButton> ().ButtonImage.sprite = CurrentCreatureObject.Skills [i + 1].SkillIcon;
+				skillButton.ButtonImage.sprite = CurrentCreatureObject.Skills [i + 1].SkillIcon;
 				/*if (CurrentCreatureObject.Skills [i + 1].ManaCost > BJPlayer.Instance.Mana) {
 					SkillButtons [i].GetComponent<BJSkillButton> ().CooldownSlider.value = SkillButtons [i].GetComponent<BJSkillButton> ().CooldownSlider.maxValue;
 				} else {
 					SkillButtons [i].GetComponent<BJSkillButton> ().CooldownSlider.value = 0;
 				}*/
-				SkillButtons [i].GetComponent<BJSkillButton> ().CooldownSlider.maxValue = CurrentCreatureObject.Skills [i + 1].Cooldown;
-				SkillButtons [i].GetComponent<BJSkillButton> ().CooldownSlider.value = CurrentCreatureObject.Skills [i + 1].CurrentCooldown;
-				if (CurrentCreatureObject.Skills [i + 1].CurrentCooldown > 0) {
-					SkillButtons [i].GetComponent<BJSkillButton> ().CooldownLabel.gameObject.SetActive (true);
-					SkillButtons [i].GetComponent<BJSkillButton> ().CooldownLabel.text = CurrentCreatureObject.Skills [i + 1].CurrentCooldown + "";
+				skillButton.CooldownSlider.maxValue = CurrentCreatureObject.Skills [i + 1].Cooldown;
+				skillButton.CooldownSlider.value = CurrentCreatureObject.Skills [i + 1].CurrentCooldown;
+				if (CurrentCreatureObject.Skills [i + 1].CurrentCooldown > 0) {					
+					skillButton.CooldownLabel.gameObject.SetActive (true);
+					skillButton.CooldownLabel.text = CurrentCreatureObject.Skills [i + 1].CurrentCooldown + "";
 				} else {
-					SkillButtons [i].GetComponent<BJSkillButton> ().CooldownLabel.gameObject.SetActive (false);
+					skillButton.ReadyParticlesObject.SetActive (true);
+					skillButton.CooldownLabel.gameObject.SetActive (false);
 				}
 			}
 				
