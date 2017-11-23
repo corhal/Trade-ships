@@ -40,4 +40,8 @@ public class BJHeal : BJSkill {
 
 		ValidTargetIndexes = new List<int> (TargetPriorities.Keys);
 	}
+
+	public override string GetInfo () {		
+		return "Heals <color=blue>" + Damage + "</color> HP.";
+	}
 }

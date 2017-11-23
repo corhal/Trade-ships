@@ -72,4 +72,9 @@ public class BJRicochet : BJSkill {
 			}
 		}
 	}
+
+	public override string GetInfo () {		
+		return "Shoots the target for <color=blue>" + (int)CurrentUser.Creature.BaseDamage + "</color> damage. The projectile ricochets to a random enemy, dealing <color=blue>" + 
+			(int)(CurrentUser.Creature.BaseDamage / 2) + "</color> damage.";
+	}
 }

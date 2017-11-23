@@ -83,6 +83,6 @@ public class BJExecution : BJSkill {
 
 	public override string GetInfo () {
 		return "Deals " + "<color=blue>" + (int)CurrentUser.Creature.BaseDamage + "</color> damage and " + "<color=blue>" + Damage
-		+ "</color> bonus damage per " + HPForBonus + " missing target HP";
+			+ "</color> bonus damage per <color=blue>" + HPForBonus + "</color> missing target HP";
 	}
 }

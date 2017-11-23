@@ -14,7 +14,8 @@ public class UIController : MonoBehaviour {
 
 	void BJSkillButton_OnSkillButtonClicked (GameObject sender) {
 		Tooltip.gameObject.SetActive (true);
-		Tooltip.transform.position = new Vector3 (sender.transform.position.x + 1.0f, sender.transform.position.y + 1.0f, Tooltip.transform.position.z);
+		float dx = (BJGameController.Instance.SkillButtons.IndexOf (sender.GetComponent<Button> ()) == 3) ? -1.0f : 1.0f;
+		Tooltip.transform.position = new Vector3 (sender.transform.position.x + dx, sender.transform.position.y + 1.5f, Tooltip.transform.position.z);
 		foreach (var skillButton in BJGameController.Instance.SkillButtons) {
 			if (sender.GetComponent<Button> () == skillButton) {
 				BJSkill skill = BJGameController.Instance.CurrentCreatureObject.Skills [BJGameController.Instance.SkillButtons.IndexOf (sender.GetComponent<Button> ()) + 1];

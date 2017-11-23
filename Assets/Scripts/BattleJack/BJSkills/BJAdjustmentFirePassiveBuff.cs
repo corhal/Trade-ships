@@ -25,6 +25,6 @@ public class BJAdjustmentFirePassiveBuff : BJSkill {
 	}
 
 	public override string GetInfo () {		
-		return "Deals <color=blue>" + Effects [0].Damage + "</color> bonus damage to the target if attacked it on previous turn";
+		return "Deals <color=blue>" + Effects [0].Damage + "</color> bonus damage to the target if attacked it on previous turn.";
 	}
 }

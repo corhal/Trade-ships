@@ -22,4 +22,8 @@ public class BJDodgePassiveBuff : BJSkill {
 		ValidTargetIndexes = new List<int> { userIndex };
 	}
 
+	public override string GetInfo () {		
+		string turnsString = (Effects [0].Duration > 1) ? " turns" : " turn";
+		return "Raises dodge by <color=blue>" + Effects [0].Damage + "%</color> passively.";
+	}
 }

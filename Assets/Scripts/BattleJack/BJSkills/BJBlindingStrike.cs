@@ -83,6 +83,6 @@ public class BJBlindingStrike : BJSkill {
 	public override string GetInfo () {		
 		string turnsString = (Effects [0].Duration > 1) ? " turns" : " turn";
 		return "Deals <color=blue>" + CurrentUser.Creature.BaseDamage + "</color> damage; For <color=blue>" + Effects [0].Duration + "</color>" +
-			turnsString + " the target will have its accuracy lowered by <color=blue>" + Effects [0].Damage + "</color>.";
+			turnsString + " the target will have its accuracy lowered by <color=blue>" + Effects [0].Damage + "%</color>.";
 	}
 }

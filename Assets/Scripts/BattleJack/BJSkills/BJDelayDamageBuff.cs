@@ -22,4 +22,8 @@ public class BJDelayDamageBuff : BJSkill {
 		ValidTargetIndexes = new List<int> { userIndex };
 	}
 
+	public override string GetInfo () {		
+		string turnsString = (Effects [0].Duration > 1) ? " turns" : " turn";
+		return "Delays all damage for <color=blue>" + Effects [0].Duration + "</color>" + turnsString + ". In the end of next turn, all the damage is dealt at once.";
+	}
 }

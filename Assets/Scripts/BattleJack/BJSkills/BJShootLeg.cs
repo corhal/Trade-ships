@@ -44,4 +44,10 @@ public class BJShootLeg : BJSkill {
 			}
 		}
 	}
+
+	public override string GetInfo () {		
+		string turnsString = (Effects [0].Duration > 1) ? " turns" : " turn";
+		return "Deals <color=blue>" + Damage + "</color> damage. For <color=blue>" + Effects [0].Duration + "</color>" + turnsString +
+			" lowers enemy speed by <color=blue>" + Effects [0].Damage + "</color>.";
+	}
 }

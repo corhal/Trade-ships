@@ -40,7 +40,6 @@ public class BJCheerTeamSkill : BJSkill {
 	}
 
 	public override string GetInfo () {		
-		string turnsString = (Effects [0].Duration > 1) ? " turns" : " turn";
 		return "Lowers all team members' cooldowns by <color=blue>" + 1 + "</color>.";
 	}
 }

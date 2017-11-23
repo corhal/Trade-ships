@@ -49,4 +49,9 @@ public class BJShootHand : BJSkill {
 			}
 		}
 	}
+
+	public override string GetInfo () {		
+		string turnsString = (Effects [0].Duration > 1) ? " turns" : " turn";
+		return "Deals <color=blue>" + Damage + "</color> damage. Raises all victim's cooldowns by <color=blue>" + 1 + "</color>.";
+	}
 }

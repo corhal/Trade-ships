@@ -43,4 +43,9 @@ public class BJHeadshot : BJSkill {
 			}
 		}
 	}
+
+	public override string GetInfo () {		
+		string turnsString = (Effects [0].Duration > 1) ? " turns" : " turn";
+		return "Deals <color=blue>" + Damage + "</color> damage. Stuns target for <color=blue>" + Effects[0].Duration + turnsString + "</color>.";
+	}
 }

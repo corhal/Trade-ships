@@ -102,4 +102,9 @@ public class BJFlurrySkill : BJSkill {
 			StartCoroutine(FinishSkill (0.1f));
 		}
 	}
+
+	public override string GetInfo () {		
+		string turnsString = (Effects [0].Duration > 1) ? " turns" : " turn";
+		return "Makes <color=blue>" + HitsAmount + "</color> quick hits, <color=blue>" +  ((int)(CurrentUser.Creature.BaseDamage * DamageMultiplier)) + "</color> damage each.";
+	}
 }

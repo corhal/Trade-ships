@@ -24,7 +24,8 @@ public class BJBleedPassive : BJSkill {
 
 	public override string GetInfo () {		
 		string turnsString = (Effects [0].Duration > 1) ? " turns" : " turn";
-		return "Deals <color=blue>" + CurrentUser.Creature.BaseDamage + "</color> damage; For <color=blue>" + Effects [0].Duration + "</color>" +
-			turnsString + " the target will receive <color=blue>" + Effects [0].Damage + "</color> per turn.";
+		BJBleed bleedEffect = (Effects [0] as BJBleedBuff).Bleed as BJBleed;
+		return "Passive. With <color=blue>" + (int)((Effects [0] as BJBleedBuff).EffectChance * 100) + "% </color> chance applies Bleed; For <color=blue>" + bleedEffect.Duration + "</color>" +
+			turnsString + " it deals <color=blue>" + bleedEffect.Damage + "</color> damage per turn.";
 	}
 }
