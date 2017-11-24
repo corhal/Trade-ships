@@ -52,24 +52,22 @@ public class BJCreatureObject : MonoBehaviour {
 		CurrentSkill = Skills [0];
 	}
 
-	void Creature_OnDodge (int amount) {
+	void ShowFlyingText (string message, Color color) {
 		GameObject flyingTextObject = Instantiate (FlyingTextPrefab) as GameObject;
 		flyingTextObject.transform.SetParent (BJGameController.Instance.BattleHud.transform);
 		flyingTextObject.transform.localScale = Vector3.one;
 		flyingTextObject.transform.position = new Vector3 (transform.position.x, transform.position.y + 0.5f, transform.position.z);
 		BJFlyingText flyingText = flyingTextObject.GetComponent<BJFlyingText> ();
-		flyingText.Label.color = Color.blue;
-		flyingText.Label.text = "Dodge!";
+		flyingText.Label.color = color;
+		flyingText.Label.text = message;
+	}
+
+	void Creature_OnDodge (int amount) {
+		ShowFlyingText ("Dodge!", Color.blue);
 	}
 
 	void Creature_OnMiss (int amount) {
-		GameObject flyingTextObject = Instantiate (FlyingTextPrefab) as GameObject;
-		flyingTextObject.transform.SetParent (BJGameController.Instance.BattleHud.transform);
-		flyingTextObject.transform.localScale = Vector3.one;
-		flyingTextObject.transform.position = new Vector3 (transform.position.x, transform.position.y + 0.5f, transform.position.z);
-		BJFlyingText flyingText = flyingTextObject.GetComponent<BJFlyingText> ();
-		flyingText.Label.color = Color.blue;
-		flyingText.Label.text = "Miss!";
+		ShowFlyingText ("Miss!", Color.blue);
 	}
 
 	public void AddSkill (BJSkill skill) {
@@ -132,14 +130,10 @@ public class BJCreatureObject : MonoBehaviour {
 
 	void Creature_OnDamageTaken (int amount) {
 		HPSlider.value = Creature.HP;
-		GameObject flyingTextObject = Instantiate (FlyingTextPrefab) as GameObject;
-		flyingTextObject.transform.SetParent (BJGameController.Instance.BattleHud.transform);
-		flyingTextObject.transform.localScale = Vector3.one;
-		flyingTextObject.transform.position = new Vector3 (transform.position.x, transform.position.y + 0.5f, transform.position.z);
-		BJFlyingText flyingText = flyingTextObject.GetComponent<BJFlyingText> ();
 		string signString = (amount <= 0) ? "+" : "-";
-		flyingText.Label.color = (signString == "+") ? Color.green : Color.red;
-		flyingText.Label.text = signString + Mathf.Abs(amount);
+		Color color = (signString == "+") ? Color.green : Color.red;
+		string message = signString + Mathf.Abs(amount);
+		ShowFlyingText (message, color);
 
 		showHit = true;
 		startTintTime = Time.time;
@@ -150,21 +144,14 @@ public class BJCreatureObject : MonoBehaviour {
 			if (!isFinishingTurn) {
 				FinishTurn (null);
 			}
-			/*if (OnCreatureTurnFinished != null) {
-				OnCreatureTurnFinished (this);
-			}*/
 		}
 	}
 
 	public void Attack (BJCreatureObject enemyCreature) {
 		UseSkill (enemyCreature, CurrentSkill);
-		// CurrentSkill.UseSkill (this, enemyCreature);
 	}
 
-	public void UseSkill (BJCreatureObject target, BJSkill skill) {
-		/*BJPlayer.Instance.Mana -= skill.ManaCost;
-		BJGameController.Instance.ManaSlider.value = BJPlayer.Instance.Mana;
-		BJGameController.Instance.ManaLabel.text = BJPlayer.Instance.Mana + "";*/
+	public void UseSkill (BJCreatureObject target, BJSkill skill) {		
 		skill.UseSkill (this, target);
 	}
 
@@ -204,16 +191,13 @@ public class BJCreatureObject : MonoBehaviour {
 	float t;
 
 	void Update () {
-		if (animate /*&& !showHit*/) {
+		if (animate) {
 			CreatureImage.color = Color.Lerp(InitialColor, Color.black, Mathf.PingPong(Time.time, 1));
 		}
 
-		if (showHit /*&& !animate*/) {
-
-			// float dTime = (Time.time - startTintTime) / TintTime;			
+		if (showHit) {						
 			CreatureImage.color = Color.Lerp(InitialColor, Color.red, t);
-			if (t < 1){ // while t below the end limit...
-				// increment it at the desired rate every update:
+			if (t < 1){
 				t += Time.deltaTime/TintTime;
 			} else {
 				showHit = false;
