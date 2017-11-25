@@ -29,8 +29,8 @@ public class BJPlayer : MonoBehaviour {
 	void Start () {
 		Creatures = new List<BJCreature> ();
 		if (Player.Instance != null) {
-			foreach (var shipData in Player.Instance.CurrentTeam) {
-				Creatures.Add (new BJCreature (shipData.Name, shipData.MaxHP, shipData.Power, 2, Random.Range(1, 7), Allegiance.Player, AttackType.Melee, new List<string>{"Melee attack"}));
+			foreach (var creature in Player.Instance.CurrentTeam) {
+				Creatures.Add (creature);
 			}
 		} else {
 			Creatures = new List<BJCreature> (DataBase.Creatures);

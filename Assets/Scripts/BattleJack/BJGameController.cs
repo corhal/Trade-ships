@@ -226,7 +226,7 @@ public class BJGameController : MonoBehaviour {
 			if (Player.Instance != null) {
 				Player.Instance.LoadVillage ();
 			} else {
-				SceneManager.LoadScene (0);
+				SceneManager.LoadScene (1);
 			}
 		}
 	}

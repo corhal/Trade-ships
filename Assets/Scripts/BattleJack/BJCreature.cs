@@ -51,6 +51,18 @@ public class BJCreature {
 	Allegiance allegiance;
 	public Allegiance Allegiance { get { return allegiance; } }
 
+	bool isSummoned;
+	public bool IsSummoned { get { return isSummoned; } set { isSummoned = value; } }
+
+	public Item Soulstone;
+	public List<List<Item>> PromoteCosts;
+	public List<int> LevelRequirements;
+	public RankColor RankColor;
+	public int Stars;
+	public int Level;
+	public int Exp;
+	public List<int> EvolveCosts;
+
 	public List<string> SkillNames;
 
 	public BJCreature (string name, int maxhp, int baseDamage, int armor, int speed, Allegiance allegiance, AttackType attackType, List<string> skillNames) {

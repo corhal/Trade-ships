@@ -48,9 +48,9 @@ public class ExpeditionCenter : Building {
 			int costLength = Random.Range (1, 6);
 			Dictionary<Item, float> rewardChances = new Dictionary<Item, float> ();
 			Dictionary<Item, int> possibleRewards = new Dictionary<Item, int> ();
-			if (i < Player.Instance.ShipDatas.Count) { // !!! Replace with something more sensible
-				possibleRewards.Add (Player.Instance.ShipDatas[i].Blueprint, Random.Range(1, 6));
-				rewardChances.Add (Player.Instance.ShipDatas[i].Blueprint, Random.Range (0.3f, 0.7f));
+			if (i < Player.Instance.Creatures.Count) { // !!! Replace with something more sensible
+				possibleRewards.Add (Player.Instance.Creatures[i].Soulstone, Random.Range(1, 6));
+				rewardChances.Add (Player.Instance.Creatures[i].Soulstone, Random.Range (0.3f, 0.7f));
 			}
 			for (int j = 1; j < costLength; j++) {
 				List<Item> validItems = new List<Item> ();

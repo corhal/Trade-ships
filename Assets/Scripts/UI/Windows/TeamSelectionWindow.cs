@@ -21,7 +21,7 @@ public class TeamSelectionWindow : MonoBehaviour {
 	Mission mission;
 	GameManager gameManager;
 
-	public List<ShipData> AllShipDatas;
+	public List<BJCreature> AllCreatures;
 
 	void Awake () {
 		gameManager = GameManager.Instance;
@@ -34,34 +34,34 @@ public class TeamSelectionWindow : MonoBehaviour {
 		this.mission = chosenMission;
 
 		foreach (var shipObject in AllShipObjects) {
-			shipObject.GetComponent<ShipElement> ().OnShipElementClicked -= ShipElement_OnShipElementClicked;
+			shipObject.GetComponent<CreatureElement> ().OnShipElementClicked -= ShipElement_OnShipElementClicked;
 			Destroy (shipObject);
 		}
 		AllShipObjects.Clear ();
 
 		foreach (var shipObject in TeamShipObjects) {
-			shipObject.GetComponent<ShipElement> ().OnShipElementClicked -= ShipElement_OnShipElementClicked;
+			shipObject.GetComponent<CreatureElement> ().OnShipElementClicked -= ShipElement_OnShipElementClicked;
 			Destroy (shipObject);
 		}
 		TeamShipObjects.Clear ();
 
-		AllShipDatas = new List<ShipData> ();
-		foreach (var ship in Player.Instance.ShipDatas) {
-			if (ship.Allegiance == "Player" && ship.IsSummoned) {
-				AllShipDatas.Add (ship);
+		AllCreatures = new List<BJCreature> ();
+		foreach (var creature in Player.Instance.Creatures) {
+			if (creature.Allegiance == Allegiance.Player && creature.IsSummoned) {
+				AllCreatures.Add (creature);
 			}
 		}
 
-		foreach (var ship in AllShipDatas) {
-			GameObject shipElementObject = CreateShipElementObject (ship);
+		foreach (var creature in AllCreatures) {
+			GameObject shipElementObject = CreateShipElementObject (creature);
 
 			shipElementObject.transform.SetParent (AllShipsElementContainer.transform);
 			shipElementObject.transform.localScale = Vector3.one;
 			AllShipObjects.Add (shipElementObject);
 		}
 
-		foreach (var ship in Player.Instance.CurrentTeam) {
-			GameObject shipElementObject = CreateShipElementObject (ship);
+		foreach (var creature in Player.Instance.CurrentTeam) {
+			GameObject shipElementObject = CreateShipElementObject (creature);
 
 			shipElementObject.transform.SetParent (TeamShipsElementContainer.transform);
 			shipElementObject.transform.localScale = Vector3.one;
@@ -69,19 +69,19 @@ public class TeamSelectionWindow : MonoBehaviour {
 		}
 	}
 
-	GameObject CreateShipElementObject (ShipData shipData) {
+	GameObject CreateShipElementObject (BJCreature creature) {
 		GameObject shipElementObject = Instantiate (ShipElementPrefab) as GameObject;
-		ShipElement shipElement = shipElementObject.GetComponent<ShipElement> ();
-		shipElement.ShipData = shipData;
-		shipElement.PortraitImage.sprite = Player.Instance.DataBase.CreaturePortraitsByNames [shipData.Name];
-		shipElement.NameLabel.text = shipData.Name;
-		shipElement.LevelLabel.text = shipData.Level.ToString ();
+		CreatureElement shipElement = shipElementObject.GetComponent<CreatureElement> ();
+		shipElement.Creature = creature;
+		shipElement.PortraitImage.sprite = Player.Instance.DataBase.CreaturePortraitsByNames [creature.Name];
+		shipElement.NameLabel.text = creature.Name;
+		shipElement.LevelLabel.text = creature.Level.ToString ();
 
 		for (int i = 0; i < 5; i++) {
 			shipElement.Stars [i].SetActive (false);
 		}
 
-		for (int i = 0; i < shipData.Stars; i++) {
+		for (int i = 0; i < creature.Stars; i++) {
 			shipElement.Stars [i].SetActive (true);
 		}
 
@@ -91,21 +91,21 @@ public class TeamSelectionWindow : MonoBehaviour {
 		return shipElementObject;
 	}
 
-	void ShipElement_OnShipElementClicked (ShipElement sender) {
+	void ShipElement_OnShipElementClicked (CreatureElement sender) {
 		/*if (AllShipObjects.Contains(sender.gameObject) && Player.Instance.HomeTeam.Contains(sender.ShipData)) {
 			gameManager.OpenPopUp ("This ship is on the home map. Later this pop-up will offer to speed it up");
 		}*/
-		if (AllShipObjects.Contains(sender.gameObject) && Player.Instance.CurrentTeam.Count < 5 && !Player.Instance.CurrentTeam.Contains(sender.ShipData)) {
-			GameObject shipElementObject = CreateShipElementObject (sender.ShipData);
+		if (AllShipObjects.Contains(sender.gameObject) && Player.Instance.CurrentTeam.Count < 5 && !Player.Instance.CurrentTeam.Contains(sender.Creature)) {
+			GameObject shipElementObject = CreateShipElementObject (sender.Creature);
 
 			shipElementObject.transform.SetParent (TeamShipsElementContainer.transform);
 			shipElementObject.transform.localScale = Vector3.one;
 			TeamShipObjects.Add (shipElementObject);
 
-			Player.Instance.CurrentTeam.Add (sender.ShipData);
+			Player.Instance.CurrentTeam.Add (sender.Creature);
 		}
 		if (TeamShipObjects.Contains(sender.gameObject)) {
-			Player.Instance.CurrentTeam.Remove (sender.ShipData);
+			Player.Instance.CurrentTeam.Remove (sender.Creature);
 			TeamShipObjects.Remove (sender.gameObject);
 			Destroy (sender.gameObject);
 		}

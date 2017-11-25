@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class BattleSkillsWindow : MonoBehaviour {
 
-	public GameObject Window;
+	/*public GameObject Window;
 
 	public GameObject SkillButtonContainer;
 
@@ -29,8 +29,8 @@ public class BattleSkillsWindow : MonoBehaviour {
 		}
 		SkillButtons.Clear ();
 
-		foreach (var ship in Player.Instance.CurrentTeam) {
-			GameObject skillButtonObject = CreateSkillButtonObject (ship);
+		foreach (var creature in Player.Instance.CurrentTeam) {
+			GameObject skillButtonObject = CreateSkillButtonObject (creature);
 
 			skillButtonObject.transform.SetParent (SkillButtonContainer.transform);
 			skillButtonObject.transform.localScale = Vector3.one;
@@ -38,7 +38,7 @@ public class BattleSkillsWindow : MonoBehaviour {
 		}
 	}
 
-	GameObject CreateSkillButtonObject (ShipData shipData) {
+	GameObject CreateSkillButtonObject (BJCreature creature) {
 		GameObject skillButtonObject = Instantiate (SkillButtonPrefab) as GameObject;
 		ShipSkillButton skillButton = skillButtonObject.GetComponent<ShipSkillButton> ();
 		skillButton.ShipData = shipData;
@@ -69,5 +69,5 @@ public class BattleSkillsWindow : MonoBehaviour {
 		
 	public void Back () {
 
-	}
+	}*/
 }

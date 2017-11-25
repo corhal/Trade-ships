@@ -68,13 +68,13 @@ public class GameManager : MonoBehaviour {
 			Destroy (tradeShip.gameObject);
 		}
 		TradeShips.Clear ();
-		foreach (var tradeShipData in Player.Instance.TradeShipDatas) {				
+		/*foreach (var tradeShipData in Player.Instance.TradeShipDatas) {				
 			if (Player.Instance.HomeTeam.Contains(tradeShipData)) {
 				GameObject shipObject = Instantiate (TradeShipPrefab) as GameObject;
 				shipObject.GetComponent<TradeShip> ().TradeShipData = tradeShipData;
 				TradeShips.Add (shipObject.GetComponent<TradeShip> ());
 			}
-		}
+		}*/
 		
 		/*foreach (var ship in Ships) {
 			Destroy (ship.gameObject);
@@ -90,7 +90,7 @@ public class GameManager : MonoBehaviour {
 	}
 
 	void Start () {	
-		if (isBattle) {
+		/*if (isBattle) {
 			foreach (var enemyData in Player.Instance.CurrentMission.EnemyShips) {
 				GameObject shipObject = Instantiate (ShipPrefab) as GameObject;
 				shipObject.GetComponent<Ship> ().ShipData = enemyData;
@@ -98,7 +98,7 @@ public class GameManager : MonoBehaviour {
 				shipObject.GetComponent<EnemyMover> ().SightDistance = shipObject.GetComponent<BattleShip> ().AttackRange + 1.0f;
 			}
 			foreach (var shipData in Player.Instance.CurrentTeam) {
-				if (shipData.Allegiance != "Player") {
+				if (shipData.Allegiance != Allegiance.Player) {
 					continue;
 				}
 				GameObject shipObject = Instantiate (ShipPrefab) as GameObject;
@@ -108,14 +108,14 @@ public class GameManager : MonoBehaviour {
 			CityHUD.SetActive (false);
 			BattleHUD.SetActive (true);
 			MyBattleSkillsWindow.Open ();
-		}
+		}*/
 
 		// Ships = new List<Ship> ();
 		// Ships = new List<Ship> (GameObject.FindObjectsOfType<Ship>());
 		Buildings = new List<Building> (GameObject.FindObjectsOfType<Building>());
 
 		if (!isBattle) {
-			MyBattleSkillsWindow.Close ();
+			// MyBattleSkillsWindow.Close ();
 			CityHUD.SetActive (true);
 			BattleHUD.SetActive (false);
 		}
@@ -136,13 +136,13 @@ public class GameManager : MonoBehaviour {
 				Destroy (tradeShip.gameObject);
 			}
 			TradeShips.Clear ();
-			foreach (var tradeShipData in Player.Instance.TradeShipDatas) {				
+			/*foreach (var tradeShipData in Player.Instance.TradeShipDatas) {				
 				if (Player.Instance.HomeTeam.Contains(tradeShipData)) {
 					GameObject shipObject = Instantiate (TradeShipPrefab) as GameObject;
 					shipObject.GetComponent<TradeShip> ().TradeShipData = tradeShipData;
 					TradeShips.Add (shipObject.GetComponent<TradeShip> ());
 				}
-			}
+			}*/
 
 			/*foreach (var ship in Ships) {
 				Destroy (ship.gameObject);
@@ -166,13 +166,13 @@ public class GameManager : MonoBehaviour {
 		} else if (!isBattle) {			
 			Player.Instance.CreateShipDatas ();
 			Player.Instance.CreateTradeShipDatas ();
-			foreach (var tradeShipData in Player.Instance.TradeShipDatas) {				
+			/*foreach (var tradeShipData in Player.Instance.TradeShipDatas) {				
 				if (Player.Instance.HomeTeam.Contains(tradeShipData)) {
 					GameObject shipObject = Instantiate (TradeShipPrefab) as GameObject;
 					shipObject.GetComponent<TradeShip> ().TradeShipData = tradeShipData;
 					TradeShips.Add (shipObject.GetComponent<TradeShip> ());
 				}
-			}
+			}*/
 			/*foreach (var shipData in Player.Instance.ShipDatas) {				
 				if (Player.Instance.HomeTeam.Contains(shipData)) {
 					GameObject shipObject = Instantiate (ShipPrefab) as GameObject;
@@ -239,7 +239,7 @@ public class GameManager : MonoBehaviour {
 	public void OpenSelectableInfo (Selectable selectable) {
 		if (selectable is Ship) {
 			Ship ship = selectable as Ship;
-			OpenShipWindow (ship.ShipData);
+			// OpenShipWindow (ship.ShipData);
 			return;
 		}
 		MyInfoWindow.Open (selectable);
@@ -255,8 +255,8 @@ public class GameManager : MonoBehaviour {
 		MyFortWindow.Close ();
 	}
 
-	public void OpenShipWindow (ShipData shipData) {
-		MyShipWindow.Open (shipData);
+	public void OpenShipWindow (BJCreature creature) {
+		MyShipWindow.Open (creature);
 		MyExpeditionWindow.Close ();
 		MyMissionWindow.Close ();
 		MyPortWindow.Close ();
