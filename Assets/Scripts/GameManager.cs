@@ -64,7 +64,7 @@ public class GameManager : MonoBehaviour {
 
 	public void RespawnShips () {
 
-		foreach (var tradeShip in TradeShips) {
+		/*foreach (var tradeShip in TradeShips) {
 			Destroy (tradeShip.gameObject);
 		}
 		TradeShips.Clear ();
@@ -74,48 +74,13 @@ public class GameManager : MonoBehaviour {
 				shipObject.GetComponent<TradeShip> ().TradeShipData = tradeShipData;
 				TradeShips.Add (shipObject.GetComponent<TradeShip> ());
 			}
-		}
-		
-		/*foreach (var ship in Ships) {
-			Destroy (ship.gameObject);
-		}
-		Ships.Clear ();
-		foreach (var shipData in Player.Instance.ShipDatas) {				
-			if (Player.Instance.HomeTeam.Contains(shipData)) {
-				GameObject shipObject = Instantiate (ShipPrefab) as GameObject;
-				shipObject.GetComponent<Ship> ().ShipData = shipData;
-				Ships.Add (shipObject.GetComponent<Ship> ());
-			}
 		}*/
 	}
 
 	void Start () {	
-		if (isBattle) {
-			foreach (var enemyData in Player.Instance.CurrentMission.EnemyShips) {
-				GameObject shipObject = Instantiate (ShipPrefab) as GameObject;
-				shipObject.GetComponent<Ship> ().ShipData = enemyData;
-				shipObject.AddComponent<EnemyMover> ();
-				shipObject.GetComponent<EnemyMover> ().SightDistance = shipObject.GetComponent<BattleShip> ().AttackRange + 1.0f;
-			}
-			foreach (var shipData in Player.Instance.CurrentTeam) {
-				if (shipData.Allegiance != "Player") {
-					continue;
-				}
-				GameObject shipObject = Instantiate (ShipPrefab) as GameObject;
-				shipObject.GetComponent<Ship> ().ShipData = shipData;
-			}
-			Ships = new List<Ship> (GameObject.FindObjectsOfType<Ship>());
-			CityHUD.SetActive (false);
-			BattleHUD.SetActive (true);
-			MyBattleSkillsWindow.Open ();
-		}
-
-		// Ships = new List<Ship> ();
-		// Ships = new List<Ship> (GameObject.FindObjectsOfType<Ship>());
 		Buildings = new List<Building> (GameObject.FindObjectsOfType<Building>());
 
 		if (!isBattle) {
-			MyBattleSkillsWindow.Close ();
 			CityHUD.SetActive (true);
 			BattleHUD.SetActive (false);
 		}
@@ -132,7 +97,7 @@ public class GameManager : MonoBehaviour {
 				}
 			}
 
-			foreach (var tradeShip in TradeShips) {
+			/*foreach (var tradeShip in TradeShips) {
 				Destroy (tradeShip.gameObject);
 			}
 			TradeShips.Clear ();
@@ -142,42 +107,23 @@ public class GameManager : MonoBehaviour {
 					shipObject.GetComponent<TradeShip> ().TradeShipData = tradeShipData;
 					TradeShips.Add (shipObject.GetComponent<TradeShip> ());
 				}
-			}
-
-			/*foreach (var ship in Ships) {
-				Destroy (ship.gameObject);
-			}
-			Ships.Clear ();
-			foreach (var shipData in Player.Instance.ShipDatas) {				
-				if (Player.Instance.HomeTeam.Contains(shipData)) {
-					GameObject shipObject = Instantiate (ShipPrefab) as GameObject;
-					shipObject.GetComponent<Ship> ().ShipData = shipData;
-					Ships.Add (shipObject.GetComponent<Ship> ());
-				}
 			}*/
 
 			// temp solution:
 			if (Player.Instance.CurrentMission != null) {
-				Dictionary<Item, int> reward = Player.Instance.CurrentMission.GiveReward ();
+				Dictionary<string, int> reward = Player.Instance.CurrentMission.GiveReward ();
 				Player.Instance.TakeItems (reward);
 				OpenImagesPopUp ("Your reward:", reward);
 			}
 
 		} else if (!isBattle) {			
 			Player.Instance.CreateShipDatas ();
-			Player.Instance.CreateTradeShipDatas ();
+			/*Player.Instance.CreateTradeShipDatas ();
 			foreach (var tradeShipData in Player.Instance.TradeShipDatas) {				
 				if (Player.Instance.HomeTeam.Contains(tradeShipData)) {
 					GameObject shipObject = Instantiate (TradeShipPrefab) as GameObject;
 					shipObject.GetComponent<TradeShip> ().TradeShipData = tradeShipData;
 					TradeShips.Add (shipObject.GetComponent<TradeShip> ());
-				}
-			}
-			/*foreach (var shipData in Player.Instance.ShipDatas) {				
-				if (Player.Instance.HomeTeam.Contains(shipData)) {
-					GameObject shipObject = Instantiate (ShipPrefab) as GameObject;
-					shipObject.GetComponent<Ship> ().ShipData = shipData;
-					Ships.Add (shipObject.GetComponent<Ship> ());
 				}
 			}*/
 			Player.Instance.SaveBuildings (Buildings);
@@ -193,7 +139,7 @@ public class GameManager : MonoBehaviour {
 	public void LoadVillage () {
 		List<Ship> PlayerShips = new List<Ship> ();
 		foreach (var ship in Ships) {
-			if (ship.Allegiance == "Player") {
+			if (ship.Allegiance == Allegiance.Player) {
 				PlayerShips.Add (ship);
 			}
 		}
@@ -287,8 +233,8 @@ public class GameManager : MonoBehaviour {
 		MyPopUp.Open (message);
 	}
 
-	public void OpenImagesPopUp (string message, Dictionary<Item, int> items) {
-		MyImagesPopUp.Open (message, items);
+	public void OpenImagesPopUp (string message, Dictionary<string, int> itemNames) {
+		MyImagesPopUp.Open (message, itemNames);
 	}
 
 	public void OpenExpeditionWindow (ExpeditionCenter expeditionCenter) {
@@ -364,7 +310,7 @@ public class GameManager : MonoBehaviour {
 		}
 	}
 
-	public void OpenCraftWindow (Building building, Item item) {
+	public void OpenCraftWindow (Building building, string item) {
 		MyCraftWindow.Open (building, item);
 		MyButtonsOverlay.Close ();
 		MyPortWindow.Close ();
@@ -423,7 +369,7 @@ public class GameManager : MonoBehaviour {
 		}
 	}
 
-	public void FindMissionForItem (Item item) {
+	public void FindMissionForItem (string item) {
 		Mission farmMission = null;
 		ExpeditionCenter expeditionCenter = FindObjectOfType<ExpeditionCenter> ();
 		foreach (var mission in expeditionCenter.Missions) {

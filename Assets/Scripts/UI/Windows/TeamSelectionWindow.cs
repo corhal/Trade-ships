@@ -47,7 +47,7 @@ public class TeamSelectionWindow : MonoBehaviour {
 
 		AllShipDatas = new List<ShipData> ();
 		foreach (var ship in Player.Instance.ShipDatas) {
-			if (ship.Allegiance == "Player" && ship.IsSummoned) {
+			if (ship.Allegiance == Allegiance.Player && ship.IsSummoned) {
 				AllShipDatas.Add (ship);
 			}
 		}

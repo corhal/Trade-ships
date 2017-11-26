@@ -226,7 +226,7 @@ public class BJGameController : MonoBehaviour {
 			if (Player.Instance != null) {
 				Player.Instance.LoadVillage ();
 			} else {
-				SceneManager.LoadScene (0);
+				SceneManager.LoadScene (1);
 			}
 		}
 	}
@@ -353,8 +353,8 @@ public class BJGameController : MonoBehaviour {
 			bjCreatureObject.CreatureImage.rectTransform.rect.height / 7);
 		bjCreatureObject.HPFill.color = (allegiance == Allegiance.Player) ? Color.green : Color.red; 
 		foreach (var skillName in skillNames) {
-			BJPlayer.Instance.DataBase.SkillsByNames [skillName].Name = skillName;
-			bjCreatureObject.AddSkill (BJPlayer.Instance.DataBase.SkillsByNames [skillName]);
+			BJPlayer.Instance.DataBase.BJSkillsByNames [skillName].Name = skillName;
+			bjCreatureObject.AddSkill (BJPlayer.Instance.DataBase.BJSkillsByNames [skillName]);
 		}
 		if (allegiance == Allegiance.Enemy) {			
 			EnemyCreatureObjects.Add (bjCreatureObject);

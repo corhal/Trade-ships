@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class BattleSkillsWindow : MonoBehaviour {
 
-	public GameObject Window;
+	/*public GameObject Window;
 
 	public GameObject SkillButtonContainer;
 
@@ -69,5 +69,5 @@ public class BattleSkillsWindow : MonoBehaviour {
 		
 	public void Back () {
 
-	}
+	}*/
 }

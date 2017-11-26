@@ -5,8 +5,8 @@ using UnityEngine;
 [System.Serializable]
 public class Mission {
 
-	public Dictionary<Item, float> RewardChances;
-	public Dictionary<Item, int> PossibleRewards;
+	public Dictionary<string, float> RewardChances;
+	public Dictionary<string, int> PossibleRewards;
 	//public List<Shipment> Shipments;
 
 	public List<ShipData> EnemyShips;
@@ -15,14 +15,14 @@ public class Mission {
 	public bool InProgress;
 	GameManager gameManager;
 
-	public Mission (Dictionary<Item, float> rewardChances, Dictionary<Item, int> possibleRewards, List<ShipData> enemyShips) {
+	public Mission (Dictionary<string, float> rewardChances, Dictionary<string, int> possibleRewards, List<ShipData> enemyShips) {
 		gameManager = GameManager.Instance;
 		PossibleRewards = possibleRewards;
 		RewardChances = rewardChances;
 		EnemyShips = enemyShips;
 		Seconds = 5;
 
-		Dictionary<Item, int> rewards = GiveReward ();
+		Dictionary<string, int> rewards = GiveReward ();
 		//List<Shipment> shipments = new List<Shipment> ();
 		List<RewardChest> rewardChests = new List<RewardChest>();
 		foreach (var amountByItem in rewards) {
@@ -32,7 +32,7 @@ public class Mission {
 				vals [i] = (vals [i] == 0) ? 1 : vals [i];
 			}
 			foreach (var val in vals) {	
-				rewardChests.Add (new RewardChest (new Dictionary<Item, int> { { amountByItem.Key, val } }));
+				rewardChests.Add (new RewardChest (new Dictionary<string, int> { { amountByItem.Key, val } }));
 				//shipments.Add(new Shipment (amountByItem.Key, gameManager.Islands [0].Name, gameManager.Islands [1].Name, val, Random.Range (1, 5)));
 			}
 		}
@@ -57,8 +57,8 @@ public class Mission {
 		return rewardChests;
 	}
 
-	public Dictionary<Item, int> GiveReward () {
-		Dictionary<Item, int> reward = new Dictionary<Item, int> ();
+	public Dictionary<string, int> GiveReward () {
+		Dictionary<string, int> reward = new Dictionary<string, int> ();
 
 		foreach (var chanceByItem in RewardChances) {
 			if (Random.Range(0.0f, 1.0f) < chanceByItem.Value) {

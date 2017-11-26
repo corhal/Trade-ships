@@ -49,7 +49,9 @@ public class ShipsCatalogWindow : MonoBehaviour {
 		GameObject shipListElementObject = Instantiate (ShipListElementPrefab) as GameObject;
 		ShipElement shipElement = shipListElementObject.GetComponentInChildren<ShipElement> ();
 		shipElement.ShipData = shipData;
-		shipElement.PortraitImage.sprite = Player.Instance.DataBase.CreaturePortraitsByNames [shipData.Name];
+		if (Player.Instance.DataBase.CreaturePortraitsByNames.ContainsKey(shipData.Name)) {
+			shipElement.PortraitImage.sprite = Player.Instance.DataBase.CreaturePortraitsByNames [shipData.Name];
+		}
 		shipElement.NameLabel.text = shipData.Name;
 		shipElement.LevelLabel.text = shipData.Level.ToString ();
 
@@ -63,14 +65,14 @@ public class ShipsCatalogWindow : MonoBehaviour {
 
 		ShipListElement shipListElement = shipListElementObject.GetComponent<ShipListElement> ();
 		if (!shipData.IsSummoned) {
-			if (!Player.Instance.Inventory.ContainsKey(shipData.Blueprint)) { // temporary fix for crash!!
-				Player.Instance.Inventory.Add (shipData.Blueprint, 0);
+			if (!Player.Instance.Inventory.ContainsKey(shipData.Soulstone.Name)) { // temporary fix for crash!!
+				Player.Instance.Inventory.Add (shipData.Soulstone.Name, 0);
 			}
-			if (Player.Instance.Inventory [shipData.Blueprint] < Player.Instance.DataBase.EvolveCosts [shipData.Stars]) {
+			if (Player.Instance.Inventory [shipData.Soulstone.Name] < Player.Instance.DataBase.EvolveCosts [shipData.Stars]) {
 				shipListElement.BlueprintsSlider.maxValue = Player.Instance.DataBase.EvolveCosts [shipData.Stars];
-				shipListElement.BlueprintsSlider.value = Player.Instance.Inventory [shipData.Blueprint];
+				shipListElement.BlueprintsSlider.value = Player.Instance.Inventory [shipData.Soulstone.Name];
 
-				shipListElement.BlueprintsSlider.GetComponentInChildren<Text>().text = Player.Instance.Inventory [shipData.Blueprint] + "/" + Player.Instance.DataBase.EvolveCosts [shipData.Stars];
+				shipListElement.BlueprintsSlider.GetComponentInChildren<Text>().text = Player.Instance.Inventory [shipData.Soulstone.Name] + "/" + Player.Instance.DataBase.EvolveCosts [shipData.Stars];
 			} else {
 				shipListElement.BlueprintsSlider.gameObject.SetActive (false);
 				shipListElement.SummonButton.gameObject.SetActive (true);
@@ -81,7 +83,7 @@ public class ShipsCatalogWindow : MonoBehaviour {
 			shipListElement.ItemsParent.SetActive (true);
 			for (int i = 0; i < shipListElement.ItemImages.Count; i++) {
 				//Debug.Log (shipData.PromoteCosts);
-				shipListElement.ItemImages [i].sprite = Player.Instance.DataBase.ItemIconsByNames [shipData.PromoteCosts [(int)shipData.RankColor] [i].Name];
+				shipListElement.ItemImages [i].sprite = Player.Instance.DataBase.ItemIconsByNames [shipData.PromoteCosts [(int)shipData.RankColor] [i]];
 			}
 		}
 
@@ -101,7 +103,7 @@ public class ShipsCatalogWindow : MonoBehaviour {
 				//}
 			//}
 		} else {
-			gameManager.FindMissionForItem (sender.gameObject.GetComponentInChildren<ShipElement> ().ShipData.Blueprint);
+			gameManager.FindMissionForItem (sender.gameObject.GetComponentInChildren<ShipElement> ().ShipData.Soulstone.Name);
 		}
 	}
 

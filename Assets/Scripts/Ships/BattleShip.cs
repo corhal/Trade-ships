@@ -12,7 +12,7 @@ public class BattleShip : MonoBehaviour {
 	public List<BattleShip> Enemies;
 	public BattleShip Enemy;
 
-	public string Allegiance { get { return MyShip.Allegiance; } }
+	public Allegiance Allegiance { get { return MyShip.Allegiance; } }
 	public int FirePower { get { return MyShip.Power; } }
 	public int MaxHP { get { return MyShip.MaxHP; } }
 	public int HP { get { return MyShip.HP; } }
@@ -45,7 +45,7 @@ public class BattleShip : MonoBehaviour {
 	void Start () {
 		GetEnemies ();
 
-		if (Allegiance == "Enemy") {
+		if (Allegiance == Allegiance.Enemy) {
 			Image[] images = HPSlider.GetComponentsInChildren<Image> ();
 			foreach (var image in images) {
 				if (image.gameObject.name == "Fill") {

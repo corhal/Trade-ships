@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CannonBall : MonoBehaviour {
 
-	public string Allegiance;
+	public Allegiance Allegiance;
 	public float Speed;
 	public Vector2 Target;
 	float initialZ;
@@ -15,7 +15,7 @@ public class CannonBall : MonoBehaviour {
 		initialZ = transform.position.z;
 	}
 
-	public void Shoot (Vector2 target, int damage, string allegiance) {
+	public void Shoot (Vector2 target, int damage, Allegiance allegiance) {
 		this.Target = target;
 		this.damage = damage;
 		this.Allegiance = allegiance;

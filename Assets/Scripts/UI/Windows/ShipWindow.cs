@@ -43,6 +43,8 @@ public class ShipWindow : MonoBehaviour {
 	public GameObject StatsButtonObject;
 	public GameObject SkillsButtonObject;
 
+	public List<RankColor> RankColorRequirements = new List<RankColor> {RankColor.White, RankColor.Green, RankColor.Blue, RankColor.Purple};
+
 	void Awake () {
 		gameManager = GameManager.Instance;
 	}
@@ -50,7 +52,12 @@ public class ShipWindow : MonoBehaviour {
 	public void Open (ShipData shipData) {		
 		Window.SetActive (true);
 		currentShipData = shipData;
-		CreatureFigurineImage.sprite = Player.Instance.DataBase.CreatureFigurinesByNames [shipData.Name];
+		if (Player.Instance.BJDataBase.FigurinesByNames.ContainsKey (shipData.Name)) {
+			CreatureFigurineImage.sprite = Player.Instance.BJDataBase.FigurinesByNames [shipData.Name];
+			CreatureFigurineImage.SetNativeSize ();
+			CreatureFigurineImage.rectTransform.sizeDelta = new Vector2 (CreatureFigurineImage.rectTransform.rect.width / 7, 
+				CreatureFigurineImage.rectTransform.rect.height / 7);
+		}
 		HeaderLabel.text = shipData.Name;
 		ColorPanel.color = Player.Instance.DataBase.ColorsByRankColors [shipData.RankColor];
 		string rankString = shipData.RankColor.ToString ();
@@ -87,11 +94,11 @@ public class ShipWindow : MonoBehaviour {
 			PromoteButton.interactable = false;
 		}
 
-		if (Player.Instance.Inventory [shipData.Blueprint] < shipData.EvolveCosts [shipData.Stars]) {
+		if (Player.Instance.Inventory [shipData.Soulstone.Name] < shipData.EvolveCosts [shipData.Stars]) {
 			BlueprintsNodeObject.SetActive (true);
-			BlueprintText.text = Player.Instance.Inventory [shipData.Blueprint] + "/" + shipData.EvolveCosts [shipData.Stars];
+			BlueprintText.text = Player.Instance.Inventory [shipData.Soulstone.Name] + "/" + shipData.EvolveCosts [shipData.Stars];
 			BlueprintSlider.maxValue = shipData.EvolveCosts [shipData.Stars];
-			BlueprintSlider.value = Player.Instance.Inventory [shipData.Blueprint];
+			BlueprintSlider.value = Player.Instance.Inventory [shipData.Soulstone.Name];
 		} else {
 			BlueprintsNodeObject.SetActive (false);
 			EvolveButton.gameObject.SetActive (true);
@@ -102,13 +109,13 @@ public class ShipWindow : MonoBehaviour {
 		ExpSlider.maxValue = shipData.LevelRequirements [shipData.Level];
 		ExpSlider.value = shipData.Exp;
 		for (int i = 0; i < shipData.PromoteCosts[(int)shipData.RankColor].Count; i++) {
-			Item item = shipData.PromoteCosts [(int)shipData.RankColor] [i];
-			ItemImages[i].sprite = Player.Instance.DataBase.ItemIconsByNames[item.Name];
+			string item = shipData.PromoteCosts [(int)shipData.RankColor] [i];
+			ItemImages[i].sprite = Player.Instance.DataBase.ItemIconsByNames[item];
 
 			if (!Player.Instance.Inventory.ContainsKey(item) || Player.Instance.Inventory[item] == 0) {
 				ItemImages [i].color = new Color (1.0f, 1.0f, 1.0f, 0.5f);
 				int stupidLambdaCounter = i;
-				if (item.CraftCost != null) {
+				if (Player.Instance.DataBase.ItemsByNames [item].CraftCost != null) {
 					ItemImages [stupidLambdaCounter].GetComponent<Button> ().onClick.AddListener (delegate {
 						gameManager.OpenCraftWindow(null, item);
 					});
@@ -139,32 +146,32 @@ public class ShipWindow : MonoBehaviour {
 			skillElement.SkillUpgradeButton.onClick.RemoveAllListeners ();
 		}
 
-		for (int i = 0; i < currentShipData.Skills.Count; i++) {
-			SkillElements [i].SkillNameLabel.text = currentShipData.Skills [i].Name;
+		for (int i = 1; i < currentShipData.Skills.Count; i++) {
+			SkillElements [i - 1].SkillNameLabel.text = currentShipData.Skills [i].Name;
 			int stupidLambdaCounter = i;
 
-			if ((int)currentShipData.RankColor < (int)currentShipData.Skills[i].RankColorReuirement) {
-				SkillElements [i].SkillLevelLabel.gameObject.SetActive (false);
-				SkillElements [i].UpgradeCostLabel.gameObject.SetActive (false);
-				SkillElements [stupidLambdaCounter].SkillUpgradeButton.gameObject.SetActive (false);
-				SkillElements [i].UnlockNode.SetActive (true);
-				SkillElements [i].UnlockConditionsLabel.text = "Unlocks at " + currentShipData.Skills [i].RankColorReuirement.ToString () + " rank";
+			if ((int)currentShipData.RankColor < (int) RankColorRequirements [i - 1]) {
+				SkillElements [i - 1].SkillLevelLabel.gameObject.SetActive (false);
+				SkillElements [i - 1].UpgradeCostLabel.gameObject.SetActive (false);
+				SkillElements [stupidLambdaCounter - 1].SkillUpgradeButton.gameObject.SetActive (false);
+				SkillElements [i - 1].UnlockNode.SetActive (true);
+				SkillElements [i - 1].UnlockConditionsLabel.text = "Unlocks at " + RankColorRequirements [i - 1].ToString () + " rank";
 			} else {
-				SkillElements [i].SkillLevelLabel.gameObject.SetActive (true);
-				SkillElements [i].UpgradeCostLabel.gameObject.SetActive (true);
-				SkillElements [stupidLambdaCounter].SkillUpgradeButton.gameObject.SetActive (true);
-				SkillElements [i].UnlockNode.SetActive (false);
+				SkillElements [i - 1].SkillLevelLabel.gameObject.SetActive (true);
+				SkillElements [i - 1].UpgradeCostLabel.gameObject.SetActive (true);
+				SkillElements [stupidLambdaCounter - 1].SkillUpgradeButton.gameObject.SetActive (true);
+				SkillElements [i - 1].UnlockNode.SetActive (false);
 
-				SkillElements [i].SkillLevelLabel.text = "level: " +  currentShipData.Skills [i].Level;
-				SkillElements [i].UpgradeCostLabel.text = "$ " + currentShipData.Skills [i].UpgradeCosts [currentShipData.Skills [i].Level];
+				SkillElements [i - 1].SkillLevelLabel.text = "level: " +  currentShipData.Skills [i].Level;
+				SkillElements [i - 1].UpgradeCostLabel.text = "$ " + currentShipData.Skills [i].UpgradeCosts [currentShipData.Skills [i].Level];
 
 
-				SkillElements [stupidLambdaCounter].SkillUpgradeButton.onClick.AddListener (delegate {
+				SkillElements [stupidLambdaCounter - 1].SkillUpgradeButton.onClick.AddListener (delegate {
 					UpgradeSkill (currentShipData, currentShipData.Skills [stupidLambdaCounter]);
 				});
 
 				if (currentShipData.Skills [i].Level == currentShipData.Skills [i].MaxLevel) {
-					SkillElements [i].SkillUpgradeButton.gameObject.SetActive (false);
+					SkillElements [i - 1].SkillUpgradeButton.gameObject.SetActive (false);
 				}
 			}
 		}
@@ -210,12 +217,12 @@ public class ShipWindow : MonoBehaviour {
 			BlueprintText.gameObject.SetActive (false);
 			BlueprintSlider.maxValue = shipData.EvolveCosts [shipData.Stars - 1];
 			BlueprintSlider.value = BlueprintSlider.maxValue;
-		} else if (Player.Instance.Inventory [shipData.Blueprint] < shipData.EvolveCosts [shipData.Stars]) {			
+		} else if (Player.Instance.Inventory [shipData.Soulstone.Name] < shipData.EvolveCosts [shipData.Stars]) {			
 			BlueprintsNodeObject.SetActive (true);
 			EvolveButton.gameObject.SetActive (false);
-			BlueprintText.text = Player.Instance.Inventory [shipData.Blueprint] + "/" + shipData.EvolveCosts [shipData.Stars];
+			BlueprintText.text = Player.Instance.Inventory [shipData.Soulstone.Name] + "/" + shipData.EvolveCosts [shipData.Stars];
 			BlueprintSlider.maxValue = shipData.EvolveCosts [shipData.Stars];
-			BlueprintSlider.value = Player.Instance.Inventory [shipData.Blueprint];
+			BlueprintSlider.value = Player.Instance.Inventory [shipData.Soulstone.Name];
 		} else {
 			BlueprintsNodeObject.SetActive (false);
 			EvolveButton.gameObject.SetActive (true);
@@ -252,13 +259,13 @@ public class ShipWindow : MonoBehaviour {
 
 		if (shipData.RankColor != RankColor.OrangeP) {
 			for (int i = 0; i < shipData.PromoteCosts[(int)shipData.RankColor].Count; i++) {
-				Item item = shipData.PromoteCosts [(int)shipData.RankColor] [i];
-				ItemImages[i].sprite = Player.Instance.DataBase.ItemIconsByNames[item.Name];
+				string item = shipData.PromoteCosts [(int)shipData.RankColor] [i];
+				ItemImages[i].sprite = Player.Instance.DataBase.ItemIconsByNames[item];
 
 				if (!Player.Instance.Inventory.ContainsKey(item) || Player.Instance.Inventory[item] == 0) {
 					ItemImages [i].color = new Color (1.0f, 1.0f, 1.0f, 0.5f);
 					int stupidLambdaCounter = i;
-					if (item.CraftCost != null) {
+					if (Player.Instance.DataBase.ItemsByNames [item].CraftCost != null) {
 						ItemImages [stupidLambdaCounter].GetComponent<Button> ().onClick.AddListener (delegate {
 							gameManager.OpenCraftWindow(null, item);
 						});
@@ -284,48 +291,48 @@ public class ShipWindow : MonoBehaviour {
 		}
 
 		if (SkillsBlock.activeSelf) {
-			for (int i = 0; i < shipData.Skills.Count; i++) {
-				SkillElement skillElement = SkillElements [i]; 
+			for (int i = 1; i < shipData.Skills.Count; i++) {
+				SkillElement skillElement = SkillElements [i - 1]; 
 
 				skillElement.SkillNameLabel.text = shipData.Skills [i].Name;
 				int stupidLambdaCounter = i;
 
-				if ((int)currentShipData.RankColor < (int)currentShipData.Skills[i].RankColorReuirement) {
-					SkillElements [i].SkillLevelLabel.gameObject.SetActive (false);
-					SkillElements [i].UpgradeCostLabel.gameObject.SetActive (false);
-					SkillElements [stupidLambdaCounter].SkillUpgradeButton.gameObject.SetActive (false);
-					SkillElements [i].UnlockNode.SetActive (true);
-					SkillElements [i].UnlockConditionsLabel.text = "Unlocks at " + currentShipData.Skills [i].RankColorReuirement.ToString () + " rank";
+				if ((int)currentShipData.RankColor < (int)RankColorRequirements [i - 1]) {
+					SkillElements [i - 1].SkillLevelLabel.gameObject.SetActive (false);
+					SkillElements [i - 1].UpgradeCostLabel.gameObject.SetActive (false);
+					SkillElements [stupidLambdaCounter - 1] .SkillUpgradeButton.gameObject.SetActive (false);
+					SkillElements [i - 1].UnlockNode.SetActive (true);
+					SkillElements [i - 1].UnlockConditionsLabel.text = "Unlocks at " + RankColorRequirements [i - 1].ToString () + " rank";
 				} else {
-					SkillElements [i].SkillLevelLabel.gameObject.SetActive (true);
-					SkillElements [i].UpgradeCostLabel.gameObject.SetActive (true);
-					SkillElements [stupidLambdaCounter].SkillUpgradeButton.gameObject.SetActive (true);
-					SkillElements [i].UnlockNode.SetActive (false);
+					SkillElements [i - 1].SkillLevelLabel.gameObject.SetActive (true);
+					SkillElements [i - 1].UpgradeCostLabel.gameObject.SetActive (true);
+					SkillElements [stupidLambdaCounter - 1].SkillUpgradeButton.gameObject.SetActive (true);
+					SkillElements [i - 1].UnlockNode.SetActive (false);
 
-					SkillElements [i].SkillLevelLabel.text = "level: " + currentShipData.Skills [i].Level;
-					SkillElements [i].UpgradeCostLabel.text = "$ " + currentShipData.Skills [i].UpgradeCosts [currentShipData.Skills [i].Level];
+					SkillElements [i - 1].SkillLevelLabel.text = "level: " + currentShipData.Skills [i].Level;
+					SkillElements [i - 1].UpgradeCostLabel.text = "$ " + currentShipData.Skills [i].UpgradeCosts [currentShipData.Skills [i].Level];
 
-					SkillElements [stupidLambdaCounter].SkillUpgradeButton.onClick.RemoveAllListeners ();
+					SkillElements [stupidLambdaCounter - 1].SkillUpgradeButton.onClick.RemoveAllListeners ();
 
-					SkillElements [stupidLambdaCounter].SkillUpgradeButton.onClick.AddListener (delegate {
+					SkillElements [stupidLambdaCounter - 1].SkillUpgradeButton.onClick.AddListener (delegate {
 						UpgradeSkill (currentShipData, currentShipData.Skills [stupidLambdaCounter]);
 					});
 
 					if (currentShipData.Skills [i].Level == currentShipData.Skills [i].MaxLevel) {
-						SkillElements [i].SkillUpgradeButton.gameObject.SetActive (false);
+						SkillElements [i - 1].SkillUpgradeButton.gameObject.SetActive (false);
 					}
 				}
 			}
 		}
 	}
 
-	public void FindItem (Item item) {
+	public void FindItem (string item) {
 		Debug.Log ("Here we are");
 		gameManager.FindMissionForItem (item);
 	}
 
 	public void FindBlueprint () {
-		gameManager.FindMissionForItem (currentShipData.Blueprint);
+		gameManager.FindMissionForItem (currentShipData.Soulstone.Name);
 	}
 
 	void UpgradeSkill (ShipData shipData, Skill skill) { // smth wrong; should probably update labels instead

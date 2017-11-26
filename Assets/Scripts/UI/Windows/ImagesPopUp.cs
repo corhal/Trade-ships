@@ -13,7 +13,7 @@ public class ImagesPopUp : MonoBehaviour {
 	public GameObject RewardElementPrefab;
 	public List<GameObject> RewardElementObjects;
 
-	public void Open (string message, Dictionary<Item, int> items) {
+	public void Open (string message, Dictionary<string, int> itemNames) {
 		Window.SetActive (true);
 
 		MessageText.text = message;
@@ -23,16 +23,16 @@ public class ImagesPopUp : MonoBehaviour {
 		}
 		RewardElementObjects.Clear ();
 
-		foreach (var amountByItem in items) {
+		foreach (var amountByItem in itemNames) {
 			GameObject rewardElementObject = Instantiate (RewardElementPrefab) as GameObject;
 			Text[] texts = rewardElementObject.GetComponentsInChildren<Text> ();
-			texts [0].text = amountByItem.Key.Name;
+			texts [0].text = amountByItem.Key;
 			/*if (amountByItem.Key.Name == "") {
 				Debug.Log (amountByItem.Key);
 			}*/
 			texts [1].text = amountByItem.Value.ToString ();
 			Image rewardImage = rewardElementObject.GetComponentInChildren<Image> ();
-			rewardImage.sprite = amountByItem.Key.Icon;
+			rewardImage.sprite = Player.Instance.DataBase.ItemIconsByNames [amountByItem.Key];
 
 			rewardElementObject.transform.SetParent (ImagesParent.transform);
 			rewardElementObject.transform.localScale = Vector3.one;

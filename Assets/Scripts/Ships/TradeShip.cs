@@ -57,7 +57,7 @@ public class TradeShip : Selectable {
 
 	public void MoveMode () {
 		gameManager.MoveMode ();
-		mover.InMoveMode = true;
+		// mover.InMoveMode = true;
 	}
 
 	void Mover_OnStartedMoving (MoveOnClick sender) {
@@ -77,7 +77,7 @@ public class TradeShip : Selectable {
 	}
 
 	void OnTriggerEnter2D (Collider2D other) { // will work even when passing through another port
-		if (Allegiance != "Enemy" && other.gameObject.GetComponent<Port> () != null) {
+		if (Allegiance != Allegiance.Enemy && other.gameObject.GetComponent<Port> () != null) {
 			UnloadCargo (other.gameObject.GetComponent<Port> ());
 		}
 	}
@@ -93,7 +93,7 @@ public class TradeShip : Selectable {
 					Player.Instance.TakeGold (shipment.Reward);
 					shipmentsToDestroy.Add (shipment);
 				} else {
-					Player.Instance.TakeItems (new Dictionary<Item, int> { { shipment.Goods, 1 } });
+					Player.Instance.TakeItems (new Dictionary<string, int> { { shipment.Goods.Name, 1 } });
 					shipmentsToDestroy.Add (shipment);
 				}
 			}

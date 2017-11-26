@@ -10,7 +10,7 @@ public class BuildingData {
 
 	public bool UnderConstruction;
 
-	public List<Dictionary<Item, int>> BuildCosts;
+	public List<Dictionary<string, int>> BuildCosts;
 	public List<int> UpgradeCosts;	
 	public float[] Coordinates;
 
@@ -18,7 +18,7 @@ public class BuildingData {
 		Level = building.Level;
 		Name = building.Name;
 		UnderConstruction = building.UnderConstruction;
-		BuildCosts = new List<Dictionary<Item, int>> (building.BuildCosts); // potentially dangerous
+		BuildCosts = new List<Dictionary<string, int>> (building.BuildCosts); // potentially dangerous
 		UpgradeCosts = new List<int> (building.UpgradeCosts);
 		Coordinates = new float[3];
 		Coordinates [0] = building.transform.position.x;

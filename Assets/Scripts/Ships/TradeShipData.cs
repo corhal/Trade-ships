@@ -8,7 +8,7 @@ public class TradeShipData {
 	public List<Shipment> Shipments;
 
 	public string Name;
-	public string Allegiance;
+	public Allegiance Allegiance;
 	public int ShipmentsCapacity;
 	public float[] Coordinates;
 
@@ -17,7 +17,7 @@ public class TradeShipData {
 
 	}
 
-	public TradeShipData (string name, string allegiance, int shipmentsCapacity, float[] coordinates, List<Shipment> shipments) {
+	public TradeShipData (string name, Allegiance allegiance, int shipmentsCapacity, float[] coordinates, List<Shipment> shipments) {
 		Name = name;
 		Allegiance = allegiance;
 		ShipmentsCapacity = shipmentsCapacity;

@@ -53,13 +53,13 @@ public class MissionWindow : MonoBehaviour {
 		foreach (var amountByItem in mission.PossibleRewards) {
 			GameObject rewardElementObject = Instantiate (RewardElementPrefab) as GameObject;
 			Text[] texts = rewardElementObject.GetComponentsInChildren<Text> ();
-			texts [0].text = amountByItem.Key.Name;
+			texts [0].text = amountByItem.Key;
 			/*if (amountByItem.Key.Name == "") {
 				Debug.Log (amountByItem.Key);
 			}*/
 			texts [1].text = amountByItem.Value.ToString ();
 			Image rewardImage = rewardElementObject.GetComponentInChildren<Image> ();
-			rewardImage.sprite = amountByItem.Key.Icon;
+			rewardImage.sprite = Player.Instance.DataBase.ItemIconsByNames [amountByItem.Key];
 			rewardElementObject.transform.SetParent (RewardsElementContainer.transform);
 			rewardElementObject.transform.localScale = Vector3.one;
 			RewardElementObjects.Add (rewardElementObject);

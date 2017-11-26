@@ -8,16 +8,16 @@ public class ShipData {
 	public List<RewardChest> RewardChests;
 	public bool IsSummoned;
 	public List<Skill> Skills;
-	public List<Effect> Effects;
+	// public List<Effect> Effects;
 
-	public Item Blueprint;
-	public List<List<Item>> PromoteCosts;
+	public Item Soulstone;
+	public List<List<string>> PromoteCosts;
 	public List<int> LevelRequirements;
 	public RankColor RankColor;
 	public int Stars;
 	public int Level;
 	public string Name;
-	public string Allegiance;
+	public Allegiance Allegiance;
 	public int HP;
 	public int MaxHP;
 	public int Power;
@@ -30,45 +30,39 @@ public class ShipData {
 	public float AttackRange;
 	public float Speed = 1.0f; // change later
 
+	public BJCreature Creature;
+
 	public ShipData () {
 
 	}
 
-	public ShipData (string name, string allegiance, int level, int stars, int maxHP, 
-		int hp, int power, float[] coordinates, List<Skill> skills, List<Effect> effects,
-		Item blueprint, List<List<Item>> promoteCosts, RankColor rankColor, bool isSummoned, List<int> levelRequirements, List<RewardChest> rewardChests,
+	public ShipData (BJCreature creature, int level, int stars, List<Skill> skills,
+		Item soulstone, List<List<string>> promoteCosts, RankColor rankColor, bool isSummoned, List<int> levelRequirements, List<RewardChest> rewardChests,
 		float secPerShot, float attackRange) {
-		Name = name;
-		Allegiance = allegiance;
+		Creature = creature;
+		Name = creature.Name;
+		Allegiance = creature.Allegiance;
 		Level = level;
 		Stars = stars;
-		MaxHP = maxHP;
-		HP = hp;
-		Power = power;
-		Coordinates = new float[coordinates.Length];
-		coordinates.CopyTo (Coordinates, 0);
-		Blueprint = blueprint;
+		MaxHP = creature.MaxHP;
+		HP = creature.MaxHP;
+		Power = creature.BaseDamage;
+
+		Soulstone = soulstone;
 		Exp = 0;
 		EvolveCosts = Player.Instance.DataBase.EvolveCosts;
-		StatNames = new List<string> { /*"Cargo",*/ "MaxHP", "Firepower", "Range", "Attack speed", "Speed"};
+		StatNames = new List<string> { "MaxHP", "Attack", "Range", "Attack speed", "Speed"};
 		SecPerShot = secPerShot;
 		AttackRange = attackRange;
 		if (promoteCosts != null) {
-			PromoteCosts = new List<List<Item>> (promoteCosts);
+			PromoteCosts = new List<List<string>> (promoteCosts);
 		} else {
-			PromoteCosts = new List<List<Item>> ();
+			PromoteCosts = new List<List<string>> ();
 		}
 		RankColor = rankColor;
-		if (skills != null) {
-			Skills = new List<Skill> (skills);
-		} else {
-			Skills = new List<Skill> ();
-		}
-		if (effects != null) {
-			Effects = new List<Effect> (effects);
-		} else {
-			Effects = new List<Effect> ();
-		}
+
+		Skills = new List<Skill> (skills);
+
 		if (levelRequirements != null) {
 			this.LevelRequirements = new List<int> (levelRequirements);
 		} else {
@@ -127,38 +121,11 @@ public class ShipData {
 		AddStatByString (statName, -amount);
 	}
 
-	public void ApplyEffect (Effect effect) {
-		foreach (var myEffect in Effects) {
-			if (effect.Name == myEffect.Name) { // effects don't stack right now
-				RemoveEffect (myEffect);
-				break;
-			}
-		}
-		Effects.Add (effect.Copy());
-
-		foreach (var statEffect in effect.StatEffects[effect.Level]) {					
-			AddStatByString (statEffect.Key, statEffect.Value);					
-		}
-	}
-
-	public void RemoveEffect (Effect effect) {
-		foreach (var statEffect in effect.StatEffects[effect.Level]) {					
-			ReduceStatByString (statEffect.Key, statEffect.Value);					
-		}
-		Effects.Remove (effect);
-	}
-
 	public void UpgradeSkill (Skill skill) {		
 		if (Skills.Contains(skill)) {			
 			if (Player.Instance.Gold >= skill.UpgradeCosts[skill.Level]) {
 				Player.Instance.GiveGold (skill.UpgradeCosts [skill.Level]);
 				skill.Upgrade ();
-
-				foreach (var effectByTarget in skill.EffectsByTargets) {
-					if (effectByTarget.Value != null && effectByTarget.Key == "self" && effectByTarget.Value.Duration == -1.0f) { // kinda sorta determine if skill is passive
-						ApplyEffect (effectByTarget.Value);
-					}
-				}
 			} else {
 				GameManager.Instance.OpenPopUp ("Not enough gold!");
 			}
@@ -178,7 +145,7 @@ public class ShipData {
 
 	public void PromoteRank () {
 		for (int i = 0; i < PromoteCosts[(int)RankColor].Count; i++) {
-			Item item = PromoteCosts [(int)RankColor] [i];
+			string item = PromoteCosts [(int)RankColor] [i];
 
 			if (!Player.Instance.Inventory.ContainsKey(item) || Player.Instance.Inventory[item] == 0) {
 				GameManager.Instance.OpenPopUp ("Not enough items!");
@@ -187,18 +154,18 @@ public class ShipData {
 		}
 
 		foreach (var item in PromoteCosts[(int)RankColor]) {
-			Player.Instance.GiveItems (new Dictionary<Item, int> { { item, 1 } });
+			Player.Instance.GiveItems (new Dictionary<string, int> { { item, 1 } });
 		}
 
 		RankColor += 1;
 	}
 
 	public void EvolveStar () {
-		if (!Player.Instance.Inventory.ContainsKey(Blueprint) || Player.Instance.Inventory[Blueprint] < EvolveCosts[Stars]) {
+		if (!Player.Instance.Inventory.ContainsKey(Soulstone.Name) || Player.Instance.Inventory[Soulstone.Name] < EvolveCosts[Stars]) {
 			GameManager.Instance.OpenPopUp ("Not enough blueprints!");
 			return;
 		}
-		Player.Instance.GiveItems (new Dictionary<Item, int> { { Blueprint, EvolveCosts [Stars] } });
+		Player.Instance.GiveItems (new Dictionary<string, int> { { Soulstone.Name, EvolveCosts [Stars] } });
 		Stars += 1;
 	}
 }

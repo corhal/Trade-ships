@@ -7,26 +7,26 @@ public class Item {
 
 	public string Name;
 	public Sprite Icon;
-	public Dictionary<Item, int> CraftCost;
+	public Dictionary<string, int> CraftCost;
 	public bool IsForCraft = false;
 	public bool IsForSale = true;
 	Player player;
 	public Dictionary<string, int> StatsByNames;
 
-	public Item (string name, Dictionary<Item, int> craftCost, Sprite icon, bool isForSale, bool isForCraft, Dictionary<string, int> statsByNames) {
+	public Item (string name, Dictionary<string, int> craftCost, Sprite icon, bool isForSale, bool isForCraft, Dictionary<string, int> statsByNames) {
 		this.Name = name;
 		CraftCost = craftCost;
 		player = Player.Instance;
 		this.Icon = icon;
 		this.IsForSale = isForSale;
 		this.IsForCraft = isForCraft;
-		if (statsByNames != null) {
+		//if (statsByNames != null) {
 			StatsByNames = new Dictionary<string, int> (statsByNames);
-		} else {
+		/*} else {
 			StatsByNames = new Dictionary<string, int> ();
 			if (CraftCost != null && CraftCost.Count > 0) {
 				foreach (var amountByItem in this.CraftCost) {
-					foreach (var statByName in amountByItem.Key.StatsByNames) {
+					foreach (var statByName in Player.Instance.DataBase.ItemsByNames[amountByItem.Key].StatsByNames) {
 						if (!StatsByNames.ContainsKey(statByName.Key)) {
 							StatsByNames.Add (statByName.Key, statByName.Value);
 						} else {
@@ -35,7 +35,7 @@ public class Item {
 					}
 				}
 			}
-		}
+		}*/
 	}
 
 	public void Craft () {
@@ -43,7 +43,7 @@ public class Item {
 
 		if (canCraft) {
 			player.GiveItems (CraftCost);
-			Dictionary<Item, int> itemAsDict = new Dictionary<Item, int> { {this, 1} };
+			Dictionary<string, int> itemAsDict = new Dictionary<string, int> { {this.Name, 1} };
 			player.TakeItems (itemAsDict);
 		} else {
 			Debug.Log ("Can't craft: not enough items");

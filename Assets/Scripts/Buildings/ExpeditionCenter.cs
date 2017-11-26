@@ -26,7 +26,7 @@ public class ExpeditionCenter : Building {
 	}
 
 	public void CreateMissions () {
-		List<string> enemyNames = new List<string> (Player.Instance.DataBase.CreatureNames);
+		/*List<string> enemyNames = new List<string> (Player.Instance.DataBase.CreatureNames);
 
 		for (int i = 0; i < 5; i++) {
 			Utility.Shuffle (enemyNames);
@@ -49,8 +49,8 @@ public class ExpeditionCenter : Building {
 			Dictionary<Item, float> rewardChances = new Dictionary<Item, float> ();
 			Dictionary<Item, int> possibleRewards = new Dictionary<Item, int> ();
 			if (i < Player.Instance.ShipDatas.Count) { // !!! Replace with something more sensible
-				possibleRewards.Add (Player.Instance.ShipDatas[i].Blueprint, Random.Range(1, 6));
-				rewardChances.Add (Player.Instance.ShipDatas[i].Blueprint, Random.Range (0.3f, 0.7f));
+				possibleRewards.Add (Player.Instance.ShipDatas[i].Soulstone, Random.Range(1, 6));
+				rewardChances.Add (Player.Instance.ShipDatas[i].Soulstone, Random.Range (0.3f, 0.7f));
 			}
 			for (int j = 1; j < costLength; j++) {
 				List<Item> validItems = new List<Item> ();
@@ -65,7 +65,7 @@ public class ExpeditionCenter : Building {
 				rewardChances.Add (validItems [index], Random.Range (0.3f, 0.7f));
 			}
 			Missions.Add (new Mission (rewardChances, possibleRewards, enemyShips));
-		}
+		}*/
 	}
 
 	void ShowMissions () {

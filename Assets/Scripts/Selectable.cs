@@ -13,7 +13,7 @@ public class Selectable : MonoBehaviour {
 	public string Name;
 	public int Level;
 	public int MaxLevel;
-	public string Allegiance;
+	public Allegiance Allegiance;
 
 	public string Process;
 	public bool InProcess;
@@ -81,7 +81,7 @@ public class Selectable : MonoBehaviour {
 	}
 
 	void OnMouseDown () {
-		if (IsAvailable && !Utility.IsPointerOverUIObject () && Allegiance != "Enemy") {
+		if (IsAvailable && !Utility.IsPointerOverUIObject () && Allegiance != Allegiance.Enemy) {
 			gameManager.OpentContextButtons (this);
 		}
 	}

@@ -23,9 +23,6 @@ public class Ship : Selectable {
 
 	public bool IsSummoned { get { return ShipData.IsSummoned; } set { ShipData.IsSummoned = value; } } 
 
-	public List<Effect> Effects { get { return ShipData.Effects; } set { ShipData.Effects = value; } }
-	public List<Skill> Skills { get { return ShipData.Skills; } set { ShipData.Skills = value; } }
-
 	public int MaxHP { get { return ShipData.MaxHP; } set { ShipData.MaxHP = value; } }
 	public int HP { get { return ShipData.HP; } set { ShipData.HP = value; } } // not a great solution
 	public int Power { get { return ShipData.Power; } set { ShipData.Power = value; } }
@@ -70,30 +67,15 @@ public class Ship : Selectable {
 		Action moveAction = new Action ("Move", 0, player.DataBase.ActionIconsByNames["Move"], MoveMode);
 		actions.Add (moveAction);
 
-		Action useSkillAction = new Action ("Skill", 0, player.DataBase.ActionIconsByNames ["Show missions"], UseSkill);
-		actions.Add (useSkillAction);
-
 		Name = ShipData.Name;
 		Allegiance = ShipData.Allegiance;
 
 		transform.position = new Vector3 (ShipData.Coordinates[0], ShipData.Coordinates[1], ShipData.Coordinates[2]);
 	}
 
-	public void UseSkill () {
-		Skills [0].Use (this);
-	}
 
 	protected override void Update () {
 		base.Update ();
-
-		for (int i = Effects.Count - 1; i >= 0; i--) {
-			if (Effects [i].Duration > -1.0f) {
-				Effects [i].ElapsedTime += Time.deltaTime;
-				if (Effects [i].ElapsedTime >= Effects [i].Duration) {
-					RemoveEffect (Effects [i]);
-				}
-			}
-		}
 	}
 
 	public override int GetStatByString (string statName) {
@@ -108,47 +90,10 @@ public class Ship : Selectable {
 	void ReduceStatByString (string statName, int amount) {
 		AddStatByString (statName, -amount);
 	}
-
-	public void ApplyEffect (Effect effect) {
-		ShipData.ApplyEffect (effect);
-		/*foreach (var myEffect in Effects) {
-			if (effect.Name == myEffect.Name) { // effects don't stack right now
-				RemoveEffect (myEffect);
-				break;
-			}
-		}
-		Effects.Add (effect.Copy());*/
-		if (effect.EffectParticlesPrefab != null) {
-			GameObject effectParticlesObject = Instantiate (effect.EffectParticlesPrefab) as GameObject;
-			ParticleSystem effectParticles = effectParticlesObject.GetComponent<ParticleSystem> ();
-			effectParticlesObject.transform.SetParent (transform);
-			effectParticles.transform.position = transform.position;
-			effectParticles.Play ();
-			if (!ParticlesByEffectNames.ContainsKey(effect.Name)) {
-				ParticlesByEffectNames.Add (effect.Name, effectParticles);
-			}
-		}
-		/*foreach (var statEffect in effect.StatEffects[effect.Level]) {					
-			AddStatByString (statEffect.Key, statEffect.Value);					
-		}*/
-	}
-
-	public void RemoveEffect (Effect effect) {
-		ShipData.RemoveEffect (effect);
-		/*foreach (var statEffect in effect.StatEffects[effect.Level]) {					
-			ReduceStatByString (statEffect.Key, statEffect.Value);					
-		}
-		Effects.Remove (effect);*/
-
-		if (ParticlesByEffectNames.ContainsKey(effect.Name)) {
-			Destroy (ParticlesByEffectNames[effect.Name].gameObject);
-			ParticlesByEffectNames.Remove (effect.Name);
-		}
-	}
-
+		
 	public void MoveMode () {
 		gameManager.MoveMode ();
-		mover.InMoveMode = true;
+		// mover.InMoveMode = true;
 	}
 
 	void Mover_OnStartedMoving (MoveOnClick sender) {
@@ -168,8 +113,8 @@ public class Ship : Selectable {
 	}
 
 	void OnTriggerEnter2D (Collider2D other) { // will work even when passing through another port
-		if (Allegiance != "Enemy" && other.gameObject.GetComponent<Shipwreck> () != null) {
-			Dictionary<Item, int> rewards = new Dictionary<Item, int> ();
+		if (Allegiance != Allegiance.Enemy && other.gameObject.GetComponent<Shipwreck> () != null) {
+			Dictionary<string, int> rewards = new Dictionary<string, int> ();
 			foreach (var rewardChest in other.gameObject.GetComponent<Shipwreck> ().RewardChests) {
 				player.TakeItems (rewardChest.RewardItems);
 				foreach (var amountByItem in rewardChest.RewardItems) {

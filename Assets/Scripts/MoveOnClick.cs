@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MoveOnClick : MonoBehaviour {
 
-	public bool InMoveMode = false;
+	//public bool InMoveMode = true;
 	bool shouldMove = false;
 
 	public float TimeLeft;
@@ -31,10 +31,10 @@ public class MoveOnClick : MonoBehaviour {
 
 	void Update () {	
 		if (!Utility.IsPointerOverUIObject()) {
-			if (Input.GetMouseButtonDown (0) && InMoveMode) {	
+			if (Input.GetMouseButtonDown (0) /*&& InMoveMode*/) {	
 				firstClick = Input.mousePosition;
 			}
-			if (Input.GetMouseButtonUp(0) && InMoveMode) {		
+			if (Input.GetMouseButtonUp(0) /*&& InMoveMode*/) {		
 				lastClick = Input.mousePosition;
 				start = transform.position;
 
@@ -64,9 +64,11 @@ public class MoveOnClick : MonoBehaviour {
 				GameManager.Instance.InMoveMode = false;
 				GameManager.Instance.CloseContextButtons (true);
 				shouldMove = true;
-				InMoveMode = false;
+				//InMoveMode = false;
 				TimeLeft = Vector2.Distance(transform.position, target) / Speed;
-				OnStartedMoving (this);
+				if (OnStartedMoving != null) {
+					OnStartedMoving (this);
+				}
 			}
 		}
 

@@ -17,12 +17,12 @@ public class CraftWindow : MonoBehaviour {
 	public Image ResultImage;
 	public Text StatsLabel;
 	public Building ResultBuilding;
-	public Item ResultItem;
+	public string ResultItem;
 
 	public GameObject AcquirePanel;
 	public GameObject FindPanel;
 
-	public void Open (Building building, Item item) {
+	public void Open (Building building, string item) {
 		ResultBuilding = building;
 		ResultItem = item;
 		Window.SetActive (true);
@@ -47,20 +47,20 @@ public class CraftWindow : MonoBehaviour {
 				Build(building);
 			});
 		} else if (ResultItem != null) {
-			ResultLabel.text = item.Name;
-			ResultImage.sprite = item.Icon;
+			ResultLabel.text = item;
+			ResultImage.sprite = Player.Instance.DataBase.ItemIconsByNames [item];
 			StatsLabel.text = "";
-			foreach (var statByName in ResultItem.StatsByNames) {
+			foreach (var statByName in Player.Instance.DataBase.ItemsByNames [ResultItem].StatsByNames) {
 				StatsLabel.text += statByName.Key + ": +" + statByName.Value + "\n";
 			}
 
-			if (item.CraftCost != null && item.CraftCost.Count > 0) {
+			if (Player.Instance.DataBase.ItemsByNames [item] != null && Player.Instance.DataBase.ItemsByNames [item].CraftCost != null && Player.Instance.DataBase.ItemsByNames [item].CraftCost.Count > 0) {
 				FindPanel.SetActive (false);
 				AcquirePanel.SetActive (true);
-				FormCraftElements (item.CraftCost);
+				FormCraftElements (Player.Instance.DataBase.ItemsByNames [item].CraftCost);
 
 				ResultButton.onClick.AddListener (delegate {
-					Player.Instance.Craft(item);
+					Player.Instance.Craft (item);
 				});
 				ResultButton.onClick.AddListener (delegate {
 					Open(building, item);
@@ -83,7 +83,7 @@ public class CraftWindow : MonoBehaviour {
 		}
 	}
 
-	void FormCraftElements (Dictionary<Item, int> amountsByItems) {
+	void FormCraftElements (Dictionary<string, int> amountsByItems) {
 		foreach (var amountByItem in amountsByItems) {
 			GameObject craftElementObject = Instantiate(CraftElementPrefab) as GameObject;
 
@@ -93,13 +93,13 @@ public class CraftWindow : MonoBehaviour {
 			int requiredAmount = amountByItem.Value;
 			craftElement.AmountLabel.text = playersAmount + "/" + requiredAmount;
 
-			craftElement.NameLabel.text = amountByItem.Key.Name;
-			craftElement.Icon.sprite = amountByItem.Key.Icon;
+			craftElement.NameLabel.text = amountByItem.Key;
+			craftElement.Icon.sprite = Player.Instance.DataBase.ItemIconsByNames [amountByItem.Key];
 
 			if (playersAmount >= requiredAmount) {
 				craftElement.FindOrCraftButton.gameObject.SetActive (false);
 			} else {
-				if (amountByItem.Key.CraftCost != null) {
+				if (Player.Instance.DataBase.ItemsByNames[amountByItem.Key].CraftCost != null) {
 					craftElement.FindOrCraftButton.GetComponentInChildren<Text> ().text = "Craft";
 					//craftElement.FindOrCraftButton.onClick.RemoveAllListeners ();
 					craftElement.FindOrCraftButton.onClick.AddListener (delegate {

@@ -5,7 +5,7 @@ using UnityEngine;
 public class Building : Selectable {
 	public bool UnderConstruction;
 	bool initialized;
-	public List<Dictionary<Item, int>> BuildCosts;
+	public List<Dictionary<string, int>> BuildCosts;
 	public List<int> UpgradeCosts;
 	public Island MyIsland;
 	Action buildAction;
@@ -14,7 +14,7 @@ public class Building : Selectable {
 	protected override void Awake () {
 		base.Awake ();
 		MyIsland = GetComponentInParent<Island> ();
-		BuildCosts = new List<Dictionary<Item, int>> ();
+		BuildCosts = new List<Dictionary<string, int>> ();
 
 		buildAction = new Action ("Build", 0, player.DataBase.ActionIconsByNames["Build"], ShowCraftWindow);
 		upgradeAction = new Action ("Upgrade", 0, player.DataBase.ActionIconsByNames["Upgrade"], Upgrade);
@@ -29,18 +29,18 @@ public class Building : Selectable {
 		}
 		for (int i = 0; i < MaxLevel - Level; i++) {
 			int costLength = Random.Range (1, 4);
-			Dictionary<Item, int> cost = new Dictionary<Item, int> ();
+			Dictionary<string, int> cost = new Dictionary<string, int> ();
 			for (int j = 0; j < costLength; j++) {
 				List<Item> validItems = new List<Item> ();
 				foreach (var item in player.DataBase.TempItemLibrary) {
-					if (!cost.ContainsKey(item) && !item.IsForSale && item.IsForCraft) {
+					if (!cost.ContainsKey(item.Name) && !item.IsForSale && item.IsForCraft) {
 						validItems.Add (item);
 					}
 				}
 
 				int index = Random.Range (0, validItems.Count);
 
-				cost.Add (validItems [index], Random.Range(1, 6));
+				cost.Add (validItems [index].Name, Random.Range(1, 6));
 			}
 			BuildCosts.Add (cost);
 		}
@@ -50,7 +50,7 @@ public class Building : Selectable {
 		Level = buildingData.Level;
 		Name = buildingData.Name;
 		UnderConstruction = buildingData.UnderConstruction;
-		BuildCosts = new List<Dictionary<Item, int>> (buildingData.BuildCosts); // potentially dangerous
+		BuildCosts = new List<Dictionary<string, int>> (buildingData.BuildCosts); // potentially dangerous
 		UpgradeCosts = new List<int> (buildingData.UpgradeCosts);
 		initialized = true;
 	}
