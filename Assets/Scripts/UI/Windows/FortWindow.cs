@@ -69,10 +69,10 @@ public class FortWindow : MonoBehaviour {
 		}*/
 	}
 
-	/*GameObject CreateShipElementObject (ShipData shipData) {
+	GameObject CreateShipElementObject (ShipData shipData) {
 		GameObject shipElementObject = Instantiate (ShipElementPrefab) as GameObject;
-		CreatureElement shipElement = shipElementObject.GetComponent<CreatureElement> ();
-		shipElement.Creature = shipData;
+		ShipElement shipElement = shipElementObject.GetComponent<ShipElement> ();
+		shipElement.ShipData = shipData;
 		shipElement.NameLabel.text = shipData.Name;
 		shipElement.LevelLabel.text = shipData.Level.ToString ();
 
@@ -88,9 +88,9 @@ public class FortWindow : MonoBehaviour {
 		shipElement.OnShipElementClicked += ShipElement_OnShipElementClicked;
 
 		return shipElementObject;
-	}*/
+	}
 
-	void ShipElement_OnShipElementClicked (CreatureElement sender) {		
+	void ShipElement_OnShipElementClicked (ShipElement sender) {		
 		/*if (AllShipObjects.Contains(sender.gameObject) && Player.Instance.HomeTeam.Count < 5 && !Player.Instance.HomeTeam.Contains(sender.ShipData)) {
 			GameObject shipElementObject = CreateShipElementObject (sender.ShipData);
 

@@ -7,22 +7,18 @@ public class Player : MonoBehaviour {
 
 	public Mission CurrentMission;
 	public List<BuildingData> BuildingDatas;
-
-	public List<BJCreature> Creatures;
-	// public List<ShipData> ShipDatas;
-	// public List<TradeShipData> TradeShipDatas;
+	public List<ShipData> ShipDatas;
+	public List<TradeShipData> TradeShipDatas;
 	public bool FirstLoad = true;
 	public int Gold;
 
 	public static Player Instance;
 
-	public BJDataBase BJDataBase;
 	public DataBase DataBase;
 	public Dictionary<Item, int> Inventory;
 
-	public List<BJCreature> CurrentTeam;
-	// public List<ShipData> CurrentTeam;
-	// public List<TradeShipData> HomeTeam;
+	public List<ShipData> CurrentTeam;
+	public List<TradeShipData> HomeTeam;
 
 	void Awake () {
 		if (Instance == null) {			
@@ -31,7 +27,7 @@ public class Player : MonoBehaviour {
 			Destroy (gameObject);  
 		}
 		DontDestroyOnLoad(gameObject);
-		CurrentTeam = new List<BJCreature> ();
+		CurrentTeam = new List<ShipData> ();
 		Inventory = new Dictionary<Item, int> ();
 	}
 
@@ -51,7 +47,7 @@ public class Player : MonoBehaviour {
 	}
 
 	public void CreateTradeShipDatas () {
-		/*TradeShipDatas.Clear ();
+		TradeShipDatas.Clear ();
 		List<string> playerNames = new List<string> {
 			"Sindbad", "Marco Pollo", "Nasreddin"
 		};
@@ -68,62 +64,16 @@ public class Player : MonoBehaviour {
 			TradeShipDatas.Add (newShipData);
 
 			HomeTeam.Add (newShipData);
-		}*/
+		}
 	}
 
 	public void CreateShipDatas () {
-		Creatures.Clear ();
-		/*List<string> playerNames = new List<string> (DataBase.CreatureNames);
+		ShipDatas.Clear ();
+		List<string> playerNames = new List<string> (DataBase.CreatureNames);
 
-		Utility.Shuffle (playerNames);*/
-
-		foreach (var creature in BJDataBase.Creatures) {
-			Item soulstone = new Item ((creature.Name + " soulstone"), null, null, false, false, null);
-			if (!DataBase.ItemIconsByNames.ContainsKey (soulstone.Name)) {
-				DataBase.ItemIconsByNames.Add (soulstone.Name, null);
-			}
-			if (!DataBase.TempItemLibrary.Contains (soulstone)) {
-				DataBase.TempItemLibrary.Add (soulstone);
-				Inventory.Add (soulstone, 0);
-			}
-
-			List<List<Item>> promoteCosts = new List<List<Item>> ();
-			for (int k = 0; k < (int)RankColor.OrangeP - (int)RankColor.White; k++) {
-				int costLength = 6;
-				List<Item> cost = new List<Item> ();
-				for (int l = 0; l < costLength; l++) {
-					List<Item> validItems = new List<Item> ();
-					foreach (var item in Player.Instance.DataBase.TempItemLibrary) {
-						string nameString = item.Name;
-						if (!item.IsForSale && item.IsForCraft) {
-							validItems.Add (item);
-						}
-					}
-
-					int index = Random.Range (0, validItems.Count);
-
-					cost.Add (validItems [index]);
-				}
-				promoteCosts.Add (cost);
-			}
-
-			List<int> levelRequirements = new List<int> { 10, 20, 30, 40, 50 };
-
-			creature.IsSummoned = true;
-			creature.Soulstone = soulstone;
-			creature.Level = 1;
-			creature.Exp = 0;
-			creature.EvolveCosts = Player.Instance.DataBase.EvolveCosts;
-			creature.PromoteCosts = promoteCosts;
-			creature.LevelRequirements = levelRequirements;
-			creature.Stars = 1;
-			creature.RankColor = RankColor.White;
-
-			Creatures.Add (creature);
-		}
-
-		// for (int j = 0; j < playerNames.Count; j++) {
-			/*bool summoned = (j < 3) ? true : false;
+		Utility.Shuffle (playerNames);
+		for (int j = 0; j < playerNames.Count; j++) {
+			bool summoned = (j < 3) ? true : false;
 
 			int maxHp = Random.Range (200, 300);
 			float[] coordinates = new float[3];
@@ -142,9 +92,9 @@ public class Player : MonoBehaviour {
 			if (!DataBase.TempItemLibrary.Contains (blueprint)) {
 				DataBase.TempItemLibrary.Add (blueprint);
 				Inventory.Add (blueprint, 0);
-			}*/
+			}
 
-			/*List<List<Item>> promoteCosts = new List<List<Item>> ();
+			List<List<Item>> promoteCosts = new List<List<Item>> ();
 			for (int k = 0; k < (int)RankColor.OrangeP - (int)RankColor.White; k++) {
 				int costLength = 6;
 				List<Item> cost = new List<Item> ();
@@ -152,7 +102,8 @@ public class Player : MonoBehaviour {
 					List<Item> validItems = new List<Item> ();
 					foreach (var item in Player.Instance.DataBase.TempItemLibrary) {
 						string nameString = item.Name;
-						if (!item.IsForSale && item.IsForCraft) {
+						// string firstName = nameString.Split (' ') [0];
+						if (/*!cost.ContainsKey(item) &&*/ !item.IsForSale && item.IsForCraft /*firstName != "Blueprint"*/) {
 							validItems.Add (item);
 						}
 					}
@@ -162,18 +113,18 @@ public class Player : MonoBehaviour {
 					cost.Add (validItems [index]);
 				}
 				promoteCosts.Add (cost);
-			}*/
+			}
 
-			// List<int> levelRequirements = new List<int> { 10, 20, 30, 40, 50 };
-			/*ShipData newShipData = new ShipData (playerNames [j], "Player", 1, 1,
-				                       maxHp, maxHp, Random.Range (10, 20), coordinates, skills, null, blueprint, promoteCosts, RankColor.White, summoned, levelRequirements, null, 1.5f, 3.0f);*/
+			List<int> levelRequirements = new List<int> { 10, 20, 30, 40, 50 };
+			ShipData newShipData = new ShipData (playerNames [j], "Player", 1, 1,
+				                       maxHp, maxHp, Random.Range (10, 20), coordinates, skills, null, blueprint, promoteCosts, RankColor.White, summoned, levelRequirements, null, 1.5f, 3.0f);
 
-			/*Creatures.Add (newShipData);
+			ShipDatas.Add (newShipData);
 
 			if (summoned) {
 				//HomeTeam.Add (newShipData);
-			}*/
-		// }
+			}
+		}
 	}
 
 	public void LoadBattle () {

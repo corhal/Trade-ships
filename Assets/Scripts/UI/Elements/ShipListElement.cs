@@ -18,6 +18,6 @@ public class ShipListElement : MonoBehaviour {
 	}
 
 	public void SummonShip () {		
-		gameObject.GetComponentInChildren<CreatureElement>().Creature.IsSummoned = true;
+		gameObject.GetComponentInChildren<ShipElement>().ShipData.IsSummoned = true;
 	}
 }

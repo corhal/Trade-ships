@@ -164,7 +164,7 @@ public class Ship : Selectable {
 	}
 
 	public override void ShowInfo () {
-		// gameManager.OpenShipWindow (this.ShipData);
+		gameManager.OpenShipWindow (this.ShipData);
 	}
 
 	void OnTriggerEnter2D (Collider2D other) { // will work even when passing through another port
