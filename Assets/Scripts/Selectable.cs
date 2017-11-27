@@ -33,7 +33,9 @@ public class Selectable : MonoBehaviour {
 		gameManager = GameManager.Instance;
 		player = Player.Instance;
 		Action infoAction = new Action("Info", 0, player.DataBase.ActionIconsByNames["Info"], ShowInfo);
+		Action moveAction = new Action("Move", 0, player.DataBase.ActionIconsByNames["Info"], MoveShipHere);
 		actions.Add (infoAction);
+		actions.Add (moveAction);
 	}
 
 	public void RemoveActionByName (string actionName) {
@@ -46,6 +48,10 @@ public class Selectable : MonoBehaviour {
 
 	public virtual void ShowInfo () {
 		gameManager.OpenSelectableInfo (this);
+	}
+
+	public void MoveShipHere () {
+		PlayerShip.Instance.MoveToPoint (transform.position);
 	}
 
 	public virtual float GetProcessSeconds () {

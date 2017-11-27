@@ -288,15 +288,16 @@ public class BJGameController : MonoBehaviour {
 		if (Player.Instance != null) { // kostyll
 			List<ShipData> enemyShipDatas = Player.Instance.CurrentMission.EnemyShips;
 			for (int i = 0; i < enemyShipDatas.Count; i++) {
+				BJCreature enemyCreature = enemyShipDatas [i].Creature;
 				BJCreatureObject bjCreatureObject = SpawnCreatureObject (
-					                                    enemyShipDatas [i].Name, 
-					                                    enemyShipDatas [i].MaxHP,
-					                                    enemyShipDatas [i].Power, 
-					                                    3, 
-					                                    Random.Range (1, 5), 
-					                                    Allegiance.Enemy, 
-					                                    AttackType.Melee, 
-					                                    new List<string>{ "Melee attack" });
+					                                    enemyCreature.Name, 
+					                                    enemyCreature.MaxHP,
+					                                    enemyCreature.BaseDamage, 
+					                                    enemyCreature.Armor, 
+					                                    enemyCreature.Speed, 
+					                                    enemyCreature.Allegiance, 
+					                                    enemyCreature.AttackType, 
+					                                    enemyCreature.SkillNames);
 				bjCreatureObject.gameObject.transform.SetParent (EnemySpawnPoints [i]);
 				bjCreatureObject.gameObject.transform.localScale = Vector3.one;
 				bjCreatureObject.gameObject.transform.localPosition = Vector3.zero;

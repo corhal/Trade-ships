@@ -7,7 +7,6 @@ public class Mission {
 
 	public Dictionary<string, float> RewardChances;
 	public Dictionary<string, int> PossibleRewards;
-	//public List<Shipment> Shipments;
 
 	public List<ShipData> EnemyShips;
 
@@ -23,7 +22,6 @@ public class Mission {
 		Seconds = 5;
 
 		Dictionary<string, int> rewards = GiveReward ();
-		//List<Shipment> shipments = new List<Shipment> ();
 		List<RewardChest> rewardChests = new List<RewardChest>();
 		foreach (var amountByItem in rewards) {
 			int [] vals = new int[enemyShips.Count];
@@ -33,7 +31,6 @@ public class Mission {
 			}
 			foreach (var val in vals) {	
 				rewardChests.Add (new RewardChest (new Dictionary<string, int> { { amountByItem.Key, val } }));
-				//shipments.Add(new Shipment (amountByItem.Key, gameManager.Islands [0].Name, gameManager.Islands [1].Name, val, Random.Range (1, 5)));
 			}
 		}
 

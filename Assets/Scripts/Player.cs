@@ -5,6 +5,9 @@ using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour {
 
+	public int MaxEnergy;
+	public int Energy;
+
 	public Mission CurrentMission;
 	public List<BuildingData> BuildingDatas;
 	public List<ShipData> ShipDatas;

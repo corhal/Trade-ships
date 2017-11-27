@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MoveOnClick : MonoBehaviour {
 
-	//public bool InMoveMode = true;
+	public bool InMoveMode = false;
 	bool shouldMove = false;
 
 	public float TimeLeft;
@@ -15,10 +15,24 @@ public class MoveOnClick : MonoBehaviour {
 	Vector2 target;
 	float initialZ;
 
+	public int EnergyPerDistance;
+	float fullTraveledDistance;
+	int traveledDistance;
+
 	LineRenderer lineRenderer;
 
 	public delegate void StartedMoving (MoveOnClick sender);
 	public event StartedMoving OnStartedMoving;
+
+	public void MoveToPoint (Vector2 target) {
+		start = transform.position;
+		this.target = target;
+		fullTraveledDistance = 0.0f;
+		traveledDistance = 0;
+		DrawLine (start, target);
+		ShowLine ();
+		shouldMove = true;
+	}
 
 	void Awake () {
 		lineRenderer = GetComponentInChildren<LineRenderer> ();
@@ -31,13 +45,14 @@ public class MoveOnClick : MonoBehaviour {
 
 	void Update () {	
 		if (!Utility.IsPointerOverUIObject()) {
-			if (Input.GetMouseButtonDown (0) /*&& InMoveMode*/) {	
+			if (Input.GetMouseButtonDown (0) && InMoveMode) {	
 				firstClick = Input.mousePosition;
 			}
-			if (Input.GetMouseButtonUp(0) /*&& InMoveMode*/) {		
+			if (Input.GetMouseButtonUp(0) && InMoveMode) {		
 				lastClick = Input.mousePosition;
 				start = transform.position;
-
+				fullTraveledDistance = 0.0f;
+				traveledDistance = 0;
 				RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
 				if (hit.collider != null) {		
 					if (hit.collider.gameObject.GetComponent<Region> () != null) {
@@ -72,9 +87,15 @@ public class MoveOnClick : MonoBehaviour {
 			}
 		}
 
-		if (shouldMove) { // changed from lerp
+		if (shouldMove && Player.Instance.Energy > 0) { // changed from lerp
 			TimeLeft = Vector2.Distance(transform.position, target) / Speed;
 			float step = Speed * Time.deltaTime;
+			fullTraveledDistance += step;
+			if ((int)fullTraveledDistance > traveledDistance) {
+				int intStep = (int)fullTraveledDistance - traveledDistance;
+				traveledDistance += intStep;
+				Player.Instance.Energy -= EnergyPerDistance * intStep;
+			}
 			transform.position = Vector2.MoveTowards (transform.position, target, step);
 			transform.position = new Vector3 (transform.position.x, transform.position.y, initialZ);
 			lineRenderer.SetPosition(0, transform.position);

@@ -6,13 +6,27 @@ public class PlayerShip : MonoBehaviour {
 
 	Player player;
 	GameManager gameManager;
+	public static PlayerShip Instance;
+	MoveOnClick mover;
+
+	public int EnergyPerDistance;
 
 	void Awake () {
+		if (Instance == null) {			
+			Instance = this;
+		} else if (Instance != this) {
+			Destroy (gameObject);  
+		}
 		player = Player.Instance;
 		gameManager = GameManager.Instance;
+		mover = GetComponent<MoveOnClick> ();
 	}
 
-	void OnTriggerEnter2D (Collider2D other) { // will work even when passing through another port
+	void Start () {
+		mover.EnergyPerDistance = EnergyPerDistance;
+	}
+
+	void OnTriggerEnter2D (Collider2D other) { // will work even when passing through
 		if (other.gameObject.GetComponent<Shipwreck> () != null) {
 			Dictionary<string, int> rewards = new Dictionary<string, int> ();
 			foreach (var rewardChest in other.gameObject.GetComponent<Shipwreck> ().RewardChests) {
@@ -28,5 +42,9 @@ public class PlayerShip : MonoBehaviour {
 			gameManager.OpenImagesPopUp ("Reward: ", rewards);
 			Destroy (other.gameObject);
 		}
+	}
+
+	public void MoveToPoint (Vector2 target) {
+		mover.MoveToPoint (target);
 	}
 }
