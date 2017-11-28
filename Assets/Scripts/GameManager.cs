@@ -62,19 +62,8 @@ public class GameManager : MonoBehaviour {
 
 	public bool isBattle; // ew
 
-	public void RespawnShips () {
-
-		/*foreach (var tradeShip in TradeShips) {
-			Destroy (tradeShip.gameObject);
-		}
-		TradeShips.Clear ();
-		foreach (var tradeShipData in Player.Instance.TradeShipDatas) {				
-			if (Player.Instance.HomeTeam.Contains(tradeShipData)) {
-				GameObject shipObject = Instantiate (TradeShipPrefab) as GameObject;
-				shipObject.GetComponent<TradeShip> ().TradeShipData = tradeShipData;
-				TradeShips.Add (shipObject.GetComponent<TradeShip> ());
-			}
-		}*/
+	public void AddEnergy () {
+		Player.Instance.Energy += 100;
 	}
 
 	void Start () {	
@@ -97,18 +86,6 @@ public class GameManager : MonoBehaviour {
 				}
 			}
 
-			/*foreach (var tradeShip in TradeShips) {
-				Destroy (tradeShip.gameObject);
-			}
-			TradeShips.Clear ();
-			foreach (var tradeShipData in Player.Instance.TradeShipDatas) {				
-				if (Player.Instance.HomeTeam.Contains(tradeShipData)) {
-					GameObject shipObject = Instantiate (TradeShipPrefab) as GameObject;
-					shipObject.GetComponent<TradeShip> ().TradeShipData = tradeShipData;
-					TradeShips.Add (shipObject.GetComponent<TradeShip> ());
-				}
-			}*/
-
 			// temp solution:
 			if (Player.Instance.CurrentMission != null) {
 				Dictionary<string, int> reward = Player.Instance.CurrentMission.GiveReward ();
@@ -118,14 +95,6 @@ public class GameManager : MonoBehaviour {
 
 		} else if (!isBattle) {			
 			Player.Instance.CreateShipDatas ();
-			/*Player.Instance.CreateTradeShipDatas ();
-			foreach (var tradeShipData in Player.Instance.TradeShipDatas) {				
-				if (Player.Instance.HomeTeam.Contains(tradeShipData)) {
-					GameObject shipObject = Instantiate (TradeShipPrefab) as GameObject;
-					shipObject.GetComponent<TradeShip> ().TradeShipData = tradeShipData;
-					TradeShips.Add (shipObject.GetComponent<TradeShip> ());
-				}
-			}*/
 			Player.Instance.SaveBuildings (Buildings);
 			Player.Instance.FirstLoad = false;
 		}

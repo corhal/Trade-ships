@@ -14,6 +14,9 @@ public class Building : Selectable {
 	protected override void Awake () {
 		base.Awake ();
 		MyIsland = GetComponentInParent<Island> ();
+		if (MyIsland != null) {
+			MyIsland.Buildings.Add (this);
+		}
 		BuildCosts = new List<Dictionary<string, int>> ();
 
 		buildAction = new Action ("Build", 0, player.DataBase.ActionIconsByNames["Build"], ShowCraftWindow);
@@ -56,7 +59,7 @@ public class Building : Selectable {
 	}
 
 	protected virtual void RefreshActions () {
-		if (Level == MaxLevel) {
+		/*if (Level == MaxLevel) {
 			actions.Remove (buildAction);
 			actions.Remove (upgradeAction);
 			return;
@@ -68,7 +71,7 @@ public class Building : Selectable {
 		} else {
 			actions.Remove (upgradeAction);
 			actions.Add (buildAction);
-		}
+		}*/
 	}
 
 	void ShowCraftWindow () {

@@ -4,22 +4,27 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class TradeShip : Selectable {	
+	public Island StartIsland;
 	public TradeShipData TradeShipData;
+	public TradeShipMover TradeShipMover;
 
 	public Slider CargoSlider;
-
-	// ------------------------------------------------------
 
 	public List<Shipment> Shipments { get { return TradeShipData.Shipments; } set { TradeShipData.Shipments = value; } }
 
 	public int ShipmentsCapacity { get { return TradeShipData.ShipmentsCapacity; } set { TradeShipData.ShipmentsCapacity = value; } }
 
 	MoveOnClick mover;
+	TradeShipMover tradeShipMover;
+	Port currentPort;
+	bool docked;
+	float timer;
 
 	protected override void Awake () {
 		base.Awake ();
 		mover = gameObject.GetComponent<MoveOnClick> ();
-		mover.OnStartedMoving += Mover_OnStartedMoving;
+		tradeShipMover = gameObject.GetComponent<TradeShipMover> ();
+		// mover.OnStartedMoving += Mover_OnStartedMoving;
 	}
 
 	protected override void Start () {
@@ -32,17 +37,26 @@ public class TradeShip : Selectable {
 		Name = TradeShipData.Name;
 		Allegiance = TradeShipData.Allegiance;
 
-		transform.position = new Vector3 (TradeShipData.Coordinates[0], TradeShipData.Coordinates[1], TradeShipData.Coordinates[2]);
+		if (TradeShipData.Coordinates.Length > 0) {
+			transform.position = new Vector3 (TradeShipData.Coordinates[0], TradeShipData.Coordinates[1], TradeShipData.Coordinates[2]);
+		}
 
 		CargoSlider.maxValue = ShipmentsCapacity;
 		CargoSlider.value = TradeShipData.TotalWeight;
 
 		CargoSlider.maxValue = ShipmentsCapacity;
 		CargoSlider.value = TradeShipData.TotalWeight;
+
+		tradeShipMover.MoveToPosition (StartIsland.MyPort.transform.position);
 	}
 
 	protected override void Update () {
 		base.Update ();
+		timer += Time.deltaTime;
+		if (timer > 1.0f && docked) {
+			timer = 0.0f;
+			TakeCargo ();
+		}
 	}
 
 	public void TakeShipment (Shipment shipment) {		
@@ -83,6 +97,8 @@ public class TradeShip : Selectable {
 	}
 
 	public void UnloadCargo (Port port) {
+		currentPort = port;
+		docked = true;
 		List<Shipment> shipmentsToDestroy = new List<Shipment> ();
 		foreach (var shipment in Shipments) {
 			if (port.Name == "Shipwreck") { // bleargh
@@ -103,5 +119,20 @@ public class TradeShip : Selectable {
 			GiveShipment (shipment);
 		}
 		shipmentsToDestroy.Clear ();
+	}
+
+	public void TakeCargo () {
+		Island destination = null;
+		foreach (var shipment in currentPort.Shipments) {
+			TakeShipment (shipment);
+			destination = shipment.Destination;
+		}
+		if (Shipments.Count > 0) {
+			tradeShipMover.MoveToPosition (destination.MyPort.transform.position);
+			docked = false;
+		} else if (currentPort.MyIsland != StartIsland) { // дичайший говнокод
+			tradeShipMover.MoveToPosition (StartIsland.MyPort.transform.position);
+			docked = false;
+		}
 	}
 }

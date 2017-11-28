@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class ProductionBuilding : Building {
 
+	public Island Destination;
 	public string GoodsName;
 	public Slider ProcessSlider;
 	public List<int> MinRewards;
@@ -87,11 +88,11 @@ public class ProductionBuilding : Building {
 	}
 
 	void ProduceShipment () {
-		Island island = RandomIsland ();
+		Island island = Destination;
 		int reward = Random.Range (MinRewards [Level], MaxRewards [Level] + 1);
 		int cargo = Random.Range (MinCargos [Level], MaxCargos [Level] + 1);
 		Item goods = gameManager.GetItemByName (GoodsName);
-		Shipment shipment = new Shipment (goods, MyIsland.Name, island.Name, cargo, reward);
+		Shipment shipment = new Shipment (goods, MyIsland.Name, island.Name, island, cargo, reward);
 		MyIsland.MyPort.TakeShipment (shipment);
 	}
 

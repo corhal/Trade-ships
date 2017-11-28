@@ -4,7 +4,7 @@ using UnityEngine;
 
 public delegate void TakeDamageEventHandler (int amount);
 public enum Allegiance {
-	Player, Enemy
+	Player, Enemy, Neutral
 }
 
 public enum AttackType {

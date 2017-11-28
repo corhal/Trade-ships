@@ -50,27 +50,6 @@ public class Player : MonoBehaviour {
 		}
 	}
 
-	public void CreateTradeShipDatas () {
-		TradeShipDatas.Clear ();
-		List<string> playerNames = new List<string> {
-			"Sindbad", "Marco Pollo", "Nasreddin"
-		};
-
-		Utility.Shuffle (playerNames);
-		for (int j = 0; j < playerNames.Count; j++) {			
-			float[] coordinates = new float[3];
-			coordinates [0] = Random.Range (0.0f, 5.0f);
-			coordinates [1] = Random.Range (-5.0f, 0.0f);
-			coordinates [2] = -2.0f;
-
-			TradeShipData newShipData = new TradeShipData (playerNames [j], Allegiance.Player, Random.Range (5, 10), coordinates, null);
-
-			TradeShipDatas.Add (newShipData);
-
-			HomeTeam.Add (newShipData);
-		}
-	}
-
 	public void CreateShipDatas () {
 		ShipDatas.Clear ();
 

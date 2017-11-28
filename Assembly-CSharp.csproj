@@ -115,6 +115,7 @@
      <Compile Include="Assets\Scripts\Buildings\BuildingData.cs" />
      <Compile Include="Assets\Scripts\Buildings\ExpeditionCenter.cs" />
      <Compile Include="Assets\Scripts\Buildings\Fort.cs" />
+     <Compile Include="Assets\Scripts\Buildings\GoldMine.cs" />
      <Compile Include="Assets\Scripts\Buildings\Port.cs" />
      <Compile Include="Assets\Scripts\Buildings\PortData.cs" />
      <Compile Include="Assets\Scripts\Buildings\ProductionBuilding.cs" />
@@ -142,6 +143,7 @@
      <Compile Include="Assets\Scripts\Ships\Skill.cs" />
      <Compile Include="Assets\Scripts\Ships\TradeShip.cs" />
      <Compile Include="Assets\Scripts\Ships\TradeShipData.cs" />
+     <Compile Include="Assets\Scripts\Ships\TradeShipMover.cs" />
      <Compile Include="Assets\Scripts\UI\Elements\ContextButton.cs" />
      <Compile Include="Assets\Scripts\UI\Elements\CraftElement.cs" />
      <Compile Include="Assets\Scripts\UI\Elements\ShipElement.cs" />
