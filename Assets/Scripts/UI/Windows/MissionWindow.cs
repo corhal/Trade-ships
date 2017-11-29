@@ -28,16 +28,16 @@ public class MissionWindow : MonoBehaviour {
 	Mission mission;
 	GameManager gameManager;
 
-	ExpeditionCenter expeditionCenter;
+	// ExpeditionCenter expeditionCenter;
 
 	void Awake () {
 		gameManager = GameManager.Instance;
 	}
 
-	public void Open (ExpeditionCenter expeditionCenter, Mission chosenMission) {		
+	public void Open (/*ExpeditionCenter expeditionCenter,*/ Mission chosenMission) {		
 		Window.SetActive (true);
 
-		this.expeditionCenter = expeditionCenter;
+		//this.expeditionCenter = expeditionCenter;
 		this.mission = chosenMission;
 
 		foreach (var rewardElementObject in RewardElementObjects) {
@@ -103,6 +103,6 @@ public class MissionWindow : MonoBehaviour {
 	}
 
 	public void Back () {
-		gameManager.OpenExpeditionWindow(expeditionCenter);
+		//gameManager.OpenExpeditionWindow(expeditionCenter);
 	}
 }

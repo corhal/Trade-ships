@@ -23,7 +23,7 @@ public class ExpeditionWindow : MonoBehaviour {
 			GameObject expeditionButtonObject = Instantiate (ExpeditionButtonObjectPrefab) as GameObject;
 
 			expeditionButtonObject.GetComponent<Button> ().onClick.AddListener (delegate {
-				GameManager.Instance.OpenMissionWindow(expeditionCenter, mission);
+				GameManager.Instance.OpenMissionWindow(/*expeditionCenter,*/ mission);
 			});
 
 			foreach (var expeditionParent in ExpeditionParents) {

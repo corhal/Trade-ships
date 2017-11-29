@@ -1,0 +1,57 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class MissionObject : Selectable {
+
+	public Mission Mission;
+
+	protected override void Start () {
+		base.Start ();
+		CreateMission ();
+	}
+
+
+	public void CreateMission () {
+		List<BJCreature> enemyCreatures = new List<BJCreature> (Player.Instance.BJDataBase.EnemyCreatures);
+
+		Utility.Shuffle (enemyCreatures);
+		List<ShipData> enemyShips = new List<ShipData> ();
+		int enemiesCount = Random.Range (1, 6);
+
+		int rankCol = Random.Range (0, System.Enum.GetNames (typeof(RankColor)).Length);
+		for (int j = 0; j < enemiesCount; j++) {				
+			ShipData enemy = new ShipData (enemyCreatures [j], 1, 1, null, null, null, (RankColor)rankCol, false, null, null, 1.5f, 3.0f);
+			enemyShips.Add (enemy);
+		}
+
+		int costLength = Random.Range (1, 6);
+		Dictionary<string, float> rewardChances = new Dictionary<string, float> ();
+		Dictionary<string, int> possibleRewards = new Dictionary<string, int> ();
+
+		for (int i = 0; i < Player.Instance.ShipDatas.Count; i++) {
+			// !!! Replace with something more sensible
+			float coinToss = Random.Range (0.0f, 1.0f);
+			if (coinToss < 0.25f) {
+				possibleRewards.Add (Player.Instance.ShipDatas [i].Soulstone.Name, Random.Range (1, 6));
+				rewardChances.Add (Player.Instance.ShipDatas [i].Soulstone.Name, Random.Range (0.3f, 0.7f));
+			}
+		}
+
+		for (int j = 1; j < costLength; j++) {
+			List<Item> validItems = new List<Item> ();
+			foreach (var item in player.DataBase.TempItemLibrary) {
+				if (!possibleRewards.ContainsKey (item.Name)) {
+					validItems.Add (item);
+				}
+			}
+
+			int index = Random.Range (0, validItems.Count);
+			possibleRewards.Add (validItems [index].Name, Random.Range (1, 6));
+			rewardChances.Add (validItems [index].Name, Random.Range (0.3f, 0.7f));
+		}
+
+		Mission = new Mission (rewardChances, possibleRewards, enemyShips);
+
+	}
+}

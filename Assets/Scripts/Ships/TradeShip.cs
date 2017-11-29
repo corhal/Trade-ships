@@ -96,7 +96,8 @@ public class TradeShip : Selectable {
 		if (Allegiance != Allegiance.Enemy && other.gameObject.GetComponent<Port> () != null) {
 			UnloadCargo (other.gameObject.GetComponent<Port> ());
 			if (other.gameObject.GetComponent<Port> ().MyIsland != StartIsland) {
-				DepartButtonObject.SetActive (true);
+				// DepartButtonObject.SetActive (true);
+				Invoke ("Depart", 1.5f);
 			}
 		}
 	}

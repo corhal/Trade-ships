@@ -224,8 +224,8 @@ public class GameManager : MonoBehaviour {
 		MyExpeditionWindow.Close ();
 	}
 
-	public void OpenMissionWindow (ExpeditionCenter expeditionCenter, Mission chosenMission) {
-		MyMissionWindow.Open (expeditionCenter, chosenMission);
+	public void OpenMissionWindow (/*ExpeditionCenter expeditionCenter, */ Mission chosenMission) {
+		MyMissionWindow.Open (/*expeditionCenter,*/ chosenMission);
 		MyPortWindow.Close ();
 		MyCraftWindow.Close ();
 		MyButtonsOverlay.Close ();
@@ -349,7 +349,7 @@ public class GameManager : MonoBehaviour {
 		}
 
 		if (farmMission != null) {
-			OpenMissionWindow (FindObjectOfType<ExpeditionCenter> (), farmMission);
+			OpenMissionWindow (/*FindObjectOfType<ExpeditionCenter> (),*/ farmMission);
 		} else {
 			OpenPopUp ("No such mission, try button in top left corner");
 		}

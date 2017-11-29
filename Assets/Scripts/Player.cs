@@ -24,6 +24,8 @@ public class Player : MonoBehaviour {
 	public List<ShipData> CurrentTeam;
 	public List<TradeShipData> HomeTeam;
 
+	// TODO: Save player ship coordinates; save missions
+
 	void Awake () {
 		if (Instance == null) {			
 			Instance = this;

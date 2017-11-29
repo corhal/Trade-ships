@@ -33,7 +33,7 @@ public class TradeShipMover : MonoBehaviour {
 			shouldMove = true;
 		}
 		if (Destination != null && shouldMove) { 
-			float tempSpeed = 2.0f;
+			float tempSpeed = 1.0f;
 			float step = tempSpeed * Time.deltaTime;
 			transform.position = Vector2.MoveTowards (transform.position, Destination, step);
 			transform.position = new Vector3 (transform.position.x, transform.position.y, initialZ);

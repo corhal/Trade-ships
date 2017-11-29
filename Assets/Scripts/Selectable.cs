@@ -52,6 +52,7 @@ public class Selectable : MonoBehaviour {
 
 	public void MoveShipHere () {
 		PlayerShip.Instance.MoveToPoint (transform.position);
+		gameManager.CloseContextButtons (true);
 	}
 
 	public virtual float GetProcessSeconds () {
