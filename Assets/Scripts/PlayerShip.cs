@@ -43,9 +43,7 @@ public class PlayerShip : MonoBehaviour {
 			Destroy (other.gameObject);
 		} else if (other.gameObject.GetComponent<Building> () != null && other.gameObject.GetComponent<Building> ().Allegiance == Allegiance.Neutral) {
 			gameManager.OpenPopUp ("You claimed the island of <color=blue>" + other.gameObject.GetComponent<Building> ().MyIsland.Name + "</color> and all its buildings!");
-			foreach (var building in other.gameObject.GetComponent<Building> ().MyIsland.Buildings) {
-				building.Allegiance = Allegiance.Player;
-			}
+			other.gameObject.GetComponent<Building> ().MyIsland.Claim ();
 		}
 	}
 

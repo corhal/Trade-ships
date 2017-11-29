@@ -30,6 +30,11 @@ public class UIController : MonoBehaviour {
 		Tooltip.gameObject.SetActive (false);
 	}
 
+	void OnDestroy () {
+		BJSkillButton.OnSkillButtonClicked -= BJSkillButton_OnSkillButtonClicked;
+		BJSkillButton.OnSkillButtonReleased -= BJSkillButton_OnSkillButtonReleased;
+	}
+
 	/*public void ShowToolTip (GameObject caller, string header, string mainText) {
 
 	}*/

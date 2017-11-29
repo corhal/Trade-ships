@@ -194,7 +194,7 @@ public class BJGameController : MonoBehaviour {
 			do {
 				indexOfIndex = Random.Range (0, CurrentCreatureObject.CurrentSkill.ValidTargetIndexes.Count);
 				index = CurrentCreatureObject.CurrentSkill.ValidTargetIndexes[indexOfIndex];
-			} while (PlayerCreatureObjects[index].Creature.HP <= 0);
+			} while (PlayerCreatureObjects.Count <= index || PlayerCreatureObjects[index].Creature.HP <= 0);
 			foreach (var playerCreatureObject in PlayerCreatureObjects) {
 				foreach (var effect in playerCreatureObject.Effects) {
 					if (playerCreatureObject.Creature.HP > 0 && effect is BJAggroEffect) {

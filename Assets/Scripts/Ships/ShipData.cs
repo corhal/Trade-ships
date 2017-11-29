@@ -61,7 +61,11 @@ public class ShipData {
 		}
 		RankColor = rankColor;
 
-		Skills = new List<Skill> (skills);
+		if (skills != null) {
+			Skills = new List<Skill> (skills);
+		} else {
+			Skills = new List<Skill> ();
+		}
 
 		if (levelRequirements != null) {
 			this.LevelRequirements = new List<int> (levelRequirements);

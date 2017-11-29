@@ -69,7 +69,9 @@ public class MissionWindow : MonoBehaviour {
 		foreach (var enemy in Enemies) {
 			GameObject shipElementObject = Instantiate (EnemyElementPrefab) as GameObject;
 			ShipElement shipElement = shipElementObject.GetComponent<ShipElement> ();
-			shipElement.PortraitImage.sprite = Player.Instance.DataBase.CreaturePortraitsByNames [enemy.Name];
+			if (Player.Instance.DataBase.CreaturePortraitsByNames.ContainsKey(enemy.Name)) {
+				shipElement.PortraitImage.sprite = Player.Instance.DataBase.CreaturePortraitsByNames [enemy.Name];
+			}
 			shipElement.NameLabel.text = enemy.Name;
 			shipElement.LevelLabel.text = enemy.Level.ToString ();
 

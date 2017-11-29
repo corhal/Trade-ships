@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class Port : Building {
+	public GameObject TradeShipPrefab;
 	public Slider CargoSlider;
 	public Text IslandLabel;
 	public List<TradeShip> DockedTradeShips;
@@ -95,5 +96,13 @@ public class Port : Building {
 	public void GiveShipment (Shipment shipment) {
 		Shipments.Remove (shipment);
 		CargoSlider.value = Shipments.Count;
+	}
+
+	public override void Claim () {
+		base.Claim ();
+		GameObject tradeShipObject = Instantiate (TradeShipPrefab) as GameObject;
+		tradeShipObject.transform.position = transform.position;
+		TradeShip tradeShip = tradeShipObject.GetComponent<TradeShip> ();
+		tradeShip.StartIsland = MyIsland;
 	}
 }

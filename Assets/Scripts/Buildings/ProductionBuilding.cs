@@ -66,7 +66,7 @@ public class ProductionBuilding : Building {
 
 	protected override void Update () {
 		base.Update ();
-		if (MyIsland.MyPort.Shipments.Count < MyIsland.MyPort.ShipmentsCapacity) {
+		if (MyIsland.MyPort.Shipments.Count < MyIsland.MyPort.ShipmentsCapacity && Allegiance == Allegiance.Player) {
 			if (!shouldProduceShipments) {
 				timer = 0.0f;
 				// ProcessSlider.value = timer;

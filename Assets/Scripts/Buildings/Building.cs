@@ -52,6 +52,7 @@ public class Building : Selectable {
 	public virtual void InitializeFromData (BuildingData buildingData) {
 		Level = buildingData.Level;
 		Name = buildingData.Name;
+		Allegiance = buildingData.Allegiance;
 		UnderConstruction = buildingData.UnderConstruction;
 		BuildCosts = new List<Dictionary<string, int>> (buildingData.BuildCosts); // potentially dangerous
 		UpgradeCosts = new List<int> (buildingData.UpgradeCosts);
@@ -100,5 +101,9 @@ public class Building : Selectable {
 		} else {
 			gameManager.OpenPopUp ("Can't upgrade: not enough items");
 		}
+	}
+
+	public virtual void Claim () {
+		Allegiance = Allegiance.Player;
 	}
 }

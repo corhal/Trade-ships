@@ -4,7 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class TradeShip : Selectable {	
+	public GameObject DepartButtonObject;
 	public Island StartIsland;
+	public Island CurrentDestination;
 	public TradeShipData TradeShipData;
 	public TradeShipMover TradeShipMover;
 
@@ -93,6 +95,9 @@ public class TradeShip : Selectable {
 	void OnTriggerEnter2D (Collider2D other) { // will work even when passing through another port
 		if (Allegiance != Allegiance.Enemy && other.gameObject.GetComponent<Port> () != null) {
 			UnloadCargo (other.gameObject.GetComponent<Port> ());
+			if (other.gameObject.GetComponent<Port> ().MyIsland != StartIsland) {
+				DepartButtonObject.SetActive (true);
+			}
 		}
 	}
 
@@ -121,18 +126,31 @@ public class TradeShip : Selectable {
 		shipmentsToDestroy.Clear ();
 	}
 
-	public void TakeCargo () {
-		Island destination = null;
+	public void TakeCargo () {		
+		List<Shipment> shipmentsToRemove = new List<Shipment> ();
 		foreach (var shipment in currentPort.Shipments) {
-			TakeShipment (shipment);
-			destination = shipment.Destination;
+			if (ShipmentsCapacity - TradeShipData.TotalWeight >= shipment.Cargo) {	
+				shipmentsToRemove.Add (shipment);
+				TakeShipment (shipment);
+				CurrentDestination = shipment.Destination;
+			}
+		}
+		foreach (var shipment in shipmentsToRemove) {
+			currentPort.GiveShipment (shipment);
 		}
 		if (Shipments.Count > 0) {
-			tradeShipMover.MoveToPosition (destination.MyPort.transform.position);
-			docked = false;
-		} else if (currentPort.MyIsland != StartIsland) { // дичайший говнокод
+			DepartButtonObject.SetActive (true);
+		}
+	}
+
+	public void Depart () {
+		if (currentPort.MyIsland != StartIsland) { // дичайший говнокод
 			tradeShipMover.MoveToPosition (StartIsland.MyPort.transform.position);
 			docked = false;
+		} else {
+			tradeShipMover.MoveToPosition (CurrentDestination.MyPort.transform.position);
+			docked = false;
 		}
+		DepartButtonObject.SetActive (false);
 	}
 }

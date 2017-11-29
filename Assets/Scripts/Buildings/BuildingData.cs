@@ -8,6 +8,7 @@ public class BuildingData {
 	public int Level;
 	public string Name;
 
+	public Allegiance Allegiance;
 	public bool UnderConstruction;
 
 	public List<Dictionary<string, int>> BuildCosts;
@@ -17,6 +18,7 @@ public class BuildingData {
 	public virtual void InitializeFromBuilding (Building building) {
 		Level = building.Level;
 		Name = building.Name;
+		Allegiance = building.Allegiance;
 		UnderConstruction = building.UnderConstruction;
 		BuildCosts = new List<Dictionary<string, int>> (building.BuildCosts); // potentially dangerous
 		UpgradeCosts = new List<int> (building.UpgradeCosts);

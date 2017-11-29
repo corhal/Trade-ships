@@ -11,6 +11,13 @@ public class Island : MonoBehaviour {
 
 	void Awake () {
 		MyPort = GetComponentInChildren<Port> ();
-		Buildings = new List<Building> ();
+		Buildings = new List <Building> (GetComponentsInChildren<Building> ());
+	}
+
+	public void Claim () {
+		// MyPort.Claim ();
+		foreach (var building in Buildings) {
+			building.Claim ();
+		}
 	}
 }

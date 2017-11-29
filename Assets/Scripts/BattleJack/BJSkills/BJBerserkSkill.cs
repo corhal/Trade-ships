@@ -26,9 +26,9 @@ public class BJBerserkSkill : BJSkill {
 
 		List<int> KeysToList = TargetPriorities.Keys.ToList ();
 		for (int i = TargetPriorities.Keys.Count - 1; i >= 0; i--) {			
-			if (ourCreatureObjects[KeysToList[i]].Creature.HP <= 0) {
+			if (ourCreatureObjects.Count > KeysToList[i] && ourCreatureObjects[KeysToList[i]].Creature.HP <= 0) {
 				TargetPriorities.Remove (KeysToList [i]);
-			} else if (TargetPriorities[KeysToList [i]] < minPriority) {
+			} else if (ourCreatureObjects.Count > KeysToList[i] && TargetPriorities[KeysToList [i]] < minPriority) {
 				minPriority = TargetPriorities [KeysToList [i]];
 			}
 		}
