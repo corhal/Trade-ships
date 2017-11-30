@@ -12,16 +12,16 @@ public class Shipment {
 
 	//public Island StartIsland;
 	//public Island Destination;
-	public Island Destination;
+	// public Island Destination;
 	public string DestinationString;
 	public int Reward;
 	public int Cargo;
 
 	public float Distance;
 
-	public Shipment (Item goods, string startIslandName, string destinationislandName, Island destination, int cargo, int reward) {
+	public Shipment (Item goods, string startIslandName, string destinationislandName, /*Island destination,*/ int cargo, int reward) {
 		this.Goods = goods;
-		this.Destination = destination;
+		// this.Destination = destination;
 		this.StartIslandName = startIslandName;
 		this.DestinationIslandName = destinationislandName;
 		this.Reward = reward;

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour {
 
+	public PlayerShip PlayerShip;
 	public GameObject CityHUD;
 	public GameObject BattleHUD;
 
@@ -66,6 +67,16 @@ public class GameManager : MonoBehaviour {
 		Player.Instance.Energy += 100;
 	}
 
+	public Island GetIslandByName (string islandName) {
+		Island resultIsland = null;
+		foreach (var island in Islands) {
+			if (island.Name == islandName) {
+				resultIsland = island;
+			}
+		}
+		return resultIsland;
+	}
+
 	void Start () {	
 		Buildings = new List<Building> (GameObject.FindObjectsOfType<Building>());
 
@@ -85,6 +96,18 @@ public class GameManager : MonoBehaviour {
 					}
 				}
 			}
+			PlayerShip.gameObject.transform.position = Player.Instance.PlayerShipCoordinates;
+
+			Player.Instance.TradeShips.Clear ();
+			foreach (var tradeShipData in Player.Instance.TradeShipDatas) {
+				GameObject tradeShipObject = Instantiate (TradeShipPrefab) as GameObject;
+				// tradeShipObject.transform.position = transform.position;
+				TradeShip tradeShip = tradeShipObject.GetComponent<TradeShip> ();
+				tradeShip.TradeShipData = tradeShipData;
+
+				tradeShip.StartIsland = GetIslandByName (tradeShipData.StartIslandName);
+				Player.Instance.TradeShips.Add (tradeShip);
+			}
 
 			// temp solution:
 			if (Player.Instance.CurrentMission != null) {
@@ -96,12 +119,16 @@ public class GameManager : MonoBehaviour {
 		} else if (!isBattle) {			
 			Player.Instance.CreateShipDatas ();
 			Player.Instance.SaveBuildings (Buildings);
+			Player.Instance.SavePlayerShip (PlayerShip);
+			Player.Instance.SaveTradeShipDatas ();
 			Player.Instance.FirstLoad = false;
 		}
 	}			
 
 	public void LoadBattle () {
 		Player.Instance.SaveBuildings (Buildings);
+		Player.Instance.SavePlayerShip (PlayerShip);
+		Player.Instance.SaveTradeShipDatas ();
 		Player.Instance.LoadBattle ();
 	}
 

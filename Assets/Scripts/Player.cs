@@ -12,6 +12,7 @@ public class Player : MonoBehaviour {
 	public List<BuildingData> BuildingDatas;
 	public List<ShipData> ShipDatas;
 	public List<TradeShipData> TradeShipDatas;
+	public List<TradeShip> TradeShips;
 	public bool FirstLoad = true;
 	public int Gold;
 
@@ -23,6 +24,8 @@ public class Player : MonoBehaviour {
 
 	public List<ShipData> CurrentTeam;
 	public List<TradeShipData> HomeTeam;
+
+	public Vector3 PlayerShipCoordinates;
 
 	// TODO: Save player ship coordinates; save missions
 
@@ -50,6 +53,16 @@ public class Player : MonoBehaviour {
 				BuildingDatas.Add (buildingData);
 			}
 		}
+	}
+
+	public void SaveTradeShipDatas () {
+		foreach (var tradeShip in TradeShips) {
+			tradeShip.TradeShipData.Coordinates = tradeShip.gameObject.transform.position;
+		}
+	}
+
+	public void SavePlayerShip (PlayerShip playerShip) {
+		PlayerShipCoordinates = playerShip.gameObject.transform.position;
 	}
 
 	public void CreateShipDatas () {

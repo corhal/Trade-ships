@@ -39,16 +39,18 @@ public class TradeShip : Selectable {
 		Name = TradeShipData.Name;
 		Allegiance = TradeShipData.Allegiance;
 
-		if (TradeShipData.Coordinates.Length > 0) {
-			transform.position = new Vector3 (TradeShipData.Coordinates[0], TradeShipData.Coordinates[1], TradeShipData.Coordinates[2]);
-		}
+		// if (TradeShipData.Coordinates.Length > 0) {
+		transform.position = TradeShipData.Coordinates; // new Vector3 (TradeShipData.Coordinates[0], TradeShipData.Coordinates[1], TradeShipData.Coordinates[2]);
+		// }
 
 		CargoSlider.maxValue = ShipmentsCapacity;
 		CargoSlider.value = TradeShipData.TotalWeight;
 
 		CargoSlider.maxValue = ShipmentsCapacity;
 		CargoSlider.value = TradeShipData.TotalWeight;
-
+		if (TradeShipData.StartIslandName == "") {
+			TradeShipData.StartIslandName = StartIsland.Name;
+		} 
 		tradeShipMover.MoveToPosition (StartIsland.MyPort.transform.position);
 	}
 
@@ -133,7 +135,6 @@ public class TradeShip : Selectable {
 			if (ShipmentsCapacity - TradeShipData.TotalWeight >= shipment.Cargo) {	
 				shipmentsToRemove.Add (shipment);
 				TakeShipment (shipment);
-				CurrentDestination = shipment.Destination;
 			}
 		}
 		foreach (var shipment in shipmentsToRemove) {
@@ -149,6 +150,9 @@ public class TradeShip : Selectable {
 			tradeShipMover.MoveToPosition (StartIsland.MyPort.transform.position);
 			docked = false;
 		} else {
+			if (Shipments.Count > 0) {
+				CurrentDestination = gameManager.GetIslandByName (Shipments [0].DestinationIslandName);
+			}
 			tradeShipMover.MoveToPosition (CurrentDestination.MyPort.transform.position);
 			docked = false;
 		}

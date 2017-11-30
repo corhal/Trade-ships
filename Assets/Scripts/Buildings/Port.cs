@@ -104,5 +104,7 @@ public class Port : Building {
 		tradeShipObject.transform.position = transform.position;
 		TradeShip tradeShip = tradeShipObject.GetComponent<TradeShip> ();
 		tradeShip.StartIsland = MyIsland;
+		Player.Instance.TradeShips.Add (tradeShip);
+		Player.Instance.TradeShipDatas.Add (tradeShip.TradeShipData);
 	}
 }

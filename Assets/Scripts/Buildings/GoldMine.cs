@@ -88,11 +88,11 @@ public class GoldMine : Building {
 	}
 
 	void ProduceShipment () {		
-		int reward = Random.Range (MinRewards [Level], MaxRewards [Level] + 1);
+		/*int reward = Random.Range (MinRewards [Level], MaxRewards [Level] + 1);
 		int cargo = Random.Range (MinCargos [Level], MaxCargos [Level] + 1);
 		Item goods = gameManager.GetItemByName (GoodsName);
 		Shipment shipment = new Shipment (goods, MyIsland.Name, Destination.Name, Destination, cargo, reward);
-		MyIsland.MyPort.TakeShipment (shipment);
+		MyIsland.MyPort.TakeShipment (shipment);*/
 	}
 
 	Island RandomIsland () {

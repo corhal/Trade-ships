@@ -10,19 +10,22 @@ public class TradeShipData {
 	public string Name;
 	public Allegiance Allegiance;
 	public int ShipmentsCapacity;
-	public float[] Coordinates;
-
+	// public float[] Coordinates;
+	public Vector3 Coordinates;
+	public string StartIslandName;
 
 	public TradeShipData () {
 
 	}
 
-	public TradeShipData (string name, Allegiance allegiance, int shipmentsCapacity, float[] coordinates, List<Shipment> shipments) {
+	public TradeShipData (string name, string startIslandName, Allegiance allegiance, int shipmentsCapacity, Vector3 coordinates, List<Shipment> shipments) {
 		Name = name;
 		Allegiance = allegiance;
+		StartIslandName = startIslandName;
 		ShipmentsCapacity = shipmentsCapacity;
-		Coordinates = new float[coordinates.Length];
-		coordinates.CopyTo (Coordinates, 0);
+		Coordinates = coordinates;
+		/*Coordinates = new float[coordinates.Length];
+		coordinates.CopyTo (Coordinates, 0);*/
 		if (shipments != null) {
 			Shipments = new List<Shipment> (shipments);
 		} else {
