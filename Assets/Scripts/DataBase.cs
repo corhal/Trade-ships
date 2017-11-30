@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class DataBase : MonoBehaviour {
 
+	public Sprite ActiveStarSprite;
+	public Sprite InactiveStarSprite;
+
 	public Dictionary<string, Sprite> ItemIconsByNames;
 	public List<Sprite> ItemIcons;
 	public List<string> ItemNames;

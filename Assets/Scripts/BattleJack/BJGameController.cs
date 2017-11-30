@@ -224,6 +224,7 @@ public class BJGameController : MonoBehaviour {
 		}
 		if (deadCount == EnemyCreatureObjects.Count) {		
 			if (Player.Instance != null) {
+				Player.Instance.CurrentMission.Stars = 3;
 				Player.Instance.LoadVillage ();
 			} else {
 				SceneManager.LoadScene (1);

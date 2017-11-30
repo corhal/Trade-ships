@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour {
 	public List<Ship> Ships;
 	public List<TradeShip> TradeShips;
 	public List<Building> Buildings;
+	public List<MissionObject> MissionObjects;
 
 	public BattleSkillsWindow MyBattleSkillsWindow;
 	public TeamSelectionWindow MyTeamSelectionWindow;
@@ -79,6 +80,7 @@ public class GameManager : MonoBehaviour {
 
 	void Start () {	
 		Buildings = new List<Building> (GameObject.FindObjectsOfType<Building>());
+		MissionObjects = new List<MissionObject> (GameObject.FindObjectsOfType<MissionObject> ());
 
 		if (!isBattle) {
 			CityHUD.SetActive (true);
@@ -96,6 +98,15 @@ public class GameManager : MonoBehaviour {
 					}
 				}
 			}
+			for (int i = 0; i < MissionObjects.Count; i++) {
+				for (int j = 0; j < Player.Instance.Missions.Count; j++) { // ОЛОЛО ОЛОЛО Я ВОДИТЕЛЬ НЛО					
+					if (MissionObjects [i].Name == Player.Instance.Missions [j].Name) {
+						MissionObjects [i].Mission = Player.Instance.Missions [j];
+					}
+				}
+			}
+
+
 			PlayerShip.gameObject.transform.position = Player.Instance.PlayerShipCoordinates;
 
 			Player.Instance.TradeShips.Clear ();

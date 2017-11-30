@@ -27,6 +27,7 @@ public class MoveOnClick : MonoBehaviour {
 	public void MoveToPoint (Vector2 target) {
 		start = transform.position;
 		this.target = target;
+		this.target = start + (this.target - start) * 0.7f;
 		fullTraveledDistance = 0.0f;
 		traveledDistance = 0;
 		DrawLine (start, target);

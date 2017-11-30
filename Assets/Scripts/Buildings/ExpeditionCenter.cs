@@ -58,7 +58,7 @@ public class ExpeditionCenter : Building {
 				possibleRewards.Add (validItems [index].Name, Random.Range(1, 6));
 				rewardChances.Add (validItems [index].Name, Random.Range (0.3f, 0.7f));
 			}
-			Missions.Add (new Mission (rewardChances, possibleRewards, enemyShips));
+			Missions.Add (new Mission ("Mission", rewardChances, possibleRewards, enemyShips));
 		}
 	}
 

@@ -5,6 +5,7 @@ using UnityEngine;
 [System.Serializable]
 public class Mission {
 
+	public string Name;
 	public Dictionary<string, float> RewardChances;
 	public Dictionary<string, int> PossibleRewards;
 
@@ -14,13 +15,16 @@ public class Mission {
 	public bool InProgress;
 	GameManager gameManager;
 
-	public Mission (Dictionary<string, float> rewardChances, Dictionary<string, int> possibleRewards, List<ShipData> enemyShips) {
+	public int Stars;
+
+	public Mission (string name, Dictionary<string, float> rewardChances, Dictionary<string, int> possibleRewards, List<ShipData> enemyShips) {
+		Name = name;
 		gameManager = GameManager.Instance;
 		PossibleRewards = possibleRewards;
 		RewardChances = rewardChances;
 		EnemyShips = enemyShips;
 		Seconds = 5;
-
+		Stars = 0;
 		Dictionary<string, int> rewards = GiveReward ();
 		List<RewardChest> rewardChests = new List<RewardChest>();
 		foreach (var amountByItem in rewards) {

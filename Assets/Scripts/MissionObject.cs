@@ -1,18 +1,27 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MissionObject : Selectable {
 
 	public Mission Mission;
 
+	public Image[] Stars;
+
 	protected override void Start () {
 		base.Start ();
-		CreateMission ();
+		if (Mission.EnemyShips.Count == 0) {
+			CreateMission ();
+			Player.Instance.Missions.Add (Mission);
+		}
+		for (int i = 0; i < Mission.Stars; i++) {
+			Stars [i].sprite = Player.Instance.DataBase.ActiveStarSprite;
+		}
 	}
 
 
-	public void CreateMission () {
+	public void CreateMission () { // TODO: перенести это в более высокий класс, чтобы назначать имя нормальнее
 		List<BJCreature> enemyCreatures = new List<BJCreature> (Player.Instance.BJDataBase.EnemyCreatures);
 
 		Utility.Shuffle (enemyCreatures);
@@ -51,7 +60,6 @@ public class MissionObject : Selectable {
 			rewardChances.Add (validItems [index].Name, Random.Range (0.3f, 0.7f));
 		}
 
-		Mission = new Mission (rewardChances, possibleRewards, enemyShips);
-
+		Mission = new Mission (Name, rewardChances, possibleRewards, enemyShips);
 	}
 }

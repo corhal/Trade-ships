@@ -8,6 +8,7 @@ public class Player : MonoBehaviour {
 	public int MaxEnergy;
 	public int Energy;
 
+	public List<Mission> Missions;
 	public Mission CurrentMission;
 	public List<BuildingData> BuildingDatas;
 	public List<ShipData> ShipDatas;
@@ -26,8 +27,6 @@ public class Player : MonoBehaviour {
 	public List<TradeShipData> HomeTeam;
 
 	public Vector3 PlayerShipCoordinates;
-
-	// TODO: Save player ship coordinates; save missions
 
 	void Awake () {
 		if (Instance == null) {			
@@ -70,7 +69,7 @@ public class Player : MonoBehaviour {
 
 		List<BJCreature> creatures = BJDataBase.Creatures;
 		for (int j = 0; j < creatures.Count; j++) {
-			bool summoned = (j < 3) ? true : false;
+			bool summoned = (j > 0 && j < 6) ? true : false;
 
 			List<Skill> skills = new List<Skill> ();
 			foreach (var skillName in creatures[j].SkillNames) {
