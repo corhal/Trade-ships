@@ -11,6 +11,8 @@ public class PlayerShip : MonoBehaviour {
 
 	public int EnergyPerDistance;
 
+	Collider2D lastSeenCollider;
+
 	void Awake () {
 		if (Instance == null) {			
 			Instance = this;
@@ -20,6 +22,31 @@ public class PlayerShip : MonoBehaviour {
 		player = Player.Instance;
 		gameManager = GameManager.Instance;
 		mover = GetComponent<MoveOnClick> ();
+		mover.OnFinishedMoving += Mover_OnFinishedMoving;
+	}
+
+	void Mover_OnFinishedMoving (MoveOnClick sender) {
+		if (lastSeenCollider.gameObject.GetComponent<Shipwreck> () != null) {
+			Dictionary<string, int> rewards = new Dictionary<string, int> ();
+			foreach (var rewardChest in lastSeenCollider.gameObject.GetComponent<Shipwreck> ().RewardChests) {
+				player.TakeItems (rewardChest.RewardItems);
+				foreach (var amountByItem in rewardChest.RewardItems) {
+					if (!rewards.ContainsKey(amountByItem.Key)) {
+						rewards.Add (amountByItem.Key, amountByItem.Value);
+					} else {
+						rewards [amountByItem.Key] += amountByItem.Value;
+					}
+				}
+			}
+			gameManager.OpenImagesPopUp ("Reward: ", rewards);
+			Destroy (lastSeenCollider.gameObject);
+		} else if (lastSeenCollider.gameObject.GetComponent<Building> () != null && lastSeenCollider.gameObject.GetComponent<Building> ().Allegiance == Allegiance.Neutral) {
+			gameManager.OpenPopUp ("You claimed the island of <color=blue>" + lastSeenCollider.gameObject.GetComponent<Building> ().MyIsland.Name + "</color> and all its buildings!");
+			lastSeenCollider.gameObject.GetComponent<Building> ().MyIsland.Claim ();
+			Debug.Log ("Claiming island " + lastSeenCollider.gameObject.GetComponent<Building> ().MyIsland.Name);
+		} else if (lastSeenCollider.gameObject.GetComponent<MissionObject> () != null) {
+			gameManager.OpenMissionWindow (lastSeenCollider.gameObject.GetComponent<MissionObject> ().Mission);
+		}
 	}
 
 	void Start () {
@@ -27,7 +54,8 @@ public class PlayerShip : MonoBehaviour {
 	}
 
 	void OnTriggerEnter2D (Collider2D other) { // will work even when passing through
-		if (other.gameObject.GetComponent<Shipwreck> () != null) {
+		lastSeenCollider = other;
+		/*if (other.gameObject.GetComponent<Shipwreck> () != null) {
 			Dictionary<string, int> rewards = new Dictionary<string, int> ();
 			foreach (var rewardChest in other.gameObject.GetComponent<Shipwreck> ().RewardChests) {
 				player.TakeItems (rewardChest.RewardItems);
@@ -47,10 +75,14 @@ public class PlayerShip : MonoBehaviour {
 			Debug.Log ("Claiming island " + other.gameObject.GetComponent<Building> ().MyIsland.Name);
 		} else if (other.gameObject.GetComponent<MissionObject> () != null) {
 			gameManager.OpenMissionWindow (other.gameObject.GetComponent<MissionObject> ().Mission);
-		}
+		}*/
 	}
 
 	public void MoveToPoint (Vector2 target) {
 		mover.MoveToPoint (target);
+	}
+
+	void OnDestroy () {
+		mover.OnFinishedMoving -= Mover_OnFinishedMoving;
 	}
 }

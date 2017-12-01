@@ -76,10 +76,14 @@ public class Player : MonoBehaviour {
 				
 				skills.Add (BJDataBase.SkillsByNames [skillName]);
 			}
+			Sprite soulstoneSprite = null;
+			if (Player.Instance.BJDataBase.CreaturePortraitsByNames.ContainsKey (creatures [j].Name)) {
+				soulstoneSprite = Player.Instance.BJDataBase.CreaturePortraitsByNames [creatures [j].Name];
+			}
 
-			Item soulstone = new Item ((creatures [j].Name + " soulstone"), null, null, false, false, new Dictionary<string, int> ());
+			Item soulstone = new Item ((creatures [j].Name + " soulstone"), null, soulstoneSprite, false, false, new Dictionary<string, int> ());
 			if (!DataBase.ItemIconsByNames.ContainsKey (soulstone.Name)) {
-				DataBase.ItemIconsByNames.Add (soulstone.Name, null);
+				DataBase.ItemIconsByNames.Add (soulstone.Name, soulstoneSprite);
 			}
 			if (!DataBase.TempItemLibrary.Contains (soulstone)) {
 				DataBase.TempItemLibrary.Add (soulstone);
@@ -159,6 +163,7 @@ public class Player : MonoBehaviour {
 			}
 			Inventory [amountByItemName.Key] -= amountByItemName.Value;
 		}
+		// Debug.Log("Giving items: " +
 	}
 
 	public void TakeItems (Dictionary<string, int> amountsByItemNames) {

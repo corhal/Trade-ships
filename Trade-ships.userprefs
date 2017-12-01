@@ -1,21 +1,21 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\BattleJack\BJGameController.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\UI\Windows\ShipWindow.cs">
     <Files>
-      <File FileName="Assets\Scripts\Shipment.cs" Line="21" Column="2" />
-      <File FileName="Assets\Scripts\GameManager.cs" Line="100" Column="4" />
+      <File FileName="Assets\Scripts\Shipment.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\GameManager.cs" Line="380" Column="37" />
       <File FileName="Assets\Scripts\Utility.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\MoveOnClick.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\MoveOnClick.cs" Line="106" Column="29" />
       <File FileName="Assets\Scripts\Action.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Player.cs" Line="60" Column="82" />
+      <File FileName="Assets\Scripts\Player.cs" Line="170" Column="57" />
       <File FileName="Assets\Scripts\Item.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Mission.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Buildings\ExpeditionCenter.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Buildings\Port.cs" Line="107" Column="37" />
+      <File FileName="Assets\Scripts\Buildings\ExpeditionCenter.cs" Line="22" Column="21" />
+      <File FileName="Assets\Scripts\Buildings\Port.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Buildings\Building.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Island.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Selectable.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Buildings\ProductionBuilding.cs" Line="94" Column="54" />
+      <File FileName="Assets\Scripts\Buildings\ProductionBuilding.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\CameraDrag.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\DragController.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\CannonBall.cs" Line="1" Column="1" />
@@ -24,28 +24,28 @@
       <File FileName="Assets\Scripts\Region.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Buildings\ThievesGuild.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Ships\Skill.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Ships\ShipData.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Ships\ShipData.cs" Line="40" Column="13" />
       <File FileName="Assets\Scripts\Ships\EnemyMover.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\BattleManager.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\DataBase.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\UI\Windows\TeamSelectionWindow.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\UI\Windows\ShipWindow.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\UI\Windows\TeamSelectionWindow.cs" Line="77" Column="57" />
+      <File FileName="Assets\Scripts\UI\Windows\ShipWindow.cs" Line="144" Column="17" />
       <File FileName="Assets\Scripts\UI\Windows\PortWindow.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\UI\Windows\FortWindow.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Ships\TradeShip.cs" Line="148" Column="25" />
-      <File FileName="Assets\Scripts\Ships\TradeShipData.cs" Line="24" Column="37" />
+      <File FileName="Assets\Scripts\Ships\TradeShip.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Ships\TradeShipData.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Ships\RewardChest.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Ships\Shipwreck.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\UI\Windows\ImagesPopUp.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\UI\Windows\PopUp.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\UI\Windows\MissionWindow.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\UI\Windows\MissionWindow.cs" Line="73" Column="36" />
       <File FileName="Assets\Scripts\UI\Elements\ShipSkillButton.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\UI\Windows\BattleSkillsWindow.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\UI\Elements\SkillElement.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\UI\Elements\SkillElement.cs" Line="14" Column="26" />
       <File FileName="Assets\Scripts\UI\Elements\ShipListElement.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\BattleJack\BJDeck.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\BattleJack\BJGameController.cs" Line="249" Column="20" />
-      <File FileName="Assets\Scripts\BattleJack\BJDataBase.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\BattleJack\BJGameController.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\BattleJack\BJDataBase.cs" Line="49" Column="3" />
       <File FileName="Assets\Scripts\BattleJack\BJPlayer.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\BattleJack\BJCreatureObject.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\BattleJack\BJCreature.cs" Line="1" Column="1" />
@@ -60,7 +60,7 @@
       <File FileName="Assets\Scripts\BattleJack\BJEffects\BJSlow.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\BattleJack\BJSkills\BJMeleeSkill.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\BattleJack\BJSkillButton.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\UI\Windows\ShipsCatalogWindow.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\UI\Windows\ShipsCatalogWindow.cs" Line="53" Column="57" />
       <File FileName="Assets\Scripts\UI\Elements\ShipElement.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\BattleJack\BJSkills\BJDodgePassiveBuff.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\BattleJack\BJEffects\BJDodge.cs" Line="1" Column="1" />
@@ -100,13 +100,14 @@
       <File FileName="Assets\Scripts\BattleJack\UIController.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\BattleJack\BJMover.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\BattleJack\BJFlyingText.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\PlayerShip.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\PlayerShip.cs" Line="83" Column="3" />
       <File FileName="Assets\Scripts\Buildings\BuildingData.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\UI\Windows\CraftWindow.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\UI\Windows\CraftWindow.cs" Line="20" Column="27" />
       <File FileName="Assets\Scripts\UI\Windows\UIOverlay.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Buildings\Fort.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Buildings\GoldMine.cs" Line="95" Column="45" />
+      <File FileName="Assets\Scripts\Buildings\GoldMine.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Ships\TradeShipMover.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\UI\Elements\CraftElement.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

@@ -22,7 +22,7 @@ public class ExpeditionCenter : Building {
 		CreateMissions ();
 
 		Action showMissionsAction = new Action ("Show missions", 0, player.DataBase.ActionIconsByNames["Show missions"], ShowMissions);
-		actions.Add (showMissionsAction);
+		// actions.Add (showMissionsAction);
 	}
 
 	public void CreateMissions () {

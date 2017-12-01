@@ -125,6 +125,8 @@ public class ShipWindow : MonoBehaviour {
 						//gameManager.FindMissionForItem(item);
 					});
 				}
+			} else {
+				ItemImages [i].color = new Color (1.0f, 1.0f, 1.0f, 1.0f);
 			}
 		}
 
@@ -146,8 +148,12 @@ public class ShipWindow : MonoBehaviour {
 			skillElement.SkillUpgradeButton.onClick.RemoveAllListeners ();
 		}
 
-		for (int i = 1; i < currentShipData.Skills.Count; i++) {
+		for (int i = 1; i < currentShipData.Skills.Count; i++) {			
 			SkillElements [i - 1].SkillNameLabel.text = currentShipData.Skills [i].Name;
+			if (Player.Instance.BJDataBase.BJSkillsByNames.ContainsKey (currentShipData.Skills [i].Name)) {
+				SkillElements [i - 1].SkillImage.sprite = Player.Instance.BJDataBase.BJSkillsByNames [currentShipData.Skills [i].Name].SkillIcon;
+			}
+
 			int stupidLambdaCounter = i;
 
 			if ((int)currentShipData.RankColor < (int) RankColorRequirements [i - 1]) {

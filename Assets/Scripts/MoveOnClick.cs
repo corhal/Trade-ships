@@ -23,11 +23,12 @@ public class MoveOnClick : MonoBehaviour {
 
 	public delegate void StartedMoving (MoveOnClick sender);
 	public event StartedMoving OnStartedMoving;
+	public event StartedMoving OnFinishedMoving;
 
 	public void MoveToPoint (Vector2 target) {
 		start = transform.position;
 		this.target = target;
-		this.target = start + (this.target - start) * 0.7f;
+		this.target = start + (this.target - start) * 0.8f;
 		fullTraveledDistance = 0.0f;
 		traveledDistance = 0;
 		DrawLine (start, target);
@@ -102,6 +103,7 @@ public class MoveOnClick : MonoBehaviour {
 			lineRenderer.SetPosition(0, transform.position);
 			if (Vector2.Distance (transform.position, target) < 0.0001f) {
 				shouldMove = false;
+				OnFinishedMoving (this);
 				lineRenderer.gameObject.SetActive (false);
 			}
 		}

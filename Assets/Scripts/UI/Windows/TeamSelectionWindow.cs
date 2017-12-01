@@ -73,8 +73,8 @@ public class TeamSelectionWindow : MonoBehaviour {
 		GameObject shipElementObject = Instantiate (ShipElementPrefab) as GameObject;
 		ShipElement shipElement = shipElementObject.GetComponent<ShipElement> ();
 		shipElement.ShipData = shipData;
-		if (Player.Instance.DataBase.CreaturePortraitsByNames.ContainsKey(shipData.Name)) {
-			shipElement.PortraitImage.sprite = Player.Instance.DataBase.CreaturePortraitsByNames [shipData.Name];
+		if (Player.Instance.BJDataBase.CreaturePortraitsByNames.ContainsKey(shipData.Name)) {
+			shipElement.PortraitImage.sprite = Player.Instance.BJDataBase.CreaturePortraitsByNames [shipData.Name];
 		}
 		shipElement.NameLabel.text = shipData.Name;
 		shipElement.LevelLabel.text = shipData.Level.ToString ();

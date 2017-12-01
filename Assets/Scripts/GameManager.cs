@@ -377,20 +377,21 @@ public class GameManager : MonoBehaviour {
 	}
 
 	public void FindMissionForItem (string item) {
-		Mission farmMission = null;
+		OpenPopUp ("Not implemented yet");
+		/*Mission farmMission = null;
 		ExpeditionCenter expeditionCenter = FindObjectOfType<ExpeditionCenter> ();
 		foreach (var mission in expeditionCenter.Missions) {
 			if (mission.PossibleRewards.ContainsKey(item)) {
 				farmMission = mission;
 				break;
 			}
-		}
+		}*/
 
-		if (farmMission != null) {
-			OpenMissionWindow (/*FindObjectOfType<ExpeditionCenter> (),*/ farmMission);
-		} else {
-			OpenPopUp ("No such mission, try button in top left corner");
-		}
+		//if (farmMission != null) {
+			//OpenMissionWindow (/*FindObjectOfType<ExpeditionCenter> (),*/ farmMission);
+		//} else {
+			//OpenPopUp ("No such mission, try button in top left corner");
+		//}
 	}
 
 	public void RefreshMissions () {

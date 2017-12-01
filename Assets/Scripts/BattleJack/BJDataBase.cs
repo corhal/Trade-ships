@@ -28,6 +28,7 @@ public class BJDataBase : MonoBehaviour {
 
 	public List<string> CreatureNames;
 	public Dictionary<string, Sprite> FigurinesByNames;
+	public Dictionary<string, Sprite> CreaturePortraitsByNames;
 
 	void Start () {		
 		Creatures.Add (new BJCreature ("Lucky Ellie", 200, 250, 3, 2, Allegiance.Player, AttackType.Ranged, new List<string>{ "Ranged attack" }));
@@ -44,9 +45,13 @@ public class BJDataBase : MonoBehaviour {
 		EnemyCreatures.Add (new BJCreature ("Skeleton arbalest", 57, 30, 1, 3, Allegiance.Enemy, AttackType.Ranged, new List<string>{ "Ranged attack" }));
 
 		FigurinesByNames = new Dictionary<string, Sprite> ();
+		CreaturePortraitsByNames = new Dictionary<string, Sprite> ();
 
 		for (int i = 0; i < CreatureNames.Count; i++) {
 			FigurinesByNames.Add (CreatureNames [i], CharacterFigurines [i]);
+			if (i < CharacterPortraits.Count) {
+				CreaturePortraitsByNames.Add (CreatureNames [i], CharacterPortraits [i]);
+			}
 		}
 
 		BJSkillsByNames = new Dictionary<string, BJSkill> ();

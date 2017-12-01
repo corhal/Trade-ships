@@ -11,4 +11,5 @@ public class SkillElement : MonoBehaviour {
 
 	public GameObject UnlockNode;
 	public Text UnlockConditionsLabel;
+	public Image SkillImage;
 }
