@@ -99,7 +99,7 @@ public class MissionWindow : MonoBehaviour {
 	}
 
 	public void StartMission () {		
-		gameManager.OpenTeamSelectionWindow (mission);
+		UIOverlay.Instance.OpenTeamSelectionWindow (mission);
 	}
 
 	public void Back () {

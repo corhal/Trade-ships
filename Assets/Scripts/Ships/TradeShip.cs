@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class TradeShip : Selectable {	
+public class TradeShip : MonoBehaviour {	
 	public GameObject DepartButtonObject;
 	public Island StartIsland;
 	public Island CurrentDestination;
@@ -22,22 +22,15 @@ public class TradeShip : Selectable {
 	bool docked;
 	float timer;
 
-	protected override void Awake () {
-		base.Awake ();
+	void Awake () {
 		mover = gameObject.GetComponent<MoveOnClick> ();
 		tradeShipMover = gameObject.GetComponent<TradeShipMover> ();
 		// mover.OnStartedMoving += Mover_OnStartedMoving;
 	}
 
-	protected override void Start () {
-		base.Start ();
-	
-		Process = "Moving";
-		Action moveAction = new Action ("Move", 0, player.DataBase.ActionIconsByNames["Move"], MoveMode);
-		actions.Add (moveAction);
-
-		Name = TradeShipData.Name;
-		Allegiance = TradeShipData.Allegiance;
+	void Start () {
+		// Name = TradeShipData.Name;
+		// Allegiance = TradeShipData.Allegiance;
 
 		// if (TradeShipData.Coordinates.Length > 0) {
 		transform.position = TradeShipData.Coordinates; // new Vector3 (TradeShipData.Coordinates[0], TradeShipData.Coordinates[1], TradeShipData.Coordinates[2]);
@@ -54,8 +47,7 @@ public class TradeShip : Selectable {
 		tradeShipMover.MoveToPosition (StartIsland.MyPort.transform.position);
 	}
 
-	protected override void Update () {
-		base.Update ();
+	void Update () {
 		timer += Time.deltaTime;
 		if (timer > 1.0f && docked) {
 			timer = 0.0f;
@@ -73,7 +65,7 @@ public class TradeShip : Selectable {
 		CargoSlider.value = TradeShipData.TotalWeight;
 	}
 
-	public void MoveMode () {
+	/*public void MoveMode () {
 		gameManager.MoveMode ();
 		// mover.InMoveMode = true;
 	}
@@ -81,9 +73,9 @@ public class TradeShip : Selectable {
 	void Mover_OnStartedMoving (MoveOnClick sender) {
 		InitialProcessSeconds = mover.TimeLeft;
 		InProcess = true;
-	}
+	}*/
 
-	public override float GetProcessSeconds () {		
+	/*public override float GetProcessSeconds () {		
 		if (mover.TimeLeft <= 0.1f) {
 			return 0.0f;
 		}
@@ -91,14 +83,13 @@ public class TradeShip : Selectable {
 	}
 
 	public override void ShowInfo () {
-		gameManager.OpenSelectableInfo (this);
-	}
+		UIOverlay.Instance.OpenSelectableInfo (this);
+	}*/
 
 	void OnTriggerEnter2D (Collider2D other) { // will work even when passing through another port
-		if (Allegiance != Allegiance.Enemy && other.gameObject.GetComponent<Port> () != null) {
+		if (other.gameObject.GetComponent<Port> () != null) {
 			UnloadCargo (other.gameObject.GetComponent<Port> ());
 			if (other.gameObject.GetComponent<Port> ().MyIsland != StartIsland) {
-				// DepartButtonObject.SetActive (true);
 				Invoke ("Depart", 1.5f);
 			}
 		}
@@ -151,7 +142,7 @@ public class TradeShip : Selectable {
 			docked = false;
 		} else {
 			if (Shipments.Count > 0) {
-				CurrentDestination = gameManager.GetIslandByName (Shipments [0].DestinationIslandName);
+				CurrentDestination = GameManager.Instance.GetIslandByName (Shipments [0].DestinationIslandName);
 			}
 			tradeShipMover.MoveToPosition (CurrentDestination.MyPort.transform.position);
 			docked = false;

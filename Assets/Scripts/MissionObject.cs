@@ -6,8 +6,15 @@ using UnityEngine.UI;
 public class MissionObject : Selectable {
 
 	public Mission Mission;
-
+	public bool IsCastle;
 	public Image[] Stars;
+
+	public Island Island;
+
+	protected override void Awake () {
+		base.Awake ();
+		Island = GetComponentInParent<Island> ();
+	}
 
 	protected override void Start () {
 		base.Start ();
@@ -17,6 +24,13 @@ public class MissionObject : Selectable {
 		}
 		for (int i = 0; i < Mission.Stars; i++) {
 			Stars [i].sprite = Player.Instance.DataBase.ActiveStarSprite;
+		}
+		if (IsCastle && Mission.Stars == 3 && Island.Allegiance != Allegiance.Player) {
+			Island.Claim ();
+		}
+		if (Island != null && Island.Allegiance == Allegiance.Player) {
+			// enabled = false;
+			GetComponent<Collider2D>().enabled = false;
 		}
 	}
 
@@ -60,6 +74,6 @@ public class MissionObject : Selectable {
 			rewardChances.Add (validItems [index].Name, Random.Range (0.3f, 0.7f));
 		}
 
-		Mission = new Mission (Name, rewardChances, possibleRewards, enemyShips);
+		Mission = new Mission (Name, IsCastle, rewardChances, possibleRewards, enemyShips);
 	}
 }

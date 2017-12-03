@@ -19,6 +19,7 @@ public class Selectable : MonoBehaviour {
 	public bool InProcess;
 	public float InitialProcessSeconds;
 
+	protected UIOverlay uiManager;
 	protected GameManager gameManager;
 	protected Player player;
 
@@ -31,6 +32,7 @@ public class Selectable : MonoBehaviour {
 		
 		actions = new List<Action> ();
 		gameManager = GameManager.Instance;
+		uiManager = UIOverlay.Instance;
 		player = Player.Instance;
 		Action infoAction = new Action("Info", 0, player.DataBase.ActionIconsByNames["Info"], ShowInfo);
 		Action moveAction = new Action("Move", 0, player.DataBase.ActionIconsByNames["Info"], MoveShipHere);
@@ -47,12 +49,12 @@ public class Selectable : MonoBehaviour {
 	}
 
 	public virtual void ShowInfo () {
-		gameManager.OpenSelectableInfo (this);
+		uiManager.OpenSelectableInfo (this);
 	}
 
 	public void MoveShipHere () {
 		PlayerShip.Instance.MoveToPoint (transform.position);
-		gameManager.CloseContextButtons (true);
+		uiManager.CloseContextButtons (true);
 	}
 
 	public virtual float GetProcessSeconds () {
@@ -89,7 +91,7 @@ public class Selectable : MonoBehaviour {
 
 	void OnMouseDown () {
 		if (IsAvailable && !Utility.IsPointerOverUIObject () && Allegiance != Allegiance.Enemy) {
-			gameManager.OpentContextButtons (this);
+			uiManager.OpenContextButtons (this);
 		}
 	}
 }

@@ -2,6 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum RankColor {
+	White, Green, GreenP, Blue, BlueP, BluePP, Purple, PurpleP, PurplePP, PurplePPP, PurplePPPP, Orange, OrangeP
+}
+
 [System.Serializable]
 public class ShipData {	
 
@@ -131,7 +135,7 @@ public class ShipData {
 				Player.Instance.GiveGold (skill.UpgradeCosts [skill.Level]);
 				skill.Upgrade ();
 			} else {
-				GameManager.Instance.OpenPopUp ("Not enough gold!");
+				UIOverlay.Instance.OpenPopUp ("Not enough gold!");
 			}
 		}
 	}
@@ -152,7 +156,7 @@ public class ShipData {
 			string item = PromoteCosts [(int)RankColor] [i];
 
 			if (!Player.Instance.Inventory.ContainsKey(item) || Player.Instance.Inventory[item] == 0) {
-				GameManager.Instance.OpenPopUp ("Not enough items!");
+				UIOverlay.Instance.OpenPopUp ("Not enough items!");
 				return;
 			}
 		}
@@ -166,7 +170,7 @@ public class ShipData {
 
 	public void EvolveStar () {
 		if (!Player.Instance.Inventory.ContainsKey(Soulstone.Name) || Player.Instance.Inventory[Soulstone.Name] < EvolveCosts[Stars]) {
-			GameManager.Instance.OpenPopUp ("Not enough blueprints!");
+			UIOverlay.Instance.OpenPopUp ("Not enough blueprints!");
 			return;
 		}
 		Player.Instance.GiveItems (new Dictionary<string, int> { { Soulstone.Name, EvolveCosts [Stars] } });

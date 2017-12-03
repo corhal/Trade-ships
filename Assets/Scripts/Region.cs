@@ -32,13 +32,13 @@ public class Region : Selectable {
 	void Unlock () {
 		if (player.Gold >= UnlockCost) {			
 			player.GiveGold (UnlockCost);
-			gameManager.CloseContextButtons (true);
+			UIOverlay.Instance.CloseContextButtons (true);
 			foreach (var selectable in selectables) {
 				selectable.IsAvailable = true;
 			}
 			Destroy (gameObject);
 		} else {
-			gameManager.OpenPopUp ("Not enough gold for unlock");
+			UIOverlay.Instance.OpenPopUp ("Not enough gold for unlock");
 		}
 	}
 }

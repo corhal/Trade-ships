@@ -117,11 +117,11 @@ public class ShipWindow : MonoBehaviour {
 				int stupidLambdaCounter = i;
 				if (Player.Instance.DataBase.ItemsByNames [item].CraftCost != null) {
 					ItemImages [stupidLambdaCounter].GetComponent<Button> ().onClick.AddListener (delegate {
-						gameManager.OpenCraftWindow(null, item);
+						UIOverlay.Instance.OpenCraftWindow(null, item);
 					});
 				} else {
 					ItemImages [stupidLambdaCounter].GetComponent<Button> ().onClick.AddListener (delegate {
-						gameManager.OpenCraftWindow(null, item);
+						UIOverlay.Instance.OpenCraftWindow(null, item);
 						//gameManager.FindMissionForItem(item);
 					});
 				}
@@ -273,11 +273,11 @@ public class ShipWindow : MonoBehaviour {
 					int stupidLambdaCounter = i;
 					if (Player.Instance.DataBase.ItemsByNames [item].CraftCost != null) {
 						ItemImages [stupidLambdaCounter].GetComponent<Button> ().onClick.AddListener (delegate {
-							gameManager.OpenCraftWindow(null, item);
+							UIOverlay.Instance.OpenCraftWindow(null, item);
 						});
 					} else {
 						ItemImages [stupidLambdaCounter].GetComponent<Button> ().onClick.AddListener (delegate {
-							gameManager.FindMissionForItem(item);
+							GameManager.Instance.FindMissionForItem(item);
 						});
 					}
 				}

@@ -98,7 +98,7 @@ public class ShipsCatalogWindow : MonoBehaviour {
 			//List<Ship> AllShips = new List<Ship> (FindObjectsOfType<Ship> ());
 			//foreach (var ship in AllShips) {
 				//if (ship.Name == sender.gameObject.GetComponentInChildren<ShipElement>().ShipData.Name) {
-					gameManager.OpenShipWindow (sender.gameObject.GetComponentInChildren<ShipElement>().ShipData);
+					UIOverlay.Instance.OpenShipWindow (sender.gameObject.GetComponentInChildren<ShipElement>().ShipData);
 					//break;
 				//}
 			//}

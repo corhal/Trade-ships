@@ -24,8 +24,8 @@ public class Port : Building {
 
 	protected override void Start () {
 		base.Start ();
-		showShipmentsAction = new Action ("Show shipments", 0, player.DataBase.ActionIconsByNames["Show shipments"], ShowShipments);
-		actions.Add (showShipmentsAction);
+		// showShipmentsAction = new Action ("Show shipments", 0, player.DataBase.ActionIconsByNames["Show shipments"], ShowShipments);
+		// actions.Add (showShipmentsAction);
 		CargoSlider.maxValue = ShipmentsCapacity;
 		CargoSlider.value = Shipments.Count;
 		if (MyIsland != null) {
@@ -40,23 +40,22 @@ public class Port : Building {
 		Shipments = new List<Shipment> (portData.Shipments);
 	}
 
-	public override int GetStatByString (string statName) {
+	/*public override int GetStatByString (string statName) {
 		switch (statName) {
 		case "Cargo":
 			return ShipmentsCapacity;
 		default:
 			return 0;
 		}
-	}
+	}*/
 
 	void ShowShipments () {
-		gameManager.OpenPortWindow (this, dockedTradeShip);
+		// uiManager.OpenPortWindow (this, dockedTradeShip);
 	}
 
 	void OnTriggerEnter2D (Collider2D other) {
 		if (other.gameObject.GetComponent<TradeShip>() != null) {
 			DockedTradeShips.Add(other.gameObject.GetComponent<TradeShip> ());
-			other.gameObject.GetComponent<TradeShip> ().Actions.Add (showShipmentsAction);
 			if (dockedTradeShip == null) {
 				dockedTradeShip = DockedTradeShips [0];
 			}
@@ -66,7 +65,6 @@ public class Port : Building {
 	void OnTriggerExit2D (Collider2D other) {
 		if (other.gameObject.GetComponent<TradeShip>() != null) {
 			DockedTradeShips.Remove(other.gameObject.GetComponent<TradeShip> ());
-			other.gameObject.GetComponent<TradeShip> ().Actions.Remove (showShipmentsAction);
 			if (DockedTradeShips.Count == 0) {
 				dockedTradeShip = null;
 			} else {

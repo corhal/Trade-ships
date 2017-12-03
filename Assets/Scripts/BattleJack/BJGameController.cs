@@ -25,6 +25,7 @@ public class BJGameController : MonoBehaviour {
 
 	public GameObject PlayerShipObject;
 	public GameObject EnemyShipObject;
+	public GameObject EnemyCastleObject;
 
 	bool isPreparingForBattle;
 
@@ -55,23 +56,31 @@ public class BJGameController : MonoBehaviour {
 		ApplyPassiveSkills ();
 		FormQueue ();
 		isPreparingForBattle = true;
+		if (Player.Instance.CurrentMission.IsCastle) {
+			EnemyShipObject.SetActive (false);
+			EnemyCastleObject.SetActive (true);
+		}
 	}
 
 	void Update () {
 		if (isPreparingForBattle) {
 			if (Vector2.Distance(PlayerShipObject.transform.position, PlayerShipTargetPosition.position) < 0.01f &&
-				Vector2.Distance(EnemyShipObject.transform.position, EnemyShipTargetPosition.position) < 0.01f &&
 				Vector2.Distance(PlayerCreaturesContainer.transform.position, PlayerCreaturesTargetPosition.position) < 0.01f &&
 				Vector2.Distance(EnemyCreaturesContainer.transform.position, EnemyCreaturesTargetPosition.position) < 0.01f) {
-				isPreparingForBattle = false;
-				foreach (var playerCreatureObject in PlayerCreatureObjects) {
-					playerCreatureObject.InitialPosition = playerCreatureObject.transform.position;
-				}
-				foreach (var enemyCreatureObject in EnemyCreatureObjects) {
-					enemyCreatureObject.InitialPosition = enemyCreatureObject.transform.position;
+				if (Player.Instance.CurrentMission.IsCastle || Vector2.Distance(EnemyShipObject.transform.position, EnemyShipTargetPosition.position) < 0.01f) {
+					isPreparingForBattle = false;
+					foreach (var playerCreatureObject in PlayerCreatureObjects) {
+						playerCreatureObject.InitialPosition = playerCreatureObject.transform.position;
+					}
+					foreach (var enemyCreatureObject in EnemyCreatureObjects) {
+						enemyCreatureObject.InitialPosition = enemyCreatureObject.transform.position;
+					}
 				}
 				Invoke ("StartTurn", 0.25f);
 			} else {
+				if (Player.Instance.CurrentMission.IsCastle) {
+					EnemyCreaturesContainer.transform.position = EnemyCreaturesTargetPosition.position;
+				}
 				PlayerShipObject.GetComponent<BJMover> ().MoveToPoint (PlayerShipTargetPosition.position);
 				EnemyShipObject.GetComponent<BJMover> ().MoveToPoint (EnemyShipTargetPosition.position);
 				PlayerCreaturesContainer.GetComponent<BJMover> ().MoveToPoint (PlayerCreaturesTargetPosition.position);

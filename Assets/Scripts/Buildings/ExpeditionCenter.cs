@@ -21,12 +21,12 @@ public class ExpeditionCenter : Building {
 
 		CreateMissions ();
 
-		Action showMissionsAction = new Action ("Show missions", 0, player.DataBase.ActionIconsByNames["Show missions"], ShowMissions);
+		//Action showMissionsAction = new Action ("Show missions", 0, player.DataBase.ActionIconsByNames["Show missions"], ShowMissions);
 		// actions.Add (showMissionsAction);
 	}
 
 	public void CreateMissions () {
-		List<BJCreature> enemyCreatures = new List<BJCreature> (Player.Instance.BJDataBase.EnemyCreatures);
+		/*List<BJCreature> enemyCreatures = new List<BJCreature> (Player.Instance.BJDataBase.EnemyCreatures);
 
 		for (int i = 0; i < 5; i++) {	
 			Utility.Shuffle (enemyCreatures);
@@ -58,12 +58,12 @@ public class ExpeditionCenter : Building {
 				possibleRewards.Add (validItems [index].Name, Random.Range(1, 6));
 				rewardChances.Add (validItems [index].Name, Random.Range (0.3f, 0.7f));
 			}
-			Missions.Add (new Mission ("Mission", rewardChances, possibleRewards, enemyShips));
-		}
+			Missions.Add (new Mission ("Mission", false, rewardChances, possibleRewards, enemyShips));
+		}*/
 	}
 
 	void ShowMissions () {
-		gameManager.OpenExpeditionWindow (this);
+		//uiManager.OpenExpeditionWindow (this);
 	}
 
 	public void StartMission (Mission mission, int successChance) {
@@ -76,22 +76,22 @@ public class ExpeditionCenter : Building {
 		TimeSlider.maxValue = currentMission.Seconds;
 	}
 
-	protected override void Update () {
-		base.Update ();
+	void Update () {
+		/*base.Update ();
 		if (currentMission != null && currentMission.InProgress) {
 			timer += Time.deltaTime;
 			TimeSlider.value = timer;
 			if (timer >= currentMission.Seconds) {
 				currentMission.InProgress = false;
 				if (Random.Range(0, 101) > successChance) {
-					gameManager.OpenPopUp ("Mission failed!");
+					uiManager.OpenPopUp ("Mission failed!");
 					return;
 				}
-				gameManager.OpenPopUp ("Mission success!");
+				uiManager.OpenPopUp ("Mission success!");
 				TimeSlider.value = 0;
 				TimeSlider.gameObject.SetActive (false);
 				Player.Instance.TakeItems (currentMission.GiveReward ());
 			}
-		}
+		}*/
 	}
 }

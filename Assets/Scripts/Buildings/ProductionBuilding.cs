@@ -27,7 +27,7 @@ public class ProductionBuilding : Building {
 		// ProcessSlider.maxValue = SecPerShipment;
 	}
 
-	public override int GetStatByString (string statName) {
+	/*public override int GetStatByString (string statName) {
 		switch (statName) {
 		case "MinReward":
 			return MinRewards [Level];
@@ -42,9 +42,9 @@ public class ProductionBuilding : Building {
 		default:
 			return 0;
 		}
-	}
+	}*/
 
-	public override int GetUpgradedStatByString (string statName) { // :\
+	/*public override int GetUpgradedStatByString (string statName) { // :\
 		if (Level == MaxLevel) {
 			return 0;
 		}
@@ -62,10 +62,10 @@ public class ProductionBuilding : Building {
 		default:
 			return 0;
 		}
-	} 
+	} */
 
-	protected override void Update () {
-		base.Update ();
+	/*protected override*/ void Update () {
+		//base.Update ();
 		if (MyIsland.MyPort.Shipments.Count < MyIsland.MyPort.ShipmentsCapacity && Allegiance == Allegiance.Player) {
 			if (!shouldProduceShipments) {
 				timer = 0.0f;
@@ -91,15 +91,15 @@ public class ProductionBuilding : Building {
 		Island island = Destination;
 		int reward = Random.Range (MinRewards [Level], MaxRewards [Level] + 1);
 		int cargo = Random.Range (MinCargos [Level], MaxCargos [Level] + 1);
-		Item goods = gameManager.GetItemByName (GoodsName);
+		Item goods = GameManager.Instance.GetItemByName (GoodsName);
 		Shipment shipment = new Shipment (goods, MyIsland.Name, island.Name, cargo, reward);
 		MyIsland.MyPort.TakeShipment (shipment);
 	}
 
 	Island RandomIsland () {
 		List<Island> validIslands = new List<Island> ();
-		foreach (var island in gameManager.Islands) {
-			if (island.MyPort != null && island != MyIsland && island.MyPort.IsAvailable) {
+	foreach (var island in GameManager.Instance.Islands) {
+			if (island.MyPort != null && island != MyIsland /*&& island.MyPort.IsAvailable*/) {
 				validIslands.Add (island);
 			}
 		}

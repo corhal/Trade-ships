@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Building : Selectable {
+public class Building : MonoBehaviour {
 	public bool UnderConstruction;
 	bool initialized;
 	public List<Dictionary<string, int>> BuildCosts;
@@ -10,27 +10,30 @@ public class Building : Selectable {
 	public Island MyIsland;
 	Action buildAction;
 	Action upgradeAction;
+	public int Level = 1;
+	public string Name;
+	public Allegiance Allegiance;
 
-	protected override void Awake () {
-		base.Awake ();
+	protected virtual void Awake () {
+		// base.Awake ();
 		MyIsland = GetComponentInParent<Island> ();
 		if (MyIsland != null) {
 			MyIsland.Buildings.Add (this);
 		}
 		BuildCosts = new List<Dictionary<string, int>> ();
 
-		buildAction = new Action ("Build", 0, player.DataBase.ActionIconsByNames["Build"], ShowCraftWindow);
-		upgradeAction = new Action ("Upgrade", 0, player.DataBase.ActionIconsByNames["Upgrade"], Upgrade);
+		// buildAction = new Action ("Build", 0, player.DataBase.ActionIconsByNames["Build"], ShowCraftWindow);
+		// upgradeAction = new Action ("Upgrade", 0, player.DataBase.ActionIconsByNames["Upgrade"], Upgrade);
 	}
 
-	protected override void Start () {
-		base.Start ();
+	protected virtual void Start () {
+		// base.Start ();
 		RefreshActions ();
 
 		if (initialized) {
 			return;
 		}
-		for (int i = 0; i < MaxLevel - Level; i++) {
+		/*for (int i = 0; i < MaxLevel - Level; i++) {
 			int costLength = Random.Range (1, 4);
 			Dictionary<string, int> cost = new Dictionary<string, int> ();
 			for (int j = 0; j < costLength; j++) {
@@ -46,7 +49,7 @@ public class Building : Selectable {
 				cost.Add (validItems [index].Name, Random.Range(1, 6));
 			}
 			BuildCosts.Add (cost);
-		}
+		}*/
 	}
 
 	public virtual void InitializeFromData (BuildingData buildingData) {
@@ -76,22 +79,22 @@ public class Building : Selectable {
 	}
 
 	void ShowCraftWindow () {
-		gameManager.OpenCraftWindow (this, null);
+		// uiManager.OpenCraftWindow (this, null);
 	}
 
 	public void Upgrade () {
-		if (player.Gold >= UpgradeCosts[Level]) {
+		/*if (player.Gold >= UpgradeCosts[Level]) {
 			UnderConstruction = true;
 			player.GiveGold (UpgradeCosts [Level]);
-			gameManager.CloseContextButtons (true);
+			uiManager.CloseContextButtons (true);
 			RefreshActions ();
 		} else {
-			gameManager.OpenPopUp ("Not enough gold for upgrade");
-		}
+			uiManager.OpenPopUp ("Not enough gold for upgrade");
+		}*/
 	}
 
 	public void Build () {
-		bool canBuild = player.CheckCost (BuildCosts[Level]);
+		/*bool canBuild = player.CheckCost (BuildCosts[Level]);
 
 		if (canBuild) {
 			player.GiveItems (BuildCosts [Level]);
@@ -99,8 +102,8 @@ public class Building : Selectable {
 			UnderConstruction = false;
 			RefreshActions ();
 		} else {
-			gameManager.OpenPopUp ("Can't upgrade: not enough items");
-		}
+			uiManager.OpenPopUp ("Can't upgrade: not enough items");
+		}*/
 	}
 
 	public virtual void Claim () {

@@ -37,9 +37,9 @@ public class CraftWindow : MonoBehaviour {
 			ResultLabel.text = building.Name;
 			ResultImage.sprite = building.gameObject.GetComponentInChildren<SpriteRenderer> ().sprite;
 			StatsLabel.text = "";
-			foreach (var statName in ResultBuilding.StatNames) {
+			/*foreach (var statName in ResultBuilding.StatNames) {
 				StatsLabel.text += statName + ": +" + ResultBuilding.GetUpgradedStatByString (statName) + "\n";
-			}
+			}*/
 			FindPanel.SetActive (false);
 			AcquirePanel.SetActive (true);
 			FormCraftElements (building.BuildCosts[building.Level]);

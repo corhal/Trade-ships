@@ -139,7 +139,7 @@ public class Player : MonoBehaviour {
 			Dictionary<string, int> ItemAsDict = new Dictionary<string, int> { { item, 1 } };
 			TakeItems (ItemAsDict);
 		} else {
-			GameManager.Instance.OpenPopUp ("Can't craft: not enough items");
+			UIOverlay.Instance.OpenPopUp ("Can't craft: not enough items");
 		}
 	}
 
@@ -151,7 +151,7 @@ public class Player : MonoBehaviour {
 		if (Gold >= amount) {
 			Gold -= amount;
 		} else {
-			GameManager.Instance.OpenPopUp ("Not enough gold");
+			UIOverlay.Instance.OpenPopUp ("Not enough gold");
 		}
 	}
 

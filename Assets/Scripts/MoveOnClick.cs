@@ -28,7 +28,7 @@ public class MoveOnClick : MonoBehaviour {
 	public void MoveToPoint (Vector2 target) {
 		start = transform.position;
 		this.target = target;
-		this.target = start + (this.target - start) * 0.8f;
+		this.target = start + (this.target - start) * 0.9f;
 		fullTraveledDistance = 0.0f;
 		traveledDistance = 0;
 		DrawLine (start, target);
@@ -79,7 +79,7 @@ public class MoveOnClick : MonoBehaviour {
 
 
 				GameManager.Instance.InMoveMode = false;
-				GameManager.Instance.CloseContextButtons (true);
+				UIOverlay.Instance.CloseContextButtons (true);
 				shouldMove = true;
 				//InMoveMode = false;
 				TimeLeft = Vector2.Distance(transform.position, target) / Speed;

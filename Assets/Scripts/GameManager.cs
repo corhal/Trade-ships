@@ -6,7 +6,6 @@ public class GameManager : MonoBehaviour {
 
 	public PlayerShip PlayerShip;
 	public GameObject CityHUD;
-	public GameObject BattleHUD;
 
 	public Selectable Selection;
 	public GameObject ShipPrefab;
@@ -15,13 +14,11 @@ public class GameManager : MonoBehaviour {
 	public bool InMoveMode = false;
 	public List<Island> Islands;
 
-	public List<Ship> Ships;
 	public List<TradeShip> TradeShips;
 	public List<Building> Buildings;
 	public List<MissionObject> MissionObjects;
 
-	public BattleSkillsWindow MyBattleSkillsWindow;
-	public TeamSelectionWindow MyTeamSelectionWindow;
+	/*public TeamSelectionWindow MyTeamSelectionWindow;
 	public InfoWindow MyInfoWindow;
 	public ShipWindow MyShipWindow;
 	public ExpeditionWindow MyExpeditionWindow;
@@ -31,15 +28,13 @@ public class GameManager : MonoBehaviour {
 	public CraftWindow MyCraftWindow;
 	public ContextButtonsOverlay MyButtonsOverlay;
 	public PopUp MyPopUp;
-	public ImagesPopUp MyImagesPopUp;
+	public ImagesPopUp MyImagesPopUp;*/
 
 	public static GameManager Instance;
 
-	public List<BattleShip> Battleships;
-
 	public void MoveMode () {
 		InMoveMode = true;
-		CloseContextButtons (false);
+		UIOverlay.Instance.CloseContextButtons (false);
 	}
 
 	void Awake () {
@@ -48,18 +43,6 @@ public class GameManager : MonoBehaviour {
 		} else if (Instance != this) {
 			Destroy (gameObject);  
 		}
-
-		Battleships = new List<BattleShip> (FindObjectsOfType<BattleShip> ());
-
-		foreach (var battleShip in Battleships) {
-			battleShip.OnBattleShipDestroyed += BattleShip_OnBattleShipDestroyed;
-		}
-	}
-
-	void BattleShip_OnBattleShipDestroyed (BattleShip sender) {
-		Battleships.Remove (sender);
-		Ships.Remove (sender.gameObject.GetComponent<Ship> ());
-		sender.OnBattleShipDestroyed -= BattleShip_OnBattleShipDestroyed;
 	}
 
 	public bool isBattle; // ew
@@ -84,7 +67,6 @@ public class GameManager : MonoBehaviour {
 
 		if (!isBattle) {
 			CityHUD.SetActive (true);
-			BattleHUD.SetActive (false);
 		}
 
 		if (!Player.Instance.FirstLoad && !isBattle) { // ?..
@@ -124,7 +106,7 @@ public class GameManager : MonoBehaviour {
 			if (Player.Instance.CurrentMission != null) {
 				Dictionary<string, int> reward = Player.Instance.CurrentMission.GiveReward ();
 				Player.Instance.TakeItems (reward);
-				OpenImagesPopUp ("Your reward:", reward);
+				UIOverlay.Instance.OpenImagesPopUp ("Your reward:", reward);
 			}
 
 		} else if (!isBattle) {			
@@ -144,12 +126,6 @@ public class GameManager : MonoBehaviour {
 	}
 
 	public void LoadVillage () {
-		List<Ship> PlayerShips = new List<Ship> ();
-		foreach (var ship in Ships) {
-			if (ship.Allegiance == Allegiance.Player) {
-				PlayerShips.Add (ship);
-			}
-		}
 		Player.Instance.LoadVillage ();
 	}
 
@@ -174,210 +150,190 @@ public class GameManager : MonoBehaviour {
 		return null;
 	}
 
-	public void OpenThievesWindow (ThievesGuild thievesGuild) {
-
-		MyInfoWindow.Close ();
-		MyShipWindow.Close ();
-		MyExpeditionWindow.Close ();
-		MyMissionWindow.Close ();
-		MyPortWindow.Close ();
-		MyCraftWindow.Close ();
-		MyButtonsOverlay.Close ();
-		MyMissionWindow.Close ();
-		MyPopUp.Close ();
-		MyShipsCatalogWindow.Close ();
-		MyFortWindow.Close ();
-	}
-
-	public void OpenSelectableInfo (Selectable selectable) {
-		if (selectable is Ship) {
-			Ship ship = selectable as Ship;
-			OpenShipWindow (ship.ShipData);
-			return;
-		}
-		MyInfoWindow.Open (selectable);
-		MyShipWindow.Close ();
-		MyExpeditionWindow.Close ();
-		MyMissionWindow.Close ();
-		MyPortWindow.Close ();
-		MyCraftWindow.Close ();
-		MyButtonsOverlay.Close ();
-		MyMissionWindow.Close ();
-		MyPopUp.Close ();
-		MyShipsCatalogWindow.Close ();
-		MyFortWindow.Close ();
-	}
-
-	public void OpenShipWindow (ShipData shipData) {
-		MyShipWindow.Open (shipData);
-		MyExpeditionWindow.Close ();
-		MyMissionWindow.Close ();
-		MyPortWindow.Close ();
-		MyCraftWindow.Close ();
-		MyButtonsOverlay.Close ();
-		MyMissionWindow.Close ();
-		MyPopUp.Close ();
-		MyInfoWindow.Close ();
-		MyShipsCatalogWindow.Close ();
-		MyFortWindow.Close ();
-	}
-
-	public void OpenFortWindow () {
-		MyFortWindow.Open ();
-		MyShipWindow.Close ();
-		MyExpeditionWindow.Close ();
-		MyMissionWindow.Close ();
-		MyPortWindow.Close ();
-		MyCraftWindow.Close ();
-		MyButtonsOverlay.Close ();
-		MyMissionWindow.Close ();
-		MyPopUp.Close ();
-		MyInfoWindow.Close ();
-		MyShipsCatalogWindow.Close ();
-	}
-
-	public void OpenPopUp (string message) {
-		MyPopUp.Open (message);
-	}
-
-	public void OpenImagesPopUp (string message, Dictionary<string, int> itemNames) {
-		MyImagesPopUp.Open (message, itemNames);
-	}
-
-	public void OpenExpeditionWindow (ExpeditionCenter expeditionCenter) {
-		MyExpeditionWindow.Open (expeditionCenter);
-		MyMissionWindow.Close ();
-		MyPortWindow.Close ();
-		MyCraftWindow.Close ();
-		MyButtonsOverlay.Close ();
-		MyMissionWindow.Close ();
-		MyShipWindow.Close ();
-		MyPopUp.Close ();
-		MyInfoWindow.Close ();
-		MyShipsCatalogWindow.Close ();
-		MyFortWindow.Close ();
-	}
-
-	public void CloseExpeditionWindow () {
-		MyExpeditionWindow.Close ();
-	}
-
-	public void OpenMissionWindow (/*ExpeditionCenter expeditionCenter, */ Mission chosenMission) {
-		MyMissionWindow.Open (/*expeditionCenter,*/ chosenMission);
-		MyPortWindow.Close ();
-		MyCraftWindow.Close ();
-		MyButtonsOverlay.Close ();
-		MyExpeditionWindow.Close ();
-		MyShipWindow.Close ();
-		MyPopUp.Close ();
-		MyInfoWindow.Close ();
-		MyShipsCatalogWindow.Close ();
-		MyFortWindow.Close ();
-	}
-
-	public void CloseMissionWindow () {
-		MyMissionWindow.Close ();
-	}
-
-	public void OpenTeamSelectionWindow (Mission mission) {
-		MyTeamSelectionWindow.Open (mission);
-		MyPortWindow.Close ();
-		MyCraftWindow.Close ();
-		MyButtonsOverlay.Close ();
-		MyExpeditionWindow.Close ();
-		MyMissionWindow.Close ();
-		MyShipWindow.Close ();
-		MyPopUp.Close ();
-		MyInfoWindow.Close ();
-		MyShipsCatalogWindow.Close ();
-		MyFortWindow.Close ();
-	}
-
-	public void OpenPortWindow (Port port, TradeShip tradeShip) {
-		if (InMoveMode) {
-			return;
-		}
-		MyPortWindow.Open (port, tradeShip);
-		MyCraftWindow.Close ();
-		MyButtonsOverlay.Close ();
-		MyExpeditionWindow.Close ();
-		MyMissionWindow.Close ();
-		MyShipWindow.Close ();
-		MyPopUp.Close ();
-		MyInfoWindow.Close ();
-		MyShipsCatalogWindow.Close ();
-		MyFortWindow.Close ();
-	}
-
-	public void ClosePortWindow () {
-		MyPortWindow.Close ();
-
-		if (MyPortWindow.CurrentPort != null && MyPortWindow.CurrentPort.Name == "Shipwreck" && MyPortWindow.CurrentPort.Shipments.Count == 0) { // as reliable as bullets made of chocolate
-			Destroy (MyPortWindow.CurrentPort.gameObject);
-		}
-	}
-
-	public void OpenCraftWindow (Building building, string item) {
-		MyCraftWindow.Open (building, item);
-		MyButtonsOverlay.Close ();
-		MyPortWindow.Close ();
-		MyExpeditionWindow.Close ();
-		MyMissionWindow.Close ();
-		//MyShipWindow.Close ();
-		MyPopUp.Close ();
-		MyInfoWindow.Close ();
-		MyShipsCatalogWindow.Close ();
-		MyFortWindow.Close ();
-	}
-
-	public void CloseCraftWindow () {
-		MyCraftWindow.Close ();
-	}
-
-	public void OpentContextButtons (Selectable selectable) {
-		if (InMoveMode) {
-			return;
-		}
-		CloseContextButtons (true);
-		Selection = selectable;
-		Selection.Animate ();
-		MyButtonsOverlay.Open (selectable);
-		MyPortWindow.Close ();
-		MyCraftWindow.Close ();
-		MyExpeditionWindow.Close ();
-		MyMissionWindow.Close ();
-		MyShipWindow.Close ();
-		MyPopUp.Close ();
-		MyInfoWindow.Close ();
-		MyShipsCatalogWindow.Close ();
-		// MyFortWindow.Close (); // here is the bug!!! think about it!
-	}
-
-	public ShipsCatalogWindow MyShipsCatalogWindow;
-
-	public void OpenShipsCatalogWindow () {
-		MyShipsCatalogWindow.Open ();
-		MyCraftWindow.Close ();
-		MyButtonsOverlay.Close ();
-		MyPortWindow.Close ();
-		MyExpeditionWindow.Close ();
-		MyMissionWindow.Close ();
-		MyShipWindow.Close ();
-		MyPopUp.Close ();
-		MyInfoWindow.Close ();
-		MyFortWindow.Close ();
-	}
-
-	public void CloseContextButtons (bool deselect) {
-		MyButtonsOverlay.Overlay.SetActive (false); // kostyll
-		//MyButtonsOverlay.Close ();
-		if (deselect && Selection != null) {
-			Selection.Deanimate ();
-		}
-	}
+//	public void OpenSelectableInfo (Selectable selectable) {
+//		MyInfoWindow.Open (selectable);
+//		MyShipWindow.Close ();
+//		MyExpeditionWindow.Close ();
+//		MyMissionWindow.Close ();
+//		MyPortWindow.Close ();
+//		MyCraftWindow.Close ();
+//		MyButtonsOverlay.Close ();
+//		MyMissionWindow.Close ();
+//		MyPopUp.Close ();
+//		MyShipsCatalogWindow.Close ();
+//		MyFortWindow.Close ();
+//	}
+//
+//	public void OpenShipWindow (ShipData shipData) {
+//		MyShipWindow.Open (shipData);
+//		MyExpeditionWindow.Close ();
+//		MyMissionWindow.Close ();
+//		MyPortWindow.Close ();
+//		MyCraftWindow.Close ();
+//		MyButtonsOverlay.Close ();
+//		MyMissionWindow.Close ();
+//		MyPopUp.Close ();
+//		MyInfoWindow.Close ();
+//		MyShipsCatalogWindow.Close ();
+//		MyFortWindow.Close ();
+//	}
+//
+//	public void OpenFortWindow () {
+//		MyFortWindow.Open ();
+//		MyShipWindow.Close ();
+//		MyExpeditionWindow.Close ();
+//		MyMissionWindow.Close ();
+//		MyPortWindow.Close ();
+//		MyCraftWindow.Close ();
+//		MyButtonsOverlay.Close ();
+//		MyMissionWindow.Close ();
+//		MyPopUp.Close ();
+//		MyInfoWindow.Close ();
+//		MyShipsCatalogWindow.Close ();
+//	}
+//
+//	public void OpenPopUp (string message) {
+//		MyPopUp.Open (message);
+//	}
+//
+//	public void OpenImagesPopUp (string message, Dictionary<string, int> itemNames) {
+//		MyImagesPopUp.Open (message, itemNames);
+//	}
+//
+//	public void OpenExpeditionWindow (ExpeditionCenter expeditionCenter) {
+//		MyExpeditionWindow.Open (expeditionCenter);
+//		MyMissionWindow.Close ();
+//		MyPortWindow.Close ();
+//		MyCraftWindow.Close ();
+//		MyButtonsOverlay.Close ();
+//		MyMissionWindow.Close ();
+//		MyShipWindow.Close ();
+//		MyPopUp.Close ();
+//		MyInfoWindow.Close ();
+//		MyShipsCatalogWindow.Close ();
+//		MyFortWindow.Close ();
+//	}
+//
+//	public void CloseExpeditionWindow () {
+//		MyExpeditionWindow.Close ();
+//	}
+//
+//	public void OpenMissionWindow (/*ExpeditionCenter expeditionCenter, */ Mission chosenMission) {
+//		MyMissionWindow.Open (/*expeditionCenter,*/ chosenMission);
+//		MyPortWindow.Close ();
+//		MyCraftWindow.Close ();
+//		MyButtonsOverlay.Close ();
+//		MyExpeditionWindow.Close ();
+//		MyShipWindow.Close ();
+//		MyPopUp.Close ();
+//		MyInfoWindow.Close ();
+//		MyShipsCatalogWindow.Close ();
+//		MyFortWindow.Close ();
+//	}
+//
+//	public void CloseMissionWindow () {
+//		MyMissionWindow.Close ();
+//	}
+//
+//	public void OpenTeamSelectionWindow (Mission mission) {
+//		MyTeamSelectionWindow.Open (mission);
+//		MyPortWindow.Close ();
+//		MyCraftWindow.Close ();
+//		MyButtonsOverlay.Close ();
+//		MyExpeditionWindow.Close ();
+//		MyMissionWindow.Close ();
+//		MyShipWindow.Close ();
+//		MyPopUp.Close ();
+//		MyInfoWindow.Close ();
+//		MyShipsCatalogWindow.Close ();
+//		MyFortWindow.Close ();
+//	}
+//
+//	public void OpenPortWindow (Port port, TradeShip tradeShip) {
+//		if (InMoveMode) {
+//			return;
+//		}
+//		MyPortWindow.Open (port, tradeShip);
+//		MyCraftWindow.Close ();
+//		MyButtonsOverlay.Close ();
+//		MyExpeditionWindow.Close ();
+//		MyMissionWindow.Close ();
+//		MyShipWindow.Close ();
+//		MyPopUp.Close ();
+//		MyInfoWindow.Close ();
+//		MyShipsCatalogWindow.Close ();
+//		MyFortWindow.Close ();
+//	}
+//
+//	public void ClosePortWindow () {
+//		MyPortWindow.Close ();
+//
+//		if (MyPortWindow.CurrentPort != null && MyPortWindow.CurrentPort.Name == "Shipwreck" && MyPortWindow.CurrentPort.Shipments.Count == 0) { // as reliable as bullets made of chocolate
+//			Destroy (MyPortWindow.CurrentPort.gameObject);
+//		}
+//	}
+//
+//	public void OpenCraftWindow (Building building, string item) {
+//		MyCraftWindow.Open (building, item);
+//		MyButtonsOverlay.Close ();
+//		MyPortWindow.Close ();
+//		MyExpeditionWindow.Close ();
+//		MyMissionWindow.Close ();
+//		//MyShipWindow.Close ();
+//		MyPopUp.Close ();
+//		MyInfoWindow.Close ();
+//		MyShipsCatalogWindow.Close ();
+//		MyFortWindow.Close ();
+//	}
+//
+//	public void CloseCraftWindow () {
+//		MyCraftWindow.Close ();
+//	}
+//
+//	public void OpentContextButtons (Selectable selectable) {
+//		if (InMoveMode) {
+//			return;
+//		}
+//		CloseContextButtons (true);
+//		Selection = selectable;
+//		Selection.Animate ();
+//		MyButtonsOverlay.Open (selectable);
+//		MyPortWindow.Close ();
+//		MyCraftWindow.Close ();
+//		MyExpeditionWindow.Close ();
+//		MyMissionWindow.Close ();
+//		MyShipWindow.Close ();
+//		MyPopUp.Close ();
+//		MyInfoWindow.Close ();
+//		MyShipsCatalogWindow.Close ();
+//		// MyFortWindow.Close (); // here is the bug!!! think about it!
+//	}
+//
+//	public ShipsCatalogWindow MyShipsCatalogWindow;
+//
+//	public void OpenShipsCatalogWindow () {
+//		MyShipsCatalogWindow.Open ();
+//		MyCraftWindow.Close ();
+//		MyButtonsOverlay.Close ();
+//		MyPortWindow.Close ();
+//		MyExpeditionWindow.Close ();
+//		MyMissionWindow.Close ();
+//		MyShipWindow.Close ();
+//		MyPopUp.Close ();
+//		MyInfoWindow.Close ();
+//		MyFortWindow.Close ();
+//	}
+//
+//	public void CloseContextButtons (bool deselect) {
+//		MyButtonsOverlay.Overlay.SetActive (false); // kostyll
+//		//MyButtonsOverlay.Close ();
+//		if (deselect && Selection != null) {
+//			Selection.Deanimate ();
+//		}
+//	}
 
 	public void FindMissionForItem (string item) {
-		OpenPopUp ("Not implemented yet");
+		UIOverlay.Instance.OpenPopUp ("Not implemented yet");
 		/*Mission farmMission = null;
 		ExpeditionCenter expeditionCenter = FindObjectOfType<ExpeditionCenter> ();
 		foreach (var mission in expeditionCenter.Missions) {
@@ -400,6 +356,6 @@ public class GameManager : MonoBehaviour {
 	}
 
 	public void UnderConstruction () {
-		OpenPopUp ("This functionality is under construction yet");
+		UIOverlay.Instance.OpenPopUp ("This functionality is under construction yet");
 	}
 }

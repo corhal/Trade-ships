@@ -74,6 +74,6 @@ public class ContextButtonsOverlay : MonoBehaviour {
 	public void Close () {
 		ProcessSlider.gameObject.SetActive (false);
 		ProcessText.gameObject.SetActive (false);
-		GameManager.Instance.CloseContextButtons (true);
+		UIOverlay.Instance.CloseContextButtons (true);
 	}
 }
