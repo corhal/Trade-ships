@@ -22,7 +22,7 @@ public class ShipData {
 	public int Level;
 	public string Name;
 	public Allegiance Allegiance;
-	public int HP;
+
 	public int MaxHP;
 	public int Power;
 	public float[] Coordinates;
@@ -35,6 +35,8 @@ public class ShipData {
 	public float Speed = 1.0f; // change later
 
 	public BJCreature Creature;
+
+	public int HP { get { return Creature.HP; } set { Creature.HP = value; } }
 
 	public ShipData () {
 
@@ -49,7 +51,7 @@ public class ShipData {
 		Level = level;
 		Stars = stars;
 		MaxHP = creature.MaxHP;
-		HP = creature.MaxHP;
+		// HP = creature.MaxHP;
 		Power = creature.BaseDamage;
 
 		Soulstone = soulstone;

@@ -197,7 +197,8 @@ public class BJGameController : MonoBehaviour {
 			}				
 		}
 
-		if (CurrentCreatureObject != null && CurrentCreatureObject.Creature.Allegiance == Allegiance.Enemy && PlayerCreatureObjects.Count > 0) {			
+		if (CurrentCreatureObject != null && CurrentCreatureObject.Creature.Allegiance == Allegiance.Enemy && PlayerCreatureObjects.Count > 0) {	
+			CheckDead ();
 			int index = 0;
 			int indexOfIndex = 0;
 			do {
@@ -226,17 +227,43 @@ public class BJGameController : MonoBehaviour {
 
 	void CheckDead () {
 		int deadCount = 0;
+		int playerDeadCount = 0;
 		foreach (var enemyCreatureObject in EnemyCreatureObjects) {
 			if (enemyCreatureObject.Creature.HP <= 0) {
 				deadCount++;
+			}
+		}
+		foreach (var creatureObject in PlayerCreatureObjects) {
+			if (creatureObject.Creature.HP <= 0) {
+				playerDeadCount++;
 			}
 		}
 		if (deadCount == EnemyCreatureObjects.Count) {		
 			if (Player.Instance != null) {
 				Player.Instance.CurrentMission.Stars = 3;
 				Player.Instance.LoadVillage ();
+				SaveHP ();
 			} else {
 				SceneManager.LoadScene (1);
+			}
+		}
+		if (playerDeadCount == PlayerCreatureObjects.Count) {
+			if (Player.Instance != null) {
+				Player.Instance.CurrentMission.Stars = 0;
+				Player.Instance.LoadVillage ();
+				SaveHP ();
+			} else {
+				SceneManager.LoadScene (1);
+			}
+		}
+	}
+
+	void SaveHP () {
+		foreach (var creatureObject in PlayerCreatureObjects) {
+			foreach (var creatureData in Player.Instance.CurrentTeam) {
+				if (creatureData.Name == creatureObject.Creature.Name) {
+					creatureData.HP = creatureObject.Creature.HP;
+				}
 			}
 		}
 	}
@@ -302,6 +329,7 @@ public class BJGameController : MonoBehaviour {
 				BJCreatureObject bjCreatureObject = SpawnCreatureObject (
 					                                    enemyCreature.Name, 
 					                                    enemyCreature.MaxHP,
+					                                    enemyCreature.HP,
 					                                    enemyCreature.BaseDamage, 
 					                                    enemyCreature.Armor, 
 					                                    enemyCreature.Speed, 
@@ -315,7 +343,7 @@ public class BJGameController : MonoBehaviour {
 		} else {
 			List<BJCreature> enemyCreatures = new List<BJCreature> (BJPlayer.Instance.DataBase.EnemyCreatures);
 			for (int i = 0; i < amount; i++) {
-				BJCreatureObject bjCreatureObject = SpawnCreatureObject (enemyCreatures [i].Name, enemyCreatures [i].HP, enemyCreatures [i].BaseDamage, enemyCreatures [i].Armor, enemyCreatures [i].Speed,
+				BJCreatureObject bjCreatureObject = SpawnCreatureObject (enemyCreatures [i].Name, enemyCreatures [i].MaxHP, enemyCreatures [i].HP, enemyCreatures [i].BaseDamage, enemyCreatures [i].Armor, enemyCreatures [i].Speed,
 					enemyCreatures [i].Allegiance, enemyCreatures [i].AttackType, new List<string> (enemyCreatures [i].SkillNames));				
 				bjCreatureObject.gameObject.transform.SetParent (EnemySpawnPoints [i]);
 				bjCreatureObject.gameObject.transform.localScale = Vector3.one;
@@ -329,6 +357,7 @@ public class BJGameController : MonoBehaviour {
 		for (int i = 0; i < creatures.Count; i++) {
 			BJCreatureObject bjCreatureObject = SpawnCreatureObject (
 				                                    creatures [i].Name, 
+				                                    creatures [i].MaxHP,
 				                                    creatures [i].HP,
 				                                    creatures [i].BaseDamage, 
 				                                    creatures [i].Armor, 
@@ -336,6 +365,7 @@ public class BJGameController : MonoBehaviour {
 				                                    creatures [i].Allegiance, 
 				                                    creatures [i].AttackType, 
 				                                    creatures [i].SkillNames);
+			// Debug.Log (bjCreatureObject.Name + " " + bjCreatureObject.Creature.HP + "/" + bjCreatureObject.Creature.MaxHP);
 			bjCreatureObject.gameObject.transform.SetParent (PlayerSpawnPoints [i]);
 			bjCreatureObject.gameObject.transform.localScale = Vector3.one;
 			bjCreatureObject.gameObject.transform.localPosition = Vector3.zero;
@@ -343,6 +373,7 @@ public class BJGameController : MonoBehaviour {
 	}
 
 	void BjCreatureObject_OnCreatureTurnFinished (BJCreatureObject creatureObject) {
+		CheckDead ();
 		foreach (var enemyCreatureObject in EnemyCreatureObjects) {
 			enemyCreatureObject.SelectionCircle.gameObject.SetActive (false);
 		}
@@ -354,10 +385,10 @@ public class BJGameController : MonoBehaviour {
 		}
 	}
 
-	BJCreatureObject SpawnCreatureObject (string name, int hp, int attack, int armor, int speed, Allegiance allegiance, AttackType attackType, List<string> skillNames) {
+	BJCreatureObject SpawnCreatureObject (string name, int maxhp, int hp, int attack, int armor, int speed, Allegiance allegiance, AttackType attackType, List<string> skillNames) {
 		GameObject creatureObject = Instantiate (CreatureObjectPrefab) as GameObject;
 		BJCreatureObject bjCreatureObject = creatureObject.GetComponent<BJCreatureObject> ();
-		bjCreatureObject.Creature = new BJCreature (name, hp, attack, armor, speed, allegiance, attackType, skillNames);
+		bjCreatureObject.Creature = new BJCreature (name, maxhp, hp, attack, armor, speed, allegiance, attackType, skillNames);
 		bjCreatureObject.CreatureImage.sprite = BJPlayer.Instance.DataBase.FigurinesByNames [name];
 		bjCreatureObject.CreatureImage.SetNativeSize ();
 		bjCreatureObject.CreatureImage.rectTransform.sizeDelta = new Vector2 (bjCreatureObject.CreatureImage.rectTransform.rect.width / 7, 

@@ -27,6 +27,7 @@ public class BJCreatureObject : MonoBehaviour {
 	public event CreatureEventHandler OnCreatureReadyForTurn;
 	public event CreatureEventHandler OnCreatureTurnFinished;
 
+	public bool IsAttacking;
 	bool shouldMove;
 	public Vector3 InitialPosition;
 	Vector3 secondaryPosition;
@@ -148,7 +149,10 @@ public class BJCreatureObject : MonoBehaviour {
 	}
 
 	public void Attack (BJCreatureObject enemyCreature) {
-		UseSkill (enemyCreature, CurrentSkill);
+		if (!IsAttacking) {
+			IsAttacking = true;
+			UseSkill (enemyCreature, CurrentSkill);
+		}
 	}
 
 	public void UseSkill (BJCreatureObject target, BJSkill skill) {		
@@ -220,6 +224,7 @@ public class BJCreatureObject : MonoBehaviour {
 
 	public void GetReadyForTurn () {
 		isFinishingTurn = false;
+		IsAttacking = false;
 		for (int i = Effects.Count - 1; i >= 0; i--) {
 			if (Effects [i] == null) {
 				Effects.Remove (Effects [i]);

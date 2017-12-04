@@ -24,7 +24,7 @@ public class BJCreature {
 	public string Name { get { return creatureName; } }
 
 	int hp;
-	public int HP { get { return hp; } }
+	public int HP { get { return hp; } set { hp = value; } }
 	int maxhp;
 	public int MaxHP { get { return maxhp; } }
 	int baseDamage;
@@ -53,10 +53,10 @@ public class BJCreature {
 
 	public List<string> SkillNames;
 
-	public BJCreature (string name, int maxhp, int baseDamage, int armor, int speed, Allegiance allegiance, AttackType attackType, List<string> skillNames) {
+	public BJCreature (string name, int maxhp, int hp, int baseDamage, int armor, int speed, Allegiance allegiance, AttackType attackType, List<string> skillNames) {
 		this.creatureName = name;
 		this.maxhp = maxhp;
-		this.hp = maxhp;
+		this.hp = hp;
 		this.baseDamage = baseDamage;
 		this.armor = armor;
 		this.armorPierce = 0;
