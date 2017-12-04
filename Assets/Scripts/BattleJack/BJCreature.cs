@@ -51,6 +51,8 @@ public class BJCreature {
 	Allegiance allegiance;
 	public Allegiance Allegiance { get { return allegiance; } }
 
+	public bool IsDead;
+
 	public List<string> SkillNames;
 
 	public BJCreature (string name, int maxhp, int hp, int baseDamage, int armor, int speed, Allegiance allegiance, AttackType attackType, List<string> skillNames) {
@@ -77,6 +79,11 @@ public class BJCreature {
 		if (OnDamageTaken != null) {
 			OnDamageTaken (-amount);
 		}
+	}
+
+	public void Resurrect () {
+		IsDead = false;
+		Heal (maxhp / 2);
 	}
 
 	public void TakeDamage (int amount, int armorPierce) {

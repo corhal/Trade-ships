@@ -241,8 +241,8 @@ public class BJGameController : MonoBehaviour {
 		if (deadCount == EnemyCreatureObjects.Count) {		
 			if (Player.Instance != null) {
 				Player.Instance.CurrentMission.Stars = 3;
-				Player.Instance.LoadVillage ();
 				SaveHP ();
+				Player.Instance.LoadVillage ();
 			} else {
 				SceneManager.LoadScene (1);
 			}
@@ -250,8 +250,8 @@ public class BJGameController : MonoBehaviour {
 		if (playerDeadCount == PlayerCreatureObjects.Count) {
 			if (Player.Instance != null) {
 				Player.Instance.CurrentMission.Stars = 0;
-				Player.Instance.LoadVillage ();
 				SaveHP ();
+				Player.Instance.LoadVillage ();
 			} else {
 				SceneManager.LoadScene (1);
 			}
@@ -263,6 +263,7 @@ public class BJGameController : MonoBehaviour {
 			foreach (var creatureData in Player.Instance.CurrentTeam) {
 				if (creatureData.Name == creatureObject.Creature.Name) {
 					creatureData.HP = creatureObject.Creature.HP;
+					creatureData.IsDead = creatureObject.Creature.IsDead;
 				}
 			}
 		}

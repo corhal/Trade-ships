@@ -37,6 +37,7 @@ public class ShipData {
 	public BJCreature Creature;
 
 	public int HP { get { return Creature.HP; } set { Creature.HP = value; } }
+	public bool IsDead { get { return Creature.IsDead; } set { Creature.IsDead = value; } }
 
 	public ShipData () {
 

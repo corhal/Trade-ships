@@ -128,6 +128,11 @@ public class Player : MonoBehaviour {
 	}
 
 	public void LoadVillage () {
+		for (int i = CurrentTeam.Count - 1; i >= 0; i--) {
+			if (CurrentTeam [i].IsDead) {
+				CurrentTeam.Remove (CurrentTeam [i]);
+			}
+		}
 		SceneManager.LoadScene (0);
 	}
 

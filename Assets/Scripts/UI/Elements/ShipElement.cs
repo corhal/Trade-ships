@@ -12,6 +12,8 @@ public class ShipElement : MonoBehaviour {
 	public Image SelectionShade;
 	public List<GameObject> Stars;
 
+	public Slider DamageSlider;
+
 	public delegate void ShipElementClickedEventHandler (ShipElement sender);
 	public event ShipElementClickedEventHandler OnShipElementClicked;
 

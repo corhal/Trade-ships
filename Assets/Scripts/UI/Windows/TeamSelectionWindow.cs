@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class TeamSelectionWindow : MonoBehaviour {
 
+	public bool HealMode;
+	public bool ResurrectMode;
 	public GameObject Window;
 
 	public GameObject AllShipsElementContainer;
@@ -57,6 +59,11 @@ public class TeamSelectionWindow : MonoBehaviour {
 
 			shipElementObject.transform.SetParent (AllShipsElementContainer.transform);
 			shipElementObject.transform.localScale = Vector3.one;
+
+			ShipElement shipElement = shipElementObject.GetComponent<ShipElement> ();
+
+			shipElement.DamageSlider.maxValue = shipElement.ShipData.MaxHP;
+			shipElement.DamageSlider.value = shipElement.ShipData.MaxHP - shipElement.ShipData.HP;
 			AllShipObjects.Add (shipElementObject);
 		}
 
@@ -65,6 +72,12 @@ public class TeamSelectionWindow : MonoBehaviour {
 
 			shipElementObject.transform.SetParent (TeamShipsElementContainer.transform);
 			shipElementObject.transform.localScale = Vector3.one;
+
+			ShipElement shipElement = shipElementObject.GetComponent<ShipElement> ();
+
+			shipElement.DamageSlider.maxValue = shipElement.ShipData.MaxHP;
+			shipElement.DamageSlider.value = shipElement.ShipData.MaxHP - shipElement.ShipData.HP;
+
 			TeamShipObjects.Add (shipElementObject);
 		}
 	}
@@ -93,15 +106,59 @@ public class TeamSelectionWindow : MonoBehaviour {
 		return shipElementObject;
 	}
 
+	void RefreshDamageSliders () {
+		foreach (var shipObject in AllShipObjects) {
+			ShipElement shipElement = shipObject.GetComponent<ShipElement> ();
+
+			shipElement.DamageSlider.maxValue = shipElement.ShipData.MaxHP;
+			shipElement.DamageSlider.value = shipElement.ShipData.MaxHP - shipElement.ShipData.HP;
+		}
+
+		foreach (var shipObject in TeamShipObjects) {
+			ShipElement shipElement = shipObject.GetComponent<ShipElement> ();
+
+			shipElement.DamageSlider.maxValue = shipElement.ShipData.MaxHP;
+			shipElement.DamageSlider.value = shipElement.ShipData.MaxHP - shipElement.ShipData.HP;
+		}
+	}
+
+	public void Heal () {
+		HealMode = true;
+	}
+
+	public void Resurrect () {
+		ResurrectMode = true;
+	}
+
 	void ShipElement_OnShipElementClicked (ShipElement sender) {
-		/*if (AllShipObjects.Contains(sender.gameObject) && Player.Instance.HomeTeam.Contains(sender.ShipData)) {
-			gameManager.OpenPopUp ("This ship is on the home map. Later this pop-up will offer to speed it up");
-		}*/
+
+		if (HealMode && sender.ShipData.HP < sender.ShipData.MaxHP) {
+			sender.ShipData.Creature.Heal (sender.ShipData.MaxHP - sender.ShipData.HP);
+			HealMode = false;
+			RefreshDamageSliders ();
+			return;
+		}
+
+		if (sender.ShipData.IsDead) {
+			if (ResurrectMode) {
+				sender.ShipData.Creature.Resurrect ();
+				ResurrectMode = false;
+			}
+			RefreshDamageSliders ();
+			return;
+		}
+
 		if (AllShipObjects.Contains(sender.gameObject) && Player.Instance.CurrentTeam.Count < 5 && !Player.Instance.CurrentTeam.Contains(sender.ShipData)) {
 			GameObject shipElementObject = CreateShipElementObject (sender.ShipData);
 
 			shipElementObject.transform.SetParent (TeamShipsElementContainer.transform);
 			shipElementObject.transform.localScale = Vector3.one;
+
+			ShipElement shipElement = shipElementObject.GetComponent<ShipElement> ();
+
+			shipElement.DamageSlider.maxValue = shipElement.ShipData.MaxHP;
+			shipElement.DamageSlider.value = shipElement.ShipData.MaxHP - shipElement.ShipData.HP;
+
 			TeamShipObjects.Add (shipElementObject);
 
 			Player.Instance.CurrentTeam.Add (sender.ShipData);

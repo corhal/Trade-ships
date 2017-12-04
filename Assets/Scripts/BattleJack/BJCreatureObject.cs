@@ -8,11 +8,12 @@ public class BJCreatureObject : MonoBehaviour {
 	public GameObject FlyingTextPrefab;
 
 	public bool IsStunned = false;
-	public bool IsDead = false;
+
 
 	public Slider HPSlider;
 	public BJCreature Creature;
 	public string Name { get { return Creature.Name; } }
+	public bool IsDead { get { return Creature.IsDead; } set { Creature.IsDead = value; } }
 
 	public Image SelectionCircle;
 	public Image CreatureImage;
