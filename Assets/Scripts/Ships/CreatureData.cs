@@ -7,12 +7,10 @@ public enum RankColor {
 }
 
 [System.Serializable]
-public class ShipData {	
+public class CreatureData {	
 
-	public List<RewardChest> RewardChests;
 	public bool IsSummoned;
 	public List<Skill> Skills;
-	// public List<Effect> Effects;
 
 	public Item Soulstone;
 	public List<List<string>> PromoteCosts;
@@ -39,13 +37,12 @@ public class ShipData {
 	public int HP { get { return Creature.HP; } set { Creature.HP = value; } }
 	public bool IsDead { get { return Creature.IsDead; } set { Creature.IsDead = value; } }
 
-	public ShipData () {
+	public CreatureData () {
 
 	}
 
-	public ShipData (BJCreature creature, int level, int stars, List<Skill> skills,
-		Item soulstone, List<List<string>> promoteCosts, RankColor rankColor, bool isSummoned, List<int> levelRequirements, List<RewardChest> rewardChests,
-		float secPerShot, float attackRange) {
+	public CreatureData (BJCreature creature, int level, int stars, List<Skill> skills,
+		Item soulstone, List<List<string>> promoteCosts, RankColor rankColor, bool isSummoned, List<int> levelRequirements) {
 		Creature = creature;
 		Name = creature.Name;
 		Allegiance = creature.Allegiance;
@@ -59,8 +56,6 @@ public class ShipData {
 		Exp = 0;
 		EvolveCosts = Player.Instance.DataBase.EvolveCosts;
 		StatNames = new List<string> { "MaxHP", "Attack", "Range", "Attack speed", "Speed"};
-		SecPerShot = secPerShot;
-		AttackRange = attackRange;
 		if (promoteCosts != null) {
 			PromoteCosts = new List<List<string>> (promoteCosts);
 		} else {
@@ -78,11 +73,6 @@ public class ShipData {
 			this.LevelRequirements = new List<int> (levelRequirements);
 		} else {
 			LevelRequirements = new List<int> ();
-		}
-		if (rewardChests != null) {
-			RewardChests = new List<RewardChest> (rewardChests);
-		} else {
-			RewardChests = new List<RewardChest> ();
 		}
 		IsSummoned = isSummoned;
 	}

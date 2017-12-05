@@ -23,7 +23,7 @@ public class TeamSelectionWindow : MonoBehaviour {
 	Mission mission;
 	GameManager gameManager;
 
-	public List<ShipData> AllShipDatas;
+	public List<CreatureData> AllShipDatas;
 
 	void Awake () {
 		gameManager = GameManager.Instance;
@@ -47,7 +47,7 @@ public class TeamSelectionWindow : MonoBehaviour {
 		}
 		TeamShipObjects.Clear ();
 
-		AllShipDatas = new List<ShipData> ();
+		AllShipDatas = new List<CreatureData> ();
 		foreach (var ship in Player.Instance.ShipDatas) {
 			if (ship.Allegiance == Allegiance.Player && ship.IsSummoned) {
 				AllShipDatas.Add (ship);
@@ -82,7 +82,7 @@ public class TeamSelectionWindow : MonoBehaviour {
 		}
 	}
 
-	GameObject CreateShipElementObject (ShipData shipData) {
+	GameObject CreateShipElementObject (CreatureData shipData) {
 		GameObject shipElementObject = Instantiate (ShipElementPrefab) as GameObject;
 		ShipElement shipElement = shipElementObject.GetComponent<ShipElement> ();
 		shipElement.ShipData = shipData;

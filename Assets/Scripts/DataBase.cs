@@ -24,6 +24,8 @@ public class DataBase : MonoBehaviour {
 	public List<Item> TempItemLibrary;
 	public Dictionary<string, Item> ItemsByNames;
 
+	public TextAsset ItemsTable;
+
 	public List<int> EvolveCosts = new List<int> {
 		10,
 		30,
@@ -71,29 +73,7 @@ public class DataBase : MonoBehaviour {
 			{ RankColor.OrangeP, Color.yellow },
 		};
 
-		Item wood = new Item ("Wood", null, ItemIconsByNames["Wood"], false, true, new Dictionary<string, int> {{"MinReward", 1}, {"MaxReward", 1}});
-		Item food = new Item ("Food", null, ItemIconsByNames["Food"], true, false, new Dictionary<string, int> {{"Firepower", 5}});
-		Item steel = new Item ("Steel", null, ItemIconsByNames["Steel"], false, true, new Dictionary<string, int> {{"Firepower", 5}});
-		Item nails = new Item ("Nails", new Dictionary<string, int> { { "Steel", 2 } }, ItemIconsByNames["Nails"], false, true, new Dictionary<string, int> {{"Firepower", 5}});
-		Item hammers = new Item ("Picks", new Dictionary<string, int> { { "Steel", 1 }, {"Wood", 1} }, ItemIconsByNames["Picks"], false, true, new Dictionary<string, int> {{"Firepower", 5}});
-		Item saws = new Item ("Shovels", new Dictionary<string, int> { { "Steel", 2 }, {"Wood", 1} }, ItemIconsByNames["Shovels"], false, true, new Dictionary<string, int> {{"Firepower", 5}});
-		Item tools = new Item ("Tools", new Dictionary<string, int> { { "Picks", 1 }, {"Shovels", 1} }, ItemIconsByNames["Tools"], false, true, new Dictionary<string, int> {{"Firepower", 5}});
-		Item spices = new Item ("Spices", null, ItemIconsByNames["Spices"], true, false, new Dictionary<string, int> {{"Firepower", 5}});
-		Item ale = new Item ("Ale", null, ItemIconsByNames["Ale"], true, false, new Dictionary<string, int> {{"Firepower", 5}});
-		Item fish = new Item ("Fish", null, ItemIconsByNames["Fish"], true, false, new Dictionary<string, int> {{"Firepower", 5}});
-
-		TempItemLibrary = new List<Item> {
-			wood,
-			food,
-			steel,
-			nails,
-			hammers,
-			saws,
-			tools,
-			spices,
-			ale,
-			fish,
-		};
+		LoadItems (ItemsTable);
 
 		ItemsByNames = new Dictionary<string, Item> ();
 		foreach (var item in TempItemLibrary) {
@@ -102,6 +82,38 @@ public class DataBase : MonoBehaviour {
 
 		foreach (var item in TempItemLibrary) {
 			Player.Instance.TakeItems (new Dictionary<string, int> { { item.Name, 0 } });
+		}
+	}
+
+	public void LoadItems (TextAsset csvTable) {
+		string[,] strings = CSVReader.SplitCsvGrid (csvTable.text);
+		for (int i = 1; i < strings.GetLength(1) - 1; i++) { // Х - хардкодий			
+			if (strings [0, i] == null) {
+				break;
+			}
+			int index = System.Int32.Parse (strings [0, i]);
+
+			string name = strings [1, i];
+
+			string[] craftStrings = strings [2, i].Split (';');
+			Dictionary<string, int> craftNames = new Dictionary<string, int> ();
+			foreach (var craftString in craftStrings) {
+				if (craftString == "") {
+					continue;
+				}
+				string[] lines = craftString.Split (':');
+				craftNames.Add (lines [0], System.Int32.Parse (lines [1]));
+			}
+
+			string assetName = strings [3, i];
+
+			bool forSale = (strings [4, i] == "true") ? true : false;
+
+			bool forCraft = (strings [5, i] == "true") ? true : false;
+
+			Dictionary<string, int> stats = new Dictionary<string, int> { { "Firepower", 5 } };
+
+			TempItemLibrary.Add (new Item (name, craftNames, ItemIconsByNames [name], forSale, forCraft, stats));
 		}
 	}
 }

@@ -14,7 +14,7 @@ public class ShipsCatalogWindow : MonoBehaviour {
 
 	GameManager gameManager;
 
-	public List<ShipData> AllShipDatas;
+	public List<CreatureData> AllShipDatas;
 
 	void Awake () {
 		gameManager = GameManager.Instance;
@@ -29,7 +29,7 @@ public class ShipsCatalogWindow : MonoBehaviour {
 		}
 		ShipObjects.Clear ();
 
-		AllShipDatas = new List<ShipData> ();
+		AllShipDatas = new List<CreatureData> ();
 		foreach (var ship in Player.Instance.ShipDatas) {
 			//if (ship.Allegiance == "Player") {
 				AllShipDatas.Add (ship);
@@ -45,7 +45,7 @@ public class ShipsCatalogWindow : MonoBehaviour {
 		}
 	}
 
-	GameObject CreateShipListElementObject (ShipData shipData) {
+	GameObject CreateShipListElementObject (CreatureData shipData) {
 		GameObject shipListElementObject = Instantiate (ShipListElementPrefab) as GameObject;
 		ShipElement shipElement = shipListElementObject.GetComponentInChildren<ShipElement> ();
 		shipElement.ShipData = shipData;

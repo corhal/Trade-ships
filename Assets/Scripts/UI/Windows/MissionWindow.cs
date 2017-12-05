@@ -64,7 +64,7 @@ public class MissionWindow : MonoBehaviour {
 			rewardElementObject.transform.localScale = Vector3.one;
 			RewardElementObjects.Add (rewardElementObject);
 		}
-		List<ShipData> Enemies = new List<ShipData> (chosenMission.EnemyShips);
+		List<CreatureData> Enemies = new List<CreatureData> (chosenMission.EnemyShips);
 
 		foreach (var enemy in Enemies) {
 			GameObject shipElementObject = Instantiate (EnemyElementPrefab) as GameObject;

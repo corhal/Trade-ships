@@ -31,18 +31,18 @@ public class BJDataBase : MonoBehaviour {
 	public Dictionary<string, Sprite> CreaturePortraitsByNames;
 
 	void Start () {		
-		Creatures.Add (new BJCreature ("Lucky Ellie", 200, 200, 250, 3, 2, Allegiance.Player, AttackType.Ranged, new List<string>{ "Ranged attack" }));
-		Creatures.Add (new BJCreature ("Johnny Two Knives", 80, 80, 20, 4, 4, Allegiance.Player, AttackType.Melee, new List<string>{ "Melee attack", "Combo", "Ricochet", "Execution", "Lifesteal" }));
-		Creatures.Add (new BJCreature ("Bill the Bull", 121, 121, 10, 1, 1, Allegiance.Player, AttackType.Melee, new List<string>{ "Melee attack", "Aggro", "Delay damage", "Cheer team", "Dodge buff" }));
-		Creatures.Add (new BJCreature ("Cutthroat Jack", 90, 90, 20, 2, 4, Allegiance.Player, AttackType.Melee, new List<string>{ "Melee attack", "Heart strike", "Flurry", "Blinding strike", "Bleed buff" }));
-		Creatures.Add (new BJCreature ("One-Shot Ed", 57, 57, 20, 1, 2, Allegiance.Player, AttackType.Ranged, new List<string>{ "Ranged attack", "Headshot", "Shoot leg", "Shoot hand", "Adjustment fire" }));
-		Creatures.Add (new BJCreature ("Evil Eye Jeanny", 57, 57, 10, 1, 3, Allegiance.Player, AttackType.Ranged, new List<string>{ "Ranged attack", "Mass regen", "Heal", "Berserk", "Sacrifice" }));
+		Creatures.Add (new BJCreature ("Lucky Ellie", 200, 200, 250, 3, 2, Allegiance.Player, /*AttackType.Ranged,*/ new List<string>{ "Ranged attack" }));
+		Creatures.Add (new BJCreature ("Johnny Two Knives", 80, 80, 20, 4, 4, Allegiance.Player, /*AttackType.Melee,*/ new List<string>{ "Melee attack", "Combo", "Ricochet", "Execution", "Lifesteal" }));
+		Creatures.Add (new BJCreature ("Bill the Bull", 121, 121, 10, 1, 1, Allegiance.Player, /*AttackType.Melee,*/ new List<string>{ "Melee attack", "Aggro", "Delay damage", "Cheer team", "Dodge buff" }));
+		Creatures.Add (new BJCreature ("Cutthroat Jack", 90, 90, 20, 2, 4, Allegiance.Player, /*AttackType.Melee,*/ new List<string>{ "Melee attack", "Heart strike", "Flurry", "Blinding strike", "Bleed buff" }));
+		Creatures.Add (new BJCreature ("One-Shot Ed", 57, 57, 20, 1, 2, Allegiance.Player, /*AttackType.Ranged,*/ new List<string>{ "Ranged attack", "Headshot", "Shoot leg", "Shoot hand", "Adjustment fire" }));
+		Creatures.Add (new BJCreature ("Evil Eye Jeanny", 57, 57, 10, 1, 3, Allegiance.Player, /*AttackType.Ranged,*/ new List<string>{ "Ranged attack", "Mass regen", "Heal", "Berserk", "Sacrifice" }));
 
-		EnemyCreatures.Add (new BJCreature ("Skeleton militia", 90, 90, 20, 2, 4, Allegiance.Enemy, AttackType.Melee, new List<string>{ "Melee attack" }));
-		EnemyCreatures.Add (new BJCreature ("Skeleton captain", 128, 128, 10, 4, 1, Allegiance.Enemy, AttackType.Melee, new List<string>{ "Melee attack" }));
-		EnemyCreatures.Add (new BJCreature ("Skeleton militia", 85, 85, 20, 3, 4, Allegiance.Enemy, AttackType.Melee, new List<string>{ "Melee attack" }));
-		EnemyCreatures.Add (new BJCreature ("Skeleton arbalest", 54, 54, 30, 2, 2, Allegiance.Enemy, AttackType.Ranged, new List<string>{ "Ranged attack" }));
-		EnemyCreatures.Add (new BJCreature ("Skeleton arbalest", 57, 57, 30, 1, 3, Allegiance.Enemy, AttackType.Ranged, new List<string>{ "Ranged attack" }));
+		EnemyCreatures.Add (new BJCreature ("Skeleton militia", 90, 90, 20, 2, 4, Allegiance.Enemy, /*AttackType.Melee,*/ new List<string>{ "Melee attack" }));
+		EnemyCreatures.Add (new BJCreature ("Skeleton captain", 128, 128, 10, 4, 1, Allegiance.Enemy, /*AttackType.Melee,*/ new List<string>{ "Melee attack" }));
+		EnemyCreatures.Add (new BJCreature ("Skeleton militia", 85, 85, 20, 3, 4, Allegiance.Enemy, /*AttackType.Melee,*/ new List<string>{ "Melee attack" }));
+		EnemyCreatures.Add (new BJCreature ("Skeleton arbalest", 54, 54, 30, 2, 2, Allegiance.Enemy, /*AttackType.Ranged,*/ new List<string>{ "Ranged attack" }));
+		EnemyCreatures.Add (new BJCreature ("Skeleton arbalest", 57, 57, 30, 1, 3, Allegiance.Enemy, /*AttackType.Ranged,*/ new List<string>{ "Ranged attack" }));
 
 		FigurinesByNames = new Dictionary<string, Sprite> ();
 		CreaturePortraitsByNames = new Dictionary<string, Sprite> ();

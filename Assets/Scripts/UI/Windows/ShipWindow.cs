@@ -38,7 +38,7 @@ public class ShipWindow : MonoBehaviour {
 	public Slider BlueprintSlider;
 
 	GameManager gameManager;
-	ShipData currentShipData;
+	CreatureData currentShipData;
 
 	public GameObject StatsButtonObject;
 	public GameObject SkillsButtonObject;
@@ -49,7 +49,7 @@ public class ShipWindow : MonoBehaviour {
 		gameManager = GameManager.Instance;
 	}
 
-	public void Open (ShipData shipData) {		
+	public void Open (CreatureData shipData) {		
 		Window.SetActive (true);
 		currentShipData = shipData;
 		if (Player.Instance.BJDataBase.FigurinesByNames.ContainsKey (shipData.Name)) {
@@ -216,7 +216,7 @@ public class ShipWindow : MonoBehaviour {
 		UpdateLabels (currentShipData);
 	}
 
-	void UpdateLabels (ShipData shipData) {
+	void UpdateLabels (CreatureData shipData) {
 		if (shipData.Stars == shipData.EvolveCosts.Count) {		
 			BlueprintsNodeObject.SetActive (true);
 			EvolveButton.gameObject.SetActive (false);
@@ -341,7 +341,7 @@ public class ShipWindow : MonoBehaviour {
 		gameManager.FindMissionForItem (currentShipData.Soulstone.Name);
 	}
 
-	void UpgradeSkill (ShipData shipData, Skill skill) { // smth wrong; should probably update labels instead
+	void UpgradeSkill (CreatureData shipData, Skill skill) { // smth wrong; should probably update labels instead
 		shipData.UpgradeSkill(skill);
 		UpdateLabels (shipData);
 	}

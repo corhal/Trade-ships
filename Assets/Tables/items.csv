@@ -1,0 +1,11 @@
+id,name,craft names,asset name,for sale,for craft,stats by names
+1,Wood,,,false,true,
+2,Food,,,true,false,
+3,Steel,,,false,true,
+4,Nails,Steel:2,,false,true,
+5,Picks,Steel:1;Wood:1,,false,true,
+6,Shovels,Steel:2;Wood:1,,false,true,
+7,Tools,Picks:1;Shovels:1,,false,true,
+8,Spices,,,true,false,
+9,Ale,,,true,false,
+10,Fish,,,true,false,

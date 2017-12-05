@@ -20,10 +20,10 @@ public class FortWindow : MonoBehaviour {
 
 	GameManager gameManager;
 
-	public List<ShipData> AllShipDatas;
+	public List<CreatureData> AllShipDatas;
 
 	//bool teamChanged;
-	List<ShipData> initialTeam;
+	List<CreatureData> initialTeam;
 
 	void Awake () {
 		gameManager = GameManager.Instance;
@@ -69,7 +69,7 @@ public class FortWindow : MonoBehaviour {
 		}*/
 	}
 
-	GameObject CreateShipElementObject (ShipData shipData) {
+	GameObject CreateShipElementObject (CreatureData shipData) {
 		GameObject shipElementObject = Instantiate (ShipElementPrefab) as GameObject;
 		ShipElement shipElement = shipElementObject.GetComponent<ShipElement> ();
 		shipElement.ShipData = shipData;

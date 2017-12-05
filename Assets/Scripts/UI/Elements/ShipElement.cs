@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class ShipElement : MonoBehaviour {
 
-	public ShipData ShipData;
+	public CreatureData ShipData;
 	public Text NameLabel;
 	public Text LevelLabel;
 	public Image PortraitImage;

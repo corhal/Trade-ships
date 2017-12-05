@@ -39,12 +39,12 @@ public class MissionObject : Selectable {
 		List<BJCreature> enemyCreatures = new List<BJCreature> (Player.Instance.BJDataBase.EnemyCreatures);
 
 		Utility.Shuffle (enemyCreatures);
-		List<ShipData> enemyShips = new List<ShipData> ();
+		List<CreatureData> enemyShips = new List<CreatureData> ();
 		int enemiesCount = Random.Range (1, 6);
 
 		int rankCol = Random.Range (0, System.Enum.GetNames (typeof(RankColor)).Length);
 		for (int j = 0; j < enemiesCount; j++) {				
-			ShipData enemy = new ShipData (enemyCreatures [j], 1, 1, null, null, null, (RankColor)rankCol, false, null, null, 1.5f, 3.0f);
+			CreatureData enemy = new CreatureData (enemyCreatures [j], 1, 1, null, null, null, (RankColor)rankCol, false, null);
 			enemyShips.Add (enemy);
 		}
 

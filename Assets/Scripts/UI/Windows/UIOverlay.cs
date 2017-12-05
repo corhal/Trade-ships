@@ -54,7 +54,7 @@ public class UIOverlay : MonoBehaviour {
 		MyShipsCatalogWindow.Close ();
 	}
 
-	public void OpenShipWindow (ShipData shipData) {
+	public void OpenShipWindow (CreatureData shipData) {
 		MyShipWindow.Open (shipData);
 		MyExpeditionWindow.Close ();
 		MyMissionWindow.Close ();

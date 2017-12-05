@@ -324,7 +324,7 @@ public class BJGameController : MonoBehaviour {
 
 	public void SpawnCreatures (int amount) {
 		if (Player.Instance != null) { // kostyll
-			List<ShipData> enemyShipDatas = Player.Instance.CurrentMission.EnemyShips;
+			List<CreatureData> enemyShipDatas = Player.Instance.CurrentMission.EnemyShips;
 			for (int i = 0; i < enemyShipDatas.Count; i++) {
 				BJCreature enemyCreature = enemyShipDatas [i].Creature;
 				BJCreatureObject bjCreatureObject = SpawnCreatureObject (
@@ -335,7 +335,7 @@ public class BJGameController : MonoBehaviour {
 					                                    enemyCreature.Armor, 
 					                                    enemyCreature.Speed, 
 					                                    enemyCreature.Allegiance, 
-					                                    enemyCreature.AttackType, 
+					                                    //enemyCreature.AttackType, 
 					                                    enemyCreature.SkillNames);
 				bjCreatureObject.gameObject.transform.SetParent (EnemySpawnPoints [i]);
 				bjCreatureObject.gameObject.transform.localScale = Vector3.one;
@@ -345,7 +345,7 @@ public class BJGameController : MonoBehaviour {
 			List<BJCreature> enemyCreatures = new List<BJCreature> (BJPlayer.Instance.DataBase.EnemyCreatures);
 			for (int i = 0; i < amount; i++) {
 				BJCreatureObject bjCreatureObject = SpawnCreatureObject (enemyCreatures [i].Name, enemyCreatures [i].MaxHP, enemyCreatures [i].HP, enemyCreatures [i].BaseDamage, enemyCreatures [i].Armor, enemyCreatures [i].Speed,
-					enemyCreatures [i].Allegiance, enemyCreatures [i].AttackType, new List<string> (enemyCreatures [i].SkillNames));				
+					enemyCreatures [i].Allegiance, /*enemyCreatures [i].AttackType,*/ new List<string> (enemyCreatures [i].SkillNames));				
 				bjCreatureObject.gameObject.transform.SetParent (EnemySpawnPoints [i]);
 				bjCreatureObject.gameObject.transform.localScale = Vector3.one;
 				bjCreatureObject.gameObject.transform.localPosition = Vector3.zero;
@@ -364,7 +364,7 @@ public class BJGameController : MonoBehaviour {
 				                                    creatures [i].Armor, 
 				                                    creatures [i].Speed, 
 				                                    creatures [i].Allegiance, 
-				                                    creatures [i].AttackType, 
+				                                    //creatures [i].AttackType, 
 				                                    creatures [i].SkillNames);
 			// Debug.Log (bjCreatureObject.Name + " " + bjCreatureObject.Creature.HP + "/" + bjCreatureObject.Creature.MaxHP);
 			bjCreatureObject.gameObject.transform.SetParent (PlayerSpawnPoints [i]);
@@ -386,10 +386,10 @@ public class BJGameController : MonoBehaviour {
 		}
 	}
 
-	BJCreatureObject SpawnCreatureObject (string name, int maxhp, int hp, int attack, int armor, int speed, Allegiance allegiance, AttackType attackType, List<string> skillNames) {
+	BJCreatureObject SpawnCreatureObject (string name, int maxhp, int hp, int attack, int armor, int speed, Allegiance allegiance, /*AttackType attackType,*/ List<string> skillNames) {
 		GameObject creatureObject = Instantiate (CreatureObjectPrefab) as GameObject;
 		BJCreatureObject bjCreatureObject = creatureObject.GetComponent<BJCreatureObject> ();
-		bjCreatureObject.Creature = new BJCreature (name, maxhp, hp, attack, armor, speed, allegiance, attackType, skillNames);
+		bjCreatureObject.Creature = new BJCreature (name, maxhp, hp, attack, armor, speed, allegiance, /*attackType,*/ skillNames);
 		bjCreatureObject.CreatureImage.sprite = BJPlayer.Instance.DataBase.FigurinesByNames [name];
 		bjCreatureObject.CreatureImage.SetNativeSize ();
 		bjCreatureObject.CreatureImage.rectTransform.sizeDelta = new Vector2 (bjCreatureObject.CreatureImage.rectTransform.rect.width / 7, 

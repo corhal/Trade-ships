@@ -11,7 +11,7 @@ public class Player : MonoBehaviour {
 	public List<Mission> Missions;
 	public Mission CurrentMission;
 	public List<BuildingData> BuildingDatas;
-	public List<ShipData> ShipDatas;
+	public List<CreatureData> ShipDatas;
 	public List<TradeShipData> TradeShipDatas;
 	public List<TradeShip> TradeShips;
 	public bool FirstLoad = true;
@@ -23,7 +23,7 @@ public class Player : MonoBehaviour {
 	public BJDataBase BJDataBase;
 	public Dictionary<string, int> Inventory;
 
-	public List<ShipData> CurrentTeam;
+	public List<CreatureData> CurrentTeam;
 	public List<TradeShipData> HomeTeam;
 
 	public Vector3 PlayerShipCoordinates;
@@ -35,7 +35,7 @@ public class Player : MonoBehaviour {
 			Destroy (gameObject);  
 		}
 		DontDestroyOnLoad(gameObject);
-		CurrentTeam = new List<ShipData> ();
+		CurrentTeam = new List<CreatureData> ();
 		Inventory = new Dictionary<string, int> ();
 	}
 
@@ -112,8 +112,8 @@ public class Player : MonoBehaviour {
 			}
 
 			List<int> levelRequirements = new List<int> { 10, 20, 30, 40, 50 };
-			ShipData newShipData = new ShipData (creatures [j], 1, 1,
-				skills, soulstone, promoteCosts, RankColor.White, summoned, levelRequirements, null, 1.5f, 3.0f);
+			CreatureData newShipData = new CreatureData (creatures [j], 1, 1,
+				skills, soulstone, promoteCosts, RankColor.White, summoned, levelRequirements);
 
 			ShipDatas.Add (newShipData);
 

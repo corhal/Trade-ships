@@ -7,9 +7,9 @@ public enum Allegiance {
 	Player, Enemy, Neutral
 }
 
-public enum AttackType {
+/*public enum AttackType {
 	Melee, Ranged
-}
+}*/
 
 [System.Serializable]
 public class BJCreature {
@@ -45,8 +45,8 @@ public class BJCreature {
 	float dodge;
 	public float Dodge { get { return dodge; } set { dodge = value; } }
 
-	AttackType attackType;
-	public AttackType AttackType { get { return attackType; } }
+	/*AttackType attackType;
+	public AttackType AttackType { get { return attackType; } }*/
 
 	Allegiance allegiance;
 	public Allegiance Allegiance { get { return allegiance; } }
@@ -55,7 +55,7 @@ public class BJCreature {
 
 	public List<string> SkillNames;
 
-	public BJCreature (string name, int maxhp, int hp, int baseDamage, int armor, int speed, Allegiance allegiance, AttackType attackType, List<string> skillNames) {
+	public BJCreature (string name, int maxhp, int hp, int baseDamage, int armor, int speed, Allegiance allegiance, /*AttackType attackType,*/ List<string> skillNames) {
 		this.creatureName = name;
 		this.maxhp = maxhp;
 		this.hp = hp;
@@ -64,7 +64,7 @@ public class BJCreature {
 		this.armorPierce = 0;
 		this.speed = speed;
 		this.allegiance = allegiance;
-		this.attackType = attackType;
+		//this.attackType = attackType;
 		this.SkillNames = new List<string> (skillNames);
 		this.dodge = 0.0f;
 		this.precision = 1.0f;
