@@ -151,6 +151,8 @@
      <Compile Include="Assets\Scripts\UI\Windows\CraftWindow.cs" />
      <Compile Include="Assets\Scripts\UI\Windows\ExpeditionWindow.cs" />
      <Compile Include="Assets\Scripts\UI\Windows\FortWindow.cs" />
+     <Compile Include="Assets\Scripts\UI\Windows\HeroCatalog.cs" />
+     <Compile Include="Assets\Scripts\UI\Windows\HeroPopup.cs" />
      <Compile Include="Assets\Scripts\UI\Windows\ImagesPopUp.cs" />
      <Compile Include="Assets\Scripts\UI\Windows\InfoWindow.cs" />
      <Compile Include="Assets\Scripts\UI\Windows\MissionWindow.cs" />

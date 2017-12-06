@@ -15,7 +15,7 @@ public class UIOverlay : MonoBehaviour {
 
 	public TeamSelectionWindow MyTeamSelectionWindow;
 	public InfoWindow MyInfoWindow;
-	public ShipWindow MyShipWindow;
+	public HeroPopup MyShipWindow;
 	public ExpeditionWindow MyExpeditionWindow;
 	public MissionWindow MyMissionWindow;
 	public PortWindow MyPortWindow;
@@ -23,6 +23,8 @@ public class UIOverlay : MonoBehaviour {
 	public ContextButtonsOverlay MyButtonsOverlay;
 	public PopUp MyPopUp;
 	public ImagesPopUp MyImagesPopUp;
+	public HeroCatalog MyShipsCatalogWindow;
+	// public HeroCatalog HeroCatalog;
 
 	void Awake () {
 		if (Instance == null) {			
@@ -64,7 +66,7 @@ public class UIOverlay : MonoBehaviour {
 		MyMissionWindow.Close ();
 		MyPopUp.Close ();
 		MyInfoWindow.Close ();
-		MyShipsCatalogWindow.Close ();
+		// MyShipsCatalogWindow.Close ();
 	}
 
 	public void OpenFortWindow () {
@@ -191,8 +193,6 @@ public class UIOverlay : MonoBehaviour {
 		MyShipsCatalogWindow.Close ();
 		// MyFortWindow.Close (); // here is the bug!!! think about it!
 	}
-
-	public ShipsCatalogWindow MyShipsCatalogWindow;
 
 	public void OpenShipsCatalogWindow () {
 		MyShipsCatalogWindow.Open ();
