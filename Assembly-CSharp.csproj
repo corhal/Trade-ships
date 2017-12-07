@@ -132,6 +132,7 @@
      <Compile Include="Assets\Scripts\PlayerShip.cs" />
      <Compile Include="Assets\Scripts\Region.cs" />
      <Compile Include="Assets\Scripts\Selectable.cs" />
+     <Compile Include="Assets\Scripts\SelectableTile.cs" />
      <Compile Include="Assets\Scripts\Shipment.cs" />
      <Compile Include="Assets\Scripts\Ships\CreatureData.cs" />
      <Compile Include="Assets\Scripts\Ships\RewardChest.cs" />

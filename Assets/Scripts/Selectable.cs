@@ -89,8 +89,13 @@ public class Selectable : MonoBehaviour {
 		animate = true;
 	}
 
-	void OnMouseDown () {
-		if (IsAvailable && !Utility.IsPointerOverUIObject () && Allegiance != Allegiance.Enemy) {
+	void OnMouseUp () {
+		Invoke ("RealClick", 0.1f);
+	}
+
+	void RealClick () {
+		Debug.Log ("real click");
+		if (!GameManager.Instance.CameraDragged && IsAvailable && !Utility.IsPointerOverUIObject () && Allegiance != Allegiance.Enemy) {
 			uiManager.OpenContextButtons (this);
 		}
 	}

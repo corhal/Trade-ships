@@ -11,7 +11,7 @@ public class PlayerShip : MonoBehaviour {
 
 	public int EnergyPerDistance;
 
-	Collider2D lastSeenCollider;
+	public Collider2D lastSeenCollider;
 
 	void Awake () {
 		if (Instance == null) {			
@@ -57,7 +57,9 @@ public class PlayerShip : MonoBehaviour {
 	}
 
 	void OnTriggerEnter2D (Collider2D other) { // will work even when passing through
-		lastSeenCollider = other;
+		if (other.GetComponent<SelectableTile> () == null && other.GetComponent<Port> () == null) {
+			lastSeenCollider = other;
+		}
 		/*if (other.gameObject.GetComponent<Shipwreck> () != null) {
 			Dictionary<string, int> rewards = new Dictionary<string, int> ();
 			foreach (var rewardChest in other.gameObject.GetComponent<Shipwreck> ().RewardChests) {
