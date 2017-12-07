@@ -24,7 +24,7 @@ public class CameraDrag : MonoBehaviour
 			cameraDragging = false;
 			return;
 		}
-		if (Input.GetMouseButtonDown(0)) {
+		if (Input.GetMouseButtonDown(0)) {			
 			dragOrigin = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 			cameraDragging = true;
 			GameManager.Instance.CameraDragged = true;
@@ -54,15 +54,13 @@ public class CameraDrag : MonoBehaviour
 		}
 
 		if (Input.GetMouseButtonUp (0)) {
-			Vector3 mousePos = Camera.main.ScreenToWorldPoint (Input.mousePosition) - Camera.main.transform.position;
+			Vector3 mousePos = Camera.main.ScreenToWorldPoint (Input.mousePosition);// - Camera.main.transform.position;
 			Vector3 pos = dragOrigin - mousePos;
 			Debug.Log ("calling from cameraDrag");
-			if (pos.x > 0.01f || pos.y > 0.01f || pos.z > 0.01f) {
+			if (Mathf.Abs (pos.x) > 0.01f || Mathf.Abs (pos.y) > 0.01f || Mathf.Abs (pos.z) > 0.01f) {
 				GameManager.Instance.CameraDragged = true;
-				Debug.Log ("Camera was dragged");
 			} else {
-				GameManager.Instance.CameraDragged = false;
-				Debug.Log ("Camera was NOT dragged");
+				GameManager.Instance.CameraDragged = false;			
 			}
 		}
 

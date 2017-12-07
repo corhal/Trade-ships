@@ -57,8 +57,11 @@ public class PlayerShip : MonoBehaviour {
 	}
 
 	void OnTriggerEnter2D (Collider2D other) { // will work even when passing through
-		if (other.GetComponent<SelectableTile> () == null && other.GetComponent<Port> () == null) {
+		if (other.GetComponent<SelectableTile> () == null && other.GetComponentInParent<SelectableTile> () == null && other.GetComponent<Port> () == null) {
 			lastSeenCollider = other;
+		}
+		if (other.GetComponentInParent<SelectableTile> () != null) {
+			other.GetComponentInParent<SelectableTile> ().StopParticles ();
 		}
 		/*if (other.gameObject.GetComponent<Shipwreck> () != null) {
 			Dictionary<string, int> rewards = new Dictionary<string, int> ();
@@ -81,6 +84,12 @@ public class PlayerShip : MonoBehaviour {
 		} else if (other.gameObject.GetComponent<MissionObject> () != null) {
 			gameManager.OpenMissionWindow (other.gameObject.GetComponent<MissionObject> ().Mission);
 		}*/
+	}
+
+	void OnTriggerExit2D (Collider2D other) {
+		if (lastSeenCollider == other) {
+			lastSeenCollider = null;
+		}
 	}
 
 	public void MoveToPoint (Vector2 target) {
