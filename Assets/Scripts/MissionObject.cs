@@ -28,7 +28,7 @@ public class MissionObject : Selectable {
 		if (IsCastle && Mission.Stars == 3 && Island.Allegiance != Allegiance.Player) {
 			Island.Claim ();
 		}
-		if (Island != null && Island.Allegiance == Allegiance.Player) {
+		if (Mission.Stars == 3) {
 			// enabled = false;
 			GetComponent<Collider2D>().enabled = false;
 		}

@@ -149,7 +149,7 @@ public class ShipWindow : MonoBehaviour {
 		}
 
 		for (int i = 1; i < currentShipData.Skills.Count; i++) {			
-			SkillElements [i - 1].SkillNameLabel.text = currentShipData.Skills [i].Name;
+			//SkillElements [i - 1].SkillNameLabel.text = currentShipData.Skills [i].Name;
 			if (Player.Instance.BJDataBase.BJSkillsByNames.ContainsKey (currentShipData.Skills [i].Name)) {
 				SkillElements [i - 1].SkillImage.sprite = Player.Instance.BJDataBase.BJSkillsByNames [currentShipData.Skills [i].Name].SkillIcon;
 			}
@@ -157,19 +157,19 @@ public class ShipWindow : MonoBehaviour {
 			int stupidLambdaCounter = i;
 
 			if ((int)currentShipData.RankColor < (int) RankColorRequirements [i - 1]) {
-				SkillElements [i - 1].SkillLevelLabel.gameObject.SetActive (false);
-				SkillElements [i - 1].UpgradeCostLabel.gameObject.SetActive (false);
+				/*SkillElements [i - 1].SkillLevelLabel.gameObject.SetActive (false);
+				SkillElements [i - 1].UpgradeCostLabel.gameObject.SetActive (false);*/
 				SkillElements [stupidLambdaCounter - 1].SkillUpgradeButton.gameObject.SetActive (false);
 				SkillElements [i - 1].UnlockNode.SetActive (true);
 				SkillElements [i - 1].UnlockConditionsLabel.text = "Unlocks at " + RankColorRequirements [i - 1].ToString () + " rank";
 			} else {
-				SkillElements [i - 1].SkillLevelLabel.gameObject.SetActive (true);
-				SkillElements [i - 1].UpgradeCostLabel.gameObject.SetActive (true);
+				/*SkillElements [i - 1].SkillLevelLabel.gameObject.SetActive (true);
+				SkillElements [i - 1].UpgradeCostLabel.gameObject.SetActive (true);*/
 				SkillElements [stupidLambdaCounter - 1].SkillUpgradeButton.gameObject.SetActive (true);
 				SkillElements [i - 1].UnlockNode.SetActive (false);
 
-				SkillElements [i - 1].SkillLevelLabel.text = "level: " +  currentShipData.Skills [i].Level;
-				SkillElements [i - 1].UpgradeCostLabel.text = "$ " + currentShipData.Skills [i].UpgradeCosts [currentShipData.Skills [i].Level];
+				/*SkillElements [i - 1].SkillLevelLabel.text = "level: " +  currentShipData.Skills [i].Level;
+				SkillElements [i - 1].UpgradeCostLabel.text = "$ " + currentShipData.Skills [i].UpgradeCosts [currentShipData.Skills [i].Level];*/
 
 
 				SkillElements [stupidLambdaCounter - 1].SkillUpgradeButton.onClick.AddListener (delegate {
@@ -300,23 +300,23 @@ public class ShipWindow : MonoBehaviour {
 			for (int i = 1; i < shipData.Skills.Count; i++) {
 				SkillElement skillElement = SkillElements [i - 1]; 
 
-				skillElement.SkillNameLabel.text = shipData.Skills [i].Name;
+				//skillElement.SkillNameLabel.text = shipData.Skills [i].Name;
 				int stupidLambdaCounter = i;
 
 				if ((int)currentShipData.RankColor < (int)RankColorRequirements [i - 1]) {
-					SkillElements [i - 1].SkillLevelLabel.gameObject.SetActive (false);
-					SkillElements [i - 1].UpgradeCostLabel.gameObject.SetActive (false);
+					/*SkillElements [i - 1].SkillLevelLabel.gameObject.SetActive (false);
+					SkillElements [i - 1].UpgradeCostLabel.gameObject.SetActive (false);*/
 					SkillElements [stupidLambdaCounter - 1] .SkillUpgradeButton.gameObject.SetActive (false);
 					SkillElements [i - 1].UnlockNode.SetActive (true);
 					SkillElements [i - 1].UnlockConditionsLabel.text = "Unlocks at " + RankColorRequirements [i - 1].ToString () + " rank";
 				} else {
-					SkillElements [i - 1].SkillLevelLabel.gameObject.SetActive (true);
-					SkillElements [i - 1].UpgradeCostLabel.gameObject.SetActive (true);
+					/*SkillElements [i - 1].SkillLevelLabel.gameObject.SetActive (true);
+					SkillElements [i - 1].UpgradeCostLabel.gameObject.SetActive (true);*/
 					SkillElements [stupidLambdaCounter - 1].SkillUpgradeButton.gameObject.SetActive (true);
 					SkillElements [i - 1].UnlockNode.SetActive (false);
 
-					SkillElements [i - 1].SkillLevelLabel.text = "level: " + currentShipData.Skills [i].Level;
-					SkillElements [i - 1].UpgradeCostLabel.text = "$ " + currentShipData.Skills [i].UpgradeCosts [currentShipData.Skills [i].Level];
+					/*SkillElements [i - 1].SkillLevelLabel.text = "level: " + currentShipData.Skills [i].Level;
+					SkillElements [i - 1].UpgradeCostLabel.text = "$ " + currentShipData.Skills [i].UpgradeCosts [currentShipData.Skills [i].Level];*/
 
 					SkillElements [stupidLambdaCounter - 1].SkillUpgradeButton.onClick.RemoveAllListeners ();
 

@@ -1,6 +1,6 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\PlayerShip.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\UI\Windows\HeroPopup.cs">
     <Files>
       <File FileName="Assets\Scripts\MoveOnClick.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Shipment.cs" Line="1" Column="1" />
@@ -9,7 +9,7 @@
       <File FileName="Assets\Scripts\Action.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Selectable.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Buildings\ProductionBuilding.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\CameraDrag.cs" Line="34" Column="35" />
+      <File FileName="Assets\Scripts\CameraDrag.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Buildings\Port.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Region.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Island.cs" Line="1" Column="1" />
@@ -27,7 +27,7 @@
       <File FileName="Assets\Scripts\UI\Windows\PopUp.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\UI\Windows\FortWindow.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\UI\Elements\ShipElement.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\UI\Windows\ShipWindow.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\UI\Windows\ShipWindow.cs" Line="343" Column="2" />
       <File FileName="Assets\Scripts\DataBase.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Item.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\UI\Windows\MissionWindow.cs" Line="1" Column="1" />
@@ -56,10 +56,13 @@
       <File FileName="Assets\Scripts\BattleJack\BJMoveBetweenPoints.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Ships\TradeShip.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Ships\TradeShipMover.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\MissionObject.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\MissionObject.cs" Line="32" Column="23" />
       <File FileName="Assets\Scripts\PlayerShip.cs" Line="91" Column="28" />
       <File FileName="Assets\Scripts\UI\Windows\ExpeditionWindow.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\SelectableTile.cs" Line="11" Column="36" />
+      <File FileName="Assets\Scripts\SelectableTile.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\UI\Elements\ShipSkillButton.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\UI\Elements\SkillElement.cs" Line="11" Column="29" />
+      <File FileName="Assets\Scripts\UI\Windows\HeroPopup.cs" Line="371" Column="4" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

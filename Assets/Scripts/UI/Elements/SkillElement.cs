@@ -4,10 +4,11 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class SkillElement : MonoBehaviour {
-	public Text SkillNameLabel;
-	public Text SkillLevelLabel;
+	
 	public Button SkillUpgradeButton;
-	public Text UpgradeCostLabel;
+
+	public Text StatLabel;
+	public Text SkillStatLabel;
 
 	public GameObject UnlockNode;
 	public Text UnlockConditionsLabel;

@@ -43,6 +43,7 @@ public class HeroPopup : MonoBehaviour {
 	public GameObject StatsButtonObject;
 	public GameObject SkillsButtonObject;
 
+	public List<int> LevelRequirements = new List<int> { 0, 5, 10, 15 };
 	public List<RankColor> RankColorRequirements = new List<RankColor> {RankColor.White, RankColor.Green, RankColor.Blue, RankColor.Purple};
 
 	void Awake () {
@@ -149,26 +150,29 @@ public class HeroPopup : MonoBehaviour {
 		}
 
 		for (int i = 1; i < currentShipData.Skills.Count; i++) {			
-			SkillElements [i - 1].SkillNameLabel.text = currentShipData.Skills [i].Name;
+			SkillElements [i - 1].StatLabel.text = currentShipData.Skills [i].Name;
 			if (Player.Instance.BJDataBase.BJSkillsByNames.ContainsKey (currentShipData.Skills [i].Name)) {
 				SkillElements [i - 1].SkillImage.sprite = Player.Instance.BJDataBase.BJSkillsByNames [currentShipData.Skills [i].Name].SkillIcon;
 			}
 
 			int stupidLambdaCounter = i;
 
-			if ((int)currentShipData.RankColor < (int) RankColorRequirements [i - 1]) {
+			if (currentShipData.Level < LevelRequirements [i - 1]/*(int)currentShipData.RankColor < (int) RankColorRequirements [i - 1]*/) {
+				SkillElements [i - 1].StatLabel.gameObject.SetActive (false);
+				SkillElements [i - 1].SkillStatLabel.gameObject.SetActive (false);
 				//SkillElements [i - 1].SkillLevelLabel.gameObject.SetActive (false);
 				//SkillElements [i - 1].UpgradeCostLabel.gameObject.SetActive (false);
 				//SkillElements [stupidLambdaCounter - 1].SkillUpgradeButton.gameObject.SetActive (false);
 				SkillElements [i - 1].UnlockNode.SetActive (true);
-				SkillElements [i - 1].UnlockConditionsLabel.text = "Unlocks at " + RankColorRequirements [i - 1].ToString () + " rank";
+				SkillElements [i - 1].UnlockConditionsLabel.text = "Unlocks at level" + LevelRequirements [i - 1].ToString ();
 			} else {
 				//SkillElements [i - 1].SkillLevelLabel.gameObject.SetActive (true);
 				//SkillElements [i - 1].UpgradeCostLabel.gameObject.SetActive (true);
 				//SkillElements [stupidLambdaCounter - 1].SkillUpgradeButton.gameObject.SetActive (true);
 				SkillElements [i - 1].UnlockNode.SetActive (false);
-
-				SkillElements [i - 1].SkillLevelLabel.text = "level: " +  currentShipData.Skills [i].Level;
+				SkillElements [i - 1].StatLabel.gameObject.SetActive (true);
+				SkillElements [i - 1].SkillStatLabel.gameObject.SetActive (true);
+				//SkillElements [i - 1].SkillLevelLabel.text = "level: " +  currentShipData.Skills [i].Level;
 				//SkillElements [i - 1].UpgradeCostLabel.text = "$ " + currentShipData.Skills [i].UpgradeCosts [currentShipData.Skills [i].Level];
 
 
@@ -297,7 +301,42 @@ public class HeroPopup : MonoBehaviour {
 		}
 
 		if (SkillsBlock.activeSelf) {
-			for (int i = 1; i < shipData.Skills.Count; i++) {
+			for (int i = 1; i < currentShipData.Skills.Count; i++) {			
+				SkillElements [i - 1].StatLabel.text = currentShipData.Skills [i].Name;
+				if (Player.Instance.BJDataBase.BJSkillsByNames.ContainsKey (currentShipData.Skills [i].Name)) {
+					SkillElements [i - 1].SkillImage.sprite = Player.Instance.BJDataBase.BJSkillsByNames [currentShipData.Skills [i].Name].SkillIcon;
+				}
+
+				int stupidLambdaCounter = i;
+
+				if (currentShipData.Level < LevelRequirements [i - 1]/*(int)currentShipData.RankColor < (int) RankColorRequirements [i - 1]*/) {
+					SkillElements [i - 1].StatLabel.gameObject.SetActive (false);
+					SkillElements [i - 1].SkillStatLabel.gameObject.SetActive (false);
+					//SkillElements [i - 1].SkillLevelLabel.gameObject.SetActive (false);
+					//SkillElements [i - 1].UpgradeCostLabel.gameObject.SetActive (false);
+					//SkillElements [stupidLambdaCounter - 1].SkillUpgradeButton.gameObject.SetActive (false);
+					SkillElements [i - 1].UnlockNode.SetActive (true);
+					SkillElements [i - 1].UnlockConditionsLabel.text = "Unlocks at level" + LevelRequirements [i - 1].ToString ();
+				} else {
+					//SkillElements [i - 1].SkillLevelLabel.gameObject.SetActive (true);
+					//SkillElements [i - 1].UpgradeCostLabel.gameObject.SetActive (true);
+					//SkillElements [stupidLambdaCounter - 1].SkillUpgradeButton.gameObject.SetActive (true);
+					SkillElements [i - 1].UnlockNode.SetActive (false);
+					SkillElements [i - 1].StatLabel.gameObject.SetActive (true);
+					SkillElements [i - 1].SkillStatLabel.gameObject.SetActive (true);
+					//SkillElements [i - 1].SkillLevelLabel.text = "level: " +  currentShipData.Skills [i].Level;
+					//SkillElements [i - 1].UpgradeCostLabel.text = "$ " + currentShipData.Skills [i].UpgradeCosts [currentShipData.Skills [i].Level];
+
+
+					/*SkillElements [stupidLambdaCounter - 1].SkillUpgradeButton.onClick.AddListener (delegate {
+						UpgradeSkill (currentShipData, currentShipData.Skills [stupidLambdaCounter]);
+					});*/
+
+					/*if (currentShipData.Skills [i].Level == currentShipData.Skills [i].MaxLevel) {
+					SkillElements [i - 1].SkillUpgradeButton.gameObject.SetActive (false);
+				}*/
+				}
+				/*for (int i = 1; i < shipData.Skills.Count; i++) {
 				SkillElement skillElement = SkillElements [i - 1]; 
 
 				skillElement.SkillNameLabel.text = shipData.Skills [i].Name;
@@ -327,7 +366,7 @@ public class HeroPopup : MonoBehaviour {
 					if (currentShipData.Skills [i].Level == currentShipData.Skills [i].MaxLevel) {
 						SkillElements [i - 1].SkillUpgradeButton.gameObject.SetActive (false);
 					}
-				}
+				}*/
 			}
 		}
 	}
