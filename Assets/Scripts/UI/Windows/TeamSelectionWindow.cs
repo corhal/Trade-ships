@@ -90,7 +90,7 @@ public class TeamSelectionWindow : MonoBehaviour {
 			shipElement.PortraitImage.sprite = Player.Instance.BJDataBase.CreaturePortraitsByNames [shipData.Name];
 		}
 		shipElement.NameLabel.text = shipData.Name;
-		shipElement.LevelLabel.text = shipData.Level.ToString ();
+		shipElement.LevelLabel.text = shipData.Stars.ToString ();
 
 		for (int i = 0; i < 5; i++) {
 			shipElement.Stars [i].SetActive (false);

@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour {
 	public bool InMoveMode = false;
 	public List<Island> Islands;
 
+	public List<SelectableTile> Tiles;
 	public List<TradeShip> TradeShips;
 	public List<Building> Buildings;
 	public List<MissionObject> MissionObjects;
@@ -105,6 +106,12 @@ public class GameManager : MonoBehaviour {
 			Player.Instance.SavePlayerShip (PlayerShip);
 			Player.Instance.SaveTradeShipDatas ();
 			Player.Instance.FirstLoad = false;
+		}
+
+		foreach (var tile in Tiles) {
+			if (Player.Instance.Tiles [tile.Id] == false) {				
+				tile.StopParticles ();
+			}
 		}
 	}			
 

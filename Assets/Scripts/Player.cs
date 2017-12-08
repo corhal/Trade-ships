@@ -28,6 +28,8 @@ public class Player : MonoBehaviour {
 
 	public Vector3 PlayerShipCoordinates;
 
+	public Dictionary<int, bool> Tiles;
+
 	void Awake () {
 		if (Instance == null) {			
 			Instance = this;
@@ -37,6 +39,7 @@ public class Player : MonoBehaviour {
 		DontDestroyOnLoad(gameObject);
 		CurrentTeam = new List<CreatureData> ();
 		Inventory = new Dictionary<string, int> ();
+		Tiles = new Dictionary<int, bool> ();
 	}
 
 	public void SaveBuildings (List<Building> buildings) {

@@ -31,9 +31,7 @@ public class HeroCatalog : MonoBehaviour {
 
 		AllShipDatas = new List<CreatureData> ();
 		foreach (var ship in Player.Instance.ShipDatas) {
-			//if (ship.Allegiance == "Player") {
-				AllShipDatas.Add (ship);
-			//}
+			AllShipDatas.Add (ship);
 		}
 		foreach (var ship in AllShipDatas) {
 			
@@ -64,27 +62,21 @@ public class HeroCatalog : MonoBehaviour {
 		}
 
 		ShipListElement shipListElement = shipListElementObject.GetComponent<ShipListElement> ();
+		shipListElement.SoulstonesSlider.maxValue = Player.Instance.DataBase.EvolveCosts [shipData.Stars];
+		shipListElement.SoulstonesSlider.value = Player.Instance.Inventory [shipData.Soulstone.Name];
+
+		shipListElement.SoulstonesSlider.GetComponentInChildren<Text>().text = Player.Instance.Inventory [shipData.Soulstone.Name] + "/" + Player.Instance.DataBase.EvolveCosts [shipData.Stars];
 		if (!shipData.IsSummoned) {
 			if (!Player.Instance.Inventory.ContainsKey(shipData.Soulstone.Name)) { // temporary fix for crash!!
 				Player.Instance.Inventory.Add (shipData.Soulstone.Name, 0);
 			}
-			if (Player.Instance.Inventory [shipData.Soulstone.Name] < Player.Instance.DataBase.EvolveCosts [shipData.Stars]) {
-				shipListElement.BlueprintsSlider.maxValue = Player.Instance.DataBase.EvolveCosts [shipData.Stars];
-				shipListElement.BlueprintsSlider.value = Player.Instance.Inventory [shipData.Soulstone.Name];
-
-				shipListElement.BlueprintsSlider.GetComponentInChildren<Text>().text = Player.Instance.Inventory [shipData.Soulstone.Name] + "/" + Player.Instance.DataBase.EvolveCosts [shipData.Stars];
-			} else {
-				shipListElement.BlueprintsSlider.gameObject.SetActive (false);
+			if (Player.Instance.Inventory [shipData.Soulstone.Name] > Player.Instance.DataBase.EvolveCosts [shipData.Stars]) {
+				shipListElement.SoulstonesSlider.gameObject.SetActive (false);
 				shipListElement.SummonButton.gameObject.SetActive (true);
 			}
 		} else {
-			shipListElement.BlueprintsSlider.gameObject.SetActive (false);
+			
 			shipListElement.SummonButton.gameObject.SetActive (false);
-			/*shipListElement.ItemsParent.SetActive (true);
-			for (int i = 0; i < shipListElement.ItemImages.Count; i++) {
-				//Debug.Log (shipData.PromoteCosts);
-				shipListElement.ItemImages [i].sprite = Player.Instance.DataBase.ItemIconsByNames [shipData.PromoteCosts [(int)shipData.RankColor] [i]];
-			}*/
 		}
 
 		shipListElement.GetComponent<Button> ().enabled = true;
@@ -95,13 +87,7 @@ public class HeroCatalog : MonoBehaviour {
 
 	void ShipListElement_OnShipListElementClicked (ShipListElement sender) {		
 		if (sender.gameObject.GetComponentInChildren<ShipElement>().ShipData.IsSummoned) {
-			//List<Ship> AllShips = new List<Ship> (FindObjectsOfType<Ship> ());
-			//foreach (var ship in AllShips) {
-				//if (ship.Name == sender.gameObject.GetComponentInChildren<ShipElement>().ShipData.Name) {
-					UIOverlay.Instance.OpenShipWindow (sender.gameObject.GetComponentInChildren<ShipElement>().ShipData);
-					//break;
-				//}
-			//}
+			UIOverlay.Instance.OpenShipWindow (sender.gameObject.GetComponentInChildren<ShipElement>().ShipData);
 		} else {
 			gameManager.FindMissionForItem (sender.gameObject.GetComponentInChildren<ShipElement> ().ShipData.Soulstone.Name);
 		}

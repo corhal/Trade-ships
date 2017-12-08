@@ -56,7 +56,6 @@ public class CameraDrag : MonoBehaviour
 		if (Input.GetMouseButtonUp (0)) {
 			Vector3 mousePos = Camera.main.ScreenToWorldPoint (Input.mousePosition);// - Camera.main.transform.position;
 			Vector3 pos = dragOrigin - mousePos;
-			Debug.Log ("calling from cameraDrag");
 			if (Mathf.Abs (pos.x) > 0.01f || Mathf.Abs (pos.y) > 0.01f || Mathf.Abs (pos.z) > 0.01f) {
 				GameManager.Instance.CameraDragged = true;
 			} else {

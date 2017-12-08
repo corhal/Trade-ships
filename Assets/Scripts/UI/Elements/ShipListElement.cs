@@ -7,7 +7,7 @@ public class ShipListElement : MonoBehaviour {
 
 	public GameObject ItemsParent;
 	public List<Image> ItemImages;
-	public Slider BlueprintsSlider;
+	public Slider SoulstonesSlider;
 	public Button SummonButton;
 
 	public delegate void ShipListElementClickedEventHandler (ShipListElement sender);

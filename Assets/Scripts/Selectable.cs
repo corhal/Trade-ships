@@ -94,7 +94,6 @@ public class Selectable : MonoBehaviour {
 	}
 
 	void RealClick () {
-		Debug.Log ("real click");
 		if (!GameManager.Instance.CameraDragged && IsAvailable && !Utility.IsPointerOverUIObject () && Allegiance != Allegiance.Enemy) {
 			uiManager.OpenContextButtons (this);
 		}

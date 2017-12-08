@@ -53,7 +53,7 @@ public class ShipsCatalogWindow : MonoBehaviour {
 			shipElement.PortraitImage.sprite = Player.Instance.BJDataBase.CreaturePortraitsByNames [shipData.Name];
 		}
 		shipElement.NameLabel.text = shipData.Name;
-		shipElement.LevelLabel.text = shipData.Level.ToString ();
+		shipElement.LevelLabel.text = shipData.Stars.ToString ();
 
 		for (int i = 0; i < 5; i++) {
 			shipElement.Stars [i].SetActive (false);
@@ -69,16 +69,16 @@ public class ShipsCatalogWindow : MonoBehaviour {
 				Player.Instance.Inventory.Add (shipData.Soulstone.Name, 0);
 			}
 			if (Player.Instance.Inventory [shipData.Soulstone.Name] < Player.Instance.DataBase.EvolveCosts [shipData.Stars]) {
-				shipListElement.BlueprintsSlider.maxValue = Player.Instance.DataBase.EvolveCosts [shipData.Stars];
-				shipListElement.BlueprintsSlider.value = Player.Instance.Inventory [shipData.Soulstone.Name];
+				shipListElement.SoulstonesSlider.maxValue = Player.Instance.DataBase.EvolveCosts [shipData.Stars];
+				shipListElement.SoulstonesSlider.value = Player.Instance.Inventory [shipData.Soulstone.Name];
 
-				shipListElement.BlueprintsSlider.GetComponentInChildren<Text>().text = Player.Instance.Inventory [shipData.Soulstone.Name] + "/" + Player.Instance.DataBase.EvolveCosts [shipData.Stars];
+				shipListElement.SoulstonesSlider.GetComponentInChildren<Text>().text = Player.Instance.Inventory [shipData.Soulstone.Name] + "/" + Player.Instance.DataBase.EvolveCosts [shipData.Stars];
 			} else {
-				shipListElement.BlueprintsSlider.gameObject.SetActive (false);
+				shipListElement.SoulstonesSlider.gameObject.SetActive (false);
 				shipListElement.SummonButton.gameObject.SetActive (true);
 			}
 		} else {
-			shipListElement.BlueprintsSlider.gameObject.SetActive (false);
+			shipListElement.SoulstonesSlider.gameObject.SetActive (false);
 			shipListElement.SummonButton.gameObject.SetActive (false);
 			shipListElement.ItemsParent.SetActive (true);
 			for (int i = 0; i < shipListElement.ItemImages.Count; i++) {

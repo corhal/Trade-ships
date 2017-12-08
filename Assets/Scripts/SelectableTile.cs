@@ -4,11 +4,26 @@ using UnityEngine;
 
 public class SelectableTile : Selectable {
 
+	public static int LastId;
+	public int Id;
+
 	public GameObject ParticleSystem;
 	public GameObject ColliderObject;
+
+	protected override void Awake () {
+		base.Awake ();
+		Id = LastId++;
+		if (!Player.Instance.Tiles.ContainsKey(Id)) {
+			Player.Instance.Tiles.Add (Id, true);
+		}
+		if (!GameManager.Instance.Tiles.Contains(this)) {
+			GameManager.Instance.Tiles.Add (this);
+		}
+	}
 
 	public void StopParticles () {
 		ParticleSystem.SetActive (false);
 		ColliderObject.SetActive (false);
+		Player.Instance.Tiles [Id] = false;
 	}
 }
