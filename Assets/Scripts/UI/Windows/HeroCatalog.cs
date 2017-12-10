@@ -8,6 +8,7 @@ public class HeroCatalog : MonoBehaviour {
 
 	public GameObject HeroElementPrefab;
 
+	public GameObject CurrentTeamContainer;
 	public GameObject SummonedHeroesContainer;
 	public GameObject NotSummonedHeroesContainer;
 
@@ -33,7 +34,10 @@ public class HeroCatalog : MonoBehaviour {
 			
 			GameObject shipElementObject = CreateShipListElementObject (ship);
 
-			if (ship.IsSummoned) {
+			if (Player.Instance.CurrentTeam.Contains(ship)) {
+				shipElementObject.transform.SetParent (CurrentTeamContainer.transform);
+			}
+			else if (ship.IsSummoned) {
 				shipElementObject.transform.SetParent (SummonedHeroesContainer.transform);
 			} else {
 				shipElementObject.transform.SetParent (NotSummonedHeroesContainer.transform);
