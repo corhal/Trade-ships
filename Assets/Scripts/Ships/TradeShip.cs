@@ -16,25 +16,17 @@ public class TradeShip : MonoBehaviour {
 
 	public int ShipmentsCapacity { get { return TradeShipData.ShipmentsCapacity; } set { TradeShipData.ShipmentsCapacity = value; } }
 
-	MoveOnClick mover;
 	TradeShipMover tradeShipMover;
 	Port currentPort;
 	bool docked;
 	float timer;
 
 	void Awake () {
-		mover = gameObject.GetComponent<MoveOnClick> ();
 		tradeShipMover = gameObject.GetComponent<TradeShipMover> ();
-		// mover.OnStartedMoving += Mover_OnStartedMoving;
 	}
 
-	void Start () {
-		// Name = TradeShipData.Name;
-		// Allegiance = TradeShipData.Allegiance;
-
-		// if (TradeShipData.Coordinates.Length > 0) {
-		transform.position = TradeShipData.Coordinates; // new Vector3 (TradeShipData.Coordinates[0], TradeShipData.Coordinates[1], TradeShipData.Coordinates[2]);
-		// }
+	void Start () {		
+		transform.position = TradeShipData.Coordinates; 
 
 		CargoSlider.maxValue = ShipmentsCapacity;
 		CargoSlider.value = TradeShipData.TotalWeight;
@@ -65,27 +57,6 @@ public class TradeShip : MonoBehaviour {
 		CargoSlider.value = TradeShipData.TotalWeight;
 	}
 
-	/*public void MoveMode () {
-		gameManager.MoveMode ();
-		// mover.InMoveMode = true;
-	}
-
-	void Mover_OnStartedMoving (MoveOnClick sender) {
-		InitialProcessSeconds = mover.TimeLeft;
-		InProcess = true;
-	}*/
-
-	/*public override float GetProcessSeconds () {		
-		if (mover.TimeLeft <= 0.1f) {
-			return 0.0f;
-		}
-		return mover.TimeLeft;
-	}
-
-	public override void ShowInfo () {
-		UIOverlay.Instance.OpenSelectableInfo (this);
-	}*/
-
 	void OnTriggerEnter2D (Collider2D other) { // will work even when passing through another port
 		if (other.gameObject.GetComponent<Port> () != null) {
 			UnloadCargo (other.gameObject.GetComponent<Port> ());
@@ -104,13 +75,8 @@ public class TradeShip : MonoBehaviour {
 				continue;
 			}
 			if (shipment.DestinationIslandName == port.MyIsland.Name) {
-				if (shipment.Goods.IsForSale) {
-					Player.Instance.TakeGold (shipment.Reward);
-					shipmentsToDestroy.Add (shipment);
-				} else {
-					Player.Instance.TakeItems (new Dictionary<string, int> { { shipment.Goods.Name, 1 } });
-					shipmentsToDestroy.Add (shipment);
-				}
+				Player.Instance.TakeGold (shipment.Reward);
+				shipmentsToDestroy.Add (shipment);
 			}
 		}
 

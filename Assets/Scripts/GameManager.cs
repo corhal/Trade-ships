@@ -109,7 +109,7 @@ public class GameManager : MonoBehaviour {
 		}
 
 		foreach (var tile in Tiles) {
-			if (Player.Instance.Tiles [tile.Id] == false) {				
+			if (Player.Instance.Tiles [tile.name] == false) {				
 				tile.StopParticles ();
 			}
 		}
@@ -126,18 +126,6 @@ public class GameManager : MonoBehaviour {
 		Player.Instance.LoadVillage ();
 	}
 
-	public Item GetRandomItem (bool craftable) {
-		List<Item> items = new List<Item> ();
-		foreach (var item in Player.Instance.DataBase.TempItemLibrary) {
-			if (!craftable && item.CraftCost != null) {
-				continue;
-			}
-			items.Add (item);
-		}
-		int index = Random.Range (0, items.Count);
-		return items [index];
-	}
-
 	public Item GetItemByName (string itemName) {
 		foreach (var item in Player.Instance.DataBase.TempItemLibrary) {
 			if (item.Name == itemName) {
@@ -145,32 +133,5 @@ public class GameManager : MonoBehaviour {
 			}
 		}
 		return null;
-	}
-
-	public void FindMissionForItem (string item) {
-		UIOverlay.Instance.OpenPopUp ("Not implemented yet");
-		/*Mission farmMission = null;
-		ExpeditionCenter expeditionCenter = FindObjectOfType<ExpeditionCenter> ();
-		foreach (var mission in expeditionCenter.Missions) {
-			if (mission.PossibleRewards.ContainsKey(item)) {
-				farmMission = mission;
-				break;
-			}
-		}*/
-
-		//if (farmMission != null) {
-			//OpenMissionWindow (/*FindObjectOfType<ExpeditionCenter> (),*/ farmMission);
-		//} else {
-			//OpenPopUp ("No such mission, try button in top left corner");
-		//}
-	}
-
-	public void RefreshMissions () {
-		ExpeditionCenter expeditionCenter = FindObjectOfType<ExpeditionCenter> ();
-		expeditionCenter.CreateMissions ();
-	}
-
-	public void UnderConstruction () {
-		UIOverlay.Instance.OpenPopUp ("This functionality is under construction yet");
 	}
 }

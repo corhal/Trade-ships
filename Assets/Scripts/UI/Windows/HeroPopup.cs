@@ -37,7 +37,6 @@ public class HeroPopup : MonoBehaviour {
 	public Text BlueprintText;
 	public Slider BlueprintSlider;
 
-	GameManager gameManager;
 	CreatureData currentShipData;
 
 	public GameObject StatsButtonObject;
@@ -45,10 +44,6 @@ public class HeroPopup : MonoBehaviour {
 
 	public List<int> LevelRequirements = new List<int> { 0, 3, 10, 15 };
 	public List<RankColor> RankColorRequirements = new List<RankColor> {RankColor.White, RankColor.Green, RankColor.Blue, RankColor.Purple};
-
-	void Awake () {
-		gameManager = GameManager.Instance;
-	}
 
 	public void Open (CreatureData shipData) {		
 		Window.SetActive (true);
@@ -94,7 +89,6 @@ public class HeroPopup : MonoBehaviour {
 			BlueprintsNodeObject.SetActive (true);
 
 		} else {
-			// BlueprintsNodeObject.SetActive (false);
 			EvolveButton.gameObject.SetActive (true);
 		}
 
@@ -126,8 +120,6 @@ public class HeroPopup : MonoBehaviour {
 			if (Player.Instance.BJDataBase.BJSkillsByNames.ContainsKey (currentShipData.Skills [i].Name)) {
 				SkillElements [i - 1].SkillImage.sprite = Player.Instance.BJDataBase.BJSkillsByNames [currentShipData.Skills [i].Name].SkillIcon;
 			}
-
-			int stupidLambdaCounter = i;
 
 			if (currentShipData.Stars < LevelRequirements [i - 1]) {
 				SkillElements [i - 1].StatLabel.gameObject.SetActive (false);
@@ -192,7 +184,6 @@ public class HeroPopup : MonoBehaviour {
 			BlueprintText.text = Player.Instance.Inventory [shipData.Soulstone.Name] + "/" + shipData.EvolveCosts [shipData.Stars];
 			BlueprintSlider.maxValue = shipData.EvolveCosts [shipData.Stars];
 			BlueprintSlider.value = Player.Instance.Inventory [shipData.Soulstone.Name];
-			// BlueprintsNodeObject.SetActive (false);
 			EvolveButton.gameObject.SetActive (true);
 		}
 
@@ -233,8 +224,6 @@ public class HeroPopup : MonoBehaviour {
 					SkillElements [i - 1].SkillImage.sprite = Player.Instance.BJDataBase.BJSkillsByNames [currentShipData.Skills [i].Name].SkillIcon;
 				}
 
-				int stupidLambdaCounter = i;
-
 				if (currentShipData.Stars < LevelRequirements [i - 1]) {
 					SkillElements [i - 1].StatLabel.gameObject.SetActive (false);
 					SkillElements [i - 1].SkillStatLabel.gameObject.SetActive (false);
@@ -249,13 +238,8 @@ public class HeroPopup : MonoBehaviour {
 		}
 	}
 
-	public void FindItem (string item) {
-		Debug.Log ("Here we are");
-		gameManager.FindMissionForItem (item);
-	}
-
 	public void FindBlueprint () {
-		gameManager.FindMissionForItem (currentShipData.Soulstone.Name);
+		// gameManager.FindMissionForItem (currentShipData.Soulstone.Name);
 	}
 
 	void UpgradeSkill (CreatureData shipData, Skill skill) { // smth wrong; should probably update labels instead

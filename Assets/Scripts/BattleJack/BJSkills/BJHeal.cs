@@ -19,7 +19,6 @@ public class BJHeal : BJSkill {
 
 	public override void AssignSkillIndexes () {	
 		List<BJCreatureObject> ourCreatureObjects = (CurrentUser.Creature.Allegiance == Allegiance.Player) ? BJGameController.Instance.PlayerCreatureObjects : BJGameController.Instance.EnemyCreatureObjects;
-		int userIndex = ourCreatureObjects.IndexOf (CurrentUser);	
 		TargetPriorities = new Dictionary<int, int> { {0, 0}, {1, 0}, {2, 0}, {3, 0}, {4, 0} };
 		int minPriority = 10;
 

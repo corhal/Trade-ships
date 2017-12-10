@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class TradeShipMover : MonoBehaviour {
-
-	TradeShip tradeShip;
-
+	
 	public Vector2 Destination;
 
 	float initialZ;
@@ -13,8 +11,6 @@ public class TradeShipMover : MonoBehaviour {
 	bool shouldMove;
 
 	void Awake () {
-		tradeShip = gameObject.GetComponent<TradeShip> ();
-
 		initialZ = transform.position.z;
 	}
 		
@@ -29,10 +25,10 @@ public class TradeShipMover : MonoBehaviour {
 	}
 
 	void Update () {
-		if (Destination != null && Vector2.Distance (transform.position, Destination) >= 0.01f) {
+		if (Vector2.Distance (transform.position, Destination) >= 0.01f) {
 			shouldMove = true;
 		}
-		if (Destination != null && shouldMove) { 
+		if (shouldMove) { 
 			float tempSpeed = 1.0f;
 			float step = tempSpeed * Time.deltaTime;
 			transform.position = Vector2.MoveTowards (transform.position, Destination, step);

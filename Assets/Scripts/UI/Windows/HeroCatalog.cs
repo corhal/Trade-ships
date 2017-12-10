@@ -6,19 +6,15 @@ using UnityEngine.UI;
 public class HeroCatalog : MonoBehaviour {
 	public GameObject Window;
 
-	public GameObject ShipsElementContainer;
+	public GameObject HeroElementPrefab;
 
-	public GameObject ShipListElementPrefab;
+	public GameObject SummonedHeroesContainer;
+	public GameObject NotSummonedHeroesContainer;
 
 	public List<GameObject> ShipObjects;
 
-	GameManager gameManager;
-
 	public List<CreatureData> AllShipDatas;
 
-	void Awake () {
-		gameManager = GameManager.Instance;
-	}
 
 	public void Open () {		
 		Window.SetActive (true);
@@ -37,14 +33,19 @@ public class HeroCatalog : MonoBehaviour {
 			
 			GameObject shipElementObject = CreateShipListElementObject (ship);
 
-			shipElementObject.transform.SetParent (ShipsElementContainer.transform);
+			if (ship.IsSummoned) {
+				shipElementObject.transform.SetParent (SummonedHeroesContainer.transform);
+			} else {
+				shipElementObject.transform.SetParent (NotSummonedHeroesContainer.transform);
+			}
+
 			shipElementObject.transform.localScale = Vector3.one;
 			ShipObjects.Add (shipElementObject);
 		}
 	}
 
 	GameObject CreateShipListElementObject (CreatureData shipData) {
-		GameObject shipListElementObject = Instantiate (ShipListElementPrefab) as GameObject;
+		GameObject shipListElementObject = Instantiate (HeroElementPrefab) as GameObject;
 		ShipElement shipElement = shipListElementObject.GetComponentInChildren<ShipElement> ();
 		shipElement.ShipData = shipData;
 		if (Player.Instance.BJDataBase.CreaturePortraitsByNames.ContainsKey(shipData.Name)) {
@@ -74,8 +75,7 @@ public class HeroCatalog : MonoBehaviour {
 				shipListElement.SoulstonesSlider.gameObject.SetActive (false);
 				shipListElement.SummonButton.gameObject.SetActive (true);
 			}
-		} else {
-			
+		} else {			
 			shipListElement.SummonButton.gameObject.SetActive (false);
 		}
 
@@ -89,7 +89,7 @@ public class HeroCatalog : MonoBehaviour {
 		if (sender.gameObject.GetComponentInChildren<ShipElement>().ShipData.IsSummoned) {
 			UIOverlay.Instance.OpenShipWindow (sender.gameObject.GetComponentInChildren<ShipElement>().ShipData);
 		} else {
-			gameManager.FindMissionForItem (sender.gameObject.GetComponentInChildren<ShipElement> ().ShipData.Soulstone.Name);
+			// gameManager.FindMissionForItem (sender.gameObject.GetComponentInChildren<ShipElement> ().ShipData.Soulstone.Name);
 		}
 	}
 

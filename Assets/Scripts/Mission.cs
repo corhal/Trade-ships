@@ -14,14 +14,12 @@ public class Mission {
 	public bool IsCastle;
 	public int Seconds;
 	public bool InProgress;
-	GameManager gameManager;
 
 	public int Stars;
 
 	public Mission (string name, bool isCastle, Dictionary<string, float> rewardChances, Dictionary<string, int> possibleRewards, List<CreatureData> enemyShips) {
 		Name = name;
 		IsCastle = isCastle;
-		gameManager = GameManager.Instance;
 		PossibleRewards = possibleRewards;
 		RewardChances = rewardChances;
 		EnemyShips = enemyShips;

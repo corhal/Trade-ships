@@ -82,7 +82,6 @@ public class BJHeartStrike : BJSkill {
 	}
 
 	public override string GetInfo () {		
-		string turnsString = (Effects [0].Duration > 1) ? " turns" : " turn";
 		return "Deals <color=blue>" + CurrentUser.Creature.BaseDamage + "</color> damage, while ignoring <color=blue>" + Damage + "</color> enemy armor.";
 	}
 }

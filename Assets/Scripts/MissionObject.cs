@@ -64,15 +64,12 @@ public class MissionObject : Selectable {
 		for (int j = 1; j < costLength; j++) {
 			List<Item> validItems = new List<Item> ();
 			foreach (var item in player.DataBase.TempItemLibrary) {
-				if (!possibleRewards.ContainsKey (item.Name) && !item.IsForCraft && !item.IsForSale) {
+				if (!possibleRewards.ContainsKey (item.Name)) {
 					validItems.Add (item);
 				}
 			}
 
 			int index = Random.Range (0, validItems.Count - 1);
-			/*Debug.Log ("-----");
-			Debug.Log (index);
-			Debug.Log (validItems.Count);*/
 			possibleRewards.Add (validItems [index].Name, Random.Range (1, 6));
 			rewardChances.Add (validItems [index].Name, Random.Range (0.3f, 0.7f));
 		}

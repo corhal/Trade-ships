@@ -16,10 +16,7 @@ public class UIOverlay : MonoBehaviour {
 	public TeamSelectionWindow MyTeamSelectionWindow;
 	public InfoWindow MyInfoWindow;
 	public HeroPopup MyShipWindow;
-	public ExpeditionWindow MyExpeditionWindow;
 	public MissionWindow MyMissionWindow;
-	public PortWindow MyPortWindow;
-	public CraftWindow MyCraftWindow;
 	public ContextButtonsOverlay MyButtonsOverlay;
 	public PopUp MyPopUp;
 	public ImagesPopUp MyImagesPopUp;
@@ -46,10 +43,7 @@ public class UIOverlay : MonoBehaviour {
 	public void OpenSelectableInfo (Selectable selectable) {
 		MyInfoWindow.Open (selectable);
 		MyShipWindow.Close ();
-		MyExpeditionWindow.Close ();
 		MyMissionWindow.Close ();
-		MyPortWindow.Close ();
-		MyCraftWindow.Close ();
 		MyButtonsOverlay.Close ();
 		MyMissionWindow.Close ();
 		MyPopUp.Close ();
@@ -58,28 +52,11 @@ public class UIOverlay : MonoBehaviour {
 
 	public void OpenShipWindow (CreatureData shipData) {
 		MyShipWindow.Open (shipData);
-		MyExpeditionWindow.Close ();
 		MyMissionWindow.Close ();
-		MyPortWindow.Close ();
-		MyCraftWindow.Close ();
 		MyButtonsOverlay.Close ();
 		MyMissionWindow.Close ();
 		MyPopUp.Close ();
 		MyInfoWindow.Close ();
-		// MyShipsCatalogWindow.Close ();
-	}
-
-	public void OpenFortWindow () {
-		MyShipWindow.Close ();
-		MyExpeditionWindow.Close ();
-		MyMissionWindow.Close ();
-		MyPortWindow.Close ();
-		MyCraftWindow.Close ();
-		MyButtonsOverlay.Close ();
-		MyMissionWindow.Close ();
-		MyPopUp.Close ();
-		MyInfoWindow.Close ();
-		MyShipsCatalogWindow.Close ();
 	}
 
 	public void OpenPopUp (string message) {
@@ -90,29 +67,9 @@ public class UIOverlay : MonoBehaviour {
 		MyImagesPopUp.Open (message, itemNames);
 	}
 
-	public void OpenExpeditionWindow (ExpeditionCenter expeditionCenter) {
-		MyExpeditionWindow.Open (expeditionCenter);
-		MyMissionWindow.Close ();
-		MyPortWindow.Close ();
-		MyCraftWindow.Close ();
+	public void OpenMissionWindow (Mission chosenMission) {
+		MyMissionWindow.Open (chosenMission);
 		MyButtonsOverlay.Close ();
-		MyMissionWindow.Close ();
-		MyShipWindow.Close ();
-		MyPopUp.Close ();
-		MyInfoWindow.Close ();
-		MyShipsCatalogWindow.Close ();
-	}
-
-	public void CloseExpeditionWindow () {
-		MyExpeditionWindow.Close ();
-	}
-
-	public void OpenMissionWindow (/*ExpeditionCenter expeditionCenter, */ Mission chosenMission) {
-		MyMissionWindow.Open (/*expeditionCenter,*/ chosenMission);
-		MyPortWindow.Close ();
-		MyCraftWindow.Close ();
-		MyButtonsOverlay.Close ();
-		MyExpeditionWindow.Close ();
 		MyShipWindow.Close ();
 		MyPopUp.Close ();
 		MyInfoWindow.Close ();
@@ -125,54 +82,12 @@ public class UIOverlay : MonoBehaviour {
 
 	public void OpenTeamSelectionWindow (Mission mission) {
 		MyTeamSelectionWindow.Open (mission);
-		MyPortWindow.Close ();
-		MyCraftWindow.Close ();
 		MyButtonsOverlay.Close ();
-		MyExpeditionWindow.Close ();
 		MyMissionWindow.Close ();
 		MyShipWindow.Close ();
 		MyPopUp.Close ();
 		MyInfoWindow.Close ();
 		MyShipsCatalogWindow.Close ();
-	}
-
-	public void OpenPortWindow (Port port, TradeShip tradeShip) {
-		if (InMoveMode) {
-			return;
-		}
-		MyPortWindow.Open (port, tradeShip);
-		MyCraftWindow.Close ();
-		MyButtonsOverlay.Close ();
-		MyExpeditionWindow.Close ();
-		MyMissionWindow.Close ();
-		MyShipWindow.Close ();
-		MyPopUp.Close ();
-		MyInfoWindow.Close ();
-		MyShipsCatalogWindow.Close ();
-	}
-
-	public void ClosePortWindow () {
-		MyPortWindow.Close ();
-
-		if (MyPortWindow.CurrentPort != null && MyPortWindow.CurrentPort.Name == "Shipwreck" && MyPortWindow.CurrentPort.Shipments.Count == 0) { // as reliable as bullets made of chocolate
-			Destroy (MyPortWindow.CurrentPort.gameObject);
-		}
-	}
-
-	public void OpenCraftWindow (Building building, string item) {
-		MyCraftWindow.Open (building, item);
-		MyButtonsOverlay.Close ();
-		MyPortWindow.Close ();
-		MyExpeditionWindow.Close ();
-		MyMissionWindow.Close ();
-		//MyShipWindow.Close ();
-		MyPopUp.Close ();
-		MyInfoWindow.Close ();
-		MyShipsCatalogWindow.Close ();
-	}
-
-	public void CloseCraftWindow () {
-		MyCraftWindow.Close ();
 	}
 
 	public void OpenContextButtons (Selectable selectable) {
@@ -183,23 +98,16 @@ public class UIOverlay : MonoBehaviour {
 		Selection = selectable;
 		Selection.Animate ();
 		MyButtonsOverlay.Open (selectable);
-		MyPortWindow.Close ();
-		MyCraftWindow.Close ();
-		MyExpeditionWindow.Close ();
 		MyMissionWindow.Close ();
 		MyShipWindow.Close ();
 		MyPopUp.Close ();
 		MyInfoWindow.Close ();
 		MyShipsCatalogWindow.Close ();
-		// MyFortWindow.Close (); // here is the bug!!! think about it!
 	}
 
 	public void OpenShipsCatalogWindow () {
 		MyShipsCatalogWindow.Open ();
-		MyCraftWindow.Close ();
 		MyButtonsOverlay.Close ();
-		MyPortWindow.Close ();
-		MyExpeditionWindow.Close ();
 		MyMissionWindow.Close ();
 		MyShipWindow.Close ();
 		MyPopUp.Close ();
@@ -208,7 +116,6 @@ public class UIOverlay : MonoBehaviour {
 
 	public void CloseContextButtons (bool deselect) {
 		MyButtonsOverlay.Overlay.SetActive (false); // kostyll
-		//MyButtonsOverlay.Close ();
 		if (deselect && Selection != null) {
 			Selection.Deanimate ();
 		}

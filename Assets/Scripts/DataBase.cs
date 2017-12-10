@@ -91,7 +91,8 @@ public class DataBase : MonoBehaviour {
 			if (strings [0, i] == null) {
 				break;
 			}
-			int index = System.Int32.Parse (strings [0, i]);
+			// TODO: use id
+			// int index = System.Int32.Parse (strings [0, i]);
 
 			string name = strings [1, i];
 
@@ -105,15 +106,10 @@ public class DataBase : MonoBehaviour {
 				craftNames.Add (lines [0], System.Int32.Parse (lines [1]));
 			}
 
-			string assetName = strings [3, i];
+			// TODO: take asset from here
+			// string assetName = strings [3, i];
 
-			bool forSale = (strings [4, i] == "true") ? true : false;
-
-			bool forCraft = (strings [5, i] == "true") ? true : false;
-
-			Dictionary<string, int> stats = new Dictionary<string, int> { { "Firepower", 5 } };
-
-			TempItemLibrary.Add (new Item (name, craftNames, ItemIconsByNames [name], forSale, forCraft, stats));
+			TempItemLibrary.Add (new Item (name, ItemIconsByNames [name]));
 		}
 	}
 }

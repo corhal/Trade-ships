@@ -26,12 +26,10 @@ public class MissionWindow : MonoBehaviour {
 	public Text HeaderLabel;
 
 	Mission mission;
-	GameManager gameManager;
 
 	// ExpeditionCenter expeditionCenter;
 
 	void Awake () {
-		gameManager = GameManager.Instance;
 	}
 
 	public void Open (/*ExpeditionCenter expeditionCenter,*/ Mission chosenMission) {		

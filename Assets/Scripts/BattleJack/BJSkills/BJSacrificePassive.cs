@@ -22,8 +22,7 @@ public class BJSacrificePassive : BJSkill {
 		ValidTargetIndexes = new List<int> { userIndex };
 	}
 
-	public override string GetInfo () {		
-		string turnsString = (Effects [0].Duration > 1) ? " turns" : " turn";
+	public override string GetInfo () {				
 		return "Whenever an ally dies, raises speed by <color=blue>" + Effects [0].Damage + "</color>.";
 	}
 }

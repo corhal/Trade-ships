@@ -5,15 +5,12 @@ using UnityEngine;
 
 public class BJMassRegen : BJSkill {
 
-	// public BJEffect ArmorBuffEffect;
-
 	public override void UseSkill (BJCreatureObject user, BJCreatureObject mainTarget) {	
 		base.UseSkill (user, mainTarget);	
 		CurrentUser = user;
 		CurrentMainTarget = mainTarget;
 
 		List<BJCreatureObject> ourCreatureObjects = (CurrentUser.Creature.Allegiance == Allegiance.Player) ? BJGameController.Instance.PlayerCreatureObjects : BJGameController.Instance.EnemyCreatureObjects;
-		int userIndex = ourCreatureObjects.IndexOf (CurrentUser);	
 		List<BJCreatureObject> secondaryTargets = new List<BJCreatureObject> ();
 
 		foreach (var creatureObject in ourCreatureObjects) {

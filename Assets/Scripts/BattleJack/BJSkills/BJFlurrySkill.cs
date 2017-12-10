@@ -73,7 +73,6 @@ public class BJFlurrySkill : BJSkill {
 			float xCoord = (CurrentUser.Creature.Allegiance == Allegiance.Player) ? 0.5f : -0.5f;
 			if (shouldHit) {
 				CurrentUser.DealDamage ((int)(CurrentUser.Creature.BaseDamage * DamageMultiplier), 1.0f, CurrentMainTarget);
-				float diceRoll = Random.Range (0.0f, 0.99f);
 				for (int i = 0; i < Effects.Count; i++) {
 					if (Random.Range(0.0f, 0.99f) < EffectChances [i]) {
 						Effects [i].Applier = CurrentUser;
@@ -89,7 +88,6 @@ public class BJFlurrySkill : BJSkill {
 		}
 		if (moveCounter == HitsAmount) {
 			CurrentUser.DealDamage ((int)(CurrentUser.Creature.BaseDamage * DamageMultiplier), 1.0f, CurrentMainTarget);
-			float diceRoll = Random.Range (0.0f, 0.99f);
 			for (int i = 0; i < Effects.Count; i++) {
 				if (Random.Range(0.0f, 0.99f) < EffectChances [i]) {
 					Effects [i].Applier = CurrentUser;
@@ -104,7 +102,6 @@ public class BJFlurrySkill : BJSkill {
 	}
 
 	public override string GetInfo () {		
-		string turnsString = (Effects [0].Duration > 1) ? " turns" : " turn";
 		return "Makes <color=blue>" + HitsAmount + "</color> quick hits, <color=blue>" +  ((int)(CurrentUser.Creature.BaseDamage * DamageMultiplier)) + "</color> damage each.";
 	}
 }

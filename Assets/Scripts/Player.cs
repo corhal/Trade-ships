@@ -28,7 +28,7 @@ public class Player : MonoBehaviour {
 
 	public Vector3 PlayerShipCoordinates;
 
-	public Dictionary<int, bool> Tiles;
+	public Dictionary<string, bool> Tiles;
 
 	void Awake () {
 		if (Instance == null) {			
@@ -39,7 +39,7 @@ public class Player : MonoBehaviour {
 		DontDestroyOnLoad(gameObject);
 		CurrentTeam = new List<CreatureData> ();
 		Inventory = new Dictionary<string, int> ();
-		Tiles = new Dictionary<int, bool> ();
+		Tiles = new Dictionary<string, bool> ();
 	}
 
 	public void SaveBuildings (List<Building> buildings) {
@@ -84,7 +84,7 @@ public class Player : MonoBehaviour {
 				soulstoneSprite = Player.Instance.BJDataBase.CreaturePortraitsByNames [creatures [j].Name];
 			}
 
-			Item soulstone = new Item ((creatures [j].Name + " soulstone"), null, soulstoneSprite, false, false, new Dictionary<string, int> ());
+			Item soulstone = new Item ((creatures [j].Name + " soulstone"), soulstoneSprite);
 			if (!DataBase.ItemIconsByNames.ContainsKey (soulstone.Name)) {
 				DataBase.ItemIconsByNames.Add (soulstone.Name, soulstoneSprite);
 			}
@@ -100,11 +100,8 @@ public class Player : MonoBehaviour {
 				List<string> cost = new List<string> ();
 				for (int l = 0; l < costLength; l++) {
 					List<Item> validItems = new List<Item> ();
-					foreach (var item in Player.Instance.DataBase.TempItemLibrary) {
-						string nameString = item.Name;
-						if (!item.IsForSale && item.IsForCraft) {
-							validItems.Add (item);
-						}
+					foreach (var item in Player.Instance.DataBase.TempItemLibrary) {						
+						validItems.Add (item);
 					}
 
 					int index = Random.Range (0, validItems.Count);
@@ -119,10 +116,6 @@ public class Player : MonoBehaviour {
 				skills, soulstone, promoteCosts, RankColor.White, summoned, levelRequirements);
 
 			ShipDatas.Add (newShipData);
-
-			if (summoned) {
-				//HomeTeam.Add (newShipData);
-			}
 		}
 	}
 
@@ -137,18 +130,6 @@ public class Player : MonoBehaviour {
 			}
 		}
 		SceneManager.LoadScene (0);
-	}
-
-	public void Craft (string item) {
-		bool canCraft = CheckCost (DataBase.ItemsByNames [item].CraftCost);
-
-		if (canCraft) {
-			GiveItems (DataBase.ItemsByNames [item].CraftCost);
-			Dictionary<string, int> ItemAsDict = new Dictionary<string, int> { { item, 1 } };
-			TakeItems (ItemAsDict);
-		} else {
-			UIOverlay.Instance.OpenPopUp ("Can't craft: not enough items");
-		}
 	}
 
 	public void TakeGold (int amount) {
@@ -171,7 +152,6 @@ public class Player : MonoBehaviour {
 			}
 			Inventory [amountByItemName.Key] -= amountByItemName.Value;
 		}
-		// Debug.Log("Giving items: " +
 	}
 
 	public void TakeItems (Dictionary<string, int> amountsByItemNames) {

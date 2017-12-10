@@ -138,7 +138,6 @@ public class BJCreatureObject : MonoBehaviour {
 		ShowFlyingText (message, color);
 
 		showHit = true;
-		startTintTime = Time.time;
 
 		if (Creature.HP <= 0 && ! IsDead) {
 			IsDead = true;
@@ -191,7 +190,6 @@ public class BJCreatureObject : MonoBehaviour {
 
 	bool showHit;
 	public float TintTime;
-	float startTintTime;
 
 	float t;
 

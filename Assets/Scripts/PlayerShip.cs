@@ -5,7 +5,6 @@ using UnityEngine;
 public class PlayerShip : MonoBehaviour {
 
 	Player player;
-	GameManager gameManager;
 	public static PlayerShip Instance;
 	MoveOnClick mover;
 
@@ -20,7 +19,6 @@ public class PlayerShip : MonoBehaviour {
 			Destroy (gameObject);  
 		}
 		player = Player.Instance;
-		gameManager = GameManager.Instance;
 		mover = GetComponent<MoveOnClick> ();
 		mover.OnFinishedMoving += Mover_OnFinishedMoving;
 	}
@@ -43,10 +41,6 @@ public class PlayerShip : MonoBehaviour {
 			}
 			UIOverlay.Instance.OpenImagesPopUp ("Reward: ", rewards);
 			Destroy (lastSeenCollider.gameObject);
-		} else if (lastSeenCollider.gameObject.GetComponent<Building> () != null && lastSeenCollider.gameObject.GetComponent<Building> ().Allegiance == Allegiance.Neutral) {
-			// UIOverlay.Instance.OpenPopUp ("You claimed the island of <color=blue>" + lastSeenCollider.gameObject.GetComponent<Building> ().MyIsland.Name + "</color> and all its buildings!");
-			/*lastSeenCollider.gameObject.GetComponent<Building> ().MyIsland.Claim ();
-			Debug.Log ("Claiming island " + lastSeenCollider.gameObject.GetComponent<Building> ().MyIsland.Name);*/
 		} else if (lastSeenCollider.gameObject.GetComponent<MissionObject> () != null) {
 			UIOverlay.Instance.OpenMissionWindow (lastSeenCollider.gameObject.GetComponent<MissionObject> ().Mission);
 		}
@@ -63,27 +57,6 @@ public class PlayerShip : MonoBehaviour {
 		if (other.GetComponentInParent<SelectableTile> () != null) {
 			other.GetComponentInParent<SelectableTile> ().StopParticles ();
 		}
-		/*if (other.gameObject.GetComponent<Shipwreck> () != null) {
-			Dictionary<string, int> rewards = new Dictionary<string, int> ();
-			foreach (var rewardChest in other.gameObject.GetComponent<Shipwreck> ().RewardChests) {
-				player.TakeItems (rewardChest.RewardItems);
-				foreach (var amountByItem in rewardChest.RewardItems) {
-					if (!rewards.ContainsKey(amountByItem.Key)) {
-						rewards.Add (amountByItem.Key, amountByItem.Value);
-					} else {
-						rewards [amountByItem.Key] += amountByItem.Value;
-					}
-				}
-			}
-			gameManager.OpenImagesPopUp ("Reward: ", rewards);
-			Destroy (other.gameObject);
-		} else if (other.gameObject.GetComponent<Building> () != null && other.gameObject.GetComponent<Building> ().Allegiance == Allegiance.Neutral) {
-			gameManager.OpenPopUp ("You claimed the island of <color=blue>" + other.gameObject.GetComponent<Building> ().MyIsland.Name + "</color> and all its buildings!");
-			other.gameObject.GetComponent<Building> ().MyIsland.Claim ();
-			Debug.Log ("Claiming island " + other.gameObject.GetComponent<Building> ().MyIsland.Name);
-		} else if (other.gameObject.GetComponent<MissionObject> () != null) {
-			gameManager.OpenMissionWindow (other.gameObject.GetComponent<MissionObject> ().Mission);
-		}*/
 	}
 
 	void OnTriggerExit2D (Collider2D other) {

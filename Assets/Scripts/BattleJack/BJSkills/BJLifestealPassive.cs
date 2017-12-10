@@ -27,7 +27,6 @@ public class BJLifestealPassive : BJSkill {
 	}
 
 	public override string GetInfo () {		
-		string turnsString = (Effects [0].Duration > 1) ? " turns" : " turn";
 		return "Passive. Heals <color=blue>" + (int)((CurrentUser.Effects [0] as BJLifestealEffect).LifeStealRate * 100) + "%</color> of damage dealt.";
 	}
 }
