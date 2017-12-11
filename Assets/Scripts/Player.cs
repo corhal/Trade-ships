@@ -37,7 +37,7 @@ public class Player : MonoBehaviour {
 			Destroy (gameObject);  
 		}
 		DontDestroyOnLoad(gameObject);
-		CurrentTeam = new List<CreatureData> ();
+		// CurrentTeam = new List<CreatureData> ();
 		Inventory = new Dictionary<string, int> ();
 		Tiles = new Dictionary<string, bool> ();
 	}
@@ -68,6 +68,7 @@ public class Player : MonoBehaviour {
 	}
 
 	public void CreateShipDatas () {
+		// CurrentTeam = new List<CreatureData> (5);
 		ShipDatas.Clear ();
 
 		List<BJCreature> creatures = BJDataBase.Creatures;

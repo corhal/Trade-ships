@@ -9,22 +9,30 @@ public class HeroCatalog : MonoBehaviour {
 	public GameObject HeroElementPrefab;
 
 	public GameObject CurrentTeamContainer;
+	public List<GameObject> CurrentTeamObjects;
 	public GameObject SummonedHeroesContainer;
 	public GameObject NotSummonedHeroesContainer;
 
 	public List<GameObject> ShipObjects;
 
 	public List<CreatureData> AllShipDatas;
-
+	bool inSwapMode;
+	ShipListElement elementReadyToSwap;
 
 	public void Open () {		
 		Window.SetActive (true);
 
 		foreach (var shipObject in ShipObjects) {
 			shipObject.GetComponent<ShipListElement> ().OnShipListElementClicked -= ShipListElement_OnShipListElementClicked;
+			shipObject.GetComponent<ShipListElement> ().OnShipListElementReadyToSwap -= ShipListElement_OnShipListElementReadyToSwap;
+			shipObject.GetComponent<ShipListElement> ().OnInfoButtonClicked -= ShipListElement_OnInfoButtonClicked;
 			Destroy (shipObject);
 		}
 		ShipObjects.Clear ();
+
+		foreach (var obj in CurrentTeamObjects) {
+			obj.GetComponent<ShipListElement> ().OnShipListElementClicked += ShipListElement_OnShipListElementClicked;
+		}
 
 		AllShipDatas = new List<CreatureData> ();
 		foreach (var ship in Player.Instance.ShipDatas) {
@@ -36,6 +44,9 @@ public class HeroCatalog : MonoBehaviour {
 
 			if (Player.Instance.CurrentTeam.Contains(ship)) {
 				shipElementObject.transform.SetParent (CurrentTeamContainer.transform);
+				Destroy (CurrentTeamObjects [0]);
+				CurrentTeamObjects.Insert (0, shipElementObject);
+				shipElementObject.transform.SetSiblingIndex (0);
 			}
 			else if (ship.IsSummoned) {
 				shipElementObject.transform.SetParent (SummonedHeroesContainer.transform);
@@ -48,34 +59,36 @@ public class HeroCatalog : MonoBehaviour {
 		}
 	}
 
-	GameObject CreateShipListElementObject (CreatureData shipData) {
+	GameObject CreateShipListElementObject (CreatureData creatureData) {
 		GameObject shipListElementObject = Instantiate (HeroElementPrefab) as GameObject;
 		ShipElement shipElement = shipListElementObject.GetComponentInChildren<ShipElement> ();
-		shipElement.ShipData = shipData;
-		if (Player.Instance.BJDataBase.CreaturePortraitsByNames.ContainsKey(shipData.Name)) {
-			shipElement.PortraitImage.sprite = Player.Instance.BJDataBase.CreaturePortraitsByNames [shipData.Name];
+		shipElement.ShipData = creatureData;
+
+		if (Player.Instance.BJDataBase.CreaturePortraitsByNames.ContainsKey(creatureData.Name)) {
+			shipElement.PortraitImage.sprite = Player.Instance.BJDataBase.CreaturePortraitsByNames [creatureData.Name];
 		}
-		shipElement.NameLabel.text = shipData.Name;
-		shipElement.LevelLabel.text = "level " + shipData.Level.ToString ();
+		shipElement.NameLabel.text = creatureData.Name;
+		shipElement.LevelLabel.text = "level " + creatureData.Level.ToString ();
 
 		for (int i = 0; i < 5; i++) {
 			shipElement.Stars [i].SetActive (false);
 		}
 
-		for (int i = 0; i < shipData.Stars; i++) {
+		for (int i = 0; i < creatureData.Stars; i++) {
 			shipElement.Stars [i].SetActive (true);
 		}
 
 		ShipListElement shipListElement = shipListElementObject.GetComponent<ShipListElement> ();
-		shipListElement.SoulstonesSlider.maxValue = Player.Instance.DataBase.EvolveCosts [shipData.Stars];
-		shipListElement.SoulstonesSlider.value = Player.Instance.Inventory [shipData.Soulstone.Name];
+		shipListElement.CreatureData = creatureData;
+		shipListElement.SoulstonesSlider.maxValue = Player.Instance.DataBase.EvolveCosts [creatureData.Stars];
+		shipListElement.SoulstonesSlider.value = Player.Instance.Inventory [creatureData.Soulstone.Name];
 
-		shipListElement.SoulstonesSlider.GetComponentInChildren<Text>().text = Player.Instance.Inventory [shipData.Soulstone.Name] + "/" + Player.Instance.DataBase.EvolveCosts [shipData.Stars];
-		if (!shipData.IsSummoned) {
-			if (!Player.Instance.Inventory.ContainsKey(shipData.Soulstone.Name)) { // temporary fix for crash!!
-				Player.Instance.Inventory.Add (shipData.Soulstone.Name, 0);
+		shipListElement.SoulstonesSlider.GetComponentInChildren<Text>().text = Player.Instance.Inventory [creatureData.Soulstone.Name] + "/" + Player.Instance.DataBase.EvolveCosts [creatureData.Stars];
+		if (!creatureData.IsSummoned) {
+			if (!Player.Instance.Inventory.ContainsKey(creatureData.Soulstone.Name)) { // temporary fix for crash!!
+				Player.Instance.Inventory.Add (creatureData.Soulstone.Name, 0);
 			}
-			if (Player.Instance.Inventory [shipData.Soulstone.Name] > Player.Instance.DataBase.EvolveCosts [shipData.Stars]) {
+			if (Player.Instance.Inventory [creatureData.Soulstone.Name] > Player.Instance.DataBase.EvolveCosts [creatureData.Stars]) {
 				shipListElement.SoulstonesSlider.gameObject.SetActive (false);
 				shipListElement.SummonButton.gameObject.SetActive (true);
 			}
@@ -85,15 +98,45 @@ public class HeroCatalog : MonoBehaviour {
 
 		shipListElement.GetComponent<Button> ().enabled = true;
 		shipListElement.OnShipListElementClicked += ShipListElement_OnShipListElementClicked;
+		shipListElement.OnShipListElementReadyToSwap += ShipListElement_OnShipListElementReadyToSwap;
+		shipListElement.OnInfoButtonClicked += ShipListElement_OnInfoButtonClicked;
 
 		return shipListElementObject;
 	}
 
-	void ShipListElement_OnShipListElementClicked (ShipListElement sender) {		
-		if (sender.gameObject.GetComponentInChildren<ShipElement>().ShipData.IsSummoned) {
-			UIOverlay.Instance.OpenShipWindow (sender.gameObject.GetComponentInChildren<ShipElement>().ShipData);
-		} else {
-			// gameManager.FindMissionForItem (sender.gameObject.GetComponentInChildren<ShipElement> ().ShipData.Soulstone.Name);
+	void ShipListElement_OnInfoButtonClicked (ShipListElement sender) {
+		UIOverlay.Instance.OpenShipWindow (sender.gameObject.GetComponentInChildren<ShipElement>().ShipData);
+	}
+
+	void ShipListElement_OnShipListElementReadyToSwap (ShipListElement sender) {
+		inSwapMode = true;
+		elementReadyToSwap = sender;
+	}
+
+	void ShipListElement_OnShipListElementClicked (ShipListElement sender) {	
+		if (inSwapMode && (Player.Instance.CurrentTeam.Contains(sender.CreatureData) || sender.CreatureData.Name == "")) {			
+			int index = CurrentTeamObjects.IndexOf (sender.gameObject);
+
+			Player.Instance.CurrentTeam.RemoveAt (index);
+			Player.Instance.CurrentTeam.Insert (index, sender.CreatureData);
+
+			if (sender.CreatureData.Name != "") {
+				CurrentTeamObjects [index].transform.SetParent (SummonedHeroesContainer.transform);
+			} else {
+				Destroy (CurrentTeamObjects [index]);
+			}
+
+			CurrentTeamObjects.RemoveAt (index);
+
+			elementReadyToSwap.transform.SetParent (CurrentTeamContainer.transform);
+			CurrentTeamObjects.Insert (index, elementReadyToSwap.gameObject);
+			elementReadyToSwap.transform.SetSiblingIndex (index);
+			inSwapMode = false;
+		} else if (!inSwapMode) {
+			sender.InfoButton.gameObject.SetActive (!sender.InfoButton.gameObject.activeSelf);
+			if (sender.CreatureData.IsSummoned) {
+				sender.UseButton.gameObject.SetActive (!sender.UseButton.gameObject.activeSelf);
+			}
 		}
 	}
 
