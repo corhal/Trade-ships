@@ -14,6 +14,8 @@ public class ShipElement : MonoBehaviour {
 
 	public Slider DamageSlider;
 
+	public Button HealButton;
+
 	public delegate void ShipElementClickedEventHandler (ShipElement sender);
 	public event ShipElementClickedEventHandler OnShipElementClicked;
 

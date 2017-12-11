@@ -1,6 +1,6 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\UI\Windows\HeroCatalog.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\MissionObject.cs">
     <Files>
       <File FileName="Assets\Scripts\MoveOnClick.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Shipment.cs" Line="1" Column="1" />
@@ -19,13 +19,13 @@
       <File FileName="Assets\Scripts\Buildings\PortData.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Ships\Skill.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Utility.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\UI\Windows\TeamSelectionWindow.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\UI\Windows\TeamSelectionWindow.cs" Line="111" Column="12" />
       <File FileName="Assets\Scripts\UI\Windows\InfoWindow.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\UI\Windows\PopUp.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\UI\Elements\ShipElement.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\UI\Elements\ShipElement.cs" Line="17" Column="27" />
       <File FileName="Assets\Scripts\DataBase.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Item.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\UI\Windows\MissionWindow.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\UI\Windows\MissionWindow.cs" Line="114" Column="56" />
       <File FileName="Assets\Scripts\UI\Windows\ImagesPopUp.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Ships\Shipwreck.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\BattleJack\BJGameController.cs" Line="1" Column="1" />
@@ -50,14 +50,14 @@
       <File FileName="Assets\Scripts\BattleJack\BJMoveBetweenPoints.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Ships\TradeShip.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Ships\TradeShipMover.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\MissionObject.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\MissionObject.cs" Line="60" Column="78" />
       <File FileName="Assets\Scripts\PlayerShip.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\SelectableTile.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\UI\Elements\ShipSkillButton.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\UI\Elements\SkillElement.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\UI\Windows\HeroPopup.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\UI\Windows\UIOverlay.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\UI\Windows\HeroCatalog.cs" Line="145" Column="86" />
+      <File FileName="Assets\Scripts\UI\Windows\HeroCatalog.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\BattleJack\BJSkills\BJShootHand.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\BattleJack\BJSkills\BJSacrificePassive.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\BattleJack\BJSkills\BJMassRegen.cs" Line="1" Column="1" />
@@ -70,7 +70,7 @@
       <File FileName="Assets\Scripts\BattleJack\BJSkills\BJCheerTeamSkill.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\BattleJack\BJSkills\BJBerserkSkill.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\BattleJack\BJEffects\BJSacrificeEffect.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\UI\Elements\ShipListElement.cs" Line="16" Column="77" />
+      <File FileName="Assets\Scripts\UI\Elements\ShipListElement.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

@@ -7,21 +7,21 @@ public class MissionWindow : MonoBehaviour {
 
 	public GameObject Window;
 
-	public GameObject RewardsElementContainer;
+	public GameObject CurrentTeamContainer;
 	public GameObject EnemiesElementContainer;
 
-	public GameObject RewardElementPrefab;
+	// public GameObject RewardElementPrefab;
 	public GameObject EnemyElementPrefab;
 
-	public List<GameObject> RewardElementObjects;
+	public List<GameObject> CurrentTeamObjects;
 	public List<GameObject> EnemyElementObjects;
 
 	public Button StartButton;
-	public Text TimeLabel;
-	public Button RaidButton;
-	public Text RaidCostLabel;
-	public Button RaidX3Button;
-	public Text RaidX3CostLabel;
+	//public Text TimeLabel;
+	//public Button RaidButton;
+	//public Text RaidCostLabel;
+	//public Button RaidX3Button;
+	//public Text RaidX3CostLabel;
 
 	public Text HeaderLabel;
 
@@ -32,39 +32,50 @@ public class MissionWindow : MonoBehaviour {
 	void Awake () {
 	}
 
-	public void Open (/*ExpeditionCenter expeditionCenter,*/ Mission chosenMission) {		
+	public void Open (Mission chosenMission) {		
 		Window.SetActive (true);
 
-		//this.expeditionCenter = expeditionCenter;
 		this.mission = chosenMission;
 
-		foreach (var rewardElementObject in RewardElementObjects) {
-			Destroy (rewardElementObject);
+		foreach (var currentTeamObject in CurrentTeamObjects) {
+			Destroy (currentTeamObject);
 		}
-		RewardElementObjects.Clear ();
+		CurrentTeamObjects.Clear ();
 
 		foreach (var enemyElementObject in EnemyElementObjects) {
 			Destroy (enemyElementObject);
 		}
 		EnemyElementObjects.Clear ();
 
-		foreach (var amountByItem in mission.PossibleRewards) {
-			GameObject rewardElementObject = Instantiate (RewardElementPrefab) as GameObject;
-			Text[] texts = rewardElementObject.GetComponentsInChildren<Text> ();
-			texts [0].text = amountByItem.Key;
-			/*if (amountByItem.Key.Name == "") {
-				Debug.Log (amountByItem.Key);
-			}*/
-			texts [1].text = amountByItem.Value.ToString ();
-			Image rewardImage = rewardElementObject.GetComponentInChildren<Image> ();
-			rewardImage.sprite = Player.Instance.DataBase.ItemIconsByNames [amountByItem.Key];
-			rewardElementObject.transform.SetParent (RewardsElementContainer.transform);
-			rewardElementObject.transform.localScale = Vector3.one;
-			RewardElementObjects.Add (rewardElementObject);
-		}
-		List<CreatureData> Enemies = new List<CreatureData> (chosenMission.EnemyShips);
+		foreach (var currentTeamMember in Player.Instance.CurrentTeam) {
+			GameObject shipElementObject = Instantiate (EnemyElementPrefab) as GameObject;
+			ShipElement shipElement = shipElementObject.GetComponent<ShipElement> ();
+			if (Player.Instance.BJDataBase.CreaturePortraitsByNames.ContainsKey(currentTeamMember.Name)) {
+				shipElement.PortraitImage.sprite = Player.Instance.BJDataBase.CreaturePortraitsByNames [currentTeamMember.Name];
+			}
+			shipElement.NameLabel.text = currentTeamMember.Name;
+			shipElement.LevelLabel.text = currentTeamMember.Level.ToString ();
 
-		foreach (var enemy in Enemies) {
+			shipElement.ShipData = currentTeamMember;
+
+			shipElement.DamageSlider.maxValue = currentTeamMember.MaxHP;
+			shipElement.DamageSlider.value = currentTeamMember.MaxHP - currentTeamMember.HP;
+
+			if (currentTeamMember.HP < currentTeamMember.MaxHP) {
+				shipElement.HealButton.gameObject.SetActive (true);
+			} else {
+				shipElement.HealButton.gameObject.SetActive (false);
+			}
+
+			shipElementObject.transform.SetParent (CurrentTeamContainer.transform);
+			shipElementObject.transform.localScale = Vector3.one;
+			shipElement.OnShipElementClicked += ShipElement_OnShipElementClicked;
+			CurrentTeamObjects.Add (shipElementObject);
+		}
+
+		List<CreatureData> enemies = new List<CreatureData> (chosenMission.EnemyShips);
+
+		foreach (var enemy in enemies) {
 			GameObject shipElementObject = Instantiate (EnemyElementPrefab) as GameObject;
 			ShipElement shipElement = shipElementObject.GetComponent<ShipElement> ();
 			if (Player.Instance.DataBase.CreaturePortraitsByNames.ContainsKey(enemy.Name)) {
@@ -73,31 +84,53 @@ public class MissionWindow : MonoBehaviour {
 			shipElement.NameLabel.text = enemy.Name;
 			shipElement.LevelLabel.text = enemy.Level.ToString ();
 
-			for (int i = 0; i < 5; i++) {
-				shipElement.Stars [i].SetActive (false);
-			}
-
-			for (int i = 0; i < enemy.Stars; i++) {
-				shipElement.Stars [i].SetActive (true);
-			}
-
 			shipElementObject.transform.SetParent (EnemiesElementContainer.transform);
 			shipElementObject.transform.localScale = Vector3.one;
 			EnemyElementObjects.Add (shipElementObject);
 		}
-
-		int seconds = mission.Seconds % 60;
-		int minutes = (mission.Seconds - seconds) / 60;
-		int newMinutes = minutes % 60;
-		int hours = (minutes - newMinutes) / 60;
-		TimeLabel.text = hours + ":" + newMinutes + ":" + seconds;
 	}
+
+	void ShipElement_OnShipElementClicked (ShipElement sender) {
+		sender.ShipData.Creature.Heal (sender.ShipData.MaxHP - sender.ShipData.HP);
+			RefreshDamageSliders ();
+			return;
+
+
+		if (sender.ShipData.IsDead) {
+			sender.ShipData.Creature.Resurrect ();
+			RefreshDamageSliders ();
+			return;
+		}
+	}
+
+	void RefreshDamageSliders () {
+		foreach (var shipObject in CurrentTeamObjects) {
+			ShipElement shipElement = shipObject.GetComponent<ShipElement> ();
+
+			shipElement.DamageSlider.maxValue = shipElement.ShipData.MaxHP;
+			shipElement.DamageSlider.value = shipElement.ShipData.MaxHP - shipElement.ShipData.HP;
+
+			if (shipElement.ShipData.HP < shipElement.ShipData.MaxHP) {
+				shipElement.HealButton.gameObject.SetActive (true);
+			} else {
+				shipElement.HealButton.gameObject.SetActive (false);
+			}
+		}
+	}
+
 	public void Close () {
 		Window.SetActive (false);
 	}
 
 	public void StartMission () {		
-		UIOverlay.Instance.OpenTeamSelectionWindow (mission);
+		// UIOverlay.Instance.OpenTeamSelectionWindow (mission);
+		if (Player.Instance.CurrentTeam.Count > 0) {
+			Close ();
+			Player.Instance.CurrentMission = mission;
+			GameManager.Instance.LoadBattle ();
+		} else {
+			UIOverlay.Instance.OpenPopUp ("Choose at least one ship!");
+		}
 	}
 
 	public void Back () {

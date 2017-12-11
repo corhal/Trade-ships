@@ -52,14 +52,14 @@ public class MissionObject : Selectable {
 		Dictionary<string, float> rewardChances = new Dictionary<string, float> ();
 		Dictionary<string, int> possibleRewards = new Dictionary<string, int> ();
 
-		for (int i = 0; i < Player.Instance.ShipDatas.Count; i++) {
+		/*for (int i = 0; i < Player.Instance.ShipDatas.Count; i++) {
 			// !!! Replace with something more sensible
 			float coinToss = Random.Range (0.0f, 1.0f);
 			if (coinToss < 0.25f) {
 				possibleRewards.Add (Player.Instance.ShipDatas [i].Soulstone.Name, Random.Range (1, 6));
 				rewardChances.Add (Player.Instance.ShipDatas [i].Soulstone.Name, Random.Range (0.3f, 0.7f));
 			}
-		}
+		}*/
 
 		for (int j = 1; j < costLength; j++) {
 			List<Item> validItems = new List<Item> ();
