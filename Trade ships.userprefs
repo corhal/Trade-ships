@@ -57,7 +57,7 @@
       <File FileName="Assets\Scripts\UI\Elements\SkillElement.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\UI\Windows\HeroPopup.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\UI\Windows\UIOverlay.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\UI\Windows\HeroCatalog.cs" Line="38" Column="76" />
+      <File FileName="Assets\Scripts\UI\Windows\HeroCatalog.cs" Line="145" Column="86" />
       <File FileName="Assets\Scripts\BattleJack\BJSkills\BJShootHand.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\BattleJack\BJSkills\BJSacrificePassive.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\BattleJack\BJSkills\BJMassRegen.cs" Line="1" Column="1" />
@@ -70,7 +70,7 @@
       <File FileName="Assets\Scripts\BattleJack\BJSkills\BJCheerTeamSkill.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\BattleJack\BJSkills\BJBerserkSkill.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\BattleJack\BJEffects\BJSacrificeEffect.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\UI\Elements\ShipListElement.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\UI\Elements\ShipListElement.cs" Line="16" Column="77" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

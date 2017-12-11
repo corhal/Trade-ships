@@ -18,45 +18,50 @@ public class HeroCatalog : MonoBehaviour {
 	public List<CreatureData> AllShipDatas;
 	bool inSwapMode;
 	ShipListElement elementReadyToSwap;
+	bool firstTime = true;
 
 	public void Open () {		
 		Window.SetActive (true);
 
-		foreach (var shipObject in ShipObjects) {
-			shipObject.GetComponent<ShipListElement> ().OnShipListElementClicked -= ShipListElement_OnShipListElementClicked;
-			shipObject.GetComponent<ShipListElement> ().OnShipListElementReadyToSwap -= ShipListElement_OnShipListElementReadyToSwap;
-			shipObject.GetComponent<ShipListElement> ().OnInfoButtonClicked -= ShipListElement_OnInfoButtonClicked;
-			Destroy (shipObject);
-		}
-		ShipObjects.Clear ();
-
-		foreach (var obj in CurrentTeamObjects) {
-			obj.GetComponent<ShipListElement> ().OnShipListElementClicked += ShipListElement_OnShipListElementClicked;
-		}
-
-		AllShipDatas = new List<CreatureData> ();
-		foreach (var ship in Player.Instance.ShipDatas) {
-			AllShipDatas.Add (ship);
-		}
-		foreach (var ship in AllShipDatas) {
-			
-			GameObject shipElementObject = CreateShipListElementObject (ship);
-
-			if (Player.Instance.CurrentTeam.Contains(ship)) {
-				shipElementObject.transform.SetParent (CurrentTeamContainer.transform);
-				Destroy (CurrentTeamObjects [0]);
-				CurrentTeamObjects.Insert (0, shipElementObject);
-				shipElementObject.transform.SetSiblingIndex (0);
+		if (firstTime) {
+			foreach (var shipObject in ShipObjects) {
+				shipObject.GetComponent<ShipListElement> ().OnShipListElementClicked -= ShipListElement_OnShipListElementClicked;
+				shipObject.GetComponent<ShipListElement> ().OnShipListElementReadyToSwap -= ShipListElement_OnShipListElementReadyToSwap;
+				shipObject.GetComponent<ShipListElement> ().OnInfoButtonClicked -= ShipListElement_OnInfoButtonClicked;
+				Destroy (shipObject);
 			}
-			else if (ship.IsSummoned) {
-				shipElementObject.transform.SetParent (SummonedHeroesContainer.transform);
-			} else {
-				shipElementObject.transform.SetParent (NotSummonedHeroesContainer.transform);
+			ShipObjects.Clear ();
+
+			foreach (var obj in CurrentTeamObjects) {
+				obj.GetComponent<ShipListElement> ().OnShipListElementClicked += ShipListElement_OnShipListElementClicked;
 			}
 
-			shipElementObject.transform.localScale = Vector3.one;
-			ShipObjects.Add (shipElementObject);
+			AllShipDatas = new List<CreatureData> ();
+			foreach (var ship in Player.Instance.ShipDatas) {
+				AllShipDatas.Add (ship);
+			}
+			foreach (var ship in AllShipDatas) {
+
+				GameObject shipElementObject = CreateShipListElementObject (ship);
+
+				if (Player.Instance.CurrentTeam.Contains(ship)) {
+					shipElementObject.transform.SetParent (CurrentTeamContainer.transform);
+					Destroy (CurrentTeamObjects [Player.Instance.CurrentTeam.IndexOf(ship)]);
+					//CurrentTeamObjects.Insert (0, shipElementObject);
+					shipElementObject.transform.SetSiblingIndex (Player.Instance.CurrentTeam.IndexOf(ship));
+				}
+				else if (ship.IsSummoned) {
+					shipElementObject.transform.SetParent (SummonedHeroesContainer.transform);
+				} else {
+					shipElementObject.transform.SetParent (NotSummonedHeroesContainer.transform);
+				}
+
+				shipElementObject.transform.localScale = Vector3.one;
+				ShipObjects.Add (shipElementObject);
+			}
+			firstTime = false;
 		}
+
 	}
 
 	GameObject CreateShipListElementObject (CreatureData creatureData) {
@@ -90,10 +95,10 @@ public class HeroCatalog : MonoBehaviour {
 			}
 			if (Player.Instance.Inventory [creatureData.Soulstone.Name] > Player.Instance.DataBase.EvolveCosts [creatureData.Stars]) {
 				shipListElement.SoulstonesSlider.gameObject.SetActive (false);
-				shipListElement.SummonButton.gameObject.SetActive (true);
+				// shipListElement.SummonButton.gameObject.SetActive (true);
 			}
 		} else {			
-			shipListElement.SummonButton.gameObject.SetActive (false);
+			// shipListElement.SummonButton.gameObject.SetActive (false);
 		}
 
 		shipListElement.GetComponent<Button> ().enabled = true;
@@ -105,10 +110,14 @@ public class HeroCatalog : MonoBehaviour {
 	}
 
 	void ShipListElement_OnInfoButtonClicked (ShipListElement sender) {
+		sender.InfoButton.gameObject.SetActive (false);
+		sender.UseButton.gameObject.SetActive (false);
 		UIOverlay.Instance.OpenShipWindow (sender.gameObject.GetComponentInChildren<ShipElement>().ShipData);
 	}
 
 	void ShipListElement_OnShipListElementReadyToSwap (ShipListElement sender) {
+		sender.InfoButton.gameObject.SetActive (false);
+		sender.UseButton.gameObject.SetActive (false);
 		inSwapMode = true;
 		elementReadyToSwap = sender;
 	}
@@ -118,7 +127,7 @@ public class HeroCatalog : MonoBehaviour {
 			int index = CurrentTeamObjects.IndexOf (sender.gameObject);
 
 			Player.Instance.CurrentTeam.RemoveAt (index);
-			Player.Instance.CurrentTeam.Insert (index, sender.CreatureData);
+			Player.Instance.CurrentTeam.Insert (index, elementReadyToSwap.CreatureData);
 
 			if (sender.CreatureData.Name != "") {
 				CurrentTeamObjects [index].transform.SetParent (SummonedHeroesContainer.transform);
