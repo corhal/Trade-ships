@@ -92,9 +92,7 @@ public class MissionWindow : MonoBehaviour {
 
 	void ShipElement_OnShipElementClicked (ShipElement sender) {
 		sender.ShipData.Creature.Heal (sender.ShipData.MaxHP - sender.ShipData.HP);
-			RefreshDamageSliders ();
-			return;
-
+		RefreshDamageSliders ();
 
 		if (sender.ShipData.IsDead) {
 			sender.ShipData.Creature.Resurrect ();
