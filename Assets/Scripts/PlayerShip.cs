@@ -54,9 +54,6 @@ public class PlayerShip : MonoBehaviour {
 		if (other.GetComponent<SelectableTile> () == null && other.GetComponentInParent<SelectableTile> () == null && other.GetComponent<Port> () == null) {
 			lastSeenCollider = other;
 		}
-		if (other.GetComponentInParent<SelectableTile> () != null) {
-			other.GetComponentInParent<SelectableTile> ().StopParticles ();
-		}
 	}
 
 	void OnTriggerExit2D (Collider2D other) {
@@ -66,7 +63,13 @@ public class PlayerShip : MonoBehaviour {
 	}
 
 	public void MoveToPoint (Vector2 target) {
-		mover.MoveToPoint (target);
+		if (Player.Instance.Energy >= EnergyPerDistance * 1) {
+			Player.Instance.Energy -= EnergyPerDistance * 1;
+			mover.MoveToPoint (target);
+		} else {
+			UIOverlay.Instance.OpenPopUp ("Not enough energy!");
+		}
+
 	}
 
 	void OnDestroy () {

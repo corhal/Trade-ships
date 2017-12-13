@@ -3,16 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Building : MonoBehaviour {
-	public bool UnderConstruction;
+	//public bool UnderConstruction;
 	bool initialized;
-	public List<Dictionary<string, int>> BuildCosts;
-	public List<int> UpgradeCosts;
+	//public List<Dictionary<string, int>> BuildCosts;
+	//public List<int> UpgradeCosts;
 	public Island MyIsland;
-	Action buildAction;
-	Action upgradeAction;
-	public int Level = 1;
+	//Action buildAction;
+	//Action upgradeAction;
+	//public int Level = 1;
 	public string Name;
 	public Allegiance Allegiance;
+
+	public SelectableTile Tile;
+	public List<SelectableTile> AdjacentTiles;
+	public float AdjacentRadius;
 
 	protected virtual void Awake () {
 		// base.Awake ();
@@ -20,93 +24,70 @@ public class Building : MonoBehaviour {
 		if (MyIsland != null) {
 			MyIsland.Buildings.Add (this);
 		}
-		BuildCosts = new List<Dictionary<string, int>> ();
+		//BuildCosts = new List<Dictionary<string, int>> ();
 
-		// buildAction = new Action ("Build", 0, player.DataBase.ActionIconsByNames["Build"], ShowCraftWindow);
-		// upgradeAction = new Action ("Upgrade", 0, player.DataBase.ActionIconsByNames["Upgrade"], Upgrade);
 	}
 
-	protected virtual void Start () {
-		// base.Start ();
+	protected virtual void Start () {	
+		
 		RefreshActions ();
 
 		if (initialized) {
 			return;
 		}
-		/*for (int i = 0; i < MaxLevel - Level; i++) {
-			int costLength = Random.Range (1, 4);
-			Dictionary<string, int> cost = new Dictionary<string, int> ();
-			for (int j = 0; j < costLength; j++) {
-				List<Item> validItems = new List<Item> ();
-				foreach (var item in player.DataBase.TempItemLibrary) {
-					if (!cost.ContainsKey(item.Name) && !item.IsForSale && item.IsForCraft) {
-						validItems.Add (item);
-					}
-				}
+		FindTiles ();
+	}
 
-				int index = Random.Range (0, validItems.Count);
-
-				cost.Add (validItems [index].Name, Random.Range(1, 6));
+	void FindTiles () {
+		Collider2D[] otherColliders = Physics2D.OverlapCircleAll (transform.position, 1.0f);	
+		foreach (var otherCollider in otherColliders) {
+			if (otherCollider.gameObject.GetComponent<SelectableTile> () != null) {
+				Tile = otherCollider.gameObject.GetComponent<SelectableTile> ();
 			}
-			BuildCosts.Add (cost);
-		}*/
+		}
+		AdjacentTiles = new List<SelectableTile> ();
+		otherColliders = Physics2D.OverlapCircleAll (transform.position, AdjacentRadius);	
+		foreach (var otherCollider in otherColliders) {
+			if (otherCollider.gameObject.GetComponent<SelectableTile> () != null) {
+				AdjacentTiles.Add (otherCollider.gameObject.GetComponent<SelectableTile> ());
+			}
+		}
 	}
 
 	public virtual void InitializeFromData (BuildingData buildingData) {
-		Level = buildingData.Level;
+		//Level = buildingData.Level;
 		Name = buildingData.Name;
 		Allegiance = buildingData.Allegiance;
-		UnderConstruction = buildingData.UnderConstruction;
-		BuildCosts = new List<Dictionary<string, int>> (buildingData.BuildCosts); // potentially dangerous
-		UpgradeCosts = new List<int> (buildingData.UpgradeCosts);
+		//UnderConstruction = buildingData.UnderConstruction;
+		//BuildCosts = new List<Dictionary<string, int>> (buildingData.BuildCosts); // potentially dangerous
+		//UpgradeCosts = new List<int> (buildingData.UpgradeCosts);
 		initialized = true;
 	}
 
 	protected virtual void RefreshActions () {
-		/*if (Level == MaxLevel) {
-			actions.Remove (buildAction);
-			actions.Remove (upgradeAction);
-			return;
-		}
-		if (!UnderConstruction) {
-			upgradeAction.Cost = UpgradeCosts [Level];
-			actions.Remove (buildAction);
-			actions.Add (upgradeAction);
-		} else {
-			actions.Remove (upgradeAction);
-			actions.Add (buildAction);
-		}*/
+		
 	}
 
 	void ShowCraftWindow () {
-		// uiManager.OpenCraftWindow (this, null);
+		
 	}
 
 	public void Upgrade () {
-		/*if (player.Gold >= UpgradeCosts[Level]) {
-			UnderConstruction = true;
-			player.GiveGold (UpgradeCosts [Level]);
-			uiManager.CloseContextButtons (true);
-			RefreshActions ();
-		} else {
-			uiManager.OpenPopUp ("Not enough gold for upgrade");
-		}*/
+		
 	}
 
 	public void Build () {
-		/*bool canBuild = player.CheckCost (BuildCosts[Level]);
-
-		if (canBuild) {
-			player.GiveItems (BuildCosts [Level]);
-			Level += 1;
-			UnderConstruction = false;
-			RefreshActions ();
-		} else {
-			uiManager.OpenPopUp ("Can't upgrade: not enough items");
-		}*/
+		
 	}
 
 	public virtual void Claim () {
 		Allegiance = Allegiance.Player;
+		if (Tile == null) {
+			FindTiles ();
+		}
+		Tile.StopParticles ();
+		foreach (var tile in AdjacentTiles) {
+			tile.StopParticles ();
+		}
 	}
 }

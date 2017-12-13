@@ -4,15 +4,11 @@ using UnityEngine;
 
 public class SelectableTile : Selectable {
 
-	public static int LastId;
-	public int Id;
-
 	public GameObject ParticleSystem;
 	public GameObject ColliderObject;
 
 	protected override void Awake () {
 		base.Awake ();
-		Id = LastId++;
 		if (!Player.Instance.Tiles.ContainsKey(name)) {
 			Player.Instance.Tiles.Add (name, true);
 		}
@@ -23,7 +19,12 @@ public class SelectableTile : Selectable {
 
 	public void StopParticles () {
 		ParticleSystem.SetActive (false);
-		ColliderObject.SetActive (false);
+		//ColliderObject.SetActive (false);
 		Player.Instance.Tiles [name] = false;
+	}
+
+	public override void MoveShipHere () {
+		StopParticles ();
+		base.MoveShipHere ();
 	}
 }

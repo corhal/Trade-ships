@@ -52,7 +52,7 @@ public class Selectable : MonoBehaviour {
 		uiManager.OpenSelectableInfo (this);
 	}
 
-	public void MoveShipHere () {
+	public virtual void MoveShipHere () {
 		PlayerShip.Instance.MoveToPoint (transform.position);
 		uiManager.CloseContextButtons (true);
 	}

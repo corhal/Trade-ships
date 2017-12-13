@@ -11,7 +11,7 @@ public class Port : Building {
 	TradeShip dockedTradeShip;
 
 	public List<int> ShipmentsCapacities;
-	public int ShipmentsCapacity { get { return ShipmentsCapacities [Level]; } }
+	public int ShipmentsCapacity { get { return ShipmentsCapacities [0]; } }
 	public List<Shipment> Shipments;
 
 	public delegate void ProducedShipmentEventHandler (Port sender, Shipment shipment);

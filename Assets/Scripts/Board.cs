@@ -15,10 +15,11 @@ public class Board : MonoBehaviour {
 		for (int i = NegWidth; i <= PosWidth; i++) {
 			for (int j = NegHeight; j <= PosHeight; j++) {
 				GameObject tile = Instantiate (TilePrefab) as GameObject;
-				tile.transform.SetParent (TileContainer.transform);
+				tile.transform.SetParent (TileContainer.transform, false);
 				float x = i * 1.223f;
 				float y = j * 1.223f;
-				tile.transform.position = new Vector2 (x, y);
+				float z = -3.0f;
+				tile.transform.position = new Vector3 (x, y, z);
 			}
 		}
 	}

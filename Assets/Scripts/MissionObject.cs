@@ -10,6 +10,7 @@ public class MissionObject : Selectable {
 	public Image[] Stars;
 
 	public Island Island;
+	public SelectableTile Tile;
 
 	protected override void Awake () {
 		base.Awake ();
@@ -31,6 +32,13 @@ public class MissionObject : Selectable {
 		if (Mission.Stars == 3) {
 			// enabled = false;
 			GetComponent<Collider2D>().enabled = false;
+		}
+			
+		Collider2D[] otherColliders = Physics2D.OverlapCircleAll (transform.position, 1.0f);	
+			foreach (var otherCollider in otherColliders) {
+			if (otherCollider.gameObject.GetComponent<SelectableTile> () != null) {
+				Tile = otherCollider.gameObject.GetComponent<SelectableTile> ();
+			}
 		}
 	}
 

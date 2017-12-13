@@ -24,45 +24,8 @@ public class ProductionBuilding : Building {
 
 	protected override void Start () {
 		base.Start ();
-		// ProcessSlider.maxValue = SecPerShipment;
+		AdjacentRadius = 3.0f;
 	}
-
-	/*public override int GetStatByString (string statName) {
-		switch (statName) {
-		case "MinReward":
-			return MinRewards [Level];
-		case "MaxReward":
-			return MaxRewards [Level];
-		case "MinCargo":
-			return MinCargos [Level];
-		case "MaxCargo":
-			return MaxCargos [Level];
-		case "SecPerShipment":
-			return (int)(SecPerShipment * 100);
-		default:
-			return 0;
-		}
-	}*/
-
-	/*public override int GetUpgradedStatByString (string statName) { // :\
-		if (Level == MaxLevel) {
-			return 0;
-		}
-		switch (statName) {
-		case "MinReward":
-			return MinRewards [Level + 1] - MinRewards [Level];
-		case "MaxReward":
-			return MaxRewards [Level + 1] - MaxRewards [Level];
-		case "MinCargo":
-			return MinCargos [Level + 1] - MinCargos [Level];
-		case "MaxCargo":
-			return MaxCargos [Level + 1] - MaxCargos [Level];
-		case "SecPerShipment":
-			return 0;
-		default:
-			return 0;
-		}
-	} */
 
 	/*protected override*/ void Update () {
 		//base.Update ();
@@ -89,8 +52,8 @@ public class ProductionBuilding : Building {
 
 	void ProduceShipment () {
 		Island island = Destination;
-		int reward = Random.Range (MinRewards [Level], MaxRewards [Level] + 1);
-		int cargo = Random.Range (MinCargos [Level], MaxCargos [Level] + 1);
+		int reward = Random.Range (MinRewards [0], MaxRewards [0] + 1);
+		int cargo = Random.Range (MinCargos [0], MaxCargos [0] + 1);
 		Item goods = GameManager.Instance.GetItemByName (GoodsName);
 		Shipment shipment = new Shipment (goods, MyIsland.Name, island.Name, cargo, reward);
 		MyIsland.MyPort.TakeShipment (shipment);

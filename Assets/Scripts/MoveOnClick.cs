@@ -96,7 +96,7 @@ public class MoveOnClick : MonoBehaviour {
 			if ((int)fullTraveledDistance > traveledDistance) {
 				int intStep = (int)fullTraveledDistance - traveledDistance;
 				traveledDistance += intStep;
-				Player.Instance.Energy -= EnergyPerDistance * intStep;
+				// Player.Instance.Energy -= EnergyPerDistance * intStep;
 			}
 			transform.position = Vector2.MoveTowards (transform.position, target, step);
 			transform.position = new Vector3 (transform.position.x, transform.position.y, initialZ);
