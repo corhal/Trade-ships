@@ -38,11 +38,8 @@ public class GameManager : MonoBehaviour {
 	}
 
 	void Board_OnBoardGenerationFinished () {
-		foreach (var tileByString in Player.Instance.Tiles) {
-			Debug.Log (tileByString.Key);
-		}
+		Debug.Log (Tiles.Count);
 		foreach (var tile in Tiles) {
-			Debug.Log (tile.BoardCoordsAsString);
 			if (Player.Instance.Tiles [tile.BoardCoordsAsString] == false) {				
 				tile.StopParticles ();
 			}

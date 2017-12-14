@@ -24,7 +24,13 @@ public class Board : MonoBehaviour {
 				float z = -3.0f;
 				tile.transform.position = new Vector3 (x, y, z);
 				tile.GetComponent<SelectableTile> ().BoardCoords = new Vector2Int (i, j);
-				tile.GetComponent<SelectableTile> ().BoardCoordsAsString = i + "" + j;
+				tile.GetComponent<SelectableTile> ().BoardCoordsAsString = i + ":" + j;
+				if (!Player.Instance.Tiles.ContainsKey(i + ":" + j)) {
+					Player.Instance.Tiles.Add (i + ":" + j, true);
+				}
+				if (!GameManager.Instance.Tiles.Contains(tile.GetComponent<SelectableTile> ())) {
+					GameManager.Instance.Tiles.Add (tile.GetComponent<SelectableTile> ());
+				}
 			}
 		}
 		if (OnBoardGenerationFinished != null) {

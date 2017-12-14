@@ -9,15 +9,15 @@ public class SelectableTile : Selectable {
 	public Vector2Int BoardCoords;
 	public string BoardCoordsAsString;
 
-	protected override void Awake () {
-		base.Awake ();
+	/*protected override void Start () {
+		base.Start ();
 		if (!Player.Instance.Tiles.ContainsKey(BoardCoordsAsString)) {
 			Player.Instance.Tiles.Add (BoardCoordsAsString, true);
 		}
 		if (!GameManager.Instance.Tiles.Contains(this)) {
 			GameManager.Instance.Tiles.Add (this);
 		}
-	}
+	}*/
 
 	public void StopParticles () {
 		ParticleSystem.SetActive (false);
