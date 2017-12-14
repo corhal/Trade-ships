@@ -34,6 +34,23 @@ public class GameManager : MonoBehaviour {
 		} else if (Instance != this) {
 			Destroy (gameObject);  
 		}
+		Board.OnBoardGenerationFinished += Board_OnBoardGenerationFinished;
+	}
+
+	void Board_OnBoardGenerationFinished () {
+		foreach (var tileByString in Player.Instance.Tiles) {
+			Debug.Log (tileByString.Key);
+		}
+		foreach (var tile in Tiles) {
+			Debug.Log (tile.BoardCoordsAsString);
+			if (Player.Instance.Tiles [tile.BoardCoordsAsString] == false) {				
+				tile.StopParticles ();
+			}
+		}
+	}
+
+	void OnDestroy () {
+		Board.OnBoardGenerationFinished -= Board_OnBoardGenerationFinished;
 	}
 
 	public bool isBattle; // ew
@@ -106,12 +123,6 @@ public class GameManager : MonoBehaviour {
 			Player.Instance.SavePlayerShip (PlayerShip);
 			Player.Instance.SaveTradeShipDatas ();
 			Player.Instance.FirstLoad = false;
-		}
-
-		foreach (var tile in Tiles) {
-			if (Player.Instance.Tiles [tile.name] == false) {				
-				tile.StopParticles ();
-			}
 		}
 	}			
 

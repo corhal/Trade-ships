@@ -24,7 +24,6 @@ public class ProductionBuilding : Building {
 
 	protected override void Start () {
 		base.Start ();
-		AdjacentRadius = 3.0f;
 	}
 
 	/*protected override*/ void Update () {

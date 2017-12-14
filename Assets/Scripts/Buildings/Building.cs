@@ -25,7 +25,11 @@ public class Building : MonoBehaviour {
 			MyIsland.Buildings.Add (this);
 		}
 		//BuildCosts = new List<Dictionary<string, int>> ();
+		Board.OnBoardGenerationFinished += Board_OnBoardGenerationFinished;
+	}
 
+	void Board_OnBoardGenerationFinished () {
+		FindTiles ();
 	}
 
 	protected virtual void Start () {	
@@ -35,11 +39,10 @@ public class Building : MonoBehaviour {
 		if (initialized) {
 			return;
 		}
-		FindTiles ();
 	}
 
 	void FindTiles () {
-		Collider2D[] otherColliders = Physics2D.OverlapCircleAll (transform.position, 1.0f);	
+		Collider2D[] otherColliders = Physics2D.OverlapCircleAll (transform.position, 0.1f);	
 		foreach (var otherCollider in otherColliders) {
 			if (otherCollider.gameObject.GetComponent<SelectableTile> () != null) {
 				Tile = otherCollider.gameObject.GetComponent<SelectableTile> ();
@@ -47,7 +50,7 @@ public class Building : MonoBehaviour {
 		}
 		AdjacentTiles = new List<SelectableTile> ();
 		otherColliders = Physics2D.OverlapCircleAll (transform.position, AdjacentRadius);	
-		foreach (var otherCollider in otherColliders) {
+		foreach (var otherCollider in otherColliders) {			
 			if (otherCollider.gameObject.GetComponent<SelectableTile> () != null) {
 				AdjacentTiles.Add (otherCollider.gameObject.GetComponent<SelectableTile> ());
 			}
@@ -89,5 +92,9 @@ public class Building : MonoBehaviour {
 		foreach (var tile in AdjacentTiles) {
 			tile.StopParticles ();
 		}
+	}
+
+	void OnDestroy () {
+		Board.OnBoardGenerationFinished -= Board_OnBoardGenerationFinished;
 	}
 }

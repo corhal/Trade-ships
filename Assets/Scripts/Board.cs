@@ -11,6 +11,9 @@ public class Board : MonoBehaviour {
 	public int PosHeight;
 	public int NegHeight;
 
+	public delegate void BoardGenerationFinished ();
+	public static event BoardGenerationFinished OnBoardGenerationFinished; 
+
 	void Start () {
 		for (int i = NegWidth; i <= PosWidth; i++) {
 			for (int j = NegHeight; j <= PosHeight; j++) {
@@ -20,7 +23,12 @@ public class Board : MonoBehaviour {
 				float y = j * 1.223f;
 				float z = -3.0f;
 				tile.transform.position = new Vector3 (x, y, z);
+				tile.GetComponent<SelectableTile> ().BoardCoords = new Vector2Int (i, j);
+				tile.GetComponent<SelectableTile> ().BoardCoordsAsString = i + "" + j;
 			}
+		}
+		if (OnBoardGenerationFinished != null) {
+			OnBoardGenerationFinished ();
 		}
 	}
 }
