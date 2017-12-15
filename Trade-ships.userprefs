@@ -4,32 +4,32 @@
     <Files>
       <File FileName="Assets\Scripts\CSVReader.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Shipment.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\GameManager.cs" Line="45" Column="41" />
+      <File FileName="Assets\Scripts\GameManager.cs" Line="41" Column="32" />
       <File FileName="Assets\Scripts\Utility.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\MoveOnClick.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Action.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Player.cs" Line="42" Column="32" />
+      <File FileName="Assets\Scripts\Player.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Item.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Mission.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Buildings\Port.cs" Line="17" Column="2" />
-      <File FileName="Assets\Scripts\Buildings\Building.cs" Line="98" Column="36" />
-      <File FileName="Assets\Scripts\Island.cs" Line="25" Column="22" />
+      <File FileName="Assets\Scripts\Buildings\Port.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Buildings\Building.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Island.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Selectable.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Buildings\ProductionBuilding.cs" Line="33" Column="18" />
+      <File FileName="Assets\Scripts\Buildings\ProductionBuilding.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\CameraDrag.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\DragController.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Region.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Ships\Skill.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Ships\CreatureData.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\DataBase.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\UI\Windows\TeamSelectionWindow.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\UI\Windows\TeamSelectionWindow.cs" Line="183" Column="36" />
       <File FileName="Assets\Scripts\Ships\TradeShip.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Ships\TradeShipData.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Ships\RewardChest.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Ships\Shipwreck.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\UI\Windows\ImagesPopUp.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\UI\Windows\PopUp.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\UI\Windows\MissionWindow.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\UI\Windows\MissionWindow.cs" Line="129" Column="11" />
       <File FileName="Assets\Scripts\UI\Elements\ShipSkillButton.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\UI\Elements\SkillElement.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\UI\Elements\ShipListElement.cs" Line="1" Column="1" />
@@ -97,13 +97,13 @@
       <File FileName="Assets\Scripts\UI\Windows\ContextButtonsOverlay.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\UI\Windows\InfoWindow.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\FlagPost.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\MissionObject.cs" Line="49" Column="17" />
+      <File FileName="Assets\Scripts\MissionObject.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\UI\Windows\HeroCatalog.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\UI\Windows\HeroPopup.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\SelectableTile.cs" Line="24" Column="38" />
-      <File FileName="Assets\Scripts\Board.cs" Line="27" Column="75" />
+      <File FileName="Assets\Scripts\SelectableTile.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Board.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Buildings\PortData.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Buildings\Altar.cs" Line="23" Column="79" />
+      <File FileName="Assets\Scripts\Buildings\Altar.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

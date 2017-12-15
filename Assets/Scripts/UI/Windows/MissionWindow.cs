@@ -10,24 +10,16 @@ public class MissionWindow : MonoBehaviour {
 	public GameObject CurrentTeamContainer;
 	public GameObject EnemiesElementContainer;
 
-	// public GameObject RewardElementPrefab;
 	public GameObject EnemyElementPrefab;
 
 	public List<GameObject> CurrentTeamObjects;
 	public List<GameObject> EnemyElementObjects;
 
 	public Button StartButton;
-	//public Text TimeLabel;
-	//public Button RaidButton;
-	//public Text RaidCostLabel;
-	//public Button RaidX3Button;
-	//public Text RaidX3CostLabel;
-
 	public Text HeaderLabel;
 
 	Mission mission;
 
-	// ExpeditionCenter expeditionCenter;
 
 	void Awake () {
 	}
@@ -48,6 +40,9 @@ public class MissionWindow : MonoBehaviour {
 		EnemyElementObjects.Clear ();
 
 		foreach (var currentTeamMember in Player.Instance.CurrentTeam) {
+			if (currentTeamMember == null || currentTeamMember.Name == "") {
+				continue;
+			}
 			GameObject shipElementObject = Instantiate (EnemyElementPrefab) as GameObject;
 			ShipElement shipElement = shipElementObject.GetComponent<ShipElement> ();
 			if (Player.Instance.BJDataBase.CreaturePortraitsByNames.ContainsKey(currentTeamMember.Name)) {
@@ -121,13 +116,18 @@ public class MissionWindow : MonoBehaviour {
 	}
 
 	public void StartMission () {		
-		// UIOverlay.Instance.OpenTeamSelectionWindow (mission);
-		if (Player.Instance.CurrentTeam.Count > 0) {
+		int counter = 0;
+		foreach (var currentTeamMember in Player.Instance.CurrentTeam) {
+			if (currentTeamMember == null || currentTeamMember.Name == "") {
+				counter++;
+			}
+		}
+		if (counter == 0) {
 			Close ();
 			Player.Instance.CurrentMission = mission;
 			GameManager.Instance.LoadBattle ();
 		} else {
-			UIOverlay.Instance.OpenPopUp ("Choose at least one ship!");
+			UIOverlay.Instance.OpenPopUp ("Your team is not full!");
 		}
 	}
 

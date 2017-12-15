@@ -68,6 +68,9 @@ public class TeamSelectionWindow : MonoBehaviour {
 		}
 
 		foreach (var ship in Player.Instance.CurrentTeam) {
+			if (ship == null || ship.Name == "") {
+				continue;
+			}
 			GameObject shipElementObject = CreateShipElementObject (ship);
 
 			shipElementObject.transform.SetParent (TeamShipsElementContainer.transform);
@@ -175,7 +178,13 @@ public class TeamSelectionWindow : MonoBehaviour {
 	}
 
 	public void StartMission () {	
-		if (Player.Instance.CurrentTeam.Count > 0) {
+		int counter = 0;
+		foreach (var ship in Player.Instance.CurrentTeam) {
+			if (ship == null || ship.Name == "") {
+				counter++;
+			}
+		}
+		if (counter == 0) {
 			Close ();
 			Player.Instance.CurrentMission = mission;
 			gameManager.LoadBattle ();
