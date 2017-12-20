@@ -21,7 +21,7 @@ public class UIOverlay : MonoBehaviour {
 	public PopUp MyPopUp;
 	public ImagesPopUp MyImagesPopUp;
 	public HeroCatalog MyShipsCatalogWindow;
-	// public HeroCatalog HeroCatalog;
+	public AdventureSelectionWindow AdventureSelectionWindow;
 
 	void Awake () {
 		if (Instance == null) {			
@@ -40,6 +40,23 @@ public class UIOverlay : MonoBehaviour {
 		EnergyLabel.text = "Energy: " + player.Energy + "/" + player.MaxEnergy;
 	}
 
+	public void OpenAdventureSelectionWindow () {
+		AdventureSelectionWindow.Open ();
+		MyInfoWindow.Close ();
+		MyShipWindow.Close ();
+		MyMissionWindow.Close ();
+		MyButtonsOverlay.Close ();
+		MyMissionWindow.Close ();
+		MyPopUp.Close ();
+		MyShipsCatalogWindow.Close ();
+	}
+
+	public void CloseAdventureSelectionWindow () {
+		if (AdventureSelectionWindow != null) {
+			AdventureSelectionWindow.Close ();
+		}
+	}
+
 	public void OpenSelectableInfo (Selectable selectable) {
 		MyInfoWindow.Open (selectable);
 		MyShipWindow.Close ();
@@ -48,6 +65,7 @@ public class UIOverlay : MonoBehaviour {
 		MyMissionWindow.Close ();
 		MyPopUp.Close ();
 		MyShipsCatalogWindow.Close ();
+		CloseAdventureSelectionWindow ();
 	}
 
 	public void OpenShipWindow (CreatureData shipData) {
@@ -57,6 +75,7 @@ public class UIOverlay : MonoBehaviour {
 		MyMissionWindow.Close ();
 		MyPopUp.Close ();
 		MyInfoWindow.Close ();
+		CloseAdventureSelectionWindow ();
 	}
 
 	public void OpenPopUp (string message) {
@@ -74,6 +93,7 @@ public class UIOverlay : MonoBehaviour {
 		MyPopUp.Close ();
 		MyInfoWindow.Close ();
 		MyShipsCatalogWindow.Close ();
+		CloseAdventureSelectionWindow ();
 	}
 
 	public void CloseMissionWindow () {
@@ -88,6 +108,7 @@ public class UIOverlay : MonoBehaviour {
 		MyPopUp.Close ();
 		MyInfoWindow.Close ();
 		MyShipsCatalogWindow.Close ();
+		CloseAdventureSelectionWindow ();
 	}
 
 	public void OpenContextButtons (Selectable selectable) {
@@ -103,6 +124,7 @@ public class UIOverlay : MonoBehaviour {
 		MyPopUp.Close ();
 		MyInfoWindow.Close ();
 		MyShipsCatalogWindow.Close ();
+		CloseAdventureSelectionWindow ();
 	}
 
 	public void OpenShipsCatalogWindow () {
@@ -112,6 +134,7 @@ public class UIOverlay : MonoBehaviour {
 		MyShipWindow.Close ();
 		MyPopUp.Close ();
 		MyInfoWindow.Close ();
+		CloseAdventureSelectionWindow ();
 	}
 
 	public void CloseContextButtons (bool deselect) {

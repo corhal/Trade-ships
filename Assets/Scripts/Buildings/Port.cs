@@ -24,8 +24,6 @@ public class Port : Building {
 
 	protected override void Start () {
 		base.Start ();
-		// showShipmentsAction = new Action ("Show shipments", 0, player.DataBase.ActionIconsByNames["Show shipments"], ShowShipments);
-		// actions.Add (showShipmentsAction);
 		CargoSlider.maxValue = ShipmentsCapacity;
 		CargoSlider.value = Shipments.Count;
 		if (MyIsland != null) {
@@ -38,19 +36,6 @@ public class Port : Building {
 		PortData portData = buildingData as PortData;
 		ShipmentsCapacities = new List<int> (portData.ShipmentsCapacities);
 		Shipments = new List<Shipment> (portData.Shipments);
-	}
-
-	/*public override int GetStatByString (string statName) {
-		switch (statName) {
-		case "Cargo":
-			return ShipmentsCapacity;
-		default:
-			return 0;
-		}
-	}*/
-
-	void ShowShipments () {
-		// uiManager.OpenPortWindow (this, dockedTradeShip);
 	}
 
 	void OnTriggerEnter2D (Collider2D other) {
@@ -85,8 +70,7 @@ public class Port : Building {
 		}
 	}
 
-	protected override void RefreshActions () {
-		base.RefreshActions ();
+	void RefreshActions () {		
 		CargoSlider.maxValue = ShipmentsCapacity;
 		CargoSlider.value = Shipments.Count;
 	}

@@ -3,14 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Building : MonoBehaviour {
-	//public bool UnderConstruction;
+
 	bool initialized;
-	//public List<Dictionary<string, int>> BuildCosts;
-	//public List<int> UpgradeCosts;
 	public Island MyIsland;
-	//Action buildAction;
-	//Action upgradeAction;
-	//public int Level = 1;
 	public string Name;
 	public Allegiance Allegiance;
 
@@ -18,13 +13,11 @@ public class Building : MonoBehaviour {
 	public List<SelectableTile> AdjacentTiles;
 	public float AdjacentRadius;
 
-	protected virtual void Awake () {
-		// base.Awake ();
+	protected virtual void Awake () {		
 		MyIsland = GetComponentInParent<Island> ();
 		if (MyIsland != null) {
 			MyIsland.Buildings.Add (this);
 		}
-		//BuildCosts = new List<Dictionary<string, int>> ();
 		Board.OnBoardGenerationFinished += Board_OnBoardGenerationFinished;
 	}
 
@@ -32,10 +25,7 @@ public class Building : MonoBehaviour {
 		FindTiles ();
 	}
 
-	protected virtual void Start () {	
-		
-		RefreshActions ();
-
+	protected virtual void Start () {		
 		if (initialized) {
 			return;
 		}
@@ -57,30 +47,10 @@ public class Building : MonoBehaviour {
 		}
 	}
 
-	public virtual void InitializeFromData (BuildingData buildingData) {
-		//Level = buildingData.Level;
+	public virtual void InitializeFromData (BuildingData buildingData) {		
 		Name = buildingData.Name;
 		Allegiance = buildingData.Allegiance;
-		//UnderConstruction = buildingData.UnderConstruction;
-		//BuildCosts = new List<Dictionary<string, int>> (buildingData.BuildCosts); // potentially dangerous
-		//UpgradeCosts = new List<int> (buildingData.UpgradeCosts);
 		initialized = true;
-	}
-
-	protected virtual void RefreshActions () {
-		
-	}
-
-	void ShowCraftWindow () {
-		
-	}
-
-	public void Upgrade () {
-		
-	}
-
-	public void Build () {
-		
 	}
 
 	public virtual void Claim () {

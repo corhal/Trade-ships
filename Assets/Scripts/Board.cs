@@ -14,6 +14,8 @@ public class Board : MonoBehaviour {
 	public delegate void BoardGenerationFinished ();
 	public static event BoardGenerationFinished OnBoardGenerationFinished; 
 
+	public bool AllClear;
+
 	void Start () {
 		for (int i = NegWidth; i <= PosWidth; i++) {
 			for (int j = NegHeight; j <= PosHeight; j++) {
@@ -30,6 +32,10 @@ public class Board : MonoBehaviour {
 				}
 				if (!GameManager.Instance.Tiles.Contains(tile.GetComponent<SelectableTile> ())) {
 					GameManager.Instance.Tiles.Add (tile.GetComponent<SelectableTile> ());
+				}
+
+				if (AllClear) {
+					tile.GetComponent<SelectableTile> ().StopParticles ();
 				}
 			}
 		}

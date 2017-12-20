@@ -30,6 +30,8 @@ public class Player : MonoBehaviour {
 
 	public Dictionary<string, bool> Tiles;
 
+	public bool OnAdventure;
+
 	void Awake () {
 		if (Instance == null) {			
 			Instance = this;
@@ -130,7 +132,13 @@ public class Player : MonoBehaviour {
 				CurrentTeam.Remove (CurrentTeam [i]);
 			}
 		}
+		OnAdventure = false;
 		SceneManager.LoadScene (0);
+	}
+
+	public void LoadAdventure () {
+		OnAdventure = true;
+		SceneManager.LoadScene (2);
 	}
 
 	public void TakeGold (int amount) {

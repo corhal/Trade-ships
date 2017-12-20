@@ -242,7 +242,7 @@ public class BJGameController : MonoBehaviour {
 			if (Player.Instance != null) {
 				Player.Instance.CurrentMission.Stars = 3;
 				SaveHP ();
-				Player.Instance.LoadVillage ();
+				Player.Instance.LoadAdventure ();
 			} else {
 				SceneManager.LoadScene (1);
 			}
@@ -251,7 +251,7 @@ public class BJGameController : MonoBehaviour {
 			if (Player.Instance != null) {
 				Player.Instance.CurrentMission.Stars = 0;
 				SaveHP ();
-				Player.Instance.LoadVillage ();
+				Player.Instance.LoadAdventure ();
 			} else {
 				SceneManager.LoadScene (1);
 			}

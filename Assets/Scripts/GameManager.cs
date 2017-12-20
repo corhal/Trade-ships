@@ -107,7 +107,7 @@ public class GameManager : MonoBehaviour {
 			}
 
 			// temp solution:
-			if (Player.Instance.CurrentMission != null) {
+			if (Player.Instance.CurrentMission.Name != "") {
 				Dictionary<string, int> reward = Player.Instance.CurrentMission.GiveReward ();
 				Player.Instance.TakeItems (reward);
 				UIOverlay.Instance.OpenImagesPopUp ("Your reward:", reward);

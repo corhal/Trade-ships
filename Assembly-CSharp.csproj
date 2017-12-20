@@ -115,6 +115,7 @@
      <Compile Include="Assets\Scripts\Buildings\Building.cs" />
      <Compile Include="Assets\Scripts\Buildings\BuildingData.cs" />
      <Compile Include="Assets\Scripts\Buildings\Port.cs" />
+     <Compile Include="Assets\Scripts\Buildings\Portal.cs" />
      <Compile Include="Assets\Scripts\Buildings\PortData.cs" />
      <Compile Include="Assets\Scripts\Buildings\ProductionBuilding.cs" />
      <Compile Include="Assets\Scripts\CameraDrag.cs" />
@@ -147,6 +148,7 @@
      <Compile Include="Assets\Scripts\UI\Elements\ShipListElement.cs" />
      <Compile Include="Assets\Scripts\UI\Elements\ShipSkillButton.cs" />
      <Compile Include="Assets\Scripts\UI\Elements\SkillElement.cs" />
+     <Compile Include="Assets\Scripts\UI\Windows\AdventureSelectionWindow.cs" />
      <Compile Include="Assets\Scripts\UI\Windows\ContextButtonsOverlay.cs" />
      <Compile Include="Assets\Scripts\UI\Windows\HeroCatalog.cs" />
      <Compile Include="Assets\Scripts\UI\Windows\HeroPopup.cs" />
