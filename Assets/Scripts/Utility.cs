@@ -7,6 +7,11 @@ using System.Linq;
 
 public static class Utility {
 
+	public static T RandomEnumValue<T> () {
+		var v = System.Enum.GetValues (typeof(T));
+		return (T)v.GetValue (new System.Random ().Next (v.Length));
+	}
+
 	public static float SnapNumberToFactor(float number, float factor) {
 		int multiple =  Mathf.RoundToInt(number/factor);
 

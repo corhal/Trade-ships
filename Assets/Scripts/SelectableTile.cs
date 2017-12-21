@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum PointOfInterest {
+	None, Portal, Altar, Mission, IslandMission, Chest
+}
+
 public class SelectableTile : Selectable {
 
 	public GameObject ParticleSystem;
@@ -9,15 +13,7 @@ public class SelectableTile : Selectable {
 	public Vector2Int BoardCoords;
 	public string BoardCoordsAsString;
 
-	/*protected override void Start () {
-		base.Start ();
-		if (!Player.Instance.Tiles.ContainsKey(BoardCoordsAsString)) {
-			Player.Instance.Tiles.Add (BoardCoordsAsString, true);
-		}
-		if (!GameManager.Instance.Tiles.Contains(this)) {
-			GameManager.Instance.Tiles.Add (this);
-		}
-	}*/
+	public PointOfInterest PointOfInterest;
 
 	public void StopParticles () {
 		ParticleSystem.SetActive (false);

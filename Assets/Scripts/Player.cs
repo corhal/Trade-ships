@@ -31,6 +31,7 @@ public class Player : MonoBehaviour {
 	public Dictionary<string, bool> Tiles;
 
 	public bool OnAdventure;
+	public float AdventureTimer;
 
 	void Awake () {
 		if (Instance == null) {			
@@ -42,6 +43,16 @@ public class Player : MonoBehaviour {
 		// CurrentTeam = new List<CreatureData> ();
 		Inventory = new Dictionary<string, int> ();
 		Tiles = new Dictionary<string, bool> ();
+	}
+
+	void Update () {
+		if (OnAdventure) {
+			AdventureTimer -= Time.deltaTime;
+			if (AdventureTimer <= 0) {
+				LoadVillage ();
+				UIOverlay.Instance.OpenPopUp ("Adventure time is over!");
+			}
+		}
 	}
 
 	public void SaveBuildings (List<Building> buildings) {
@@ -136,8 +147,11 @@ public class Player : MonoBehaviour {
 		SceneManager.LoadScene (0);
 	}
 
-	public void LoadAdventure () {
-		OnAdventure = true;
+	public void LoadAdventure (float adventureTime) {
+		if (!OnAdventure) {
+			OnAdventure = true;
+			AdventureTimer = adventureTime;
+		}
 		SceneManager.LoadScene (2);
 	}
 

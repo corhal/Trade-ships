@@ -16,6 +16,9 @@ public class HeroCatalog : MonoBehaviour {
 	public List<GameObject> ShipObjects;
 
 	public List<CreatureData> AllShipDatas;
+
+	public ScrollRect Scroll;
+
 	bool inSwapMode;
 	ShipListElement elementReadyToSwap;
 	bool firstTime = true;
@@ -61,7 +64,7 @@ public class HeroCatalog : MonoBehaviour {
 			}
 			firstTime = false;
 		}
-
+		Scroll.verticalNormalizedPosition = 1.0f;
 	}
 
 	GameObject CreateShipListElementObject (CreatureData creatureData) {
@@ -120,6 +123,7 @@ public class HeroCatalog : MonoBehaviour {
 		sender.UseButton.gameObject.SetActive (false);
 		inSwapMode = true;
 		elementReadyToSwap = sender;
+		Scroll.verticalNormalizedPosition = 1.0f;
 	}
 
 	void ShipListElement_OnShipListElementClicked (ShipListElement sender) {	
@@ -142,9 +146,13 @@ public class HeroCatalog : MonoBehaviour {
 			elementReadyToSwap.transform.SetSiblingIndex (index);
 			inSwapMode = false;
 		} else if (!inSwapMode) {
-			sender.InfoButton.gameObject.SetActive (!sender.InfoButton.gameObject.activeSelf);
-			if (sender.CreatureData.IsSummoned) {
-				sender.UseButton.gameObject.SetActive (!sender.UseButton.gameObject.activeSelf);
+			if (sender.CreatureData.Name == "") {
+				Scroll.verticalNormalizedPosition = 0.7f;
+			} else {
+				sender.InfoButton.gameObject.SetActive (!sender.InfoButton.gameObject.activeSelf);
+				if (sender.CreatureData.IsSummoned) {
+					sender.UseButton.gameObject.SetActive (!sender.UseButton.gameObject.activeSelf);
+				}
 			}
 		}
 	}

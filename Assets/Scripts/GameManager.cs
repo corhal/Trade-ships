@@ -23,6 +23,12 @@ public class GameManager : MonoBehaviour {
 
 	public bool CameraDragged;
 
+	public GameObject PortalIslandPrefab;
+	public GameObject AltarIslandPrefab;
+	public GameObject MissionPrefab;
+	public GameObject MissionIslandPrefab;
+	public GameObject ChestPrefab;
+
 	public void MoveMode () {
 		InMoveMode = true;
 		UIOverlay.Instance.CloseContextButtons (false);
@@ -41,6 +47,33 @@ public class GameManager : MonoBehaviour {
 		foreach (var tile in Tiles) {
 			if (Player.Instance.Tiles [tile.BoardCoordsAsString] == false) {				
 				tile.StopParticles ();
+			}
+			if (Player.Instance.OnAdventure) {
+				GameObject prefabObject;
+				switch (tile.PointOfInterest) {
+				case PointOfInterest.Altar:
+					prefabObject = AltarIslandPrefab;
+					break;
+				case PointOfInterest.Portal:
+					prefabObject = PortalIslandPrefab;
+					break;
+				case PointOfInterest.Mission:
+					prefabObject = MissionPrefab;
+					break;
+				case PointOfInterest.IslandMission:
+					prefabObject = MissionIslandPrefab;
+					break;
+				case PointOfInterest.Chest:
+					prefabObject = ChestPrefab;
+					break;
+				default:
+					prefabObject = null;
+					break;
+				}
+				if (prefabObject != null) {
+					GameObject poiOBject = Instantiate (prefabObject) as GameObject;
+					poiOBject.transform.position = tile.transform.position;
+				}
 			}
 		}
 	}

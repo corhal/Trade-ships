@@ -10,6 +10,7 @@ public class UIOverlay : MonoBehaviour {
 
 	public Text GoldLabel;
 	public Text EnergyLabel;
+	public Text TimeLabel;
 	Player player;
 	public static UIOverlay Instance;
 
@@ -33,11 +34,21 @@ public class UIOverlay : MonoBehaviour {
 
 	void Start () {
 		player = Player.Instance;
+		if (!player.OnAdventure) {
+			TimeLabel.gameObject.SetActive (false);
+		}
 	}
 
 	void Update () { // OMG
 		GoldLabel.text = "Gold: " + player.Gold;
 		EnergyLabel.text = "Energy: " + player.Energy + "/" + player.MaxEnergy;
+		if (player.OnAdventure) {			
+			int time = (int)player.AdventureTimer;
+			int hours = time / 3600;
+			int minutes = (time - hours * 3600) / 60;
+			int seconds = time - hours * 3600 - minutes * 60;
+			TimeLabel.text = hours + ":" + minutes.ToString("D2") + ":" + seconds.ToString("D2");
+		}
 	}
 
 	public void OpenAdventureSelectionWindow () {

@@ -37,6 +37,9 @@ public class Board : MonoBehaviour {
 				if (AllClear) {
 					tile.GetComponent<SelectableTile> ().StopParticles ();
 				}
+				if (Random.Range(0.0f, 1.0f) > 0.6f) {
+					tile.GetComponent<SelectableTile> ().PointOfInterest = Utility.RandomEnumValue <PointOfInterest> ();
+				}
 			}
 		}
 		if (OnBoardGenerationFinished != null) {
