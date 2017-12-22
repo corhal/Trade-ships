@@ -31,7 +31,8 @@ public class MissionObject : Selectable {
 		}
 		if (Mission.Stars == 3) {
 			// enabled = false;
-			GetComponent<Collider2D>().enabled = false;
+			// GetComponent<Collider2D>().enabled = false;
+			gameObject.SetActive(false);
 		}
 			
 		Collider2D[] otherColliders = Physics2D.OverlapCircleAll (transform.position, 1.0f);	

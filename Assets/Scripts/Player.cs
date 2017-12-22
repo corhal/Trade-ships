@@ -30,6 +30,7 @@ public class Player : MonoBehaviour {
 
 	public Dictionary<string, bool> Tiles;
 
+	public bool NewBoard;
 	public bool OnAdventure;
 	public float AdventureTimer;
 

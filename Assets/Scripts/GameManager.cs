@@ -41,6 +41,7 @@ public class GameManager : MonoBehaviour {
 			Destroy (gameObject);  
 		}
 		Board.OnBoardGenerationFinished += Board_OnBoardGenerationFinished;
+		HashSet<int> SomeHash = new HashSet<int> ();
 	}
 
 	void Board_OnBoardGenerationFinished () {
@@ -72,7 +73,7 @@ public class GameManager : MonoBehaviour {
 				}
 				if (prefabObject != null) {
 					GameObject poiOBject = Instantiate (prefabObject) as GameObject;
-					poiOBject.transform.position = tile.transform.position;
+					poiOBject.transform.position = new Vector3 (tile.transform.position.x, tile.transform.position.y, 0);
 				}
 			}
 		}
