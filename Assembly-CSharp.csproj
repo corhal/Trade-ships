@@ -114,10 +114,14 @@
      <Compile Include="Assets\Scripts\Buildings\Altar.cs" />
      <Compile Include="Assets\Scripts\Buildings\Building.cs" />
      <Compile Include="Assets\Scripts\Buildings\BuildingData.cs" />
+     <Compile Include="Assets\Scripts\Buildings\MissionObject.cs" />
+     <Compile Include="Assets\Scripts\Buildings\POIData.cs" />
+     <Compile Include="Assets\Scripts\Buildings\PointOfInterest.cs" />
      <Compile Include="Assets\Scripts\Buildings\Port.cs" />
      <Compile Include="Assets\Scripts\Buildings\Portal.cs" />
      <Compile Include="Assets\Scripts\Buildings\PortData.cs" />
      <Compile Include="Assets\Scripts\Buildings\ProductionBuilding.cs" />
+     <Compile Include="Assets\Scripts\Buildings\Shipwreck.cs" />
      <Compile Include="Assets\Scripts\CameraDrag.cs" />
      <Compile Include="Assets\Scripts\CSVReader.cs" />
      <Compile Include="Assets\Scripts\DataBase.cs" />
@@ -127,7 +131,6 @@
      <Compile Include="Assets\Scripts\Island.cs" />
      <Compile Include="Assets\Scripts\Item.cs" />
      <Compile Include="Assets\Scripts\Mission.cs" />
-     <Compile Include="Assets\Scripts\MissionObject.cs" />
      <Compile Include="Assets\Scripts\MoveOnClick.cs" />
      <Compile Include="Assets\Scripts\Player.cs" />
      <Compile Include="Assets\Scripts\PlayerShip.cs" />
@@ -137,7 +140,6 @@
      <Compile Include="Assets\Scripts\Shipment.cs" />
      <Compile Include="Assets\Scripts\Ships\CreatureData.cs" />
      <Compile Include="Assets\Scripts\Ships\RewardChest.cs" />
-     <Compile Include="Assets\Scripts\Ships\Shipwreck.cs" />
      <Compile Include="Assets\Scripts\Ships\Skill.cs" />
      <Compile Include="Assets\Scripts\Ships\TradeShip.cs" />
      <Compile Include="Assets\Scripts\Ships\TradeShipData.cs" />

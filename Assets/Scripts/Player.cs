@@ -29,6 +29,8 @@ public class Player : MonoBehaviour {
 	public Vector3 PlayerShipCoordinates;
 
 	public Dictionary<string, bool> Tiles;
+	public Dictionary<string, POIData> POIDataByTiles;
+	public List<POIData> POIDatas;
 
 	public bool NewBoard;
 	public bool OnAdventure;
@@ -44,6 +46,8 @@ public class Player : MonoBehaviour {
 		// CurrentTeam = new List<CreatureData> ();
 		Inventory = new Dictionary<string, int> ();
 		Tiles = new Dictionary<string, bool> ();
+		POIDataByTiles = new Dictionary<string, POIData> ();
+		POIDatas = new List<POIData> ();
 	}
 
 	void Update () {

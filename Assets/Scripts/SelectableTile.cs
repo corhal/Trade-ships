@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum PointOfInterest {
-	None, Portal, Altar, Mission, IslandMission, Chest
+public enum POIkind {
+	None, Portal, Altar, Mission, Chest
 }
 
 public class SelectableTile : Selectable {
@@ -13,7 +13,7 @@ public class SelectableTile : Selectable {
 	public Vector2Int BoardCoords;
 	public string BoardCoordsAsString;
 
-	public PointOfInterest PointOfInterest;
+	public POIkind PointOfInterest;
 
 	public void StopParticles () {
 		ParticleSystem.SetActive (false);

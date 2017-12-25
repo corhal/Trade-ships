@@ -23,12 +23,6 @@ public class GameManager : MonoBehaviour {
 
 	public bool CameraDragged;
 
-	public GameObject PortalIslandPrefab;
-	public GameObject AltarIslandPrefab;
-	public GameObject MissionPrefab;
-	public GameObject MissionIslandPrefab;
-	public GameObject ChestPrefab;
-
 	public void MoveMode () {
 		InMoveMode = true;
 		UIOverlay.Instance.CloseContextButtons (false);
@@ -48,33 +42,6 @@ public class GameManager : MonoBehaviour {
 		foreach (var tile in Tiles) {
 			if (Player.Instance.Tiles [tile.BoardCoordsAsString] == false) {				
 				tile.StopParticles ();
-			}
-			if (Player.Instance.OnAdventure) {
-				GameObject prefabObject;
-				switch (tile.PointOfInterest) {
-				case PointOfInterest.Altar:
-					prefabObject = AltarIslandPrefab;
-					break;
-				case PointOfInterest.Portal:
-					prefabObject = PortalIslandPrefab;
-					break;
-				case PointOfInterest.Mission:
-					prefabObject = MissionPrefab;
-					break;
-				case PointOfInterest.IslandMission:
-					prefabObject = MissionIslandPrefab;
-					break;
-				case PointOfInterest.Chest:
-					prefabObject = ChestPrefab;
-					break;
-				default:
-					prefabObject = null;
-					break;
-				}
-				if (prefabObject != null) {
-					GameObject poiOBject = Instantiate (prefabObject) as GameObject;
-					poiOBject.transform.position = new Vector3 (tile.transform.position.x, tile.transform.position.y, 0);
-				}
 			}
 		}
 	}
@@ -108,7 +75,7 @@ public class GameManager : MonoBehaviour {
 		}
 
 		if (!Player.Instance.FirstLoad && !isBattle) { // ?..
-			for (int i = 0; i < Buildings.Count; i++) {
+			/*for (int i = 0; i < Buildings.Count; i++) {
 				for (int j = 0; j < Player.Instance.BuildingDatas.Count; j++) { // ОЛОЛО ОЛОЛО Я ВОДИТЕЛЬ НЛО
 					Vector3 buildingPosition = new Vector3 (Player.Instance.BuildingDatas [j].Coordinates [0],
 						                           Player.Instance.BuildingDatas [j].Coordinates [1],
@@ -124,7 +91,7 @@ public class GameManager : MonoBehaviour {
 						MissionObjects [i].Mission = Player.Instance.Missions [j];
 					}
 				}
-			}
+			}*/
 
 
 			PlayerShip.gameObject.transform.position = Player.Instance.PlayerShipCoordinates;
