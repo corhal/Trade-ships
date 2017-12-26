@@ -10,10 +10,8 @@ public class MissionObject : PointOfInterest {
 	public Image[] Stars;
 
 	public Island Island;
-	// public SelectableTile Tile;
 
 	void Start () {
-		POIkind = POIkind.Mission;
 		if (Mission.EnemyShips.Count == 0) {
 			CreateMission ();
 			Player.Instance.Missions.Add (Mission);
@@ -24,18 +22,20 @@ public class MissionObject : PointOfInterest {
 		/*if (IsCastle && Mission.Stars == 3 && Island.Allegiance != Allegiance.Player) {
 			Island.Claim ();
 		}*/
-		if (Mission.Stars == 3) {
-			// enabled = false;
-			// GetComponent<Collider2D>().enabled = false;
-			gameObject.SetActive(false);
-		}
-			
-		/*Collider2D[] otherColliders = Physics2D.OverlapCircleAll (transform.position, 1.0f);	
-			foreach (var otherCollider in otherColliders) {
-			if (otherCollider.gameObject.GetComponent<SelectableTile> () != null) {
-				Tile = otherCollider.gameObject.GetComponent<SelectableTile> ();
+
+		foreach (var mission in Player.Instance.Missions) {
+			if (Mission.Name == mission.Name && mission.Stars == 3) {
+				Mission.Stars = 3;
 			}
-		}*/
+		}
+
+		if (Mission.Stars == 3) {
+			gameObject.SetActive (false);
+		}
+
+		if (Mission.Stars == 3 && !POIData.Interacted) {
+			Interact ();
+		}
 	}
 
 
@@ -56,15 +56,6 @@ public class MissionObject : PointOfInterest {
 		Dictionary<string, float> rewardChances = new Dictionary<string, float> ();
 		Dictionary<string, int> possibleRewards = new Dictionary<string, int> ();
 
-		/*for (int i = 0; i < Player.Instance.ShipDatas.Count; i++) {
-			// !!! Replace with something more sensible
-			float coinToss = Random.Range (0.0f, 1.0f);
-			if (coinToss < 0.25f) {
-				possibleRewards.Add (Player.Instance.ShipDatas [i].Soulstone.Name, Random.Range (1, 6));
-				rewardChances.Add (Player.Instance.ShipDatas [i].Soulstone.Name, Random.Range (0.3f, 0.7f));
-			}
-		}*/
-
 		for (int j = 1; j < costLength; j++) {
 			List<Item> validItems = new List<Item> ();
 			foreach (var item in Player.Instance.DataBase.TempItemLibrary) {
@@ -78,6 +69,6 @@ public class MissionObject : PointOfInterest {
 			rewardChances.Add (validItems [index].Name, Random.Range (0.3f, 0.7f));
 		}
 
-		Mission = new Mission ("mission", IsCastle, rewardChances, possibleRewards, enemyShips);
+		Mission = new Mission (Tile.BoardCoordsAsString, IsCastle, rewardChances, possibleRewards, enemyShips);
 	}
 }

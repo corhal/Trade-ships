@@ -4,24 +4,13 @@ using UnityEngine;
 
 public class PointOfInterest : MonoBehaviour {
 
-	public bool OneTime;
-	public bool Interacted;
-
-	public Allegiance Allegiance;
-
 	public SelectableTile Tile;
 	public List<SelectableTile> AdjacentTiles;
 	public float AdjacentRadius;
-	public POIkind POIkind;
-
-	public void InitializeFromData (POIData poiData) {
-		OneTime = poiData.OneTime;
-		Interacted = poiData.Interacted;
-		POIkind = poiData.POIkind;
-	}
+	public POIData POIData;
 
 	public virtual void Interact () {
-		Interacted = true;
+		POIData.Interacted = true;
 		if (Tile == null) {
 			FindTiles ();
 		}

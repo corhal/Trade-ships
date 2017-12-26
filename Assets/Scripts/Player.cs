@@ -139,6 +139,7 @@ public class Player : MonoBehaviour {
 	}
 
 	public void LoadBattle () {
+		
 		SceneManager.LoadScene (1);
 	}
 
@@ -156,6 +157,10 @@ public class Player : MonoBehaviour {
 		if (!OnAdventure) {
 			OnAdventure = true;
 			AdventureTimer = adventureTime;
+			Missions.Clear ();
+			Tiles.Clear ();
+			POIDataByTiles.Clear ();
+			POIDatas.Clear ();
 		}
 		SceneManager.LoadScene (2);
 	}

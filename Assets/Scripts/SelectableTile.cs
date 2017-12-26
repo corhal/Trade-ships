@@ -2,10 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum POIkind {
-	None, Portal, Altar, Mission, Chest
-}
-
 public class SelectableTile : Selectable {
 
 	public GameObject ParticleSystem;

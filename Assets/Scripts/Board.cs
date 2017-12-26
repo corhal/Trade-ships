@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum POIkind {
+	None, Portal, Altar, Mission, Chest, Current
+}
+
 public class Board : MonoBehaviour {
 
 	public GameObject TileContainer;
@@ -21,15 +25,24 @@ public class Board : MonoBehaviour {
 
 	public Dictionary<POIkind, int> PointsOfInterestAmount;
 
-
+	public GameObject CurrentPrefab;
 	public GameObject PortalIslandPrefab;
 	public GameObject AltarIslandPrefab;
 	public GameObject MissionPrefab;
 	public GameObject MissionIslandPrefab;
 	public GameObject ChestPrefab;
 
+	public static Board Instance;
+
+	public SelectableTile[,] Tiles;
+
+	void Awake () {
+		Instance = this;
+	}
+
 	void Start () {
 		PointsOfInterestAmount = new Dictionary<POIkind, int> ();
+		Tiles = new SelectableTile[PosWidth - NegWidth, PosHeight - NegHeight];
 		for (int i = 0; i < POIS.Count; i++) {
 			PointsOfInterestAmount.Add (POIS [i], POIamounts [i]);
 		}
@@ -60,13 +73,14 @@ public class Board : MonoBehaviour {
 					}
 					PointsOfInterestAmount [poi] -= 1;
 					tile.GetComponent<SelectableTile> ().PointOfInterest = poi;
+
 					SpawnPOI (tile.GetComponent<SelectableTile> ());
 				} else if (Player.Instance.POIDataByTiles.ContainsKey(i + ":" + j) && Player.Instance.POIDataByTiles[(i + ":" + j)].POIkind != POIkind.None) {
-					Debug.Log ("should spawn smth");
 					POIkind poi = Player.Instance.POIDataByTiles [(i + ":" + j)].POIkind;
 					tile.GetComponent<SelectableTile> ().PointOfInterest = poi;
 					SpawnPOI (tile.GetComponent<SelectableTile> ());
 				}
+				Tiles[i, j] = tile.GetComponent<SelectableTile> ();
 			}
 		}
 		if (Player.Instance.NewBoard) {
@@ -78,9 +92,16 @@ public class Board : MonoBehaviour {
 		}
 	}
 
+	public List<SelectableTile> GetTileNeighbors (SelectableTile tile) {
+		List<SelectableTile> neighbors = new List<SelectableTile> ();
+		if (Tiles[tile.BoardCoords.x + 1, tile.BoardCoords.y] != null) { // not null, doesn't exits, rewrite
+			
+		}
+		return neighbors;
+	}
+
 	void SpawnPOI (SelectableTile tile) {
-		//if (Player.Instance.OnAdventure) {
-			GameObject prefabObject;
+		GameObject prefabObject;
 		switch (tile.PointOfInterest) {
 			case POIkind.Altar:
 				prefabObject = AltarIslandPrefab;
@@ -97,18 +118,21 @@ public class Board : MonoBehaviour {
 			default:
 				prefabObject = null;
 				break;
-			}
+		}
 		if (prefabObject != null) {
 			GameObject poiOBject = Instantiate (prefabObject) as GameObject;
 			poiOBject.transform.position = new Vector3 (tile.transform.position.x, tile.transform.position.y, 0);
 			if (!Player.Instance.POIDataByTiles.ContainsKey (tile.BoardCoordsAsString)) {
-				POIData poiData = new POIData ();
-				poiData.InitializeFromPOI (poiOBject.GetComponentInChildren<PointOfInterest> ());
+				POIData poiData = poiOBject.GetComponentInChildren<PointOfInterest> ().POIData;
 				Player.Instance.POIDataByTiles.Add (tile.BoardCoordsAsString, poiData);
 				Player.Instance.POIDatas.Add (poiData);
+			} else {
+				poiOBject.GetComponentInChildren<PointOfInterest> ().POIData = Player.Instance.POIDataByTiles [tile.BoardCoordsAsString];
+			}
+
+			if (poiOBject.GetComponentInChildren<PointOfInterest> ().POIData.POIkind == POIkind.Current) {
+				
 			}
 		}
-
-		//}
 	}
 }

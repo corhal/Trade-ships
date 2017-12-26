@@ -68,31 +68,13 @@ public class GameManager : MonoBehaviour {
 
 	void Start () {	
 		Buildings = new List<Building> (GameObject.FindObjectsOfType<Building>());
-		MissionObjects = new List<MissionObject> (GameObject.FindObjectsOfType<MissionObject> ());
+
 
 		if (!isBattle) {
 			CityHUD.SetActive (true);
 		}
 
 		if (!Player.Instance.FirstLoad && !isBattle) { // ?..
-			/*for (int i = 0; i < Buildings.Count; i++) {
-				for (int j = 0; j < Player.Instance.BuildingDatas.Count; j++) { // ОЛОЛО ОЛОЛО Я ВОДИТЕЛЬ НЛО
-					Vector3 buildingPosition = new Vector3 (Player.Instance.BuildingDatas [j].Coordinates [0],
-						                           Player.Instance.BuildingDatas [j].Coordinates [1],
-						                           Player.Instance.BuildingDatas [j].Coordinates [2]);
-					if (Buildings[i].Name == Player.Instance.BuildingDatas[j].Name && Vector3.Distance(Buildings[i].transform.position, buildingPosition) < 0.001f) {
-						Buildings [i].InitializeFromData (Player.Instance.BuildingDatas [j]);
-					}
-				}
-			}
-			for (int i = 0; i < MissionObjects.Count; i++) {
-				for (int j = 0; j < Player.Instance.Missions.Count; j++) { // ОЛОЛО ОЛОЛО Я ВОДИТЕЛЬ НЛО					
-					if (MissionObjects [i].Name == Player.Instance.Missions [j].Name) {
-						MissionObjects [i].Mission = Player.Instance.Missions [j];
-					}
-				}
-			}*/
-
 
 			PlayerShip.gameObject.transform.position = Player.Instance.PlayerShipCoordinates;
 

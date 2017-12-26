@@ -9,9 +9,9 @@ public class POIData {
 	public bool Interacted;
 	public POIkind POIkind;
 
-	public void InitializeFromPOI (PointOfInterest poi) {
+	/*public void InitializeFromPOI (PointOfInterest poi) {
 		OneTime = poi.OneTime;
 		Interacted = poi.Interacted;
 		POIkind = poi.POIkind;
-	}
+	}*/
 }

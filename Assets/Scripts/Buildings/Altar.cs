@@ -3,11 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Altar : PointOfInterest {
-
-	void Start () {
-		POIkind = POIkind.Altar;
-	}
-
 	void OnTriggerEnter2D (Collider2D other) {
 		if (other.gameObject.GetComponent<PlayerShip>() != null) {
 			Interact ();
@@ -15,7 +10,7 @@ public class Altar : PointOfInterest {
 	}
 
 	public override void Interact () {
-		if (!(OneTime && Interacted)) {
+		if (!(POIData.OneTime && POIData.Interacted)) {
 			base.Interact ();
 			float diceRoll = Random.Range (0.0f, 1.0f);
 			if (diceRoll > 0.5f) {

@@ -114,6 +114,7 @@
      <Compile Include="Assets\Scripts\Buildings\Altar.cs" />
      <Compile Include="Assets\Scripts\Buildings\Building.cs" />
      <Compile Include="Assets\Scripts\Buildings\BuildingData.cs" />
+     <Compile Include="Assets\Scripts\Buildings\Current.cs" />
      <Compile Include="Assets\Scripts\Buildings\MissionObject.cs" />
      <Compile Include="Assets\Scripts\Buildings\POIData.cs" />
      <Compile Include="Assets\Scripts\Buildings\PointOfInterest.cs" />
