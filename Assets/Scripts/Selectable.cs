@@ -53,7 +53,7 @@ public class Selectable : MonoBehaviour {
 	}
 
 	public virtual void MoveShipHere () {
-		PlayerShip.Instance.MoveToPoint (transform.position);
+		PlayerShip.Instance.MoveToPoint (transform.position, true);
 		uiManager.CloseContextButtons (true);
 	}
 

@@ -40,14 +40,31 @@ public class Board : MonoBehaviour {
 		Instance = this;
 	}
 
+	public List<POIkind> POIKinds;
+
 	void Start () {
 		PointsOfInterestAmount = new Dictionary<POIkind, int> ();
-		Tiles = new SelectableTile[PosWidth - NegWidth, PosHeight - NegHeight];
+		Tiles = new SelectableTile[PosWidth - NegWidth + 1, PosHeight - NegHeight + 1];
+
 		for (int i = 0; i < POIS.Count; i++) {
 			PointsOfInterestAmount.Add (POIS [i], POIamounts [i]);
 		}
+		List<POIkind> poiKinds = new List<POIkind> ();
+		Dictionary<POIkind, int> tempPointsOfInterestAmount = new Dictionary<POIkind, int> (PointsOfInterestAmount);
+
+		List<POIkind> keys = new List<POIkind> (tempPointsOfInterestAmount.Keys);
+		foreach (var key in keys) {
+			while (tempPointsOfInterestAmount[key] > 0) {
+				poiKinds.Add (key);
+				tempPointsOfInterestAmount [key]--;
+			}
+		}
+		Debug.Log (poiKinds.Count + "");
+		Utility.Shuffle (poiKinds);
+		POIKinds = new List<POIkind> (poiKinds);
+		int counter = 0;
 		for (int i = NegWidth; i <= PosWidth; i++) {
-			for (int j = NegHeight; j <= PosHeight; j++) {
+			for (int j = NegHeight; j <= PosHeight; j++) {				
 				GameObject tile = Instantiate (TilePrefab) as GameObject;
 				tile.transform.SetParent (TileContainer.transform, false);
 				float x = i * 1.223f;
@@ -66,12 +83,13 @@ public class Board : MonoBehaviour {
 				if (AllClear) {
 					tile.GetComponent<SelectableTile> ().StopParticles ();
 				}
-				if (Player.Instance.NewBoard && Random.Range(0.0f, 1.0f) > 0.7f) {
-					POIkind poi = POIkind.Portal;
-					while (PointsOfInterestAmount [poi] == 0) {
+				if (Player.Instance.NewBoard /*&& Random.Range(0.0f, 1.0f) > 0.6f*/) {
+					//Debug.Log
+					POIkind poi = poiKinds [counter]; // POIkind.Portal;
+					/*while (PointsOfInterestAmount [poi] == 0) {
 						poi = Utility.RandomEnumValue <POIkind> ();
 					}
-					PointsOfInterestAmount [poi] -= 1;
+					PointsOfInterestAmount [poi] -= 1;*/
 					tile.GetComponent<SelectableTile> ().PointOfInterest = poi;
 
 					SpawnPOI (tile.GetComponent<SelectableTile> ());
@@ -79,9 +97,15 @@ public class Board : MonoBehaviour {
 					POIkind poi = Player.Instance.POIDataByTiles [(i + ":" + j)].POIkind;
 					tile.GetComponent<SelectableTile> ().PointOfInterest = poi;
 					SpawnPOI (tile.GetComponent<SelectableTile> ());
-				}
-				Tiles[i, j] = tile.GetComponent<SelectableTile> ();
+				} 
+				Tiles[i - NegWidth, j - NegHeight] = tile.GetComponent<SelectableTile> ();
+				tile.GetComponent<SelectableTile> ().AbsBoardCoords = new Vector2Int (i - NegWidth, j - NegHeight);
+				counter++;
 			}
+		}
+		// Debug.Log (Tiles.GetLength (0) + ":" + Tiles.GetLength (1));
+		foreach (var tile in Tiles) {
+			tile.Neighbors = GetTileNeighbors (tile);
 		}
 		if (Player.Instance.NewBoard) {
 			Player.Instance.NewBoard = false;
@@ -94,8 +118,17 @@ public class Board : MonoBehaviour {
 
 	public List<SelectableTile> GetTileNeighbors (SelectableTile tile) {
 		List<SelectableTile> neighbors = new List<SelectableTile> ();
-		if (Tiles[tile.BoardCoords.x + 1, tile.BoardCoords.y] != null) { // not null, doesn't exits, rewrite
-			
+		if (tile.AbsBoardCoords.x + 1 < Tiles.GetLength (0)) {
+			neighbors.Add (Tiles [tile.AbsBoardCoords.x + 1, tile.AbsBoardCoords.y]);
+		}
+		if (tile.AbsBoardCoords.x - 1 >= 0) {
+			neighbors.Add (Tiles [tile.AbsBoardCoords.x - 1, tile.AbsBoardCoords.y]);
+		}
+		if (tile.AbsBoardCoords.y + 1 < Tiles.GetLength (0)) {
+			neighbors.Add (Tiles [tile.AbsBoardCoords.x, tile.AbsBoardCoords.y + 1]);
+		}
+		if (tile.AbsBoardCoords.y - 1 >= 0) {
+			neighbors.Add (Tiles [tile.AbsBoardCoords.x, tile.AbsBoardCoords.y - 1]);
 		}
 		return neighbors;
 	}
@@ -114,6 +147,9 @@ public class Board : MonoBehaviour {
 				break;
 			case POIkind.Chest:
 				prefabObject = ChestPrefab;
+				break;
+			case POIkind.Current:
+				prefabObject = CurrentPrefab;
 				break;
 			default:
 				prefabObject = null;

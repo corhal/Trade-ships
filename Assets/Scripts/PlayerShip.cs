@@ -62,7 +62,11 @@ public class PlayerShip : MonoBehaviour {
 		}
 	}
 
-	public void MoveToPoint (Vector2 target) {
+	public void MoveToPoint (Vector2 target, bool spendEnergy) {
+		if (!spendEnergy) {
+			mover.MoveToPoint (target);
+			return;
+		}
 		if (Player.Instance.Energy >= EnergyPerDistance * 1) {
 			Player.Instance.Energy -= EnergyPerDistance * 1;
 			mover.MoveToPoint (target);
