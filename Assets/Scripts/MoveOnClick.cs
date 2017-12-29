@@ -89,7 +89,7 @@ public class MoveOnClick : MonoBehaviour {
 			}
 		}
 
-		if (shouldMove && Player.Instance.Energy > 0) { // changed from lerp
+		if (shouldMove /*&& Player.Instance.Energy > 0*/) { // changed from lerp
 			TimeLeft = Vector2.Distance(transform.position, target) / Speed;
 			float step = Speed * Time.deltaTime;
 			fullTraveledDistance += step;

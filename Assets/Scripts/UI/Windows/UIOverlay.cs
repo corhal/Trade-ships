@@ -23,6 +23,7 @@ public class UIOverlay : MonoBehaviour {
 	public ImagesPopUp MyImagesPopUp;
 	public HeroCatalog MyShipsCatalogWindow;
 	public AdventureSelectionWindow AdventureSelectionWindow;
+	public ObstaclePopUp ObstaclePopUp;
 
 	void Awake () {
 		if (Instance == null) {			
@@ -91,6 +92,10 @@ public class UIOverlay : MonoBehaviour {
 
 	public void OpenPopUp (string message) {
 		MyPopUp.Open (message);
+	}
+
+	public void OpenObstaclePopUp (Obstacle obstacle) {
+		ObstaclePopUp.Open (obstacle);
 	}
 
 	public void OpenImagesPopUp (string message, Dictionary<string, int> itemNames) {

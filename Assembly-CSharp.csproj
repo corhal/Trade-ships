@@ -116,6 +116,7 @@
      <Compile Include="Assets\Scripts\Buildings\BuildingData.cs" />
      <Compile Include="Assets\Scripts\Buildings\Current.cs" />
      <Compile Include="Assets\Scripts\Buildings\MissionObject.cs" />
+     <Compile Include="Assets\Scripts\Buildings\Obstacle.cs" />
      <Compile Include="Assets\Scripts\Buildings\POIData.cs" />
      <Compile Include="Assets\Scripts\Buildings\PointOfInterest.cs" />
      <Compile Include="Assets\Scripts\Buildings\Port.cs" />
@@ -158,6 +159,7 @@
      <Compile Include="Assets\Scripts\UI\Windows\ImagesPopUp.cs" />
      <Compile Include="Assets\Scripts\UI\Windows\InfoWindow.cs" />
      <Compile Include="Assets\Scripts\UI\Windows\MissionWindow.cs" />
+     <Compile Include="Assets\Scripts\UI\Windows\ObstaclePopUp.cs" />
      <Compile Include="Assets\Scripts\UI\Windows\PopUp.cs" />
      <Compile Include="Assets\Scripts\UI\Windows\TeamSelectionWindow.cs" />
      <Compile Include="Assets\Scripts\UI\Windows\UIOverlay.cs" />

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public enum POIkind {
-	None, Portal, Altar, Mission, Chest, Current
+	None, Portal, Altar, Mission, Chest, Current, Obstacle
 }
 
 public class Board : MonoBehaviour {
@@ -31,6 +31,7 @@ public class Board : MonoBehaviour {
 	public GameObject MissionPrefab;
 	public GameObject MissionIslandPrefab;
 	public GameObject ChestPrefab;
+	public GameObject ObstaclePrefab;
 
 	public static Board Instance;
 
@@ -83,13 +84,8 @@ public class Board : MonoBehaviour {
 				if (AllClear) {
 					tile.GetComponent<SelectableTile> ().StopParticles ();
 				}
-				if (Player.Instance.NewBoard /*&& Random.Range(0.0f, 1.0f) > 0.6f*/) {
-					//Debug.Log
-					POIkind poi = poiKinds [counter]; // POIkind.Portal;
-					/*while (PointsOfInterestAmount [poi] == 0) {
-						poi = Utility.RandomEnumValue <POIkind> ();
-					}
-					PointsOfInterestAmount [poi] -= 1;*/
+				if (Player.Instance.NewBoard) {
+					POIkind poi = poiKinds [counter]; 
 					tile.GetComponent<SelectableTile> ().PointOfInterest = poi;
 
 					SpawnPOI (tile.GetComponent<SelectableTile> ());
@@ -103,7 +99,6 @@ public class Board : MonoBehaviour {
 				counter++;
 			}
 		}
-		// Debug.Log (Tiles.GetLength (0) + ":" + Tiles.GetLength (1));
 		foreach (var tile in Tiles) {
 			tile.Neighbors = GetTileNeighbors (tile);
 		}
@@ -151,6 +146,9 @@ public class Board : MonoBehaviour {
 			case POIkind.Current:
 				prefabObject = CurrentPrefab;
 				break;
+			case POIkind.Obstacle:
+				prefabObject = ObstaclePrefab;
+				break;
 			default:
 				prefabObject = null;
 				break;
@@ -159,15 +157,16 @@ public class Board : MonoBehaviour {
 			GameObject poiOBject = Instantiate (prefabObject) as GameObject;
 			poiOBject.transform.position = new Vector3 (tile.transform.position.x, tile.transform.position.y, 0);
 			if (!Player.Instance.POIDataByTiles.ContainsKey (tile.BoardCoordsAsString)) {
+				// Debug.Log (prefabObject);
+				// Debug.Log (poiOBject.GetComponentInChildren<PointOfInterest> ());
 				POIData poiData = poiOBject.GetComponentInChildren<PointOfInterest> ().POIData;
 				Player.Instance.POIDataByTiles.Add (tile.BoardCoordsAsString, poiData);
 				Player.Instance.POIDatas.Add (poiData);
 			} else {
 				poiOBject.GetComponentInChildren<PointOfInterest> ().POIData = Player.Instance.POIDataByTiles [tile.BoardCoordsAsString];
-			}
-
-			if (poiOBject.GetComponentInChildren<PointOfInterest> ().POIData.POIkind == POIkind.Current) {
-				
+				if (poiOBject.GetComponentInChildren<PointOfInterest> ().POIData.POIkind == POIkind.Chest && poiOBject.GetComponentInChildren<PointOfInterest> ().POIData.Interacted) {
+					poiOBject.SetActive (false);
+				}
 			}
 		}
 	}
