@@ -10,10 +10,7 @@ public class Player : MonoBehaviour {
 
 	public List<Mission> Missions;
 	public Mission CurrentMission;
-	public List<BuildingData> BuildingDatas;
 	public List<CreatureData> ShipDatas;
-	public List<TradeShipData> TradeShipDatas;
-	public List<TradeShip> TradeShips;
 	public bool FirstLoad = true;
 	public int Gold;
 
@@ -24,7 +21,6 @@ public class Player : MonoBehaviour {
 	public Dictionary<string, int> Inventory;
 
 	public List<CreatureData> CurrentTeam;
-	public List<TradeShipData> HomeTeam;
 
 	public Vector3 PlayerShipCoordinates;
 
@@ -60,27 +56,6 @@ public class Player : MonoBehaviour {
 		}
 	}
 
-	public void SaveBuildings (List<Building> buildings) {
-		BuildingDatas.Clear ();
-		for (int i = 0; i < buildings.Count; i++) {
-			if (buildings[i] is Port) { // как-то все неловко
-				PortData portData = new PortData ();
-				portData.InitializeFromBuilding (buildings [i]);
-				BuildingDatas.Add (portData);
-			} else {
-				BuildingData buildingData = new BuildingData ();
-				buildingData.InitializeFromBuilding (buildings [i]);
-				BuildingDatas.Add (buildingData);
-			}
-		}
-	}
-
-	public void SaveTradeShipDatas () {
-		foreach (var tradeShip in TradeShips) {
-			tradeShip.TradeShipData.Coordinates = tradeShip.gameObject.transform.position;
-		}
-	}
-
 	public void SavePlayerShip (PlayerShip playerShip) {
 		PlayerShipCoordinates = playerShip.gameObject.transform.position;
 	}
@@ -113,26 +88,8 @@ public class Player : MonoBehaviour {
 				Inventory.Add (soulstone.Name, 0);
 			}
 
-			List<List<string>> promoteCosts = new List<List<string>> ();
-			for (int k = 0; k < (int)RankColor.OrangeP - (int)RankColor.White; k++) {
-				int costLength = 6;
-				List<string> cost = new List<string> ();
-				for (int l = 0; l < costLength; l++) {
-					List<Item> validItems = new List<Item> ();
-					foreach (var item in Player.Instance.DataBase.TempItemLibrary) {						
-						validItems.Add (item);
-					}
-
-					int index = Random.Range (0, validItems.Count);
-
-					cost.Add (validItems [index].Name);
-				}
-				promoteCosts.Add (cost);
-			}
-
-			List<int> levelRequirements = new List<int> { 10, 20, 30, 40, 50 };
-			CreatureData newShipData = new CreatureData (creatures [j], 1, 1,
-				skills, soulstone, promoteCosts, RankColor.White, summoned, levelRequirements);
+			CreatureData newShipData = new CreatureData (creatures [j], 1,
+				skills, soulstone, RankColor.White, summoned);
 
 			ShipDatas.Add (newShipData);
 		}

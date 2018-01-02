@@ -26,7 +26,6 @@ public class HeroPopup : MonoBehaviour {
 	public List<SkillElement> SkillElements;
 
 	public Button EvolveButton;
-	public Button PromoteButton;
 
 	public Text HeaderLabel;
 	public Text LevelLabel;
@@ -69,33 +68,22 @@ public class HeroPopup : MonoBehaviour {
 		}
 
 		EvolveButton.onClick.RemoveAllListeners ();
-		PromoteButton.onClick.RemoveAllListeners ();
 
 		EvolveButton.onClick.AddListener (delegate {
 			EvolveShip();
 		});
-
-		PromoteButton.onClick.AddListener (delegate {
-			PromoteShip();
-		});
-
-		if (currentShipData.RankColor == RankColor.OrangeP) {
-			PromoteButton.interactable = false;
-		}
-		BlueprintText.text = Player.Instance.Inventory [shipData.Soulstone.Name] + "/" + shipData.EvolveCosts [shipData.Stars];
-		BlueprintSlider.maxValue = shipData.EvolveCosts [shipData.Stars];
+	
+		BlueprintText.text = Player.Instance.Inventory [shipData.Soulstone.Name] + "/" + shipData.LevelCosts [shipData.Level];
+		BlueprintSlider.maxValue = shipData.LevelCosts [shipData.Level];
 		BlueprintSlider.value = Player.Instance.Inventory [shipData.Soulstone.Name];
-		if (Player.Instance.Inventory [shipData.Soulstone.Name] < shipData.EvolveCosts [shipData.Stars]) {
+		if (Player.Instance.Inventory [shipData.Soulstone.Name] < shipData.LevelCosts [shipData.Level]) {
 			BlueprintsNodeObject.SetActive (true);
 
 		} else {
 			EvolveButton.gameObject.SetActive (true);
 		}
 
-		LevelLabel.text = "level " + shipData.Stars;
-		ExpLabel.text = shipData.Exp + "/" + shipData.LevelRequirements [shipData.Level];
-		ExpSlider.maxValue = shipData.LevelRequirements [shipData.Level];
-		ExpSlider.value = shipData.Exp;
+		LevelLabel.text = "level " + shipData.Level;
 
 		OpenSkills ();
 	}
@@ -121,7 +109,7 @@ public class HeroPopup : MonoBehaviour {
 				SkillElements [i - 1].SkillImage.sprite = Player.Instance.BJDataBase.BJSkillsByNames [currentShipData.Skills [i].Name].SkillIcon;
 			}
 
-			if (currentShipData.Stars < LevelRequirements [i - 1]) {
+			if (currentShipData.Level < LevelRequirements [i - 1]) {
 				SkillElements [i - 1].StatLabel.gameObject.SetActive (false);
 				SkillElements [i - 1].SkillStatLabel.gameObject.SetActive (false);
 				SkillElements [i - 1].UnlockNode.SetActive (true);
@@ -157,44 +145,33 @@ public class HeroPopup : MonoBehaviour {
 		}
 	}
 
-	void PromoteShip () {
-		currentShipData.PromoteRank ();
-		UpdateLabels (currentShipData);
-	}
-
 	void EvolveShip () {
 		currentShipData.EvolveStar ();
 		UpdateLabels (currentShipData);
 	}
 
 	void UpdateLabels (CreatureData shipData) {
-		if (shipData.Stars == shipData.EvolveCosts.Count) {		
+		if (shipData.Level == shipData.LevelCosts.Count) {		
 			BlueprintsNodeObject.SetActive (true);
 			EvolveButton.gameObject.SetActive (false);
 			BlueprintText.gameObject.SetActive (false);
-			BlueprintSlider.maxValue = shipData.EvolveCosts [shipData.Stars - 1];
+			BlueprintSlider.maxValue = shipData.LevelCosts [shipData.Level - 1];
 			BlueprintSlider.value = BlueprintSlider.maxValue;
-		} else if (Player.Instance.Inventory [shipData.Soulstone.Name] < shipData.EvolveCosts [shipData.Stars]) {			
+		} else if (Player.Instance.Inventory [shipData.Soulstone.Name] < shipData.LevelCosts [shipData.Level]) {			
 			BlueprintsNodeObject.SetActive (true);
 			EvolveButton.gameObject.SetActive (false);
-			BlueprintText.text = Player.Instance.Inventory [shipData.Soulstone.Name] + "/" + shipData.EvolveCosts [shipData.Stars];
-			BlueprintSlider.maxValue = shipData.EvolveCosts [shipData.Stars];
+			BlueprintText.text = Player.Instance.Inventory [shipData.Soulstone.Name] + "/" + shipData.LevelCosts [shipData.Level];
+			BlueprintSlider.maxValue = shipData.LevelCosts [shipData.Level];
 			BlueprintSlider.value = Player.Instance.Inventory [shipData.Soulstone.Name];
 		} else {
-			BlueprintText.text = Player.Instance.Inventory [shipData.Soulstone.Name] + "/" + shipData.EvolveCosts [shipData.Stars];
-			BlueprintSlider.maxValue = shipData.EvolveCosts [shipData.Stars];
+			BlueprintText.text = Player.Instance.Inventory [shipData.Soulstone.Name] + "/" + shipData.LevelCosts [shipData.Level];
+			BlueprintSlider.maxValue = shipData.LevelCosts [shipData.Level];
 			BlueprintSlider.value = Player.Instance.Inventory [shipData.Soulstone.Name];
 			EvolveButton.gameObject.SetActive (true);
 		}
 
-		LevelLabel.text = "level " + shipData.Stars;
-		ExpLabel.text = shipData.Exp + "/" + shipData.LevelRequirements [shipData.Level];
-		ExpSlider.maxValue = shipData.LevelRequirements [shipData.Level];
-		ExpSlider.value = shipData.Exp;
+		LevelLabel.text = "level " + shipData.Level;
 
-		if (currentShipData.RankColor == RankColor.OrangeP) {
-			PromoteButton.interactable = false;
-		}
 		HeaderLabel.text = shipData.Name;
 		ColorPanel.color = Player.Instance.DataBase.ColorsByRankColors [shipData.RankColor];
 		string rankString = shipData.RankColor.ToString ();
@@ -224,7 +201,7 @@ public class HeroPopup : MonoBehaviour {
 					SkillElements [i - 1].SkillImage.sprite = Player.Instance.BJDataBase.BJSkillsByNames [currentShipData.Skills [i].Name].SkillIcon;
 				}
 
-				if (currentShipData.Stars < LevelRequirements [i - 1]) {
+				if (currentShipData.Level < LevelRequirements [i - 1]) {
 					SkillElements [i - 1].StatLabel.gameObject.SetActive (false);
 					SkillElements [i - 1].SkillStatLabel.gameObject.SetActive (false);
 					SkillElements [i - 1].UnlockNode.SetActive (true);

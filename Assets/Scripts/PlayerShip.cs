@@ -42,7 +42,6 @@ public class PlayerShip : MonoBehaviour {
 			UIOverlay.Instance.OpenImagesPopUp ("Reward: ", rewards);
 			lastSeenCollider.gameObject.GetComponent<Shipwreck> ().Interact ();
 			lastSeenCollider.gameObject.SetActive (false);
-			//Destroy (lastSeenCollider.gameObject);
 		} else if (lastSeenCollider.gameObject.GetComponent<MissionObject> () != null) {
 			UIOverlay.Instance.OpenMissionWindow (lastSeenCollider.gameObject.GetComponent<MissionObject> ().Mission);
 		}
@@ -53,7 +52,7 @@ public class PlayerShip : MonoBehaviour {
 	}
 
 	void OnTriggerEnter2D (Collider2D other) { // will work even when passing through
-		if (other.GetComponent<SelectableTile> () == null && other.GetComponentInParent<SelectableTile> () == null && other.GetComponent<Port> () == null) {
+		if (other.GetComponent<SelectableTile> () == null && other.GetComponentInParent<SelectableTile> () == null) {
 			lastSeenCollider = other;
 		}
 	}

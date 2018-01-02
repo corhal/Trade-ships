@@ -93,13 +93,13 @@ public class TeamSelectionWindow : MonoBehaviour {
 			shipElement.PortraitImage.sprite = Player.Instance.BJDataBase.CreaturePortraitsByNames [shipData.Name];
 		}
 		shipElement.NameLabel.text = shipData.Name;
-		shipElement.LevelLabel.text = shipData.Stars.ToString ();
+		shipElement.LevelLabel.text = shipData.Level.ToString ();
 
 		for (int i = 0; i < 5; i++) {
 			shipElement.Stars [i].SetActive (false);
 		}
 
-		for (int i = 0; i < shipData.Stars; i++) {
+		for (int i = 0; i < shipData.Level; i++) {
 			shipElement.Stars [i].SetActive (true);
 		}
 

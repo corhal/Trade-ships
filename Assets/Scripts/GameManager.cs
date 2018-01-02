@@ -12,11 +12,8 @@ public class GameManager : MonoBehaviour {
 	public GameObject TradeShipPrefab;
 
 	public bool InMoveMode = false;
-	public List<Island> Islands;
 
 	public List<SelectableTile> Tiles;
-	public List<TradeShip> TradeShips;
-	public List<Building> Buildings;
 	public List<MissionObject> MissionObjects;
 
 	public static GameManager Instance;
@@ -35,7 +32,6 @@ public class GameManager : MonoBehaviour {
 			Destroy (gameObject);  
 		}
 		Board.OnBoardGenerationFinished += Board_OnBoardGenerationFinished;
-		HashSet<int> SomeHash = new HashSet<int> ();
 	}
 
 	void Board_OnBoardGenerationFinished () {
@@ -56,20 +52,7 @@ public class GameManager : MonoBehaviour {
 		Player.Instance.Energy += 100;
 	}
 
-	public Island GetIslandByName (string islandName) {
-		Island resultIsland = null;
-		foreach (var island in Islands) {
-			if (island.Name == islandName) {
-				resultIsland = island;
-			}
-		}
-		return resultIsland;
-	}
-
 	void Start () {	
-		Buildings = new List<Building> (GameObject.FindObjectsOfType<Building>());
-
-
 		if (!isBattle) {
 			CityHUD.SetActive (true);
 		}
@@ -77,17 +60,6 @@ public class GameManager : MonoBehaviour {
 		if (!Player.Instance.FirstLoad && !isBattle) { // ?..
 
 			PlayerShip.gameObject.transform.position = Player.Instance.PlayerShipCoordinates;
-
-			Player.Instance.TradeShips.Clear ();
-			foreach (var tradeShipData in Player.Instance.TradeShipDatas) {
-				GameObject tradeShipObject = Instantiate (TradeShipPrefab) as GameObject;
-				// tradeShipObject.transform.position = transform.position;
-				TradeShip tradeShip = tradeShipObject.GetComponent<TradeShip> ();
-				tradeShip.TradeShipData = tradeShipData;
-
-				tradeShip.StartIsland = GetIslandByName (tradeShipData.StartIslandName);
-				Player.Instance.TradeShips.Add (tradeShip);
-			}
 
 			// temp solution:
 			if (Player.Instance.CurrentMission.Name != "") {
@@ -98,17 +70,13 @@ public class GameManager : MonoBehaviour {
 
 		} else if (!isBattle) {			
 			Player.Instance.CreateShipDatas ();
-			Player.Instance.SaveBuildings (Buildings);
 			Player.Instance.SavePlayerShip (PlayerShip);
-			Player.Instance.SaveTradeShipDatas ();
 			Player.Instance.FirstLoad = false;
 		}
 	}			
 
 	public void LoadBattle () {
-		Player.Instance.SaveBuildings (Buildings);
 		Player.Instance.SavePlayerShip (PlayerShip);
-		Player.Instance.SaveTradeShipDatas ();
 		Player.Instance.LoadBattle ();
 	}
 

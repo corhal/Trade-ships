@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public enum POIkind {
-	None, Portal, Altar, Mission, Chest, Current, Obstacle
+	None, Portal, Altar, Mission, Chest, Current, Obstacle, Observatory
 }
 
 public class Board : MonoBehaviour {
@@ -32,6 +32,7 @@ public class Board : MonoBehaviour {
 	public GameObject MissionIslandPrefab;
 	public GameObject ChestPrefab;
 	public GameObject ObstaclePrefab;
+	public GameObject ObservatoryPrefab;
 
 	public static Board Instance;
 
@@ -60,7 +61,6 @@ public class Board : MonoBehaviour {
 				tempPointsOfInterestAmount [key]--;
 			}
 		}
-		Debug.Log (poiKinds.Count + "");
 		Utility.Shuffle (poiKinds);
 		POIKinds = new List<POIkind> (poiKinds);
 		int counter = 0;
@@ -149,6 +149,9 @@ public class Board : MonoBehaviour {
 			case POIkind.Obstacle:
 				prefabObject = ObstaclePrefab;
 				break;
+			case POIkind.Observatory:
+				prefabObject = ObservatoryPrefab;
+			break;
 			default:
 				prefabObject = null;
 				break;
@@ -157,8 +160,6 @@ public class Board : MonoBehaviour {
 			GameObject poiOBject = Instantiate (prefabObject) as GameObject;
 			poiOBject.transform.position = new Vector3 (tile.transform.position.x, tile.transform.position.y, 0);
 			if (!Player.Instance.POIDataByTiles.ContainsKey (tile.BoardCoordsAsString)) {
-				// Debug.Log (prefabObject);
-				// Debug.Log (poiOBject.GetComponentInChildren<PointOfInterest> ());
 				POIData poiData = poiOBject.GetComponentInChildren<PointOfInterest> ().POIData;
 				Player.Instance.POIDataByTiles.Add (tile.BoardCoordsAsString, poiData);
 				Player.Instance.POIDatas.Add (poiData);

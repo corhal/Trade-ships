@@ -56,10 +56,7 @@ public class MoveOnClick : MonoBehaviour {
 				fullTraveledDistance = 0.0f;
 				traveledDistance = 0;
 				RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
-				if (hit.collider != null) {		
-					if (hit.collider.gameObject.GetComponent<Region> () != null) {
-						return;
-					}	
+				if (hit.collider != null) {							
 					if (hit.collider.gameObject.GetComponent<Selectable> () != null) { // If you see that object stops too far - here is why
 						Debug.Log (hit.collider.gameObject);
 						target = hit.collider.gameObject.transform.position;

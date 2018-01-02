@@ -82,21 +82,21 @@ public class HeroCatalog : MonoBehaviour {
 			shipElement.Stars [i].SetActive (false);
 		}
 
-		for (int i = 0; i < creatureData.Stars; i++) {
+		for (int i = 0; i < creatureData.Level; i++) {
 			shipElement.Stars [i].SetActive (true);
 		}
 
 		ShipListElement shipListElement = shipListElementObject.GetComponent<ShipListElement> ();
 		shipListElement.CreatureData = creatureData;
-		shipListElement.SoulstonesSlider.maxValue = Player.Instance.DataBase.EvolveCosts [creatureData.Stars];
+		shipListElement.SoulstonesSlider.maxValue = Player.Instance.DataBase.EvolveCosts [creatureData.Level];
 		shipListElement.SoulstonesSlider.value = Player.Instance.Inventory [creatureData.Soulstone.Name];
 
-		shipListElement.SoulstonesSlider.GetComponentInChildren<Text>().text = Player.Instance.Inventory [creatureData.Soulstone.Name] + "/" + Player.Instance.DataBase.EvolveCosts [creatureData.Stars];
+		shipListElement.SoulstonesSlider.GetComponentInChildren<Text>().text = Player.Instance.Inventory [creatureData.Soulstone.Name] + "/" + Player.Instance.DataBase.EvolveCosts [creatureData.Level];
 		if (!creatureData.IsSummoned) {
 			if (!Player.Instance.Inventory.ContainsKey(creatureData.Soulstone.Name)) { // temporary fix for crash!!
 				Player.Instance.Inventory.Add (creatureData.Soulstone.Name, 0);
 			}
-			if (Player.Instance.Inventory [creatureData.Soulstone.Name] > Player.Instance.DataBase.EvolveCosts [creatureData.Stars]) {
+			if (Player.Instance.Inventory [creatureData.Soulstone.Name] > Player.Instance.DataBase.EvolveCosts [creatureData.Level]) {
 				shipListElement.SoulstonesSlider.gameObject.SetActive (false);
 				// shipListElement.SummonButton.gameObject.SetActive (true);
 			}

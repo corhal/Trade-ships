@@ -9,8 +9,6 @@ public class MissionObject : PointOfInterest {
 	public bool IsCastle;
 	public Image[] Stars;
 
-	public Island Island;
-
 	void Start () {
 		if (Mission.EnemyShips.Count == 0) {
 			CreateMission ();
@@ -48,7 +46,7 @@ public class MissionObject : PointOfInterest {
 
 		int rankCol = Random.Range (0, System.Enum.GetNames (typeof(RankColor)).Length);
 		for (int j = 0; j < enemiesCount; j++) {				
-			CreatureData enemy = new CreatureData (enemyCreatures [j], 1, 1, null, null, null, (RankColor)rankCol, false, null);
+			CreatureData enemy = new CreatureData (enemyCreatures [j], 1, null, null, (RankColor)rankCol, false);
 			enemyShips.Add (enemy);
 		}
 
