@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour {
 
+	public List<Adventure> Adventures;
+
 	public PlayerShip PlayerShip;
 	public GameObject CityHUD;
 
@@ -23,6 +25,15 @@ public class GameManager : MonoBehaviour {
 	public void MoveMode () {
 		InMoveMode = true;
 		UIOverlay.Instance.CloseContextButtons (false);
+	}
+
+	public void StartAdventure () {
+		if (Player.Instance.OnAdventure) {
+			Player.Instance.LoadVillage ();
+		} else {
+			Player.Instance.NewBoard = true;
+			Player.Instance.LoadAdventure ();
+		}
 	}
 
 	void Awake () {

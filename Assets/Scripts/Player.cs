@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour {
 
+	public Adventure CurrentAdventure;
+
 	public int MaxEnergy;
 	public int Energy;
 
@@ -44,6 +46,10 @@ public class Player : MonoBehaviour {
 		Tiles = new Dictionary<string, bool> ();
 		POIDataByTiles = new Dictionary<string, POIData> ();
 		POIDatas = new List<POIData> ();
+	}
+
+	void Start () {
+		CurrentAdventure = GameManager.Instance.Adventures [0];
 	}
 
 	void Update () {
@@ -110,10 +116,10 @@ public class Player : MonoBehaviour {
 		SceneManager.LoadScene (0);
 	}
 
-	public void LoadAdventure (float adventureTime) {
+	public void LoadAdventure () {
 		if (!OnAdventure) {
 			OnAdventure = true;
-			AdventureTimer = adventureTime;
+			AdventureTimer = CurrentAdventure.TimeLimit;
 			Missions.Clear ();
 			Tiles.Clear ();
 			POIDataByTiles.Clear ();

@@ -14,6 +14,9 @@ public class UIOverlay : MonoBehaviour {
 	Player player;
 	public static UIOverlay Instance;
 
+	public List<GameObject> HideInAdventureObjects;
+	public List<GameObject> HideOffAdventureObjects;
+
 	public TeamSelectionWindow MyTeamSelectionWindow;
 	public InfoWindow MyInfoWindow;
 	public HeroPopup MyShipWindow;
@@ -35,14 +38,26 @@ public class UIOverlay : MonoBehaviour {
 
 	void Start () {
 		player = Player.Instance;
-		if (!player.OnAdventure) {
-			TimeLabel.gameObject.SetActive (false);
+		if (player.OnAdventure) {
+			foreach (var hideObject in HideInAdventureObjects) {
+				hideObject.SetActive (false);
+			}
+			foreach (var hideObject in HideOffAdventureObjects) {
+				hideObject.SetActive (true);
+			}
+		} else {
+			foreach (var hideObject in HideInAdventureObjects) {
+				hideObject.SetActive (true);
+			}
+			foreach (var hideObject in HideOffAdventureObjects) {
+				hideObject.SetActive (false);
+			}
 		}
 	}
 
 	void Update () { // OMG
-		GoldLabel.text = "Gold: " + player.Gold;
-		EnergyLabel.text = "Energy: " + player.Energy + "/" + player.MaxEnergy;
+		GoldLabel.text = "" + player.Gold;
+		EnergyLabel.text = "" + player.Energy + "/" + player.MaxEnergy;
 		if (player.OnAdventure) {			
 			int time = (int)player.AdventureTimer;
 			int hours = time / 3600;
@@ -158,5 +173,15 @@ public class UIOverlay : MonoBehaviour {
 		if (deselect && Selection != null) {
 			Selection.Deanimate ();
 		}
+	}
+
+	public void CloseAllWindows () {
+		MyMissionWindow.Close ();
+		MyButtonsOverlay.Close ();
+		MyShipWindow.Close ();
+		MyPopUp.Close ();
+		MyInfoWindow.Close ();
+		MyShipsCatalogWindow.Close ();
+		CloseAdventureSelectionWindow ();
 	}
 }

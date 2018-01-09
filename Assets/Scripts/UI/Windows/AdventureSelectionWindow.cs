@@ -23,7 +23,7 @@ public class AdventureSelectionWindow : MonoBehaviour {
 			Player.Instance.LoadVillage ();
 		} else {
 			Player.Instance.NewBoard = true;
-			Player.Instance.LoadAdventure (7327.0f);
+			Player.Instance.LoadAdventure ();
 		}
 	}
 

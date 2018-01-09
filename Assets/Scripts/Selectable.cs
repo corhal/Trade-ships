@@ -93,9 +93,17 @@ public class Selectable : MonoBehaviour {
 		Invoke ("RealClick", 0.1f);
 	}
 
+	int clickCount = 0;
 	void RealClick () {
 		if (!GameManager.Instance.CameraDragged && IsAvailable && !Utility.IsPointerOverUIObject () && Allegiance != Allegiance.Enemy) {
-			uiManager.OpenContextButtons (this);
+			//uiManager.OpenContextButtons (this);
+			clickCount++;
+			Animate ();
+			if (clickCount == 2) {
+				MoveShipHere ();
+				Deanimate ();
+				clickCount = 0;
+			}
 		}
 	}
 }

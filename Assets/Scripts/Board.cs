@@ -10,18 +10,18 @@ public class Board : MonoBehaviour {
 
 	public GameObject TileContainer;
 	public GameObject TilePrefab;
-	public int PosWidth;
-	public int NegWidth;
-	public int PosHeight;
-	public int NegHeight;
+	public int PosWidth { get { return Player.Instance.CurrentAdventure.PosWidth; } }
+	public int NegWidth { get { return Player.Instance.CurrentAdventure.NegWidth; } }
+	public int PosHeight { get { return Player.Instance.CurrentAdventure.PosHeight; } }
+	public int NegHeight { get { return Player.Instance.CurrentAdventure.NegHeight; } }
 
 	public delegate void BoardGenerationFinished ();
 	public static event BoardGenerationFinished OnBoardGenerationFinished; 
 
 	public bool AllClear;
 
-	public List<POIkind> POIS;
-	public List<int> POIamounts;
+	public List<POIkind> POIs { get { return Player.Instance.CurrentAdventure.POIs; } }
+	public List<int> POIamounts { get { return Player.Instance.CurrentAdventure.POIamounts; } }
 
 	public Dictionary<POIkind, int> PointsOfInterestAmount;
 
@@ -48,8 +48,8 @@ public class Board : MonoBehaviour {
 		PointsOfInterestAmount = new Dictionary<POIkind, int> ();
 		Tiles = new SelectableTile[PosWidth - NegWidth + 1, PosHeight - NegHeight + 1];
 
-		for (int i = 0; i < POIS.Count; i++) {
-			PointsOfInterestAmount.Add (POIS [i], POIamounts [i]);
+		for (int i = 0; i < POIs.Count; i++) {
+			PointsOfInterestAmount.Add (POIs [i], POIamounts [i]);
 		}
 		List<POIkind> poiKinds = new List<POIkind> ();
 		Dictionary<POIkind, int> tempPointsOfInterestAmount = new Dictionary<POIkind, int> (PointsOfInterestAmount);
