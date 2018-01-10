@@ -24,11 +24,21 @@ public class MissionWindow : MonoBehaviour {
 	void Awake () {
 	}
 
+	public void Reload () {
+		if (Window.activeSelf) {
+			LoadWindow ();
+		}
+	}
+
 	public void Open (Mission chosenMission) {		
 		Window.SetActive (true);
 
 		this.mission = chosenMission;
 
+		LoadWindow ();
+	}
+
+	void LoadWindow () {
 		foreach (var currentTeamObject in CurrentTeamObjects) {
 			Destroy (currentTeamObject);
 		}
@@ -68,7 +78,7 @@ public class MissionWindow : MonoBehaviour {
 			CurrentTeamObjects.Add (shipElementObject);
 		}
 
-		List<CreatureData> enemies = new List<CreatureData> (chosenMission.EnemyShips);
+		List<CreatureData> enemies = new List<CreatureData> (mission.EnemyShips);
 
 		foreach (var enemy in enemies) {
 			GameObject shipElementObject = Instantiate (EnemyElementPrefab) as GameObject;

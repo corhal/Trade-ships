@@ -5,6 +5,8 @@ using UnityEngine;
 public class Portal : PointOfInterest {
 	
 	void OnTriggerEnter2D (Collider2D other) {
-		UIOverlay.Instance.OpenAdventureSelectionWindow ();
+		if (other.GetComponent<PlayerShip> () != null) {
+			UIOverlay.Instance.OpenAdventureSelectionWindow ();
+		}
 	}
 }

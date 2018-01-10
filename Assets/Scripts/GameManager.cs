@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour {
 
-	public List<Adventure> Adventures;
-
 	public PlayerShip PlayerShip;
 	public GameObject CityHUD;
 
@@ -73,7 +71,7 @@ public class GameManager : MonoBehaviour {
 			PlayerShip.gameObject.transform.position = Player.Instance.PlayerShipCoordinates;
 
 			// temp solution:
-			if (Player.Instance.CurrentMission.Name != "") {
+			if (Player.Instance.CurrentMission.Name != "" && Player.Instance.OnAdventure) {
 				Dictionary<string, int> reward = Player.Instance.CurrentMission.GiveReward ();
 				Player.Instance.TakeItems (reward);
 				UIOverlay.Instance.OpenImagesPopUp ("Your reward:", reward);

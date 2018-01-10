@@ -6,9 +6,12 @@ public class Obstacle : PointOfInterest {
 
 	public int EnergyPerTry;
 	public int Tries;
+	public RewardChest RewardChest;
 
 	void Start () {
 		Tries = Random.Range (1, 6);
+
+		RewardChest = new RewardChest ();
 	}
 
 	void OnTriggerEnter2D (Collider2D other) {
@@ -22,5 +25,10 @@ public class Obstacle : PointOfInterest {
 			base.Interact ();
 			UIOverlay.Instance.OpenObstaclePopUp (this);
 		}
+	}
+
+	public void GiveReward () {		
+		Player.Instance.TakeItems (RewardChest.RewardItems);
+		UIOverlay.Instance.OpenImagesPopUp ("Your reward:", RewardChest.RewardItems);
 	}
 }

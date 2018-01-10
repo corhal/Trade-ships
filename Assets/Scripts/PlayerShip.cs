@@ -28,18 +28,8 @@ public class PlayerShip : MonoBehaviour {
 			return;
 		}
 		if (lastSeenCollider.gameObject.GetComponent<Shipwreck> () != null) {
-			Dictionary<string, int> rewards = new Dictionary<string, int> ();
-			foreach (var rewardChest in lastSeenCollider.gameObject.GetComponent<Shipwreck> ().RewardChests) {
-				player.TakeItems (rewardChest.RewardItems);
-				foreach (var amountByItem in rewardChest.RewardItems) {
-					if (!rewards.ContainsKey(amountByItem.Key)) {
-						rewards.Add (amountByItem.Key, amountByItem.Value);
-					} else {
-						rewards [amountByItem.Key] += amountByItem.Value;
-					}
-				}
-			}
-			UIOverlay.Instance.OpenImagesPopUp ("Reward: ", rewards);
+			Player.Instance.TakeItems (lastSeenCollider.gameObject.GetComponent<Shipwreck> ().RewardChest.RewardItems);
+			UIOverlay.Instance.OpenImagesPopUp ("Your reward:", lastSeenCollider.gameObject.GetComponent<Shipwreck> ().RewardChest.RewardItems);
 			lastSeenCollider.gameObject.GetComponent<Shipwreck> ().Interact ();
 			lastSeenCollider.gameObject.SetActive (false);
 		} else if (lastSeenCollider.gameObject.GetComponent<MissionObject> () != null) {

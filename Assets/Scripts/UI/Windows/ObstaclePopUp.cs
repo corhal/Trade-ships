@@ -10,19 +10,22 @@ public class ObstaclePopUp : MonoBehaviour {
 	public Text MessageText;
 	public Text ButtonText;
 
+	Obstacle currentObstacle;
+
 	int energyPerTry;
 	int tries;
 
 	public void Open (Obstacle obstacle) {
 		Window.SetActive (true);
 
+		currentObstacle = obstacle;
 		energyPerTry = obstacle.EnergyPerTry;
 		tries = obstacle.Tries;
 		RefreshLabels ();
 	}
 
 	void RefreshLabels () {
-		MessageText.text = "Try " + tries + " more times to get free!";
+		MessageText.text = "Try " + tries + " more times to find treasure!";
 		ButtonText.text = "Try for " + energyPerTry + " energy";
 	}
 
@@ -38,6 +41,7 @@ public class ObstaclePopUp : MonoBehaviour {
 		}
 
 		if (tries == 0) {
+			currentObstacle.GiveReward ();
 			Close ();
 		}
 	}

@@ -146,7 +146,7 @@ public class HeroPopup : MonoBehaviour {
 	}
 
 	void EvolveShip () {
-		currentShipData.EvolveStar ();
+		currentShipData.LevelUp ();
 		UpdateLabels (currentShipData);
 	}
 

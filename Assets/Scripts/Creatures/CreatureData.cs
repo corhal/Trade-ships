@@ -18,18 +18,20 @@ public class CreatureData {
 	public string Name;
 	public Allegiance Allegiance;
 
-	public int MaxHP;
-	public int Power;
+
+
 	public float[] Coordinates;
 	public List<int> LevelCosts;
 	public List<string> StatNames;
 
-	public float SecPerShot;
-	public float AttackRange;
-	public float Speed = 1.0f; // change later
+	//public float SecPerShot;
+	//public float AttackRange;
+	//public float Speed = 1.0f; // change later
 
 	public BJCreature Creature;
 
+	public int Attack { get { return Creature.BaseDamage; } set { Creature.BaseDamage = value; } }
+	public int MaxHP { get { return Creature.MaxHP; } }
 	public int HP { get { return Creature.HP; } set { Creature.HP = value; } }
 	public bool IsDead { get { return Creature.IsDead; } set { Creature.IsDead = value; } }
 
@@ -43,13 +45,13 @@ public class CreatureData {
 		Name = creature.Name;
 		Allegiance = creature.Allegiance;
 		Level = level;
-		MaxHP = creature.MaxHP;
+		// MaxHP = creature.MaxHP;
 		// HP = creature.MaxHP;
-		Power = creature.BaseDamage;
+		Attack = creature.BaseDamage;
 
 		Soulstone = soulstone;
 		LevelCosts = Player.Instance.DataBase.EvolveCosts;
-		StatNames = new List<string> { "MaxHP", "Attack", "Range", "Attack speed", "Speed"};
+		StatNames = new List<string> { "MaxHP", "Attack"};
 
 		RankColor = rankColor;
 
@@ -67,14 +69,8 @@ public class CreatureData {
 			return HP;
 		case "MaxHP":
 			return MaxHP;
-		case "Firepower":
-			return Power;
-		case "Range":
-			return (int)(AttackRange * 1000.0f);
-		case "Attack speed":
-			return (int)(SecPerShot * 1000.0f);
-		case "Speed":
-			return (int)(Speed * 1000.0f);
+		case "Attack":
+			return Attack;
 		default:
 			return 0;
 		}
@@ -91,9 +87,9 @@ public class CreatureData {
 		}
 	}
 
-	public void EvolveStar () {
+	public void LevelUp () {
 		if (!Player.Instance.Inventory.ContainsKey(Soulstone.Name) || Player.Instance.Inventory[Soulstone.Name] < LevelCosts[Level]) {
-			UIOverlay.Instance.OpenPopUp ("Not enough blueprints!");
+			UIOverlay.Instance.OpenPopUp ("Not enough soulstones!");
 			return;
 		}
 		Player.Instance.GiveItems (new Dictionary<string, int> { { Soulstone.Name, LevelCosts [Level] } });

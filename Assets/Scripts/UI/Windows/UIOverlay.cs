@@ -67,6 +67,32 @@ public class UIOverlay : MonoBehaviour {
 		}
 	}
 
+	public GameObject PreviousAdventureButtonObject;
+	public GameObject NextAdventureButtonObject;
+	public Image AdventureImage;
+	public List<Sprite> AdventureSprites;
+
+	public void ChangeAdventure (bool next) {
+		Player.Instance.ChangeAdventure (next);
+		if (Player.Instance.Adventures.IndexOf(Player.Instance.CurrentAdventure) == 0) {
+			PreviousAdventureButtonObject.SetActive (false);
+			if (Player.Instance.Adventures.Count > 1) {
+				NextAdventureButtonObject.SetActive (true);
+			}
+		} else if (Player.Instance.Adventures.IndexOf(Player.Instance.CurrentAdventure) == Player.Instance.Adventures.Count - 1) {
+			NextAdventureButtonObject.SetActive (false);
+			if (Player.Instance.Adventures.Count > 1) {
+				PreviousAdventureButtonObject.SetActive (true);
+			}
+		} else {
+			if (Player.Instance.Adventures.Count > 1) {
+				NextAdventureButtonObject.SetActive (true);
+				PreviousAdventureButtonObject.SetActive (true);
+			}
+		}
+		AdventureImage.sprite = AdventureSprites [Player.Instance.Adventures.IndexOf (Player.Instance.CurrentAdventure)];
+	}
+
 	public void OpenAdventureSelectionWindow () {
 		AdventureSelectionWindow.Open ();
 		MyInfoWindow.Close ();
@@ -161,7 +187,7 @@ public class UIOverlay : MonoBehaviour {
 	public void OpenShipsCatalogWindow () {
 		MyShipsCatalogWindow.Open ();
 		MyButtonsOverlay.Close ();
-		MyMissionWindow.Close ();
+		// MyMissionWindow.Close ();
 		MyShipWindow.Close ();
 		MyPopUp.Close ();
 		MyInfoWindow.Close ();
@@ -176,7 +202,7 @@ public class UIOverlay : MonoBehaviour {
 	}
 
 	public void CloseAllWindows () {
-		MyMissionWindow.Close ();
+		MyMissionWindow.Reload ();
 		MyButtonsOverlay.Close ();
 		MyShipWindow.Close ();
 		MyPopUp.Close ();

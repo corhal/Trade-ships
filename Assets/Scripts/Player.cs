@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour {
 
+	public List<Adventure> Adventures;
+
 	public Adventure CurrentAdventure;
 
 	public int MaxEnergy;
@@ -49,7 +51,7 @@ public class Player : MonoBehaviour {
 	}
 
 	void Start () {
-		CurrentAdventure = GameManager.Instance.Adventures [0];
+		CurrentAdventure = Adventures [0];
 	}
 
 	void Update () {
@@ -91,7 +93,7 @@ public class Player : MonoBehaviour {
 			if (!DataBase.TempItemLibrary.Contains (soulstone)) {
 				DataBase.TempItemLibrary.Add (soulstone);
 				DataBase.ItemsByNames.Add (soulstone.Name, soulstone);
-				Inventory.Add (soulstone.Name, 0);
+				Inventory.Add (soulstone.Name, 100);
 			}
 
 			CreatureData newShipData = new CreatureData (creatures [j], 1,
@@ -126,6 +128,22 @@ public class Player : MonoBehaviour {
 			POIDatas.Clear ();
 		}
 		SceneManager.LoadScene (2);
+	}
+
+	public void ChangeAdventure (bool next) {
+		if (next) {
+			if (Adventures.IndexOf (CurrentAdventure) + 1 < Adventures.Count) {
+				CurrentAdventure = Adventures [Adventures.IndexOf (CurrentAdventure) + 1];
+			} else {
+				CurrentAdventure = Adventures [0];
+			}
+		} else {
+			if (Adventures.IndexOf (CurrentAdventure) - 1 >= 0) {
+				CurrentAdventure = Adventures [Adventures.IndexOf (CurrentAdventure) - 1];
+			} else {
+				CurrentAdventure = Adventures [Adventures.Count - 1];
+			}
+		}
 	}
 
 	public void TakeGold (int amount) {
