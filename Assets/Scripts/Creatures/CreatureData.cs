@@ -24,10 +24,6 @@ public class CreatureData {
 	public List<int> LevelCosts;
 	public List<string> StatNames;
 
-	//public float SecPerShot;
-	//public float AttackRange;
-	//public float Speed = 1.0f; // change later
-
 	public BJCreature Creature;
 
 	public int Attack { get { return Creature.BaseDamage; } set { Creature.BaseDamage = value; } }
@@ -45,13 +41,14 @@ public class CreatureData {
 		Name = creature.Name;
 		Allegiance = creature.Allegiance;
 		Level = level;
+		Creature.Level = Level;
 		// MaxHP = creature.MaxHP;
 		// HP = creature.MaxHP;
 		Attack = creature.BaseDamage;
 
 		Soulstone = soulstone;
 		LevelCosts = Player.Instance.DataBase.EvolveCosts;
-		StatNames = new List<string> { "MaxHP", "Attack"};
+		StatNames = new List<string> { "MaxHP", "Attack", "Armor", "Speed"};
 
 		RankColor = rankColor;
 
@@ -71,6 +68,10 @@ public class CreatureData {
 			return MaxHP;
 		case "Attack":
 			return Attack;
+		case "Armor":
+			return Creature.Armor;
+		case "Speed":
+			return Creature.Speed;
 		default:
 			return 0;
 		}
@@ -94,5 +95,7 @@ public class CreatureData {
 		}
 		Player.Instance.GiveItems (new Dictionary<string, int> { { Soulstone.Name, LevelCosts [Level] } });
 		Level += 1;
+		Creature.Level = Level;
+		Creature.HP = Creature.MaxHP;
 	}
 }

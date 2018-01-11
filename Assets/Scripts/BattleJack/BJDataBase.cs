@@ -31,18 +31,38 @@ public class BJDataBase : MonoBehaviour {
 	public Dictionary<string, Sprite> CreaturePortraitsByNames;
 
 	void Start () {		
-		Creatures.Add (new BJCreature ("Lucky Ellie", 200, 200, 250, 3, 2, Allegiance.Player, /*AttackType.Ranged,*/ new List<string>{ "Ranged attack" }));
-		Creatures.Add (new BJCreature ("Johnny Two Knives", 80, 80, 20, 4, 4, Allegiance.Player, /*AttackType.Melee,*/ new List<string>{ "Melee attack", "Combo", "Ricochet", "Execution", "Lifesteal" }));
-		Creatures.Add (new BJCreature ("Bill the Bull", 121, 121, 10, 1, 1, Allegiance.Player, /*AttackType.Melee,*/ new List<string>{ "Melee attack", "Aggro", "Delay damage", "Cheer team", "Dodge buff" }));
-		Creatures.Add (new BJCreature ("Cutthroat Jack", 90, 90, 20, 2, 4, Allegiance.Player, /*AttackType.Melee,*/ new List<string>{ "Melee attack", "Heart strike", "Flurry", "Blinding strike", "Bleed buff" }));
-		Creatures.Add (new BJCreature ("One-Shot Ed", 57, 57, 20, 1, 2, Allegiance.Player, /*AttackType.Ranged,*/ new List<string>{ "Ranged attack", "Headshot", "Shoot leg", "Shoot hand", "Adjustment fire" }));
-		Creatures.Add (new BJCreature ("Evil Eye Jeanny", 57, 57, 10, 1, 3, Allegiance.Player, /*AttackType.Ranged,*/ new List<string>{ "Ranged attack", "Mass regen", "Heal", "Berserk", "Sacrifice" }));
+		List<int> maxHpByLevel = new List<int> { 0, 180, 200, 220, 240, 260, 280, 300, 320, 340, 360 };
+		Creatures.Add (new BJCreature ("Lucky Ellie", maxHpByLevel, 200, 250, 3, 2, Allegiance.Player, /*AttackType.Ranged,*/ new List<string>{ "Ranged attack" }));
 
-		EnemyCreatures.Add (new BJCreature ("Skeleton militia", 90, 90, 20, 2, 4, Allegiance.Enemy, /*AttackType.Melee,*/ new List<string>{ "Melee attack" }));
-		EnemyCreatures.Add (new BJCreature ("Skeleton captain", 128, 128, 10, 4, 1, Allegiance.Enemy, /*AttackType.Melee,*/ new List<string>{ "Melee attack" }));
-		EnemyCreatures.Add (new BJCreature ("Skeleton militia", 85, 85, 20, 3, 4, Allegiance.Enemy, /*AttackType.Melee,*/ new List<string>{ "Melee attack" }));
-		EnemyCreatures.Add (new BJCreature ("Skeleton arbalest", 54, 54, 30, 2, 2, Allegiance.Enemy, /*AttackType.Ranged,*/ new List<string>{ "Ranged attack" }));
-		EnemyCreatures.Add (new BJCreature ("Skeleton arbalest", 57, 57, 30, 1, 3, Allegiance.Enemy, /*AttackType.Ranged,*/ new List<string>{ "Ranged attack" }));
+		maxHpByLevel = new List<int> { 0, 60, 80, 100, 120, 140, 160, 180, 200, 220, 240 };
+		Creatures.Add (new BJCreature ("Johnny Two Knives", maxHpByLevel, 80, 20, 4, 4, Allegiance.Player, /*AttackType.Melee,*/ new List<string>{ "Melee attack", "Combo", "Ricochet", "Execution", "Lifesteal" }));
+
+		maxHpByLevel = new List<int> { 0, 100, 120, 140, 160, 180, 200, 220, 240, 260, 280 };
+		Creatures.Add (new BJCreature ("Bill the Bull", maxHpByLevel, 121, 10, 1, 1, Allegiance.Player, /*AttackType.Melee,*/ new List<string>{ "Melee attack", "Aggro", "Delay damage", "Cheer team", "Dodge buff" }));
+
+		maxHpByLevel = new List<int> { 0, 70, 90, 110, 130, 150, 170, 190, 210, 230, 250 };
+		Creatures.Add (new BJCreature ("Cutthroat Jack", maxHpByLevel, 90, 20, 2, 4, Allegiance.Player, /*AttackType.Melee,*/ new List<string>{ "Melee attack", "Heart strike", "Flurry", "Blinding strike", "Bleed buff" }));
+
+		maxHpByLevel = new List<int> { 0, 40, 60, 80, 100, 120, 140, 160, 180, 200, 220 };
+		Creatures.Add (new BJCreature ("One-Shot Ed", maxHpByLevel, 57, 20, 1, 2, Allegiance.Player, /*AttackType.Ranged,*/ new List<string>{ "Ranged attack", "Headshot", "Shoot leg", "Shoot hand", "Adjustment fire" }));
+
+		maxHpByLevel = new List<int> { 0, 40, 60, 80, 100, 120, 140, 160, 180, 200, 220 };
+		Creatures.Add (new BJCreature ("Evil Eye Jeanny", maxHpByLevel, 57, 10, 1, 3, Allegiance.Player, /*AttackType.Ranged,*/ new List<string>{ "Ranged attack", "Mass regen", "Heal", "Berserk", "Sacrifice" }));
+
+		maxHpByLevel = new List<int> { 0, 70, 90, 110, 130, 150, 170, 190, 210, 230, 250 };
+		EnemyCreatures.Add (new BJCreature ("Skeleton militia", maxHpByLevel, 90, 20, 2, 4, Allegiance.Enemy, /*AttackType.Melee,*/ new List<string>{ "Melee attack" }));
+
+		maxHpByLevel = new List<int> { 0, 110, 130, 150, 170, 190, 210, 230, 250, 270, 290 };
+		EnemyCreatures.Add (new BJCreature ("Skeleton captain", maxHpByLevel, 128, 10, 4, 1, Allegiance.Enemy, /*AttackType.Melee,*/ new List<string>{ "Melee attack" }));
+
+		maxHpByLevel = new List<int> { 0, 65, 85, 105, 125, 145, 165, 185, 205, 225, 245 };
+		EnemyCreatures.Add (new BJCreature ("Skeleton militia", maxHpByLevel, 85, 20, 3, 4, Allegiance.Enemy, /*AttackType.Melee,*/ new List<string>{ "Melee attack" }));
+
+		maxHpByLevel = new List<int> { 0, 35, 55, 75, 95, 115, 135, 155, 175, 195, 215 };
+		EnemyCreatures.Add (new BJCreature ("Skeleton arbalest", maxHpByLevel, 54, 30, 2, 2, Allegiance.Enemy, /*AttackType.Ranged,*/ new List<string>{ "Ranged attack" }));
+
+		maxHpByLevel = new List<int> { 0, 40, 60, 80, 100, 120, 140, 160, 180, 200, 220 };
+		EnemyCreatures.Add (new BJCreature ("Skeleton arbalest", maxHpByLevel, 57, 30, 1, 3, Allegiance.Enemy, /*AttackType.Ranged,*/ new List<string>{ "Ranged attack" }));
 
 		FigurinesByNames = new Dictionary<string, Sprite> ();
 		CreaturePortraitsByNames = new Dictionary<string, Sprite> ();

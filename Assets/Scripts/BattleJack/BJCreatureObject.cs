@@ -263,4 +263,10 @@ public class BJCreatureObject : MonoBehaviour {
 			OnCreatureObjectClicked (this);
 		}
 	}
+
+	void OnDestroy () {
+		Creature.OnDamageTaken -= Creature_OnDamageTaken;
+		Creature.OnDodge -= Creature_OnDodge;
+		Creature.OnMiss -= Creature_OnMiss;
+	}
 }

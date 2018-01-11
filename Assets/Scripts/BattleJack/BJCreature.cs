@@ -20,13 +20,16 @@ public class BJCreature {
 	public delegate void CreatureDiedEventHandler (BJCreature sender);
 	public event CreatureDiedEventHandler OnCreatureDied;
 
+	public int Level;
+
 	string creatureName;
 	public string Name { get { return creatureName; } }
 
 	int hp;
 	public int HP { get { return hp; } set { hp = value; } }
-	int maxhp;
-	public int MaxHP { get { return maxhp; } }
+	List<int> maxhpByLevel;
+	public int MaxHP { get { return maxhpByLevel [Level]; } }
+
 	int baseDamage;
 	public int BaseDamage { get { return baseDamage; } set { baseDamage = value; } }
 
@@ -55,9 +58,9 @@ public class BJCreature {
 
 	public List<string> SkillNames;
 
-	public BJCreature (string name, int maxhp, int hp, int baseDamage, int armor, int speed, Allegiance allegiance, /*AttackType attackType,*/ List<string> skillNames) {
+	public BJCreature (string name, List<int> maxhpByLevel, int hp, int baseDamage, int armor, int speed, Allegiance allegiance, /*AttackType attackType,*/ List<string> skillNames) {
 		this.creatureName = name;
-		this.maxhp = maxhp;
+		this.maxhpByLevel = new List<int> (maxhpByLevel);
 		this.hp = hp;
 		this.baseDamage = baseDamage;
 		this.armor = armor;
@@ -75,7 +78,7 @@ public class BJCreature {
 	// A negative armor of 10 increases damage by 46.1%
 
 	public void Heal (int amount) {
-		hp = Mathf.Min (maxhp, hp + amount);
+		hp = Mathf.Min (MaxHP, hp + amount);
 		if (OnDamageTaken != null) {
 			OnDamageTaken (-amount);
 		}
@@ -83,7 +86,7 @@ public class BJCreature {
 
 	public void Resurrect () {
 		IsDead = false;
-		Heal (maxhp / 2);
+		Heal (MaxHP / 2);
 	}
 
 	public void TakeDamage (int amount, int armorPierce) {

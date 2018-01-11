@@ -189,7 +189,7 @@ public class HeroPopup : MonoBehaviour {
 		if (StatsBlock.activeSelf) {
 			for (int i = 0; i < shipData.StatNames.Count; i++) {
 				GameObject statElementObject = StatElementObjects [i];
-				Text statText = statElementObject.GetComponent<Text> ();
+				Text statText = statElementObject.GetComponentInChildren<Text> ();
 				statText.text = shipData.StatNames [i] + ": " + shipData.GetStatByString (shipData.StatNames [i]);
 			}
 		}

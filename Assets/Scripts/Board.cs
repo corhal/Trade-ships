@@ -87,7 +87,6 @@ public class Board : MonoBehaviour {
 				if (Player.Instance.NewBoard) {
 					POIkind poi = poiKinds [counter]; 
 					tile.GetComponent<SelectableTile> ().PointOfInterest = poi;
-
 					SpawnPOI (tile.GetComponent<SelectableTile> ());
 				} else if (Player.Instance.POIDataByTiles.ContainsKey(i + ":" + j) && Player.Instance.POIDataByTiles[(i + ":" + j)].POIkind != POIkind.None) {
 					POIkind poi = Player.Instance.POIDataByTiles [(i + ":" + j)].POIkind;
@@ -151,7 +150,7 @@ public class Board : MonoBehaviour {
 				break;
 			case POIkind.Observatory:
 				prefabObject = ObservatoryPrefab;
-			break;
+				break;
 			default:
 				prefabObject = null;
 				break;

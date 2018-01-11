@@ -1,6 +1,6 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Creatures\CreatureData.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Board.cs">
     <Files>
       <File FileName="Assets\Scripts\CSVReader.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Shipment.cs" Line="1" Column="1" />
@@ -8,7 +8,7 @@
       <File FileName="Assets\Scripts\Utility.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\MoveOnClick.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Action.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Player.cs" Line="87" Column="5" />
+      <File FileName="Assets\Scripts\Player.cs" Line="50" Column="7" />
       <File FileName="Assets\Scripts\Item.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Mission.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Selectable.cs" Line="1" Column="1" />
@@ -18,16 +18,16 @@
       <File FileName="Assets\Scripts\UI\Windows\TeamSelectionWindow.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\UI\Windows\ImagesPopUp.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\UI\Windows\PopUp.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\UI\Windows\MissionWindow.cs" Line="32" Column="2" />
+      <File FileName="Assets\Scripts\UI\Windows\MissionWindow.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\UI\Elements\ShipSkillButton.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\UI\Elements\SkillElement.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\UI\Elements\ShipListElement.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\BattleJack\BJDeck.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\BattleJack\BJGameController.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\BattleJack\BJDataBase.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\BattleJack\BJGameController.cs" Line="394" Column="40" />
+      <File FileName="Assets\Scripts\BattleJack\BJDataBase.cs" Line="39" Column="3" />
       <File FileName="Assets\Scripts\BattleJack\BJPlayer.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\BattleJack\BJCreatureObject.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\BattleJack\BJCreature.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\BattleJack\BJCreatureObject.cs" Line="23" Column="30" />
+      <File FileName="Assets\Scripts\BattleJack\BJCreature.cs" Line="33" Column="16" />
       <File FileName="Assets\Scripts\BattleJack\BJSkills\BJMeleeAttack.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\BattleJack\BJSkills\BJSkill.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\BattleJack\BJSkills\BJRangedAttack.cs" Line="1" Column="1" />
@@ -78,28 +78,28 @@
       <File FileName="Assets\Scripts\BattleJack\UIController.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\BattleJack\BJMover.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\BattleJack\BJFlyingText.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\PlayerShip.cs" Line="30" Column="57" />
-      <File FileName="Assets\Scripts\UI\Windows\UIOverlay.cs" Line="205" Column="29" />
+      <File FileName="Assets\Scripts\PlayerShip.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\UI\Windows\UIOverlay.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\UI\Elements\CraftElement.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\UI\Windows\ContextButtonsOverlay.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\UI\Windows\InfoWindow.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\FlagPost.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\UI\Windows\HeroCatalog.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\UI\Windows\HeroPopup.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\UI\Windows\HeroPopup.cs" Line="190" Column="56" />
       <File FileName="Assets\Scripts\SelectableTile.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Board.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\UI\Windows\AdventureSelectionWindow.cs" Line="27" Column="4" />
-      <File FileName="Assets\Scripts\UI\Windows\ObstaclePopUp.cs" Line="36" Column="21" />
-      <File FileName="Assets\Scripts\Creatures\CreatureData.cs" Line="48" Column="29" />
-      <File FileName="Assets\Scripts\PointsOfInterest\MissionObject.cs" Line="59" Column="43" />
+      <File FileName="Assets\Scripts\Board.cs" Line="163" Column="76" />
+      <File FileName="Assets\Scripts\UI\Windows\AdventureSelectionWindow.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\UI\Windows\ObstaclePopUp.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Creatures\CreatureData.cs" Line="99" Column="32" />
+      <File FileName="Assets\Scripts\PointsOfInterest\MissionObject.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\PointsOfInterest\Altar.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\PointsOfInterest\Observatory.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\PointsOfInterest\PointOfInterest.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\PointsOfInterest\Portal.cs" Line="12" Column="2" />
+      <File FileName="Assets\Scripts\PointsOfInterest\Portal.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Adventure.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\PointsOfInterest\Obstacle.cs" Line="27" Column="4" />
-      <File FileName="Assets\Scripts\PointsOfInterest\Shipwreck.cs" Line="18" Column="51" />
-      <File FileName="Assets\Scripts\Creatures\RewardChest.cs" Line="25" Column="63" />
+      <File FileName="Assets\Scripts\PointsOfInterest\Obstacle.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\PointsOfInterest\Shipwreck.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Creatures\RewardChest.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
