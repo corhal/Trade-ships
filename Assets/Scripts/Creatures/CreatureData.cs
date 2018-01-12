@@ -22,6 +22,7 @@ public class CreatureData {
 
 	public float[] Coordinates;
 	public List<int> LevelCosts;
+	public List<int> LevelGoldCosts;
 	public List<string> StatNames;
 
 	public BJCreature Creature;
@@ -47,7 +48,8 @@ public class CreatureData {
 		Attack = creature.BaseDamage;
 
 		Soulstone = soulstone;
-		LevelCosts = Player.Instance.DataBase.EvolveCosts;
+		LevelCosts = Player.Instance.DataBase.LevelCosts;
+		LevelGoldCosts = Player.Instance.DataBase.LevelGoldCosts;
 		StatNames = new List<string> { "MaxHP", "Attack", "Armor", "Speed"};
 
 		RankColor = rankColor;
@@ -93,6 +95,11 @@ public class CreatureData {
 			UIOverlay.Instance.OpenPopUp ("Not enough soulstones!");
 			return;
 		}
+		if (Player.Instance.Gold < LevelGoldCosts [Level]) {
+			UIOverlay.Instance.OpenPopUp ("Not enough gold!");
+			return;
+		}
+		Player.Instance.GiveGold (LevelGoldCosts [Level]);
 		Player.Instance.GiveItems (new Dictionary<string, int> { { Soulstone.Name, LevelCosts [Level] } });
 		Level += 1;
 		Creature.Level = Level;

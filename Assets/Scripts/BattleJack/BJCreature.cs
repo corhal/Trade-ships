@@ -27,11 +27,11 @@ public class BJCreature {
 
 	int hp;
 	public int HP { get { return hp; } set { hp = value; } }
-	List<int> maxhpByLevel;
-	public int MaxHP { get { return maxhpByLevel [Level]; } }
+	public List<int> MaxHPByLevel;
+	public int MaxHP { get { return MaxHPByLevel [Level]; } }
 
-	int baseDamage;
-	public int BaseDamage { get { return baseDamage; } set { baseDamage = value; } }
+	public List<int> BaseDamageByLevel;
+	public int BaseDamage { get { return BaseDamageByLevel [Level]; } set { BaseDamageByLevel [Level] = value; } }
 
 	int armor;
 	public int Armor { get { return armor; } set { armor = value; } }
@@ -58,11 +58,11 @@ public class BJCreature {
 
 	public List<string> SkillNames;
 
-	public BJCreature (string name, List<int> maxhpByLevel, int hp, int baseDamage, int armor, int speed, Allegiance allegiance, /*AttackType attackType,*/ List<string> skillNames) {
+	public BJCreature (string name, List<int> maxhpByLevel, int hp, List<int> baseDamageByLevel, int armor, int speed, Allegiance allegiance, /*AttackType attackType,*/ List<string> skillNames) {
 		this.creatureName = name;
-		this.maxhpByLevel = new List<int> (maxhpByLevel);
+		this.MaxHPByLevel = new List<int> (maxhpByLevel);
 		this.hp = hp;
-		this.baseDamage = baseDamage;
+		this.BaseDamageByLevel = new List<int> (baseDamageByLevel);
 		this.armor = armor;
 		this.armorPierce = 0;
 		this.speed = speed;

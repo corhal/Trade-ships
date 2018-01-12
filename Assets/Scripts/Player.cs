@@ -36,6 +36,8 @@ public class Player : MonoBehaviour {
 	public bool OnAdventure;
 	public float AdventureTimer;
 
+	public bool ReceivedReward;
+
 	void Awake () {
 		if (Instance == null) {			
 			Instance = this;
@@ -93,7 +95,7 @@ public class Player : MonoBehaviour {
 			if (!DataBase.TempItemLibrary.Contains (soulstone)) {
 				DataBase.TempItemLibrary.Add (soulstone);
 				DataBase.ItemsByNames.Add (soulstone.Name, soulstone);
-				Inventory.Add (soulstone.Name, 100);
+				Inventory.Add (soulstone.Name, 0);
 			}
 
 			CreatureData newShipData = new CreatureData (creatures [j], 1,
@@ -126,6 +128,8 @@ public class Player : MonoBehaviour {
 			Tiles.Clear ();
 			POIDataByTiles.Clear ();
 			POIDatas.Clear ();
+		} else {
+			ReceivedReward = false;
 		}
 		SceneManager.LoadScene (2);
 	}

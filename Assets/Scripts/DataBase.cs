@@ -26,12 +26,20 @@ public class DataBase : MonoBehaviour {
 
 	public TextAsset ItemsTable;
 
-	public List<int> EvolveCosts = new List<int> {
+	public List<int> LevelCosts = new List<int> {
+		0,
 		10,
 		30,
-		80,
-		160,
-		300
+		50,
+		100
+	};
+
+	public List<int> LevelGoldCosts = new List<int> {
+		0,
+		100,
+		500,
+		1000,
+		10000
 	};
 
 	public List<GameObject> EffectParticlePrefabs;

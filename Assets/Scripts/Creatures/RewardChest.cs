@@ -20,7 +20,7 @@ public class RewardChest {
 			}
 
 			int index = Random.Range (0, validItems.Count - 1);
-			possibleRewards.Add (validItems [index].Name, Random.Range (1, 6));
+			possibleRewards.Add (validItems [index].Name, Random.Range (1, 10));
 		}
 		RewardItems = new Dictionary<string, int> (possibleRewards);
 	}

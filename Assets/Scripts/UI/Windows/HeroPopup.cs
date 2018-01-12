@@ -78,14 +78,14 @@ public class HeroPopup : MonoBehaviour {
 		BlueprintSlider.value = Player.Instance.Inventory [shipData.Soulstone.Name];
 		if (Player.Instance.Inventory [shipData.Soulstone.Name] < shipData.LevelCosts [shipData.Level]) {
 			BlueprintsNodeObject.SetActive (true);
-
 		} else {
 			EvolveButton.gameObject.SetActive (true);
+			EvolveButton.GetComponentInChildren<Text> ().text = "level up\n$" + shipData.LevelGoldCosts [shipData.Level];
 		}
 
 		LevelLabel.text = "level " + shipData.Level;
 
-		OpenSkills ();
+		OpenStats ();
 	}
 
 	public void OpenSkills () {
@@ -168,6 +168,7 @@ public class HeroPopup : MonoBehaviour {
 			BlueprintSlider.maxValue = shipData.LevelCosts [shipData.Level];
 			BlueprintSlider.value = Player.Instance.Inventory [shipData.Soulstone.Name];
 			EvolveButton.gameObject.SetActive (true);
+			EvolveButton.GetComponentInChildren<Text> ().text = "level up\n$" + shipData.LevelGoldCosts [shipData.Level];
 		}
 
 		LevelLabel.text = "level " + shipData.Level;

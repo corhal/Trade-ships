@@ -71,7 +71,8 @@ public class GameManager : MonoBehaviour {
 			PlayerShip.gameObject.transform.position = Player.Instance.PlayerShipCoordinates;
 
 			// temp solution:
-			if (Player.Instance.CurrentMission.Name != "" && Player.Instance.OnAdventure) {
+			if (Player.Instance.CurrentMission.Name != "" && Player.Instance.OnAdventure && !Player.Instance.ReceivedReward) {
+				Player.Instance.ReceivedReward = true;
 				Dictionary<string, int> reward = Player.Instance.CurrentMission.GiveReward ();
 				Player.Instance.TakeItems (reward);
 				UIOverlay.Instance.OpenImagesPopUp ("Your reward:", reward);
