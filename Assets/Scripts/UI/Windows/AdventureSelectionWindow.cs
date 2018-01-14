@@ -6,14 +6,17 @@ using UnityEngine.UI;
 public class AdventureSelectionWindow : MonoBehaviour {
 
 	public GameObject Window;
+	public GameObject StashChestsButton;
 	public Text WindowText;
 
 	public void Open () {		
 		Window.SetActive (true);
 		if (Player.Instance.OnAdventure) {
-			WindowText.text = "Let's go back!";
+			WindowText.text = "Go back or stash chests?";
+			StashChestsButton.SetActive (true);
 		} else {
 			WindowText.text = "Let's go on adventure!";
+			StashChestsButton.SetActive (false);
 		}
 	}
 
@@ -25,6 +28,14 @@ public class AdventureSelectionWindow : MonoBehaviour {
 			Player.Instance.NewBoard = true;
 			Player.Instance.LoadAdventure ();
 		}
+	}
+
+	public void StashChests () {
+		foreach (var rewardChest in GameManager.Instance.PlayerShip.RewardChests) {
+			Player.Instance.RewardChests.Add (rewardChest);
+		}
+		GameManager.Instance.PlayerShip.RewardChests.Clear ();
+		UIOverlay.Instance.UpdateShipRewardChests (GameManager.Instance.PlayerShip);
 	}
 
 

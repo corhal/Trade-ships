@@ -122,6 +122,7 @@ public class Player : MonoBehaviour {
 		}
 		OnAdventure = false;
 		SceneManager.LoadScene (0);
+		Invoke ("ReceiveAdventureReward", 0.5f);
 	}
 
 	public void ReceiveAdventureReward () {
