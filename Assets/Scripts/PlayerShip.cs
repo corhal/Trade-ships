@@ -12,6 +12,9 @@ public class PlayerShip : MonoBehaviour {
 
 	public Collider2D lastSeenCollider;
 
+	public int RewardChestsCapacity;
+	public List<RewardChest> RewardChests;
+
 	void Awake () {
 		if (Instance == null) {			
 			Instance = this;
@@ -21,6 +24,7 @@ public class PlayerShip : MonoBehaviour {
 		player = Player.Instance;
 		mover = GetComponent<MoveOnClick> ();
 		mover.OnFinishedMoving += Mover_OnFinishedMoving;
+		RewardChests = new List<RewardChest> ();
 	}
 
 	void Mover_OnFinishedMoving (MoveOnClick sender) {
@@ -28,10 +32,14 @@ public class PlayerShip : MonoBehaviour {
 			return;
 		}
 		if (lastSeenCollider.gameObject.GetComponent<Shipwreck> () != null) {
-			Player.Instance.TakeItems (lastSeenCollider.gameObject.GetComponent<Shipwreck> ().RewardChest.RewardItems);
-			UIOverlay.Instance.OpenImagesPopUp ("Your reward:", lastSeenCollider.gameObject.GetComponent<Shipwreck> ().RewardChest.RewardItems);
-			lastSeenCollider.gameObject.GetComponent<Shipwreck> ().Interact ();
-			lastSeenCollider.gameObject.SetActive (false);
+			//Player.Instance.TakeItems (lastSeenCollider.gameObject.GetComponent<Shipwreck> ().RewardChest.RewardItems);
+			//UIOverlay.Instance.OpenImagesPopUp ("Your reward:", lastSeenCollider.gameObject.GetComponent<Shipwreck> ().RewardChest.RewardItems);
+			if (RewardChests.Count < RewardChestsCapacity) {
+				RewardChests.Add (lastSeenCollider.gameObject.GetComponent<Shipwreck> ().RewardChest);
+				lastSeenCollider.gameObject.GetComponent<Shipwreck> ().Interact ();
+				lastSeenCollider.gameObject.SetActive (false);
+				UIOverlay.Instance.UpdateShipRewardChests (this);
+			} 
 		} else if (lastSeenCollider.gameObject.GetComponent<MissionObject> () != null) {
 			UIOverlay.Instance.OpenMissionWindow (lastSeenCollider.gameObject.GetComponent<MissionObject> ().Mission);
 		}

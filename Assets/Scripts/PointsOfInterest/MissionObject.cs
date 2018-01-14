@@ -54,7 +54,10 @@ public class MissionObject : PointOfInterest {
 		Dictionary<string, float> rewardChances = new Dictionary<string, float> ();
 		Dictionary<string, int> possibleRewards = new Dictionary<string, int> ();
 
-		for (int j = 1; j < costLength; j++) {
+		possibleRewards.Add ("Gold", Random.Range (10, 100));
+		rewardChances.Add ("Gold", 1.0f);
+
+		/*for (int j = 1; j < costLength; j++) {
 			List<Item> validItems = new List<Item> ();
 			foreach (var item in Player.Instance.DataBase.TempItemLibrary) {
 				if (!possibleRewards.ContainsKey (item.Name)) {
@@ -65,7 +68,7 @@ public class MissionObject : PointOfInterest {
 			int index = Random.Range (0, validItems.Count - 1);
 			possibleRewards.Add (validItems [index].Name, Random.Range (1, 6));
 			rewardChances.Add (validItems [index].Name, Random.Range (0.3f, 0.7f));
-		}
+		}*/
 
 		Mission = new Mission (Tile.BoardCoordsAsString, IsCastle, rewardChances, possibleRewards, enemyShips);
 	}

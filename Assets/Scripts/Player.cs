@@ -16,13 +16,13 @@ public class Player : MonoBehaviour {
 	public Mission CurrentMission;
 	public List<CreatureData> ShipDatas;
 	public bool FirstLoad = true;
-	public int Gold;
-
 	public static Player Instance;
 
 	public DataBase DataBase;
 	public BJDataBase BJDataBase;
 	public Dictionary<string, int> Inventory;
+
+	public int Gold { get { return Inventory ["Gold"]; } }
 
 	public List<CreatureData> CurrentTeam;
 
@@ -35,6 +35,8 @@ public class Player : MonoBehaviour {
 	public bool NewBoard;
 	public bool OnAdventure;
 	public float AdventureTimer;
+
+	public List<RewardChest> RewardChests;
 
 	public bool ReceivedReward;
 
@@ -50,10 +52,12 @@ public class Player : MonoBehaviour {
 		Tiles = new Dictionary<string, bool> ();
 		POIDataByTiles = new Dictionary<string, POIData> ();
 		POIDatas = new List<POIData> ();
+		RewardChests = new List<RewardChest> ();
 	}
 
 	void Start () {
 		CurrentAdventure = Adventures [0];
+		//Inventory.Add(
 	}
 
 	void Update () {
@@ -120,6 +124,24 @@ public class Player : MonoBehaviour {
 		SceneManager.LoadScene (0);
 	}
 
+	public void ReceiveAdventureReward () {
+		Dictionary<string, int> totalReward = new Dictionary<string, int> ();
+		foreach (var rewardChest in RewardChests) {
+			foreach (var rewardItem in rewardChest.RewardItems) {
+				if (!totalReward.ContainsKey(rewardItem.Key)) {
+					totalReward.Add (rewardItem.Key, rewardItem.Value);
+				} else {
+					totalReward [rewardItem.Key] += rewardItem.Value;
+				}
+			}
+		}
+
+		Player.Instance.TakeItems (totalReward);
+		UIOverlay.Instance.OpenImagesPopUp ("Your reward:", totalReward);
+
+		RewardChests.Clear ();
+	}
+
 	public void LoadAdventure () {
 		if (!OnAdventure) {
 			OnAdventure = true;
@@ -151,12 +173,13 @@ public class Player : MonoBehaviour {
 	}
 
 	public void TakeGold (int amount) {
-		Gold += amount;
+		Inventory ["Gold"] += amount;
+		// Gold += amount;
 	}
 
 	public void GiveGold (int amount) {
 		if (Gold >= amount) {
-			Gold -= amount;
+			Inventory ["Gold"] -= amount;
 		} else {
 			UIOverlay.Instance.OpenPopUp ("Not enough gold");
 		}

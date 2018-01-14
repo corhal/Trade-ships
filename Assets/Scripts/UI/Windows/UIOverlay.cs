@@ -11,6 +11,7 @@ public class UIOverlay : MonoBehaviour {
 	public Text GoldLabel;
 	public Text EnergyLabel;
 	public Text TimeLabel;
+	public Text RewardChestsLabel;
 	Player player;
 	public static UIOverlay Instance;
 
@@ -36,6 +37,21 @@ public class UIOverlay : MonoBehaviour {
 		}
 	}
 
+	public List<GameObject> ShipRewardChestImages;
+	public List<GameObject> ShipRewardChestTexts;
+
+	public void UpdateShipRewardChests (PlayerShip playerShip) {
+		for (int i = 0; i < ShipRewardChestImages.Count; i++) {
+			if (i < playerShip.RewardChests.Count) {
+				ShipRewardChestImages [i].SetActive (true);
+				ShipRewardChestTexts [i].SetActive (false);
+			} else {
+				ShipRewardChestImages [i].SetActive (false);
+				ShipRewardChestTexts [i].SetActive (true);
+			}
+		}
+	}
+
 	void Start () {
 		player = Player.Instance;
 		if (player.OnAdventure) {
@@ -58,6 +74,7 @@ public class UIOverlay : MonoBehaviour {
 	void Update () { // OMG
 		GoldLabel.text = "" + player.Gold;
 		EnergyLabel.text = "" + player.Energy + "/" + player.MaxEnergy;
+		RewardChestsLabel.text = "" + player.RewardChests.Count;
 		if (player.OnAdventure) {			
 			int time = (int)player.AdventureTimer;
 			int hours = time / 3600;
