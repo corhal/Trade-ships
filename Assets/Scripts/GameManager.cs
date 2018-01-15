@@ -69,7 +69,7 @@ public class GameManager : MonoBehaviour {
 		if (!Player.Instance.FirstLoad && !isBattle) { // ?..
 
 			PlayerShip.gameObject.transform.position = Player.Instance.PlayerShipCoordinates;
-
+			PlayerShip.RewardChests = new List<RewardChest> (Player.Instance.PlayerShipRewardChests);
 			// temp solution:
 			if (Player.Instance.CurrentMission.Name != "" && Player.Instance.OnAdventure && !Player.Instance.ReceivedReward) {
 				Player.Instance.ReceivedReward = true;

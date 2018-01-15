@@ -13,14 +13,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_PixelRect:
     serializedVersion: 2
-    x: 3840
-    y: 43
+    x: 1920
+    y: 42
     width: 1920
     height: 997
   m_ShowMode: 4
   m_Title: 
   m_RootView: {fileID: 4}
-  m_MinSize: {x: 950, y: 321}
+  m_MinSize: {x: 950, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
 --- !u!114 &2
 MonoBehaviour:
@@ -40,8 +40,8 @@ MonoBehaviour:
     y: 704
     width: 463
     height: 243
-  m_MinSize: {x: 100, y: 100}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 102, y: 121}
+  m_MaxSize: {x: 4002, y: 4021}
   m_ActualView: {fileID: 17}
   m_Panes:
   - {fileID: 17}
@@ -70,7 +70,7 @@ MonoBehaviour:
   m_MinSize: {x: 277, y: 192}
   m_MaxSize: {x: 4002, y: 8042}
   vertical: 1
-  controlID: 26
+  controlID: 98
 --- !u!114 &4
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -157,10 +157,10 @@ MonoBehaviour:
     y: 30
     width: 1920
     height: 947
-  m_MinSize: {x: 913, y: 271}
-  m_MaxSize: {x: 22008, y: 10021}
+  m_MinSize: {x: 917, y: 271}
+  m_MaxSize: {x: 22012, y: 10021}
   vertical: 0
-  controlID: 39
+  controlID: 9
 --- !u!114 &8
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -256,8 +256,8 @@ MonoBehaviour:
     y: 0
     width: 463
     height: 704
-  m_MinSize: {x: 275, y: 50}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 277, y: 71}
+  m_MaxSize: {x: 4002, y: 4021}
   m_ActualView: {fileID: 18}
   m_Panes:
   - {fileID: 18}
@@ -286,8 +286,8 @@ MonoBehaviour:
   m_DepthBufferBits: 32
   m_Pos:
     serializedVersion: 2
-    x: 3840
-    y: 92
+    x: 1920
+    y: 91
     width: 877
     height: 926
   m_MaximizeOnPlay: 0
@@ -362,8 +362,8 @@ MonoBehaviour:
   m_DepthBufferBits: 32
   m_Pos:
     serializedVersion: 2
-    x: 3840
-    y: 92
+    x: 1920
+    y: 91
     width: 877
     height: 926
   m_SceneLighting: 1
@@ -463,15 +463,15 @@ MonoBehaviour:
   m_DepthBufferBits: 0
   m_Pos:
     serializedVersion: 2
-    x: 4721
-    y: 92
+    x: 2801
+    y: 91
     width: 272
     height: 926
   m_TreeViewState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 7afbffff
-    m_LastClickedID: -1158
-    m_ExpandedIDs: 2c56fdff2acdfeff48cdfeff52cdfeff68cdfeffc2cdfeffaccefeff58d1feff5ad1feff36e4feff70f3feff6af7ffffe4f7ffff9afaffff7afbffff9efbffff00000000063100007c32000004990000
+    m_SelectedIDs: 88e5ffff
+    m_LastClickedID: -6776
+    m_ExpandedIDs: de72f7ff9e56f9ff0aecf9ff800cfbffae5dfbff72e4ffffeae5ffff14e6ffff62e6ffff86e6fffff4ffffff00000000f6470000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -516,8 +516,8 @@ MonoBehaviour:
   m_DepthBufferBits: 0
   m_Pos:
     serializedVersion: 2
-    x: 4997
-    y: 92
+    x: 3077
+    y: 91
     width: 298
     height: 926
   m_SearchFilter:
@@ -532,18 +532,18 @@ MonoBehaviour:
     m_ShowAllHits: 0
     m_SearchArea: 0
     m_Folders:
-    - Assets/Scripts
+    - Assets/Prefabs/UI
   m_ViewMode: 0
   m_StartGridSize: 64
   m_LastFolders: []
   m_LastFoldersGridSize: -1
-  m_LastProjectPath: D:\repositories\Trade ships
+  m_LastProjectPath: C:\Users\a.panfilov\Desktop\cr-calc\Trade-ships
   m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: d4210000
     m_LastClickedID: 8660
-    m_ExpandedIDs: 0000000038280000b2280000c0280000e62800002e290000862900009a2900002a2a0000902a0000ca2a00000c2b00000e2b0000222b0000782b00007a2b0000dc2b0000e62b0000e82b00000a2c00002e2c00006c2c0000982c0000
+    m_ExpandedIDs: 00000000f03f000050400000524000006240000094400000d2400000e2400000444100008e410000bc410000ee410000f0410000024200005042000052420000904200009642000098420000b2420000c0420000e042000004430000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -568,10 +568,10 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_AssetTreeState:
-    scrollPos: {x: 0, y: 1140}
+    scrollPos: {x: 0, y: 808}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 0000000038280000b2280000c0280000e62800002e290000862900009a2900002a2a0000902a0000ca2a00000c2b00000e2b0000222b0000782b00007a2b0000dc2b0000e62b0000e82b00000a2c00002e2c00006c2c0000982c0000
+    m_ExpandedIDs: 00000000382e0000f03f000050400000524000006240000094400000d2400000e2400000444100008e41000094410000bc410000ee410000f0410000024200005042000052420000904200009642000098420000b2420000c0420000e042000004430000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -648,8 +648,8 @@ MonoBehaviour:
   m_DepthBufferBits: 0
   m_Pos:
     serializedVersion: 2
-    x: 5299
-    y: 796
+    x: 3379
+    y: 795
     width: 461
     height: 222
 --- !u!114 &18
@@ -674,11 +674,11 @@ MonoBehaviour:
   m_DepthBufferBits: 0
   m_Pos:
     serializedVersion: 2
-    x: 5299
-    y: 92
+    x: 3379
+    y: 91
     width: 461
     height: 683
-  m_ScrollPosition: {x: 0, y: 0}
+  m_ScrollPosition: {x: 0, y: 83.95508}
   m_InspectorMode: 0
   m_PreviewResizer:
     m_CachedPref: -199

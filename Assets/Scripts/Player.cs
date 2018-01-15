@@ -36,6 +36,7 @@ public class Player : MonoBehaviour {
 	public bool OnAdventure;
 	public float AdventureTimer;
 
+	public List<RewardChest> PlayerShipRewardChests;
 	public List<RewardChest> RewardChests;
 
 	public bool ReceivedReward;
@@ -53,6 +54,7 @@ public class Player : MonoBehaviour {
 		POIDataByTiles = new Dictionary<string, POIData> ();
 		POIDatas = new List<POIData> ();
 		RewardChests = new List<RewardChest> ();
+		PlayerShipRewardChests = new List<RewardChest> ();
 	}
 
 	void Start () {
@@ -99,7 +101,7 @@ public class Player : MonoBehaviour {
 			if (!DataBase.TempItemLibrary.Contains (soulstone)) {
 				DataBase.TempItemLibrary.Add (soulstone);
 				DataBase.ItemsByNames.Add (soulstone.Name, soulstone);
-				Inventory.Add (soulstone.Name, 0);
+				Inventory.Add (soulstone.Name, 100);
 			}
 
 			CreatureData newShipData = new CreatureData (creatures [j], 1,
@@ -110,7 +112,7 @@ public class Player : MonoBehaviour {
 	}
 
 	public void LoadBattle () {
-		
+		PlayerShipRewardChests = new List<RewardChest> (GameManager.Instance.PlayerShip.RewardChests);
 		SceneManager.LoadScene (1);
 	}
 
@@ -123,6 +125,7 @@ public class Player : MonoBehaviour {
 		OnAdventure = false;
 		SceneManager.LoadScene (0);
 		Invoke ("ReceiveAdventureReward", 0.5f);
+		CurrentAdventure = Adventures [0];
 	}
 
 	public void ReceiveAdventureReward () {
@@ -141,6 +144,7 @@ public class Player : MonoBehaviour {
 		UIOverlay.Instance.OpenImagesPopUp ("Your reward:", totalReward);
 
 		RewardChests.Clear ();
+		PlayerShipRewardChests.Clear ();
 	}
 
 	public void LoadAdventure () {

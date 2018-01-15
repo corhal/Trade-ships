@@ -21,6 +21,7 @@ public class HeroPopup : MonoBehaviour {
 	public GameObject SkillsElementContainer;
 
 	public GameObject StatElementPrefab;
+	public GameObject SkillElementPrefab;
 
 	public List<GameObject> StatElementObjects;
 	public List<SkillElement> SkillElements;
@@ -38,10 +39,6 @@ public class HeroPopup : MonoBehaviour {
 
 	CreatureData currentShipData;
 
-	public GameObject StatsButtonObject;
-	public GameObject SkillsButtonObject;
-
-	public List<int> LevelRequirements = new List<int> { 0, 3, 10, 15 };
 	public List<RankColor> RankColorRequirements = new List<RankColor> {RankColor.White, RankColor.Green, RankColor.Blue, RankColor.Purple};
 
 	public void Open (CreatureData shipData) {		
@@ -53,81 +50,20 @@ public class HeroPopup : MonoBehaviour {
 			CreatureFigurineImage.rectTransform.sizeDelta = new Vector2 (CreatureFigurineImage.rectTransform.rect.width / 7, 
 				CreatureFigurineImage.rectTransform.rect.height / 7);
 		}
-		HeaderLabel.text = shipData.Name;
-		ColorPanel.color = Player.Instance.DataBase.ColorsByRankColors [shipData.RankColor];
-		string rankString = shipData.RankColor.ToString ();
-		string pstring = rankString.Substring (rankString.Length - 4, 4);
-		int count = 0;
-		foreach (var character in pstring) {
-			if (character == 'P') {
-				count++;
-			}
-		}
-		if (count > 0) {
-			HeaderLabel.text = shipData.Name + " +" + count;
-		}
 
 		EvolveButton.onClick.RemoveAllListeners ();
 
 		EvolveButton.onClick.AddListener (delegate {
 			EvolveShip();
 		});
-	
-		BlueprintText.text = Player.Instance.Inventory [shipData.Soulstone.Name] + "/" + shipData.LevelCosts [shipData.Level];
-		BlueprintSlider.maxValue = shipData.LevelCosts [shipData.Level];
-		BlueprintSlider.value = Player.Instance.Inventory [shipData.Soulstone.Name];
-		if (Player.Instance.Inventory [shipData.Soulstone.Name] < shipData.LevelCosts [shipData.Level]) {
-			BlueprintsNodeObject.SetActive (true);
-		} else {
-			EvolveButton.gameObject.SetActive (true);
-			EvolveButton.GetComponentInChildren<Text> ().text = "level up\n$" + shipData.LevelGoldCosts [shipData.Level];
-		}
 
-		LevelLabel.text = "level " + shipData.Level;
-
+		UpdateLabels (currentShipData);
 		OpenStats ();
-	}
-
-	public void OpenSkills () {
-		SkillsBlock.SetActive (true);
-		StatsBlock.SetActive (false);
-
-		StatsButtonObject.transform.SetAsFirstSibling ();
-		SkillsButtonObject.transform.SetAsLastSibling ();
-
-		if (SkillElements.Count == 0) {
-			SkillElements = new List<SkillElement> (gameObject.GetComponentsInChildren<SkillElement> ()); 
-		}
-
-		foreach (var skillElement in SkillElements) {
-			skillElement.SkillUpgradeButton.onClick.RemoveAllListeners ();
-		}
-
-		for (int i = 1; i < currentShipData.Skills.Count; i++) {			
-			SkillElements [i - 1].StatLabel.text = currentShipData.Skills [i].Name;
-			if (Player.Instance.BJDataBase.BJSkillsByNames.ContainsKey (currentShipData.Skills [i].Name)) {
-				SkillElements [i - 1].SkillImage.sprite = Player.Instance.BJDataBase.BJSkillsByNames [currentShipData.Skills [i].Name].SkillIcon;
-			}
-
-			if (currentShipData.Level < LevelRequirements [i - 1]) {
-				SkillElements [i - 1].StatLabel.gameObject.SetActive (false);
-				SkillElements [i - 1].SkillStatLabel.gameObject.SetActive (false);
-				SkillElements [i - 1].UnlockNode.SetActive (true);
-				SkillElements [i - 1].UnlockConditionsLabel.text = "Unlocks at level " + LevelRequirements [i - 1].ToString ();
-			} else {
-				SkillElements [i - 1].UnlockNode.SetActive (false);
-				SkillElements [i - 1].StatLabel.gameObject.SetActive (true);
-				SkillElements [i - 1].SkillStatLabel.gameObject.SetActive (true);
-			}
-		}
 	}
 
 	public void OpenStats () {
 		SkillsBlock.SetActive (false);
 		StatsBlock.SetActive (true);
-
-		StatsButtonObject.transform.SetAsLastSibling ();
-		SkillsButtonObject.transform.SetAsFirstSibling ();
 
 		foreach (var statElementObject in StatElementObjects) {
 			Destroy (statElementObject);
@@ -142,6 +78,31 @@ public class HeroPopup : MonoBehaviour {
 			statElementObject.transform.SetParent (StatsElementContainer.transform);
 			statElementObject.transform.localScale = Vector3.one;
 			StatElementObjects.Add (statElementObject);
+		}
+
+		foreach (var skillElement in SkillElements) {
+			Destroy (skillElement.gameObject);
+		}
+
+		SkillElements.Clear ();
+
+		for (int i = 1; i < currentShipData.Skills.Count; i++) {		
+			GameObject skillElementObject = Instantiate (SkillElementPrefab) as GameObject;
+			SkillElement skillElement = skillElementObject.GetComponent<SkillElement> ();
+
+			skillElement.StatLabel.text = currentShipData.Skills [i].Name;
+			if (Player.Instance.BJDataBase.BJSkillsByNames.ContainsKey (currentShipData.Skills [i].Name)) {
+				skillElement.SkillImage.sprite = Player.Instance.BJDataBase.BJSkillsByNames [currentShipData.Skills [i].Name].SkillIcon;
+			}
+
+			skillElement.UnlockNode.SetActive (false);
+			skillElement.StatLabel.gameObject.SetActive (true);
+			skillElement.SkillStatLabel.gameObject.SetActive (true);
+
+
+			skillElementObject.transform.SetParent (StatsElementContainer.transform);
+			skillElementObject.transform.localScale = Vector3.one;
+			SkillElements.Add (skillElement);
 		}
 	}
 
@@ -187,33 +148,7 @@ public class HeroPopup : MonoBehaviour {
 			HeaderLabel.text = shipData.Name + " +" + count;
 		}
 
-		if (StatsBlock.activeSelf) {
-			for (int i = 0; i < shipData.StatNames.Count; i++) {
-				GameObject statElementObject = StatElementObjects [i];
-				Text statText = statElementObject.GetComponentInChildren<Text> ();
-				statText.text = shipData.StatNames [i] + ": " + shipData.GetStatByString (shipData.StatNames [i]);
-			}
-		}
-
-		if (SkillsBlock.activeSelf) {
-			for (int i = 1; i < currentShipData.Skills.Count; i++) {			
-				SkillElements [i - 1].StatLabel.text = currentShipData.Skills [i].Name;
-				if (Player.Instance.BJDataBase.BJSkillsByNames.ContainsKey (currentShipData.Skills [i].Name)) {
-					SkillElements [i - 1].SkillImage.sprite = Player.Instance.BJDataBase.BJSkillsByNames [currentShipData.Skills [i].Name].SkillIcon;
-				}
-
-				if (currentShipData.Level < LevelRequirements [i - 1]) {
-					SkillElements [i - 1].StatLabel.gameObject.SetActive (false);
-					SkillElements [i - 1].SkillStatLabel.gameObject.SetActive (false);
-					SkillElements [i - 1].UnlockNode.SetActive (true);
-					SkillElements [i - 1].UnlockConditionsLabel.text = "Unlocks at level" + LevelRequirements [i - 1].ToString ();
-				} else {
-					SkillElements [i - 1].UnlockNode.SetActive (false);
-					SkillElements [i - 1].StatLabel.gameObject.SetActive (true);
-					SkillElements [i - 1].SkillStatLabel.gameObject.SetActive (true);
-				}
-			}
-		}
+		OpenStats ();
 	}
 
 	public void FindBlueprint () {
@@ -227,5 +162,6 @@ public class HeroPopup : MonoBehaviour {
 
 	public void Close () {
 		Window.SetActive (false);
+		UIOverlay.Instance.OpenShipsCatalogWindow ();
 	}
 }

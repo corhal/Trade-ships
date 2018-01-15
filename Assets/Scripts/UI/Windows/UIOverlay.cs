@@ -61,6 +61,7 @@ public class UIOverlay : MonoBehaviour {
 			foreach (var hideObject in HideOffAdventureObjects) {
 				hideObject.SetActive (true);
 			}
+			UpdateShipRewardChests (GameManager.Instance.PlayerShip);
 		} else {
 			foreach (var hideObject in HideInAdventureObjects) {
 				hideObject.SetActive (true);
@@ -113,7 +114,7 @@ public class UIOverlay : MonoBehaviour {
 	public void OpenAdventureSelectionWindow () {
 		AdventureSelectionWindow.Open ();
 		MyInfoWindow.Close ();
-		MyShipWindow.Close ();
+		// MyShipWindow.Close ();
 		MyMissionWindow.Close ();
 		MyButtonsOverlay.Close ();
 		MyMissionWindow.Close ();
@@ -129,7 +130,7 @@ public class UIOverlay : MonoBehaviour {
 
 	public void OpenSelectableInfo (Selectable selectable) {
 		MyInfoWindow.Open (selectable);
-		MyShipWindow.Close ();
+		// MyShipWindow.Close ();
 		MyMissionWindow.Close ();
 		MyButtonsOverlay.Close ();
 		MyMissionWindow.Close ();
@@ -163,7 +164,7 @@ public class UIOverlay : MonoBehaviour {
 	public void OpenMissionWindow (Mission chosenMission) {
 		MyMissionWindow.Open (chosenMission);
 		MyButtonsOverlay.Close ();
-		MyShipWindow.Close ();
+		// MyShipWindow.Close ();
 		MyPopUp.Close ();
 		MyInfoWindow.Close ();
 		MyShipsCatalogWindow.Close ();
@@ -178,7 +179,7 @@ public class UIOverlay : MonoBehaviour {
 		MyTeamSelectionWindow.Open (mission);
 		MyButtonsOverlay.Close ();
 		MyMissionWindow.Close ();
-		MyShipWindow.Close ();
+		// MyShipWindow.Close ();
 		MyPopUp.Close ();
 		MyInfoWindow.Close ();
 		MyShipsCatalogWindow.Close ();
@@ -194,7 +195,7 @@ public class UIOverlay : MonoBehaviour {
 		Selection.Animate ();
 		MyButtonsOverlay.Open (selectable);
 		MyMissionWindow.Close ();
-		MyShipWindow.Close ();
+		// MyShipWindow.Close ();
 		MyPopUp.Close ();
 		MyInfoWindow.Close ();
 		MyShipsCatalogWindow.Close ();
@@ -205,7 +206,7 @@ public class UIOverlay : MonoBehaviour {
 		MyShipsCatalogWindow.Open ();
 		MyButtonsOverlay.Close ();
 		// MyMissionWindow.Close ();
-		MyShipWindow.Close ();
+		// MyShipWindow.Close ();
 		MyPopUp.Close ();
 		MyInfoWindow.Close ();
 		CloseAdventureSelectionWindow ();
@@ -221,7 +222,7 @@ public class UIOverlay : MonoBehaviour {
 	public void CloseAllWindows () {
 		MyMissionWindow.Reload ();
 		MyButtonsOverlay.Close ();
-		MyShipWindow.Close ();
+		// MyShipWindow.Close ();
 		MyPopUp.Close ();
 		MyInfoWindow.Close ();
 		MyShipsCatalogWindow.Close ();

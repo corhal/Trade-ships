@@ -2,13 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
+// [System.Serializable]
 public class RewardChest {
 
 	public Dictionary<string, int> RewardItems;
 
 	public RewardChest () {
+		// System.Random rand = new System.Random ();
 		int costLength = Random.Range (1, 6);
+
 		Dictionary<string, int> possibleRewards = new Dictionary<string, int> ();
 
 		for (int j = 1; j < costLength; j++) {

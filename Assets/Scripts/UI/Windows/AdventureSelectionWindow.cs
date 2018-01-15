@@ -23,6 +23,7 @@ public class AdventureSelectionWindow : MonoBehaviour {
 	public void StartAdventure () {
 		Close ();
 		if (Player.Instance.OnAdventure) {
+			StashChests ();
 			Player.Instance.LoadVillage ();
 		} else {
 			Player.Instance.NewBoard = true;
