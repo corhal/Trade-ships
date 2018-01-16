@@ -157,6 +157,7 @@ public class Board : MonoBehaviour {
 		}
 		if (prefabObject != null) {
 			GameObject poiOBject = Instantiate (prefabObject) as GameObject;
+			poiOBject.transform.SetParent (tile.transform);
 			poiOBject.transform.position = new Vector3 (tile.transform.position.x, tile.transform.position.y, 0);
 			if (!Player.Instance.POIDataByTiles.ContainsKey (tile.BoardCoordsAsString)) {
 				POIData poiData = poiOBject.GetComponentInChildren<PointOfInterest> ().POIData;

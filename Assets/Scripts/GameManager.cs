@@ -44,9 +44,18 @@ public class GameManager : MonoBehaviour {
 	}
 
 	void Board_OnBoardGenerationFinished () {
+		int treasuresToReveal = 0;
+		while (Player.Instance.CurrentAdventure.TreasureHunt && Player.Instance.Inventory["Map"] >= Player.Instance.CurrentAdventure.MapsForTreasure) {
+			treasuresToReveal++;
+			Player.Instance.GiveItems (new Dictionary<string, int> { { "Map", Player.Instance.CurrentAdventure.MapsForTreasure } });
+		}
 		foreach (var tile in Tiles) {
 			if (Player.Instance.Tiles [tile.BoardCoordsAsString] == false) {				
 				tile.StopParticles ();
+			} else if (treasuresToReveal > 0 && tile.PointOfInterest == POIkind.Chest) {	
+				tile.gameObject.GetComponentInChildren<Shipwreck> ().FindTiles ();
+				tile.gameObject.GetComponentInChildren<Shipwreck> ().Reveal ();
+				treasuresToReveal--;
 			}
 		}
 	}

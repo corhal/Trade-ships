@@ -28,7 +28,7 @@ public class PointOfInterest : MonoBehaviour {
 		FindTiles ();
 	}
 		
-	void FindTiles () {
+	public void FindTiles () {
 		Collider2D[] otherColliders = Physics2D.OverlapCircleAll (transform.position, 0.1f);	
 		foreach (var otherCollider in otherColliders) {
 			if (otherCollider.gameObject.GetComponent<SelectableTile> () != null) {

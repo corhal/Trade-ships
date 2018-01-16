@@ -9,6 +9,8 @@ public class POIData {
 	public bool Interacted;
 	public POIkind POIkind;
 
+	public string CurrentDirection;
+
 	/*public void InitializeFromPOI (PointOfInterest poi) {
 		OneTime = poi.OneTime;
 		Interacted = poi.Interacted;

@@ -101,7 +101,7 @@ public class Player : MonoBehaviour {
 			if (!DataBase.TempItemLibrary.Contains (soulstone)) {
 				DataBase.TempItemLibrary.Add (soulstone);
 				DataBase.ItemsByNames.Add (soulstone.Name, soulstone);
-				Inventory.Add (soulstone.Name, 100);
+				Inventory.Add (soulstone.Name, 0);
 			}
 
 			CreatureData newShipData = new CreatureData (creatures [j], 1,

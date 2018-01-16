@@ -34,14 +34,14 @@ public class PlayerShip : MonoBehaviour {
 		if (lastSeenCollider.gameObject.GetComponent<Shipwreck> () != null) {
 			//Player.Instance.TakeItems (lastSeenCollider.gameObject.GetComponent<Shipwreck> ().RewardChest.RewardItems);
 			//UIOverlay.Instance.OpenImagesPopUp ("Your reward:", lastSeenCollider.gameObject.GetComponent<Shipwreck> ().RewardChest.RewardItems);
-			if (RewardChests.Count < RewardChestsCapacity) {
+			/*if (RewardChests.Count < RewardChestsCapacity) {
 				RewardChests.Add (lastSeenCollider.gameObject.GetComponent<Shipwreck> ().RewardChest);
 				lastSeenCollider.gameObject.GetComponent<Shipwreck> ().Interact ();
 				lastSeenCollider.gameObject.SetActive (false);
 				UIOverlay.Instance.UpdateShipRewardChests (this);
-			} 
+			} */
 		} else if (lastSeenCollider.gameObject.GetComponent<MissionObject> () != null) {
-			UIOverlay.Instance.OpenMissionWindow (lastSeenCollider.gameObject.GetComponent<MissionObject> ().Mission);
+			// UIOverlay.Instance.OpenMissionWindow (lastSeenCollider.gameObject.GetComponent<MissionObject> ().Mission);
 		}
 	}
 

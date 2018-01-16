@@ -13,4 +13,7 @@ public class Adventure {
 	public List<int> POIamounts;
 
 	public float TimeLimit;
+	public bool TreasureHunt;
+
+	public int MapsForTreasure;
 }

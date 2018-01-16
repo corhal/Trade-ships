@@ -162,6 +162,6 @@ public class HeroPopup : MonoBehaviour {
 
 	public void Close () {
 		Window.SetActive (false);
-		UIOverlay.Instance.OpenShipsCatalogWindow ();
+		UIOverlay.Instance.UpdateHeroCatalogWindow ();
 	}
 }

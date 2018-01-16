@@ -212,6 +212,10 @@ public class UIOverlay : MonoBehaviour {
 		CloseAdventureSelectionWindow ();
 	}
 
+	public void UpdateHeroCatalogWindow () {
+		MyShipsCatalogWindow.UpdateLabels ();
+	}
+
 	public void CloseContextButtons (bool deselect) {
 		MyButtonsOverlay.Overlay.SetActive (false); // kostyll
 		if (deselect && Selection != null) {

@@ -9,19 +9,40 @@ public class Current : PointOfInterest {
 	public SpriteRenderer CurrentSprite;
 
 	void Start () {
-		int index = Random.Range (0, Tile.Neighbors.Count);
+		int index = 0;
+		if (POIData.CurrentDirection == "") {
+			index = Random.Range (0, Tile.Neighbors.Count);
+		} else {			
+			for (int i = 0; i < Tile.Neighbors.Count; i++) {
+				if ((Tile.Neighbors [i].AbsBoardCoords.x > Tile.AbsBoardCoords.x && POIData.CurrentDirection == "right") ||
+					(Tile.Neighbors [i].AbsBoardCoords.x < Tile.AbsBoardCoords.x && POIData.CurrentDirection == "left") ||
+					(Tile.Neighbors [i].AbsBoardCoords.y > Tile.AbsBoardCoords.y && POIData.CurrentDirection == "up") ||
+					(Tile.Neighbors [i].AbsBoardCoords.y < Tile.AbsBoardCoords.y && POIData.CurrentDirection == "down")) {
+					index = i;
+				}
+			}
+		}
+
 		Target = Tile.Neighbors [index];
-		if (Target.AbsBoardCoords.x > Tile.AbsBoardCoords.x) {
+		RotateToTarget (Target);
+	}
+
+	void RotateToTarget (SelectableTile target) {
+		if (target.AbsBoardCoords.x > Tile.AbsBoardCoords.x) {
 			CurrentSprite.gameObject.transform.eulerAngles = new Vector3 (0.0f, 0.0f, 0.0f);
+			POIData.CurrentDirection = "right";
 		}
-		if (Target.AbsBoardCoords.x < Tile.AbsBoardCoords.x) {
+		if (target.AbsBoardCoords.x < Tile.AbsBoardCoords.x) {
 			CurrentSprite.gameObject.transform.eulerAngles = new Vector3 (0.0f, 0.0f, 180.0f);
+			POIData.CurrentDirection = "left";
 		}
-		if (Target.AbsBoardCoords.y > Tile.AbsBoardCoords.y) {
+		if (target.AbsBoardCoords.y > Tile.AbsBoardCoords.y) {
 			CurrentSprite.gameObject.transform.eulerAngles = new Vector3 (0.0f, 0.0f, 90.0f);
+			POIData.CurrentDirection = "up";
 		}
-		if (Target.AbsBoardCoords.y < Tile.AbsBoardCoords.y) {
+		if (target.AbsBoardCoords.y < Tile.AbsBoardCoords.y) {
 			CurrentSprite.gameObject.transform.eulerAngles = new Vector3 (0.0f, 0.0f, 270.0f);
+			POIData.CurrentDirection = "down";
 		}
 	}
 
@@ -35,8 +56,12 @@ public class Current : PointOfInterest {
 	public override void Interact () {
 		if (!(POIData.OneTime && POIData.Interacted)) {
 			base.Interact ();
-			Target.StopParticles ();
-			CaughtPlayerShip.MoveToPoint (Target.gameObject.transform.position, false);
+			Invoke ("MovePlayerShip", 0.5f);
 		}
+	}
+
+	void MovePlayerShip () {
+		Target.StopParticles ();
+		CaughtPlayerShip.MoveToPoint (Target.gameObject.transform.position, false);
 	}
 }

@@ -16,12 +16,12 @@ public class ObstaclePopUp : MonoBehaviour {
 	int tries;
 
 	public void Open (Obstacle obstacle) {
-		Window.SetActive (true);
+		/*Window.SetActive (true);
 
 		currentObstacle = obstacle;
 		energyPerTry = obstacle.EnergyPerTry;
 		tries = obstacle.Tries;
-		RefreshLabels ();
+		RefreshLabels ();*/
 	}
 
 	void RefreshLabels () {
@@ -30,7 +30,7 @@ public class ObstaclePopUp : MonoBehaviour {
 	}
 
 	public void Try () {
-		if (Player.Instance.Energy - energyPerTry >= 0) {
+		/*if (Player.Instance.Energy - energyPerTry >= 0) {
 			Player.Instance.Energy -= energyPerTry;
 			tries--;
 			RefreshLabels ();
@@ -43,7 +43,7 @@ public class ObstaclePopUp : MonoBehaviour {
 		if (tries == 0) {
 			currentObstacle.GiveReward ();
 			Close ();
-		}
+		}*/
 	}
 
 	public void Close () {
