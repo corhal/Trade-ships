@@ -56,12 +56,12 @@ public class Current : PointOfInterest {
 	public override void Interact () {
 		if (!(POIData.OneTime && POIData.Interacted)) {
 			base.Interact ();
-			Invoke ("MovePlayerShip", 0.5f);
+			Invoke ("MovePlayerShip", 0.35f);
 		}
 	}
 
 	void MovePlayerShip () {
 		Target.StopParticles ();
-		CaughtPlayerShip.MoveToPoint (Target.gameObject.transform.position, false);
+		CaughtPlayerShip.MoveToTile (Target, false);
 	}
 }

@@ -9,7 +9,7 @@ public class RewardChest {
 
 	public RewardChest () {
 		// System.Random rand = new System.Random ();
-		int costLength = Random.Range (1, 6);
+		int costLength = /*rand.Next (1, 6);*/ Random.Range (1, 6);
 
 		Dictionary<string, int> possibleRewards = new Dictionary<string, int> ();
 
@@ -21,8 +21,8 @@ public class RewardChest {
 				}
 			}
 
-			int index = Random.Range (0, validItems.Count - 1);
-			possibleRewards.Add (validItems [index].Name, Random.Range (1, 10));
+			int index = /*rand.Next (0, validItems.Count - 1);*/ Random.Range (0, validItems.Count - 1);
+			possibleRewards.Add (validItems [index].Name, /*rand.Next (1, 10)*/Random.Range (1, 10));
 		}
 		RewardItems = new Dictionary<string, int> (possibleRewards);
 	}

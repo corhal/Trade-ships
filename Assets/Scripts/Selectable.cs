@@ -53,7 +53,7 @@ public class Selectable : MonoBehaviour {
 	}
 
 	public virtual void MoveShipHere () {
-		PlayerShip.Instance.MoveToPoint (transform.position, true);
+		PlayerShip.Instance.MoveToTile (this as SelectableTile, true);
 		uiManager.CloseContextButtons (true);
 	}
 
@@ -96,6 +96,9 @@ public class Selectable : MonoBehaviour {
 	int clickCount = 0;
 	void RealClick () {
 		if (!GameManager.Instance.CameraDragged && IsAvailable && !Utility.IsPointerOverUIObject () && Allegiance != Allegiance.Enemy) {
+			if (!GameManager.Instance.PlayerShip.CurrentTile.Neighbors.Contains((this as SelectableTile))) {
+				return;
+			}
 			//uiManager.OpenContextButtons (this);
 			clickCount++;
 			Animate ();

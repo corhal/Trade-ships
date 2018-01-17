@@ -36,13 +36,17 @@ public class Shipwreck : PointOfInterest {
 
 	void OnTriggerEnter2D (Collider2D other) {
 		if (other.GetComponent<PlayerShip> () != null) {
-			PlayerShip playerShip = GameManager.Instance.PlayerShip;
-			if (playerShip.RewardChests.Count < playerShip.RewardChestsCapacity) {
-				playerShip.RewardChests.Add (RewardChest);
-				Interact ();
-				UIOverlay.Instance.UpdateShipRewardChests (playerShip);
-				gameObject.SetActive (false);
-			} 
+			Invoke ("GiveReward", 0.25f);
 		}
+	}
+
+	void GiveReward () {
+		PlayerShip playerShip = GameManager.Instance.PlayerShip;
+		if (playerShip.RewardChests.Count < playerShip.RewardChestsCapacity) {
+			playerShip.RewardChests.Add (RewardChest);
+			Interact ();
+			UIOverlay.Instance.UpdateShipRewardChests (playerShip);
+			gameObject.SetActive (false);
+		} 
 	}
 }

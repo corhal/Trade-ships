@@ -48,6 +48,13 @@ public class Board : MonoBehaviour {
 		PointsOfInterestAmount = new Dictionary<POIkind, int> ();
 		Tiles = new SelectableTile[PosWidth - NegWidth + 1, PosHeight - NegHeight + 1];
 
+		int tilesAmount = (PosWidth - NegWidth + 1) * (PosHeight - NegHeight + 1);
+		int amountWithoutNones = 0;
+		for (int i = 1; i < POIamounts.Count; i++) {
+			amountWithoutNones += POIamounts [i];
+		}
+		POIamounts [0] = tilesAmount - amountWithoutNones;
+
 		for (int i = 0; i < POIs.Count; i++) {
 			PointsOfInterestAmount.Add (POIs [i], POIamounts [i]);
 		}

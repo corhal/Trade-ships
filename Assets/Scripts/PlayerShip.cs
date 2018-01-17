@@ -15,6 +15,8 @@ public class PlayerShip : MonoBehaviour {
 	public int RewardChestsCapacity;
 	public List<RewardChest> RewardChests;
 
+	public SelectableTile CurrentTile;
+
 	void Awake () {
 		if (Instance == null) {			
 			Instance = this;
@@ -31,22 +33,17 @@ public class PlayerShip : MonoBehaviour {
 		if (lastSeenCollider == null) {
 			return;
 		}
-		if (lastSeenCollider.gameObject.GetComponent<Shipwreck> () != null) {
-			//Player.Instance.TakeItems (lastSeenCollider.gameObject.GetComponent<Shipwreck> ().RewardChest.RewardItems);
-			//UIOverlay.Instance.OpenImagesPopUp ("Your reward:", lastSeenCollider.gameObject.GetComponent<Shipwreck> ().RewardChest.RewardItems);
-			/*if (RewardChests.Count < RewardChestsCapacity) {
-				RewardChests.Add (lastSeenCollider.gameObject.GetComponent<Shipwreck> ().RewardChest);
-				lastSeenCollider.gameObject.GetComponent<Shipwreck> ().Interact ();
-				lastSeenCollider.gameObject.SetActive (false);
-				UIOverlay.Instance.UpdateShipRewardChests (this);
-			} */
-		} else if (lastSeenCollider.gameObject.GetComponent<MissionObject> () != null) {
-			// UIOverlay.Instance.OpenMissionWindow (lastSeenCollider.gameObject.GetComponent<MissionObject> ().Mission);
-		}
 	}
 
 	void Start () {
 		mover.EnergyPerDistance = EnergyPerDistance;
+
+		Collider2D[] otherColliders = Physics2D.OverlapCircleAll (transform.position, 0.1f);
+		foreach (var otherCollider in otherColliders) {
+			if (otherCollider.gameObject.GetComponent<SelectableTile> () != null) {
+				CurrentTile = otherCollider.gameObject.GetComponent<SelectableTile> ();
+			}
+		}
 	}
 
 	void OnTriggerEnter2D (Collider2D other) { // will work even when passing through
@@ -61,7 +58,22 @@ public class PlayerShip : MonoBehaviour {
 		}
 	}
 
-	public void MoveToPoint (Vector2 target, bool spendEnergy) {
+	public void MoveToTile (SelectableTile tile, bool spendEnergy) {
+		if (!spendEnergy) {
+			mover.MoveToPoint (tile.transform.position);
+			CurrentTile = tile;
+			return;
+		}
+		if (Player.Instance.Energy >= EnergyPerDistance * 1) {
+			Player.Instance.Energy -= EnergyPerDistance * 1;
+			mover.MoveToPoint (tile.transform.position);
+			CurrentTile = tile;
+		} else {
+			UIOverlay.Instance.OpenPopUp ("Not enough energy!");
+		}
+	}
+
+	/*public void MoveToPoint (Vector2 target, bool spendEnergy) {
 		if (!spendEnergy) {
 			mover.MoveToPoint (target);
 			return;
@@ -73,7 +85,7 @@ public class PlayerShip : MonoBehaviour {
 			UIOverlay.Instance.OpenPopUp ("Not enough energy!");
 		}
 
-	}
+	}*/
 
 	void OnDestroy () {
 		mover.OnFinishedMoving -= Mover_OnFinishedMoving;

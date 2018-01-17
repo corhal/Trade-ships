@@ -29,6 +29,8 @@ public class UIOverlay : MonoBehaviour {
 	public AdventureSelectionWindow AdventureSelectionWindow;
 	public ObstaclePopUp ObstaclePopUp;
 
+	public GameObject MapNode;
+
 	void Awake () {
 		if (Instance == null) {			
 			Instance = this;
@@ -61,8 +63,14 @@ public class UIOverlay : MonoBehaviour {
 			foreach (var hideObject in HideOffAdventureObjects) {
 				hideObject.SetActive (true);
 			}
+			if (Player.Instance.CurrentAdventure.TreasureHunt) {
+				MapNode.SetActive (true);
+			} else {
+				MapNode.SetActive (false);
+			}	
 			UpdateShipRewardChests (GameManager.Instance.PlayerShip);
 		} else {
+			MapNode.SetActive (false);
 			foreach (var hideObject in HideInAdventureObjects) {
 				hideObject.SetActive (true);
 			}
@@ -82,6 +90,9 @@ public class UIOverlay : MonoBehaviour {
 			int minutes = (time - hours * 3600) / 60;
 			int seconds = time - hours * 3600 - minutes * 60;
 			TimeLabel.text = hours + ":" + minutes.ToString("D2") + ":" + seconds.ToString("D2");
+			if (player.CurrentAdventure.TreasureHunt) {
+				MapNode.GetComponentInChildren<Text> ().text = player.Inventory ["Map"] + "/" + player.CurrentAdventure.MapsForTreasure;
+			}
 		}
 	}
 

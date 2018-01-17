@@ -122,6 +122,7 @@ public class Player : MonoBehaviour {
 				CurrentTeam.Remove (CurrentTeam [i]);
 			}
 		}
+		Player.Instance.Inventory ["Map"] = 0;
 		OnAdventure = false;
 		SceneManager.LoadScene (0);
 		Invoke ("ReceiveAdventureReward", 0.5f);
