@@ -17,6 +17,8 @@ public class PlayerShip : MonoBehaviour {
 
 	public SelectableTile CurrentTile;
 
+	public List<GameObject> Arrows;
+
 	void Awake () {
 		if (Instance == null) {			
 			Instance = this;
@@ -44,6 +46,8 @@ public class PlayerShip : MonoBehaviour {
 				CurrentTile = otherCollider.gameObject.GetComponent<SelectableTile> ();
 			}
 		}
+		HideArrows ();
+		ShowArrows ();
 	}
 
 	void OnTriggerEnter2D (Collider2D other) { // will work even when passing through
@@ -62,30 +66,43 @@ public class PlayerShip : MonoBehaviour {
 		if (!spendEnergy) {
 			mover.MoveToPoint (tile.transform.position);
 			CurrentTile = tile;
+			HideArrows ();
+			Invoke ("ShowArrows", 1.5f);
 			return;
 		}
 		if (Player.Instance.Energy >= EnergyPerDistance * 1) {
 			Player.Instance.Energy -= EnergyPerDistance * 1;
 			mover.MoveToPoint (tile.transform.position);
 			CurrentTile = tile;
+			HideArrows ();
+			Invoke ("ShowArrows", 1.5f);
 		} else {
 			UIOverlay.Instance.OpenPopUp ("Not enough energy!");
 		}
 	}
 
-	/*public void MoveToPoint (Vector2 target, bool spendEnergy) {
-		if (!spendEnergy) {
-			mover.MoveToPoint (target);
-			return;
+	public void HideArrows () {
+		foreach (var arrow in Arrows) {
+			arrow.SetActive (false);
 		}
-		if (Player.Instance.Energy >= EnergyPerDistance * 1) {
-			Player.Instance.Energy -= EnergyPerDistance * 1;
-			mover.MoveToPoint (target);
-		} else {
-			UIOverlay.Instance.OpenPopUp ("Not enough energy!");
-		}
+	}
 
-	}*/
+	public void ShowArrows () {		
+		for (int i = 0; i < CurrentTile.Neighbors.Count; i++) {
+			if (CurrentTile.Neighbors [i].AbsBoardCoords.x > CurrentTile.AbsBoardCoords.x) {
+				Arrows [0].SetActive (true);
+			}
+			if (CurrentTile.Neighbors [i].AbsBoardCoords.y < CurrentTile.AbsBoardCoords.y) {
+				Arrows [1].SetActive (true);
+			}		
+			if (CurrentTile.Neighbors [i].AbsBoardCoords.x < CurrentTile.AbsBoardCoords.x) {
+				Arrows [2].SetActive (true);
+			}
+			if (CurrentTile.Neighbors [i].AbsBoardCoords.y > CurrentTile.AbsBoardCoords.y) {
+				Arrows [3].SetActive (true);
+			}
+		}	
+	}
 
 	void OnDestroy () {
 		mover.OnFinishedMoving -= Mover_OnFinishedMoving;

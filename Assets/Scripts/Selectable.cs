@@ -100,13 +100,13 @@ public class Selectable : MonoBehaviour {
 				return;
 			}
 			//uiManager.OpenContextButtons (this);
-			clickCount++;
+			//clickCount++;
 			Animate ();
-			if (clickCount == 2) {
+			//if (clickCount == 2) {
 				MoveShipHere ();
 				Deanimate ();
-				clickCount = 0;
-			}
+				//clickCount = 0;
+			//}
 		}
 	}
 }

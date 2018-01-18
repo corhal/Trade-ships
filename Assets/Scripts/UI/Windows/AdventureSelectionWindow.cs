@@ -37,6 +37,7 @@ public class AdventureSelectionWindow : MonoBehaviour {
 		}
 		GameManager.Instance.PlayerShip.RewardChests.Clear ();
 		UIOverlay.Instance.UpdateShipRewardChests (GameManager.Instance.PlayerShip);
+		Close ();
 	}
 
 

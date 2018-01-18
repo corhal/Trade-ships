@@ -22,7 +22,7 @@ public class Obstacle : PointOfInterest {
 		if (!(POIData.OneTime && POIData.Interacted)) {
 			base.Interact ();
 			//UIOverlay.Instance.OpenObstaclePopUp (this);
-			Player.Instance.Energy = Mathf.Max(0, Player.Instance.Energy - AdditionalRequiredEnergy);
+			Player.Instance.Energy = /*Mathf.Max(0,*/ Player.Instance.Energy - AdditionalRequiredEnergy;//);
 		}
 	}
 

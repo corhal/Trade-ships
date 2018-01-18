@@ -25,8 +25,10 @@ public class SelectableTile : Selectable {
 		Player.Instance.Tiles [BoardCoordsAsString] = false;
 	}
 
-	public override void MoveShipHere () {
-		StopParticles ();
+	public override void MoveShipHere () {		
+		if (Player.Instance.Energy >= GameManager.Instance.PlayerShip.EnergyPerDistance * 1) {
+			StopParticles ();
+		}
 		base.MoveShipHere ();
 	}
 }

@@ -11,7 +11,15 @@ public class Current : PointOfInterest {
 	void Start () {
 		int index = 0;
 		if (POIData.CurrentDirection == "") {
-			index = Random.Range (0, Tile.Neighbors.Count);
+			int loopCount = 5;
+			while (Tile.Neighbors[index].PointOfInterest == POIkind.Current &&
+				Tile.Neighbors[index].GetComponentInChildren<Current> ().Target == this.Tile) {
+				index = Random.Range (0, Tile.Neighbors.Count);
+				loopCount--;
+				if (loopCount <= 0) {
+					break;
+				}
+			}
 		} else {			
 			for (int i = 0; i < Tile.Neighbors.Count; i++) {
 				if ((Tile.Neighbors [i].AbsBoardCoords.x > Tile.AbsBoardCoords.x && POIData.CurrentDirection == "right") ||
