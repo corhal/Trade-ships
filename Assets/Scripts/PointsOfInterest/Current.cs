@@ -12,14 +12,14 @@ public class Current : PointOfInterest {
 		int index = 0;
 		if (POIData.CurrentDirection == "") {
 			int loopCount = 5;
-			while (Tile.Neighbors[index].PointOfInterest == POIkind.Current &&
-				Tile.Neighbors[index].GetComponentInChildren<Current> ().Target == this.Tile) {
+			do {
 				index = Random.Range (0, Tile.Neighbors.Count);
 				loopCount--;
 				if (loopCount <= 0) {
 					break;
 				}
-			}
+			} while (Tile.Neighbors [index].PointOfInterest == POIkind.Current &&
+			         Tile.Neighbors [index].GetComponentInChildren<Current> ().Target == this.Tile);
 		} else {			
 			for (int i = 0; i < Tile.Neighbors.Count; i++) {
 				if ((Tile.Neighbors [i].AbsBoardCoords.x > Tile.AbsBoardCoords.x && POIData.CurrentDirection == "right") ||

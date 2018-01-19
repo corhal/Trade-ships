@@ -10,6 +10,7 @@ public class POIData {
 	public POIkind POIkind;
 
 	public string CurrentDirection;
+	public bool Revealed;
 
 	/*public void InitializeFromPOI (PointOfInterest poi) {
 		OneTime = poi.OneTime;

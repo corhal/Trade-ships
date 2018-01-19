@@ -11,11 +11,9 @@ public class Shipwreck : PointOfInterest {
 	//public List<string> Items;
 	//public List<int> ItemAmounts;
 
-	bool revealed;
-
 	void Start () {
 		RewardChest = new RewardChest ();
-		if (Player.Instance.CurrentAdventure.TreasureHunt && !revealed) {
+		if (Player.Instance.CurrentAdventure.TreasureHunt && !POIData.Revealed) {
 			gameObject.SetActive (false);
 		}
 		/*Dictionary<string, int> rewardAmounts = new Dictionary<string, int> ();
@@ -30,7 +28,7 @@ public class Shipwreck : PointOfInterest {
 		if (!POIData.Interacted) {
 			gameObject.SetActive (true);
 			Tile.StopParticles ();
-			revealed = true;
+			POIData.Revealed = true;
 		}
 	}
 

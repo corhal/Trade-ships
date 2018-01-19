@@ -15,7 +15,7 @@ ff05dcdf90651c3d98a9cad3df5e471e UnityEngine.Timeline.dll:UnityEngine.Timeline.C
 6af7378a45ad6da4992a71ef50ddc2eb UnityEngine.Timeline.dll:UnityEngine.Timeline.PlayableTrack
 af723155c251fcfa0e66530a75f3ea4c UnityEngine.Timeline.dll:UnityEngine.Timeline.TimelineAsset
 c7235f576fb8efd60e15b983ce32a580 Assembly-CSharp.dll:.ContextButton
-9ed46b4a8b7c0f1d430eadd70ee944f5 Assembly-CSharp.dll:.Observatory
+cb85851a04d7b2fd14db5b4ded48a05e Assembly-CSharp.dll:.Observatory
 5e65b1bd72a4f5eaa0f97ba117ed5295 Assembly-CSharp.dll:.BJEffect
 d9c46f6283ada86622c2ec57b3c5d86c Assembly-CSharp.dll:.Selectable
 d9ddc5a658549c814f59205d6db2d876 Assembly-CSharp.dll:.BJDodgePassiveBuff
@@ -54,7 +54,7 @@ f61c0793411f10cf5fbfa1473fef5ef2 UnityEngine.UI.dll:UnityEngine.UI.ToggleGroup
 1b8c02d0aa82fbf036a2b9b2d713eec3 UnityEngine.UI.dll:UnityEngine.UI.VerticalLayoutGroup
 d9ddc5a658549c814f59205d6db2d876 Assembly-CSharp.dll:.BJSkill
 69fdf9525882fb660036410a92587965 Assembly-CSharp.dll:.ImagesPopUp
-9ed46b4a8b7c0f1d430eadd70ee944f5 Assembly-CSharp.dll:.Shipwreck
+cb85851a04d7b2fd14db5b4ded48a05e Assembly-CSharp.dll:.Shipwreck
 c835be442c7282774920c456046af6f6 Assembly-CSharp.dll:.MissionWindow
 a35dc9cca2faebc5f5f1aeb9e8e47bbe UnityEngine.UI.dll:UnityEngine.UI.AspectRatioFitter
 05524b8f659e7bfe5756d1335fec24ba UnityEngine.UI.dll:UnityEngine.EventSystems.BaseInput
@@ -90,7 +90,7 @@ f61c0793411f10cf5fbfa1473fef5ef2 UnityEngine.UI.dll:UnityEngine.UI.ToggleGroup
 1b8c02d0aa82fbf036a2b9b2d713eec3 UnityEngine.UI.dll:UnityEngine.UI.VerticalLayoutGroup
 25fdb668632f1605f636246e713b6217 Assembly-CSharp.dll:.BJRangedAttack
 5e65b1bd72a4f5eaa0f97ba117ed5295 Assembly-CSharp.dll:.BJAggroEffect
-a994a50fc3c2f12242bbe38aec7b4378 Assembly-CSharp.dll:.MissionObject
+91673fd5547856dc4e77ae8bd0167eb6 Assembly-CSharp.dll:.MissionObject
 d9ddc5a658549c814f59205d6db2d876 Assembly-CSharp.dll:.BJLifestealPassive
 b7320101cf37d71757f49bc568aad9c3 Assembly-CSharp.dll:.BJCreatureObject
 a48368e8db6a3aa236ee0ecdccc596e7 Assembly-CSharp.dll:.BJSkillButton
@@ -108,10 +108,10 @@ ff05dcdf90651c3d98a9cad3df5e471e UnityEngine.Timeline.dll:UnityEngine.Timeline.C
 6af7378a45ad6da4992a71ef50ddc2eb UnityEngine.Timeline.dll:UnityEngine.Timeline.PlayableTrack
 af723155c251fcfa0e66530a75f3ea4c UnityEngine.Timeline.dll:UnityEngine.Timeline.TimelineAsset
 cc147ae00cd8be7d07953953ba38486e Assembly-CSharp.dll:.FlagPost
-9ed46b4a8b7c0f1d430eadd70ee944f5 Assembly-CSharp.dll:.Altar
+cb85851a04d7b2fd14db5b4ded48a05e Assembly-CSharp.dll:.Altar
 3e5b2dd6accc0eb43219a086a464b8a6 Assembly-CSharp.dll:.UIController
 3afa82ed26918e4e7d404dbb364eb4f6 Assembly-CSharp.dll:.BJPlayer
-9ed46b4a8b7c0f1d430eadd70ee944f5 Assembly-CSharp.dll:.PointOfInterest
+cb85851a04d7b2fd14db5b4ded48a05e Assembly-CSharp.dll:.PointOfInterest
 fc1e0f4d8439d9928083474691511a13 UnityEngine.Networking.dll:UnityEngine.Networking.NetworkAnimator
 05524b8f659e7bfe5756d1335fec24ba UnityEngine.Networking.dll:UnityEngine.Networking.NetworkBehaviour
 60b2bb652410a5867a5ab9a01cd38461 UnityEngine.Networking.dll:UnityEngine.Networking.NetworkDiscovery
@@ -154,10 +154,10 @@ d9ddc5a658549c814f59205d6db2d876 Assembly-CSharp.dll:.BJMeleeAttack
 d9ddc5a658549c814f59205d6db2d876 Assembly-CSharp.dll:.BJHeartStrike
 b78c0bd08163fb748507dbb883f58be5 Assembly-CSharp.dll:.BJDataBase
 d9ddc5a658549c814f59205d6db2d876 Assembly-CSharp.dll:.BJMassRegen
-9897abbd44dc6a6c58652b7f6d18c599 Assembly-CSharp.dll:.AdventureSelectionWindow
-60d4bfa6c87abebfc640a685e6ca11df Assembly-CSharp.dll:.Current
+f526b51fd43108b8afb907a542efb771 Assembly-CSharp.dll:.AdventureSelectionWindow
+e366d8451097c6d99c9c5506a039ea89 Assembly-CSharp.dll:.Current
 5e65b1bd72a4f5eaa0f97ba117ed5295 Assembly-CSharp.dll:.BJDodge
-9ed46b4a8b7c0f1d430eadd70ee944f5 Assembly-CSharp.dll:.Portal
+cb85851a04d7b2fd14db5b4ded48a05e Assembly-CSharp.dll:.Portal
 d9ddc5a658549c814f59205d6db2d876 Assembly-CSharp.dll:.BJCheerTeamSkill
 d9ddc5a658549c814f59205d6db2d876 Assembly-CSharp.dll:.BJBleedPassive
 d9ddc5a658549c814f59205d6db2d876 Assembly-CSharp.dll:.BJBerserkSkill
@@ -182,7 +182,7 @@ e9bdabf9265d758d56f01bb188916fa8 UnityEngine.Networking.dll:UnityEngine.Networki
 3f32f08a64daf40b09ed864d96fe3840 UnityEngine.Networking.dll:UnityEngine.Networking.NetworkTransform
 73843688b51256aed059f049c540bca8 UnityEngine.Networking.dll:UnityEngine.Networking.NetworkTransformChild
 528ea1fd7c01796fc60c4e2f172ea229 UnityEngine.Networking.dll:UnityEngine.Networking.NetworkTransformVisualizer
-3f0a9864eddb5b575b582bae0b16c9ab Assembly-CSharp.dll:.PlayerShip
+7b413d08c5e7d29b556352e2250406a7 Assembly-CSharp.dll:.PlayerShip
 d9ddc5a658549c814f59205d6db2d876 Assembly-CSharp.dll:.BJDelayDamageBuff
 35aed7896df1adb07fa22a0972593353 Assembly-CSharp.dll:.CraftElement
 cf6b149fc339c6dc2437fa6346f39c38 Assembly-CSharp.dll:.DragController
@@ -193,7 +193,7 @@ cf6b149fc339c6dc2437fa6346f39c38 Assembly-CSharp.dll:.DragController
 25fdb668632f1605f636246e713b6217 Assembly-CSharp.dll:.BJRicochet
 e0f7ffd5d5c2abe4b2e16569a21163da UnityEngine.GoogleAudioSpatializer.dll:UnityEngine.Experimental.Audio.Google.GvrAudioRoom
 d9ddc5a658549c814f59205d6db2d876 Assembly-CSharp.dll:.BJAggroSkill
-2e24befa2244d5c11ea9144d2022452a Assembly-CSharp.dll:.HeroPopup
+b0cb387988c3eef4441848623a22d05c Assembly-CSharp.dll:.HeroPopup
 dc2ea2aa5f2064325955b89f8ca87b70 Assembly-CSharp.dll:.CameraDrag
 e0f7ffd5d5c2abe4b2e16569a21163da UnityEngine.GoogleAudioSpatializer.dll:UnityEngine.Experimental.Audio.Google.GvrAudioRoom
 737b258290c1c3f6fb70ce882a46088b Assembly-CSharp.dll:.BJFlurrySkill
@@ -204,7 +204,7 @@ bc68edb0af574bf79f9550ead8ebae5c UnityEngine.HoloLens.dll:UnityEngine.Audio.Audi
 c2275a8bfbb9f9942cad75ecdfded41d UnityEngine.HoloLens.dll:UnityEngine.XR.WSA.SpatialMappingCollider
 45f3431f0103c41611e8d4eec3d439df UnityEngine.HoloLens.dll:UnityEngine.XR.WSA.SpatialMappingRenderer
 28eeb297bbb20be53d1df31345b005ae Assembly-CSharp.dll:.Board
-ada45ff9d11dbf1c70f7ac96814e7a94 Assembly-CSharp.dll:.UIOverlay
+64059ad60de013d33ce22058f5798aef Assembly-CSharp.dll:.UIOverlay
 5e65b1bd72a4f5eaa0f97ba117ed5295 Assembly-CSharp.dll:.BJArmorBuff
 9de3a22eca9aefadba2d10d5987cefe3 UnityEngine.SpatialTracking.dll:UnityEngine.SpatialTracking.TrackedPoseDriver
 5e65b1bd72a4f5eaa0f97ba117ed5295 Assembly-CSharp.dll:.BJSacrificeEffect
@@ -221,7 +221,7 @@ ffc83c97de71303372edf0c1ddb63fef Assembly-CSharp.dll:.ShipSkillButton
 255a731fa68f49c67f36c27fa35568cf Assembly-CSharp.dll:.SkillElement
 d9ddc5a658549c814f59205d6db2d876 Assembly-CSharp.dll:.BJSacrificePassive
 5e65b1bd72a4f5eaa0f97ba117ed5295 Assembly-CSharp.dll:.BJStun
-b1329e2e8b0d06e075100a15b671c000 Assembly-CSharp.dll:.Player
+97fa5fa96d6f6b1587eb9ecfedf31bdf Assembly-CSharp.dll:.Player
 74235699f77f4eacb862fff20d6d4877 Assembly-CSharp.dll:.ShipListElement
-ebfaf406387a1f47c4a23592f1798cc7 Assembly-CSharp.dll:.Obstacle
+6fe7f75c804c5e659605adf1ab02ee97 Assembly-CSharp.dll:.Obstacle
 91ab6650fa28e2b664c3372f8b494364 Assembly-CSharp.dll:.HeroCatalog
