@@ -31,9 +31,9 @@ public class BJDataBase : MonoBehaviour {
 	public Dictionary<string, Sprite> CreaturePortraitsByNames;
 
 	void Start () {		
-		List<int> maxHpByLevel = new List<int> { 0, 180, 200, 220, 240, 260, 280, 300, 320, 340, 360 };
-		List<int> baseDamageByLevel = new List<int> { 0, 180, 200, 220, 240, 260, 280, 300, 320, 340, 360 };
-		Creatures.Add (new BJCreature ("Lucky Ellie", maxHpByLevel, 200, baseDamageByLevel, 3, 2, Allegiance.Player, /*AttackType.Ranged,*/ new List<string>{ "Ranged attack" }));
+		List<int> maxHpByLevel = new List<int> { 0, 40, 60, 80, 100, 120, 140, 160, 180, 200, 220 };
+		List<int> baseDamageByLevel = new List<int> { 0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50 };
+		Creatures.Add (new BJCreature ("Lucky Ellie", maxHpByLevel, 57, baseDamageByLevel, 1, 4, Allegiance.Player, /*AttackType.Ranged,*/ new List<string>{ "Ranged attack", "Blinding strike", "Corrosion" }));
 
 		maxHpByLevel = new List<int> { 0, 60, 80, 100, 120, 140, 160, 180, 200, 220, 240 };
 		baseDamageByLevel = new List<int> { 0, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60 };

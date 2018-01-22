@@ -89,6 +89,7 @@ public class BJCreatureObject : MonoBehaviour {
 		effectIconObject.transform.SetParent (EffectIconsContainer.transform);
 		effectIconObject.transform.localScale = Vector3.one;
 		EffectIcons.Add (effectIconObject);
+		Debug.Log (effect.name + " is being applied to " + this.Name);
 		effectCopy.Activate ();
 	}
 

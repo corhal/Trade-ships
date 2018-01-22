@@ -8,8 +8,10 @@ public class BJBleedBuff : BJEffect {
 	public float EffectChance;
 
 	public override void Activate () {
+		Debug.Log ("start" + Victim.Name);
 		foreach (var skill in Victim.Skills) {
 			if (!skill.IsPassive) {
+				Debug.Log (Victim.Name);
 				skill.Effects.Add(Bleed);
 				skill.EffectChances.Add(EffectChance);
 			}

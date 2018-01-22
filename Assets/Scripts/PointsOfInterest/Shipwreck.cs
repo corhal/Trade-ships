@@ -6,22 +6,11 @@ public class Shipwreck : PointOfInterest {
 
 	public RewardChest RewardChest;
 
-	//public List<RewardChest> RewardChests = new List<RewardChest> ();
-
-	//public List<string> Items;
-	//public List<int> ItemAmounts;
-
 	void Start () {
 		RewardChest = new RewardChest ();
 		if (Player.Instance.CurrentAdventure.TreasureHunt && !POIData.Revealed) {
 			gameObject.SetActive (false);
 		}
-		/*Dictionary<string, int> rewardAmounts = new Dictionary<string, int> ();
-		for (int i = 0; i < Items.Count; i++) {
-			rewardAmounts.Add (Items [i], ItemAmounts [i]);
-		}
-		RewardChest rewardChest = new RewardChest (rewardAmounts);
-		RewardChests.Add (rewardChest);*/
 	}
 
 	public void Reveal () {
@@ -40,10 +29,9 @@ public class Shipwreck : PointOfInterest {
 
 	void GiveReward () {
 		PlayerShip playerShip = GameManager.Instance.PlayerShip;
-		if (playerShip.RewardChests.Count < playerShip.RewardChestsCapacity) {
-			playerShip.RewardChests.Add (RewardChest);
+		if (playerShip.RewardChests.Count < playerShip.RewardChestsCapacity) {			
 			Interact ();
-			UIOverlay.Instance.UpdateShipRewardChests (playerShip);
+			playerShip.TakeChestReward (RewardChest);
 			gameObject.SetActive (false);
 		} 
 	}

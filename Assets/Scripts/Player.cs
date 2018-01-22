@@ -82,7 +82,7 @@ public class Player : MonoBehaviour {
 
 		List<BJCreature> creatures = BJDataBase.Creatures;
 		for (int j = 0; j < creatures.Count; j++) {
-			bool summoned = (j > 0 && j < 6) ? true : false;
+			bool summoned = true; // (j > 0 && j < 6) ? true : false;
 
 			List<Skill> skills = new List<Skill> ();
 			foreach (var skillName in creatures[j].SkillNames) {
@@ -146,6 +146,11 @@ public class Player : MonoBehaviour {
 
 		RewardChests.Clear ();
 		PlayerShipRewardChests.Clear ();
+	}
+
+	public void OpenChest (RewardChest rewardChest) {
+		Player.Instance.TakeItems (rewardChest.RewardItems);
+		UIOverlay.Instance.OpenImagesPopUp ("Your reward:", rewardChest.RewardItems);
 	}
 
 	public void LoadAdventure () {

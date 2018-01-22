@@ -12,16 +12,9 @@ public class Altar : PointOfInterest {
 	public override void Interact () {
 		if (!(POIData.OneTime && POIData.Interacted)) {
 			base.Interact ();
-			float diceRoll = Random.Range (0.0f, 1.0f);
-			//if (diceRoll > 0.5f) {
-				Player.Instance.Energy += 50;
-				UIOverlay.Instance.OpenPopUp ("This altar gives you 50 energy!");
-			/*} else {
-				foreach (var creatureData in Player.Instance.CurrentTeam) {
-					creatureData.Creature.Heal (20);
-				}
-				UIOverlay.Instance.OpenPopUp ("This altar heals your current team by 20!");
-			}*/
+
+			Player.Instance.Energy += 50;
+			UIOverlay.Instance.OpenPopUp ("This altar gives you 50 energy!");
 		}
 	}
 }

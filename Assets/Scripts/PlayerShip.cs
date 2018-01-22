@@ -19,6 +19,8 @@ public class PlayerShip : MonoBehaviour {
 
 	public List<GameObject> Arrows;
 
+	SelectableTile origin;
+
 	void Awake () {
 		if (Instance == null) {			
 			Instance = this;
@@ -62,23 +64,37 @@ public class PlayerShip : MonoBehaviour {
 		}
 	}
 
-	public void MoveToTile (SelectableTile tile, bool spendEnergy) {
+	public void MoveToTile (SelectableTile tile, bool spendEnergy, bool teleport) {
+		float arrowsDelay = teleport ? 0.0f : 1.5f;
 		if (!spendEnergy) {
-			mover.MoveToPoint (tile.transform.position);
+			if (teleport) {
+				transform.position = tile.transform.position;
+			} else {
+				mover.MoveToPoint (tile.transform.position);
+			}
 			CurrentTile = tile;
 			HideArrows ();
-			Invoke ("ShowArrows", 1.5f);
+			Invoke ("ShowArrows", arrowsDelay);
 			return;
 		}
-		if (Player.Instance.Energy >= EnergyPerDistance * 1) {
-			Player.Instance.Energy -= EnergyPerDistance * 1;
-			mover.MoveToPoint (tile.transform.position);
+		if (player.Energy >= EnergyPerDistance * 1) {
+			player.Energy -= EnergyPerDistance * 1;
+			origin = CurrentTile; // currently only happens on non-free movement
+			if (teleport) {
+				transform.position = tile.transform.position;
+			} else {
+				mover.MoveToPoint (tile.transform.position);
+			}
 			CurrentTile = tile;
 			HideArrows ();
-			Invoke ("ShowArrows", 1.5f);
+			Invoke ("ShowArrows", arrowsDelay);
 		} else {
 			UIOverlay.Instance.OpenPopUp ("Not enough energy!");
 		}
+	}
+
+	public void FallBack (bool spendEnergy) {
+		MoveToTile (origin, spendEnergy, true);
 	}
 
 	public void HideArrows () {
@@ -106,5 +122,11 @@ public class PlayerShip : MonoBehaviour {
 
 	void OnDestroy () {
 		mover.OnFinishedMoving -= Mover_OnFinishedMoving;
+	}
+
+	public void TakeChestReward (RewardChest rewardChest) {
+		//RewardChests.Add (rewardChest);
+		//UIOverlay.Instance.UpdateShipRewardChests (this);
+		Player.Instance.OpenChest (rewardChest);
 	}
 }

@@ -13,6 +13,8 @@ public class BJBleedPassive : BJSkill {
 		Effects [0].Applier = user;
 		mainTarget.ApplyEffect (Effects[0]);
 
+		Debug.Log (user.Name + " is using bleedPassive against " + mainTarget.Name);
+
 		StartCoroutine (FinishSkill (0.1f));
 	}
 

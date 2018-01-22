@@ -53,7 +53,7 @@ public class Selectable : MonoBehaviour {
 	}
 
 	public virtual void MoveShipHere () {
-		PlayerShip.Instance.MoveToTile (this as SelectableTile, true);
+		PlayerShip.Instance.MoveToTile (this as SelectableTile, true, false);
 		uiManager.CloseContextButtons (true);
 	}
 
@@ -93,20 +93,16 @@ public class Selectable : MonoBehaviour {
 		Invoke ("RealClick", 0.1f);
 	}
 
-	int clickCount = 0;
 	void RealClick () {
 		if (!GameManager.Instance.CameraDragged && IsAvailable && !Utility.IsPointerOverUIObject () && Allegiance != Allegiance.Enemy) {
-			if (!GameManager.Instance.PlayerShip.CurrentTile.Neighbors.Contains((this as SelectableTile))) {
+			if (!GameManager.Instance.PlayerShip.CurrentTile.Neighbors.Contains ((this as SelectableTile))) {
 				return;
 			}
-			//uiManager.OpenContextButtons (this);
-			//clickCount++;
+
 			Animate ();
-			//if (clickCount == 2) {
-				MoveShipHere ();
-				Deanimate ();
-				//clickCount = 0;
-			//}
+
+			MoveShipHere ();
+			Deanimate ();		
 		}
 	}
 }

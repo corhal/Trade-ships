@@ -70,6 +70,6 @@ public class Current : PointOfInterest {
 
 	void MovePlayerShip () {
 		Target.StopParticles ();
-		CaughtPlayerShip.MoveToTile (Target, false);
+		CaughtPlayerShip.MoveToTile (Target, false, false);
 	}
 }

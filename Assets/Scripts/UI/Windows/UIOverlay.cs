@@ -27,7 +27,6 @@ public class UIOverlay : MonoBehaviour {
 	public ImagesPopUp MyImagesPopUp;
 	public HeroCatalog MyShipsCatalogWindow;
 	public AdventureSelectionWindow AdventureSelectionWindow;
-	public ObstaclePopUp ObstaclePopUp;
 
 	public GameObject MapNode;
 
@@ -162,10 +161,6 @@ public class UIOverlay : MonoBehaviour {
 
 	public void OpenPopUp (string message) {
 		MyPopUp.Open (message);
-	}
-
-	public void OpenObstaclePopUp (Obstacle obstacle) {
-		ObstaclePopUp.Open (obstacle);
 	}
 
 	public void OpenImagesPopUp (string message, Dictionary<string, int> itemNames) {

@@ -21,6 +21,9 @@ public class BJPlayer : MonoBehaviour {
 		} else if (Instance != this) {
 			Destroy (gameObject);  
 		}
+		if (Player.Instance != null) {
+			DataBase = Player.Instance.BJDataBase;
+		}
 		//DontDestroyOnLoad(gameObject);
 	}
 

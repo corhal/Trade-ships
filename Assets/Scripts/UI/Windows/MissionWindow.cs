@@ -141,7 +141,8 @@ public class MissionWindow : MonoBehaviour {
 		}
 	}
 
-	public void Back () {
-		//gameManager.OpenExpeditionWindow(expeditionCenter);
+	public void Flee () {
+		Close ();
+		PlayerShip.Instance.FallBack (true);
 	}
 }

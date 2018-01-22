@@ -105,6 +105,7 @@ public class BJGameController : MonoBehaviour {
 					List<BJCreatureObject> ourCreatureObjects = (creatureObject.Creature.Allegiance == Allegiance.Player) ? BJGameController.Instance.PlayerCreatureObjects : BJGameController.Instance.EnemyCreatureObjects;
 					List<BJCreatureObject> enemyCreatureObjects = (creatureObject.Creature.Allegiance == Allegiance.Player) ? BJGameController.Instance.EnemyCreatureObjects : BJGameController.Instance.PlayerCreatureObjects;
 					if (skill.TargetTeam == Teams.MyTeam) {
+						Debug.Log (creatureObject.Name + " use " + skill.Name);
 						creatureObject.UseSkill (ourCreatureObjects[index], skill);
 					} else {
 						creatureObject.UseSkill (enemyCreatureObjects[index], skill);

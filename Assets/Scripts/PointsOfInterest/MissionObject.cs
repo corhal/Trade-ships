@@ -50,7 +50,6 @@ public class MissionObject : PointOfInterest {
 			enemyShips.Add (enemy);
 		}
 
-		int costLength = Random.Range (1, 6);
 		Dictionary<string, float> rewardChances = new Dictionary<string, float> ();
 		Dictionary<string, int> possibleRewards = new Dictionary<string, int> ();
 
