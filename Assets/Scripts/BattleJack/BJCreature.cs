@@ -89,7 +89,7 @@ public class BJCreature {
 		Heal (MaxHP / 2);
 	}
 
-	public void TakeDamage (int amount, int armorPierce) {
+	public void TakeDamage (int amount, /*DamageKind damageKind,*/ int armorPierce) {
 		float diceRoll = Random.Range (0.0f, 0.99f);
 		if (dodge < diceRoll) {
 			float armorCoef = 1.0f;

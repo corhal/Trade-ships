@@ -89,7 +89,6 @@ public class BJCreatureObject : MonoBehaviour {
 		effectIconObject.transform.SetParent (EffectIconsContainer.transform);
 		effectIconObject.transform.localScale = Vector3.one;
 		EffectIcons.Add (effectIconObject);
-		Debug.Log (effect.name + " is being applied to " + this.Name);
 		effectCopy.Activate ();
 	}
 
@@ -113,7 +112,6 @@ public class BJCreatureObject : MonoBehaviour {
 						EffectIcons.RemoveAt (index);
 					}
 					effectsToRemove.Add (effect);
-					// Destroy (effect);
 				}
 			}
 			for (int i = Effects.Count - 1; i >= 0; i--) {
@@ -124,7 +122,7 @@ public class BJCreatureObject : MonoBehaviour {
 			}
 			effectsToRemove.Clear ();
 		}
-		if (/*Creature.HP > 0 &&*/ OnCreatureTurnFinished != null) {
+		if (OnCreatureTurnFinished != null) {
 			if (sender == null || !sender.IsPassive) {
 				OnCreatureTurnFinished (this);
 			}

@@ -44,7 +44,7 @@ public class BJDataBase : MonoBehaviour {
 		Creatures.Add (new BJCreature ("Bill the Bull", maxHpByLevel, 121, baseDamageByLevel, 1, 1, Allegiance.Player, /*AttackType.Melee,*/ new List<string>{ "Melee attack", "Aggro", /*"Delay damage", "Cheer team",*/ "Dodge buff" }));
 
 		maxHpByLevel = new List<int> { 0, 70, 90, 110, 130, 150, 170, 190, 210, 230, 250 };
-		baseDamageByLevel = new List<int> { 0, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60 };
+		baseDamageByLevel = new List<int> { 0, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55 };
 		Creatures.Add (new BJCreature ("Cutthroat Jack", maxHpByLevel, 90, baseDamageByLevel, 2, 4, Allegiance.Player, /*AttackType.Melee,*/ new List<string>{ "Melee attack", /*"Heart strike",*/ "Flurry", /*"Blinding strike",*/ "Bleed buff" }));
 
 		maxHpByLevel = new List<int> { 0, 40, 60, 80, 100, 120, 140, 160, 180, 200, 220 };
@@ -74,6 +74,10 @@ public class BJDataBase : MonoBehaviour {
 		maxHpByLevel = new List<int> { 0, 40, 60, 80, 100, 120, 140, 160, 180, 200, 220 };
 		baseDamageByLevel = new List<int> { 0, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70 };
 		EnemyCreatures.Add (new BJCreature ("Skeleton arbalest", maxHpByLevel, 57, baseDamageByLevel, 1, 3, Allegiance.Enemy, /*AttackType.Ranged,*/ new List<string>{ "Ranged attack" }));
+
+		maxHpByLevel = new List<int> { 0, 90, 110, 130, 150, 170, 190, 210, 230, 250, 270 };
+		baseDamageByLevel = new List<int> { 0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50 };
+		EnemyCreatures.Add (new BJCreature ("Skeleton ogre", maxHpByLevel, 128, baseDamageByLevel, 4, 1, Allegiance.Enemy, /*AttackType.Melee,*/ new List<string>{ "Melee attack", "Armor buff" }));
 
 		FigurinesByNames = new Dictionary<string, Sprite> ();
 		CreaturePortraitsByNames = new Dictionary<string, Sprite> ();

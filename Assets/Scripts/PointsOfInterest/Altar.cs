@@ -13,8 +13,8 @@ public class Altar : PointOfInterest {
 		if (!(POIData.OneTime && POIData.Interacted)) {
 			base.Interact ();
 
-			Player.Instance.Energy += 50;
-			UIOverlay.Instance.OpenPopUp ("This altar gives you 50 energy!");
+			Player.Instance.Energy += 20;
+			UIOverlay.Instance.OpenPopUp ("This altar gives you 20 energy!");
 		}
 	}
 }

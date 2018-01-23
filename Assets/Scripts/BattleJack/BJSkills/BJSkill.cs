@@ -6,8 +6,13 @@ public enum Teams {
 	MyTeam, AnotherTeam
 }
 
+public enum DamageKind {
+	Physical, Magic, Pure
+}
+
 public class BJSkill : MonoBehaviour {
 
+	public DamageKind DamageKind;
 	public List<BJEffect> Effects;
 	public List<float> EffectChances;
 	public bool IsPassive = false;

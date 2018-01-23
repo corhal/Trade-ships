@@ -13,8 +13,6 @@ public class BJBleedPassive : BJSkill {
 		Effects [0].Applier = user;
 		mainTarget.ApplyEffect (Effects[0]);
 
-		Debug.Log (user.Name + " is using bleedPassive against " + mainTarget.Name);
-
 		StartCoroutine (FinishSkill (0.1f));
 	}
 
@@ -28,6 +26,6 @@ public class BJBleedPassive : BJSkill {
 		string turnsString = (Effects [0].Duration > 1) ? " turns" : " turn";
 		BJBleed bleedEffect = (Effects [0] as BJBleedBuff).Bleed as BJBleed;
 		return "Passive. With <color=blue>" + (int)((Effects [0] as BJBleedBuff).EffectChance * 100) + "% </color> chance applies Bleed; For <color=blue>" + bleedEffect.Duration + "</color>" +
-			turnsString + " it deals <color=blue>" + bleedEffect.Damage + "</color> damage per turn.";
+			turnsString + " it deals <color=blue>" + bleedEffect.Damage + "</color> damage per turn. Ignores armor.";
 	}
 }
