@@ -16,7 +16,7 @@ public class BJSacrificeEffect : BJEffect {
 
 	void CreatureObject_Creature_OnCreatureDied (BJCreature sender) {
 		Victim.Creature.Speed += Damage;
-		BJGameController.Instance.ReformQueue ();
+		BJGameController.Instance.ReformQueue (null);
 	}
 
 	public override void Deactivate () {

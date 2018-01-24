@@ -70,7 +70,7 @@ MonoBehaviour:
   m_MinSize: {x: 277, y: 192}
   m_MaxSize: {x: 4002, y: 8042}
   vertical: 1
-  controlID: 60
+  controlID: 26
 --- !u!114 &4
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -160,7 +160,7 @@ MonoBehaviour:
   m_MinSize: {x: 917, y: 271}
   m_MaxSize: {x: 22012, y: 10021}
   vertical: 0
-  controlID: 73
+  controlID: 39
 --- !u!114 &8
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -367,14 +367,14 @@ MonoBehaviour:
     width: 877
     height: 926
   m_SceneLighting: 1
-  lastFramingTime: 2346.88684298463
+  lastFramingTime: 3208.4435314111684
   m_2DMode: 1
   m_isRotationLocked: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: -0.9079229, y: -0.80087745, z: 0.14453125}
+    m_Target: {x: 1.606911, y: -0.36455834, z: 0.15268698}
     speed: 2
-    m_Value: {x: -0.9079229, y: -0.80087745, z: 0.14453125}
+    m_Value: {x: 1.606911, y: -0.36455834, z: 0.15268698}
   m_RenderMode: 0
   m_ValidateTrueMetals: 0
   m_SceneViewState:
@@ -401,9 +401,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 7.578866
+    m_Target: 6.6452355
     speed: 2
-    m_Value: 7.578866
+    m_Value: 6.6452355
   m_Ortho:
     m_Target: 1
     speed: 2
@@ -469,9 +469,9 @@ MonoBehaviour:
     height: 926
   m_TreeViewState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 16310000
-    m_LastClickedID: 12566
-    m_ExpandedIDs: ecf3fdff9efbfffff4ffffff00000000562e0000ee30000016310000ae330000
+    m_SelectedIDs: 983f0100
+    m_LastClickedID: 81816
+    m_ExpandedIDs: 184efbff2c5efbff787cfbff0e85fbff9efbfffff4ffffff00000000562e0000ee30000016310000ae3300006c16010050380100983f01003c42010064420100f0440100
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -532,7 +532,7 @@ MonoBehaviour:
     m_ShowAllHits: 0
     m_SearchArea: 0
     m_Folders:
-    - Assets/Scripts
+    - Assets/Scripts/BattleJack/BJSkills
   m_ViewMode: 0
   m_StartGridSize: 64
   m_LastFolders: []
@@ -568,10 +568,10 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_AssetTreeState:
-    scrollPos: {x: 0, y: 1815.1403}
+    scrollPos: {x: 0, y: 601.7429}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 0000000036280000b0280000be280000022900002c2900008429000098290000da290000002a0000282a00007e2a00008e2a0000942a0000c82a00000a2b00000c2b00001e2b0000202b00007a2b00007c2b00009c2b0000de2b0000e82b0000ea2b00000c2c0000302c00006e2c00009a2c0000
+    m_ExpandedIDs: 0000000036280000b0280000be280000c0280000022900002c2900008429000098290000da290000002a0000282a00007e2a00008e2a0000942a0000c82a00000a2b00000c2b00001e2b0000202b00007a2b00007c2b00009c2b0000de2b0000e82b0000ea2b00000c2c0000302c00006e2c00009a2c0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -678,7 +678,7 @@ MonoBehaviour:
     y: 91
     width: 461
     height: 683
-  m_ScrollPosition: {x: 0, y: 0}
+  m_ScrollPosition: {x: 0, y: 641.9551}
   m_InspectorMode: 0
   m_PreviewResizer:
     m_CachedPref: -199

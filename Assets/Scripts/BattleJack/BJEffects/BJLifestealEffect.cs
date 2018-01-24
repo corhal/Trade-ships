@@ -6,7 +6,10 @@ public class BJLifestealEffect : BJEffect {
 	public float LifeStealRate;
 
 	public override void Activate () {
-		
+		List<BJCreatureObject> enemyCreatureObjects = (Victim.Creature.Allegiance == Allegiance.Player) ? BJGameController.Instance.EnemyCreatureObjects : BJGameController.Instance.PlayerCreatureObjects;
+		foreach (var enemyCreatureObject in enemyCreatureObjects) {
+			enemyCreatureObject.Creature.OnDamageTaken += Creature_OnDamageTaken;
+		}
 	}
 
 	public void Creature_OnDamageTaken (int amount) {

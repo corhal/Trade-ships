@@ -82,7 +82,7 @@ public class Player : MonoBehaviour {
 
 		List<BJCreature> creatures = BJDataBase.Creatures;
 		for (int j = 0; j < creatures.Count; j++) {
-			bool summoned = (j > 0 && j < 6) ? true : false;
+			bool summoned = (j > 0 /*&& j < 6*/) ? true : false;
 
 			List<Skill> skills = new List<Skill> ();
 			foreach (var skillName in creatures[j].SkillNames) {

@@ -115,12 +115,15 @@ public class BJGameController : MonoBehaviour {
 	}
 
 
-	public void ReformQueue () {
+	public void ReformQueue (BJCreatureObject injectedCreatureObject) {
 		List<BJCreatureObject> allCreaturesList = new List<BJCreatureObject> ();
 		foreach (var creatureObject in TurnQueue) {
 			if (creatureObject.Creature.HP > 0) {
 				allCreaturesList.Add (creatureObject);
 			}
+		}
+		if (injectedCreatureObject != null) {
+			allCreaturesList.Add (injectedCreatureObject);
 		}
 
 		allCreaturesList.Sort((x,y) =>
