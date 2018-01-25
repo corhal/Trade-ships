@@ -203,6 +203,7 @@ public class BJCreatureObject : MonoBehaviour {
 				t += Time.deltaTime/TintTime;
 			} else {
 				showHit = false;
+				t = 0;
 				CreatureImage.color = InitialColor;
 			}
 		}

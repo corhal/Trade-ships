@@ -53,8 +53,8 @@ public class GameManager : MonoBehaviour {
 			if (Player.Instance.Tiles [tile.BoardCoordsAsString] == false) {				
 				tile.StopParticles ();
 			} else if (treasuresToReveal > 0 && tile.PointOfInterest == POIkind.Chest) {	
-				tile.gameObject.GetComponentInChildren<Shipwreck> ().FindTiles ();
-				tile.gameObject.GetComponentInChildren<Shipwreck> ().Reveal ();
+				tile.gameObject.GetComponentInChildren<Chest> ().FindTiles ();
+				tile.gameObject.GetComponentInChildren<Chest> ().Reveal ();
 				treasuresToReveal--;
 			}
 		}

@@ -36,10 +36,6 @@ public class ShipListElement : MonoBehaviour {
 		}
 	}
 
-	/*public void Toggle () {
-		InfoButton.gameObject.SetActive (!InfoButton.gameObject.activeSelf);
-	}*/
-
 	public void SummonShip () {		
 		gameObject.GetComponentInChildren<ShipElement>().ShipData.IsSummoned = true;
 	}

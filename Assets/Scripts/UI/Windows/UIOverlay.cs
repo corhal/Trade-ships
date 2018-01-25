@@ -53,6 +53,29 @@ public class UIOverlay : MonoBehaviour {
 		}
 	}
 
+	public GameObject FlyingRewardPrefab;
+
+	public float JourneyTime;
+	float startTime;
+
+	Vector3 startPosition;
+	Vector3 targetPosition;
+	bool flyReward;
+	GameObject flyingReward;
+
+	public void FlyReward (Sprite sprite, Transform initialPosition, GameObject destinationNode) {
+		flyingReward = Instantiate (FlyingRewardPrefab) as GameObject;
+		flyingReward.transform.position = initialPosition.position;
+		flyingReward.GetComponentInChildren<SpriteRenderer> ().sprite = sprite;
+
+		flyingReward.GetComponentInChildren<SpriteRenderer> ().transform.localScale *= 0.15f; // kostyll
+
+		startTime = Time.time;
+		startPosition = flyingReward.transform.position;
+		targetPosition = destinationNode.transform.position;
+		flyReward = true;
+	}
+
 	void Start () {
 		player = Player.Instance;
 		if (player.OnAdventure) {
@@ -91,6 +114,15 @@ public class UIOverlay : MonoBehaviour {
 			TimeLabel.text = hours + ":" + minutes.ToString("D2") + ":" + seconds.ToString("D2");
 			if (player.CurrentAdventure.TreasureHunt) {
 				MapNode.GetComponentInChildren<Text> ().text = player.Inventory ["Map"] + "/" + player.CurrentAdventure.MapsForTreasure;
+			}
+		}
+
+		if (flyReward) {
+			float dTime = (Time.time - startTime) / JourneyTime;			
+			flyingReward.transform.position = Vector3.Lerp(startPosition, targetPosition, dTime);
+			if (Vector3.Distance (flyingReward.transform.position, targetPosition) < 0.01f) {
+				flyReward = false;
+				Destroy (flyingReward);				
 			}
 		}
 	}

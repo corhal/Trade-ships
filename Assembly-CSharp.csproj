@@ -121,6 +121,7 @@
      <Compile Include="Assets\Scripts\Player.cs" />
      <Compile Include="Assets\Scripts\PlayerShip.cs" />
      <Compile Include="Assets\Scripts\PointsOfInterest\Altar.cs" />
+     <Compile Include="Assets\Scripts\PointsOfInterest\Chest.cs" />
      <Compile Include="Assets\Scripts\PointsOfInterest\Current.cs" />
      <Compile Include="Assets\Scripts\PointsOfInterest\MissionObject.cs" />
      <Compile Include="Assets\Scripts\PointsOfInterest\Observatory.cs" />
@@ -128,7 +129,6 @@
      <Compile Include="Assets\Scripts\PointsOfInterest\POIData.cs" />
      <Compile Include="Assets\Scripts\PointsOfInterest\PointOfInterest.cs" />
      <Compile Include="Assets\Scripts\PointsOfInterest\Portal.cs" />
-     <Compile Include="Assets\Scripts\PointsOfInterest\Shipwreck.cs" />
      <Compile Include="Assets\Scripts\Selectable.cs" />
      <Compile Include="Assets\Scripts\SelectableTile.cs" />
      <Compile Include="Assets\Scripts\Shipment.cs" />

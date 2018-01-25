@@ -81,13 +81,10 @@ public class HeroCatalog : MonoBehaviour {
 				if (!Player.Instance.Inventory.ContainsKey(shipListElement.CreatureData.Soulstone.Name)) { // temporary fix for crash!!
 					Player.Instance.Inventory.Add (shipListElement.CreatureData.Soulstone.Name, 0);
 				}
-				if (Player.Instance.Inventory [shipListElement.CreatureData.Soulstone.Name] >= Player.Instance.DataBase.LevelCosts [shipListElement.CreatureData.Level]) {
-					shipListElement.SoulstonesSlider.gameObject.SetActive (false);
-				}
 			}
 
-			if (Player.Instance.Inventory [shipListElement.CreatureData.Soulstone.Name] >= Player.Instance.DataBase.LevelCosts [shipListElement.CreatureData.Level]) {
-				shipListElement.InfoButton.GetComponentInChildren<Text> ().text = "Upgrade";
+			if (Player.Instance.Inventory [shipListElement.CreatureData.Soulstone.Name] >= Player.Instance.DataBase.LevelCosts [shipListElement.CreatureData.Level]) {				
+				shipListElement.InfoButton.GetComponentInChildren<Text> ().text = (shipListElement.CreatureData.IsSummoned) ? "Upgrade" : "Summon";
 			} else {
 				shipListElement.InfoButton.GetComponentInChildren<Text> ().text = "Information";
 			}
@@ -105,14 +102,6 @@ public class HeroCatalog : MonoBehaviour {
 		shipElement.NameLabel.text = creatureData.Name;
 		shipElement.LevelLabel.text = "level " + creatureData.Level.ToString ();
 
-		for (int i = 0; i < 5; i++) {
-			shipElement.Stars [i].SetActive (false);
-		}
-
-		for (int i = 0; i < creatureData.Level; i++) {
-			shipElement.Stars [i].SetActive (true);
-		}
-
 		ShipListElement shipListElement = shipListElementObject.GetComponent<ShipListElement> ();
 		shipListElement.CreatureData = creatureData;
 		shipListElement.SoulstonesSlider.maxValue = Player.Instance.DataBase.LevelCosts [creatureData.Level];
@@ -123,13 +112,10 @@ public class HeroCatalog : MonoBehaviour {
 			if (!Player.Instance.Inventory.ContainsKey(creatureData.Soulstone.Name)) { // temporary fix for crash!!
 				Player.Instance.Inventory.Add (creatureData.Soulstone.Name, 0);
 			}
-			if (Player.Instance.Inventory [creatureData.Soulstone.Name] > Player.Instance.DataBase.LevelCosts [creatureData.Level]) {
-				shipListElement.SoulstonesSlider.gameObject.SetActive (false);
-			}
 		}
 
 		if (Player.Instance.Inventory [shipListElement.CreatureData.Soulstone.Name] >= Player.Instance.DataBase.LevelCosts [shipListElement.CreatureData.Level]) {
-			shipListElement.InfoButton.GetComponentInChildren<Text> ().text = "Upgrade";
+			shipListElement.InfoButton.GetComponentInChildren<Text> ().text = (shipListElement.CreatureData.IsSummoned) ? "Upgrade" : "Summon";
 		} else {
 			shipListElement.InfoButton.GetComponentInChildren<Text> ().text = "Information";
 		}
@@ -145,7 +131,14 @@ public class HeroCatalog : MonoBehaviour {
 	void ShipListElement_OnInfoButtonClicked (ShipListElement sender) {
 		sender.InfoButton.gameObject.SetActive (false);
 		sender.UseButton.gameObject.SetActive (false);
-		UIOverlay.Instance.OpenShipWindow (sender.gameObject.GetComponentInChildren<ShipElement>().ShipData);
+		if (sender.CreatureData.IsSummoned) {			
+			UIOverlay.Instance.OpenShipWindow (sender.gameObject.GetComponentInChildren<ShipElement>().ShipData);
+		} else {
+			Player.Instance.GiveItems(new Dictionary<string, int> { { sender.CreatureData.Soulstone.Name, Player.Instance.DataBase.LevelCosts [sender.CreatureData.Level]}});
+			sender.CreatureData.IsSummoned = true;
+			UpdateLabels ();
+			sender.gameObject.transform.SetParent (SummonedHeroesContainer.transform);
+		}
 	}
 
 	void ShipListElement_OnShipListElementReadyToSwap (ShipListElement sender) {

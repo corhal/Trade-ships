@@ -21,6 +21,8 @@ public class PlayerShip : MonoBehaviour {
 
 	SelectableTile origin;
 
+	public GameObject FlyingTextPrefab;
+
 	void Awake () {
 		if (Instance == null) {			
 			Instance = this;
@@ -120,6 +122,16 @@ public class PlayerShip : MonoBehaviour {
 		}	
 	}
 
+	public void ShowFlyingText (string message, Color color) {
+		GameObject flyingTextObject = Instantiate (FlyingTextPrefab) as GameObject;
+		flyingTextObject.transform.SetParent (GetComponentInChildren<Canvas> ().transform);
+		flyingTextObject.transform.localScale = Vector3.one * 1.5f;
+		flyingTextObject.transform.position = new Vector3 (transform.position.x, transform.position.y + 0.5f, transform.position.z);
+		BJFlyingText flyingText = flyingTextObject.GetComponent<BJFlyingText> ();
+		flyingText.Label.color = color;
+		flyingText.Label.text = message;
+	}
+
 	void OnDestroy () {
 		mover.OnFinishedMoving -= Mover_OnFinishedMoving;
 	}
@@ -127,6 +139,8 @@ public class PlayerShip : MonoBehaviour {
 	public void TakeChestReward (RewardChest rewardChest) {
 		//RewardChests.Add (rewardChest);
 		//UIOverlay.Instance.UpdateShipRewardChests (this);
-		Player.Instance.OpenChest (rewardChest);
+		//Player.Instance.OpenChest (rewardChest);
+		Player.Instance.RewardChests.Add (rewardChest);
+		UIOverlay.Instance.UpdateShipRewardChests (this);
 	}
 }

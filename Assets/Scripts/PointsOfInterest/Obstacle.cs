@@ -5,8 +5,6 @@ using UnityEngine;
 public class Obstacle : PointOfInterest {
 
 	public int AdditionalRequiredEnergy;
-	/*public int Tries;
-	public RewardChest RewardChest;*/
 
 	void Start () {
 		
@@ -21,13 +19,8 @@ public class Obstacle : PointOfInterest {
 	public override void Interact () {
 		if (!(POIData.OneTime && POIData.Interacted)) {
 			base.Interact ();
-			//UIOverlay.Instance.OpenObstaclePopUp (this);
-			Player.Instance.Energy = /*Mathf.Max(0,*/ Player.Instance.Energy - AdditionalRequiredEnergy;//);
+			PlayerShip.Instance.ShowFlyingText (("-" + AdditionalRequiredEnergy), Color.red);
+			Player.Instance.Energy = Player.Instance.Energy - AdditionalRequiredEnergy;
 		}
 	}
-
-	/*public void GiveReward () {		
-		Player.Instance.TakeItems (RewardChest.RewardItems);
-		UIOverlay.Instance.OpenImagesPopUp ("Your reward:", RewardChest.RewardItems);
-	}*/
 }
