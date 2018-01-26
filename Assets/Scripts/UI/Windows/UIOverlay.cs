@@ -11,7 +11,7 @@ public class UIOverlay : MonoBehaviour {
 	public Text GoldLabel;
 	public Text EnergyLabel;
 	public Text TimeLabel;
-	public Text RewardChestsLabel;
+	public Text KeysLabel;
 	Player player;
 	public static UIOverlay Instance;
 
@@ -76,6 +76,19 @@ public class UIOverlay : MonoBehaviour {
 		flyReward = true;
 	}
 
+	public void OpenChestNow (int index) {
+		if (Player.Instance.Inventory["Key"] == 0) { // temp
+			return;
+		}
+		if (index < PlayerShip.Instance.RewardChests.Count) {
+			RewardChest chest = PlayerShip.Instance.RewardChests [index];
+			Player.Instance.GiveItems (new Dictionary<string, int> { { "Key", 1 } });
+			Player.Instance.OpenChest (chest);
+			PlayerShip.Instance.RewardChests.RemoveAt (index);
+			UpdateShipRewardChests (PlayerShip.Instance);
+		}
+	}
+
 	void Start () {
 		player = Player.Instance;
 		if (player.OnAdventure) {
@@ -105,7 +118,7 @@ public class UIOverlay : MonoBehaviour {
 	void Update () { // OMG
 		GoldLabel.text = "" + player.Gold;
 		EnergyLabel.text = "" + player.Energy + "/" + player.MaxEnergy;
-		RewardChestsLabel.text = "" + player.RewardChests.Count;
+		KeysLabel.text = "" + player.Inventory ["Key"];
 		if (player.OnAdventure) {			
 			int time = (int)player.AdventureTimer;
 			int hours = time / 3600;

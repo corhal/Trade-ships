@@ -137,10 +137,9 @@ public class PlayerShip : MonoBehaviour {
 	}
 
 	public void TakeChestReward (RewardChest rewardChest) {
-		//RewardChests.Add (rewardChest);
-		//UIOverlay.Instance.UpdateShipRewardChests (this);
+		RewardChests.Add (rewardChest);
 		//Player.Instance.OpenChest (rewardChest);
-		Player.Instance.RewardChests.Add (rewardChest);
+		//Player.Instance.RewardChests.Add (rewardChest);
 		UIOverlay.Instance.UpdateShipRewardChests (this);
 	}
 }

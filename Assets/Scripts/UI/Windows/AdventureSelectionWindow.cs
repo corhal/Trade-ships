@@ -12,11 +12,11 @@ public class AdventureSelectionWindow : MonoBehaviour {
 	public void Open () {		
 		Window.SetActive (true);
 		if (Player.Instance.OnAdventure) {
-			WindowText.text = "Go back or stash chests?";
-			StashChestsButton.SetActive (true);
+			WindowText.text = "Go back?";
+			//StashChestsButton.SetActive (true);
 		} else {
 			WindowText.text = "Let's go on adventure!";
-			StashChestsButton.SetActive (false);
+			//StashChestsButton.SetActive (false);
 		}
 	}
 

@@ -145,6 +145,7 @@
      <Compile Include="Assets\Scripts\UI\Windows\ImagesPopUp.cs" />
      <Compile Include="Assets\Scripts\UI\Windows\InfoWindow.cs" />
      <Compile Include="Assets\Scripts\UI\Windows\MissionWindow.cs" />
+     <Compile Include="Assets\Scripts\UI\Windows\ModalPopUp.cs" />
      <Compile Include="Assets\Scripts\UI\Windows\PopUp.cs" />
      <Compile Include="Assets\Scripts\UI\Windows\TeamSelectionWindow.cs" />
      <Compile Include="Assets\Scripts\UI\Windows\UIOverlay.cs" />

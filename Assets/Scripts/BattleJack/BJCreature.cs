@@ -33,7 +33,7 @@ public class BJCreature {
 	public List<int> BaseDamageByLevel;
 	public int BaseDamage { get { return BaseDamageByLevel [Level]; } set { BaseDamageByLevel [Level] = value; } }
 
-	int armor;
+	public int armor;
 	public int Armor { get { return armor; } set { armor = value; } }
 
 	int armorPierce;
