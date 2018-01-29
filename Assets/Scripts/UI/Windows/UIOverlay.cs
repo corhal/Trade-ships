@@ -38,17 +38,15 @@ public class UIOverlay : MonoBehaviour {
 		}
 	}
 
-	public List<GameObject> ShipRewardChestImages;
-	public List<GameObject> ShipRewardChestTexts;
+	public List<ChestButton> ChestButtons;
+
+	/*public List<GameObject> ShipRewardChestImages;
+	public List<GameObject> ShipRewardChestTexts;*/
 
 	public void UpdateShipRewardChests (PlayerShip playerShip) {
-		for (int i = 0; i < ShipRewardChestImages.Count; i++) {
-			if (i < playerShip.RewardChests.Count) {
-				ShipRewardChestImages [i].SetActive (true);
-				ShipRewardChestTexts [i].SetActive (false);
-			} else {
-				ShipRewardChestImages [i].SetActive (false);
-				ShipRewardChestTexts [i].SetActive (true);
+		for (int i = 0; i < ChestButtons.Count; i++) {
+			if (ChestButtons[i].RewardChest.SecondsToOpen == 0) { // TODO
+				
 			}
 		}
 	}

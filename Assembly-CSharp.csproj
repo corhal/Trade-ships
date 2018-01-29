@@ -132,6 +132,7 @@
      <Compile Include="Assets\Scripts\Selectable.cs" />
      <Compile Include="Assets\Scripts\SelectableTile.cs" />
      <Compile Include="Assets\Scripts\Shipment.cs" />
+     <Compile Include="Assets\Scripts\UI\Elements\ChestButton.cs" />
      <Compile Include="Assets\Scripts\UI\Elements\ContextButton.cs" />
      <Compile Include="Assets\Scripts\UI\Elements\CraftElement.cs" />
      <Compile Include="Assets\Scripts\UI\Elements\ShipElement.cs" />

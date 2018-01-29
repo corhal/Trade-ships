@@ -38,6 +38,7 @@ public class Player : MonoBehaviour {
 
 	public List<RewardChest> PlayerShipRewardChests;
 	public List<RewardChest> RewardChests;
+	public RewardChest CurrentlyOpeningChest;
 
 	public bool ReceivedReward;
 
@@ -62,12 +63,22 @@ public class Player : MonoBehaviour {
 		//Inventory.Add(
 	}
 
+	float timer = 0.0f;
+	int previousTimer = 0;
+
 	void Update () {
 		if (OnAdventure) {
 			AdventureTimer -= Time.deltaTime;
 			if (AdventureTimer <= 0) {
 				LoadVillage ();
 				UIOverlay.Instance.OpenPopUp ("Adventure time is over!");
+			}
+		}
+		timer += Time.deltaTime;
+		if (CurrentlyOpeningChest != null && !CurrentlyOpeningChest.ChestState == ChestState.Open) {
+			if (timer > previousTimer + 1) {
+				previousTimer++;
+				CurrentlyOpeningChest.TickOpen ();
 			}
 		}
 	}
