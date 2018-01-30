@@ -75,7 +75,7 @@ public class Player : MonoBehaviour {
 			}
 		}
 		timer += Time.deltaTime;
-		if (CurrentlyOpeningChest != null && !CurrentlyOpeningChest.ChestState == ChestState.Open) {
+		if (CurrentlyOpeningChest != null && CurrentlyOpeningChest.ChestState != ChestState.Open) {
 			if (timer > previousTimer + 1) {
 				previousTimer++;
 				CurrentlyOpeningChest.TickOpen ();
@@ -159,7 +159,18 @@ public class Player : MonoBehaviour {
 		PlayerShipRewardChests.Clear ();
 	}
 
+	public void BeginChestOpen (RewardChest rewardChest) {
+		timer = 0.0f;
+		previousTimer = 0;
+		rewardChest.StartOpen ();
+		CurrentlyOpeningChest = rewardChest;
+	}
+
 	public void OpenChest (RewardChest rewardChest) {
+		UIOverlay.Instance.FinishChestOpen (rewardChest);
+	}
+
+	public void ReceiveChestReward (RewardChest rewardChest) {
 		Player.Instance.TakeItems (rewardChest.RewardItems);
 		UIOverlay.Instance.OpenImagesPopUp ("Your reward:", rewardChest.RewardItems);
 	}

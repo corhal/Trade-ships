@@ -43,10 +43,41 @@ public class UIOverlay : MonoBehaviour {
 	/*public List<GameObject> ShipRewardChestImages;
 	public List<GameObject> ShipRewardChestTexts;*/
 
-	public void UpdateShipRewardChests (PlayerShip playerShip) {
+	public void UpdateShipRewardChests (RewardChest rewardChest) {
 		for (int i = 0; i < ChestButtons.Count; i++) {
-			if (ChestButtons[i].RewardChest.SecondsToOpen == 0) { // TODO
-				
+			if (ChestButtons [i].RewardChest == null) { // TODO
+				ChestButtons[i].ReceiveChest(rewardChest);
+				break;
+			}
+		}
+	}
+
+	public void BeginChestOpen (int index) {
+		if (Player.Instance.CurrentlyOpeningChest != null && Player.Instance.CurrentlyOpeningChest.ChestState == ChestState.Opening) {
+			return;
+		}
+		if (Player.Instance.CurrentlyOpeningChest != null && Player.Instance.CurrentlyOpeningChest.ChestState == ChestState.Open && Player.Instance.CurrentlyOpeningChest == ChestButtons [index].RewardChest) {
+			Player.Instance.ReceiveChestReward (ChestButtons [index].RewardChest);
+			ChestButtons [index].EmptyState ();
+			ChestButtons [index].RewardChest = null;
+			Player.Instance.CurrentlyOpeningChest = null;
+			return;
+		}
+		ChestButtons [index].IsBeingOpenedState ();
+		for (int i = 0; i < ChestButtons.Count; i++) {
+			if (i != index && ChestButtons[i].RewardChest != null && ChestButtons[i].RewardChest.ChestState != ChestState.Open) {
+				ChestButtons [i].AnotherChestIsBeingOpenedState ();
+			}
+		}
+		Player.Instance.BeginChestOpen (ChestButtons [index].RewardChest);
+	}
+
+	public void FinishChestOpen (RewardChest rewardChest) {
+		foreach (var chestButton in ChestButtons) {
+			if (chestButton.RewardChest == rewardChest) {
+				chestButton.ReadyToOpenState ();
+			} else if (chestButton.RewardChest != null && chestButton.RewardChest.ChestState != ChestState.Open) {
+				chestButton.TouchToOpenState ();
 			}
 		}
 	}
@@ -83,7 +114,6 @@ public class UIOverlay : MonoBehaviour {
 			Player.Instance.GiveItems (new Dictionary<string, int> { { "Key", 1 } });
 			Player.Instance.OpenChest (chest);
 			PlayerShip.Instance.RewardChests.RemoveAt (index);
-			UpdateShipRewardChests (PlayerShip.Instance);
 		}
 	}
 
@@ -101,7 +131,6 @@ public class UIOverlay : MonoBehaviour {
 			} else {
 				MapNode.SetActive (false);
 			}	
-			UpdateShipRewardChests (GameManager.Instance.PlayerShip);
 		} else {
 			MapNode.SetActive (false);
 			foreach (var hideObject in HideInAdventureObjects) {
