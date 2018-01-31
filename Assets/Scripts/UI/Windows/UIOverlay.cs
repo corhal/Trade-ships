@@ -27,6 +27,7 @@ public class UIOverlay : MonoBehaviour {
 	public ImagesPopUp MyImagesPopUp;
 	public HeroCatalog MyShipsCatalogWindow;
 	public AdventureSelectionWindow AdventureSelectionWindow;
+	public ChestOpenTooltip ChestOpenTooltip;
 
 	public GameObject MapNode;
 
@@ -53,7 +54,8 @@ public class UIOverlay : MonoBehaviour {
 	}
 
 	public void BeginChestOpen (int index) {
-		if (Player.Instance.CurrentlyOpeningChest != null && Player.Instance.CurrentlyOpeningChest.ChestState == ChestState.Opening) {
+		if (Player.Instance.CurrentlyOpeningChest != null && Player.Instance.CurrentlyOpeningChest.ChestState == ChestState.Opening && Player.Instance.CurrentlyOpeningChest == ChestButtons [index].RewardChest) {
+			OpenChestOpenTooltip (Player.Instance.CurrentlyOpeningChest);
 			return;
 		}
 		if (Player.Instance.CurrentlyOpeningChest != null && Player.Instance.CurrentlyOpeningChest.ChestState == ChestState.Open && Player.Instance.CurrentlyOpeningChest == ChestButtons [index].RewardChest) {
@@ -105,16 +107,10 @@ public class UIOverlay : MonoBehaviour {
 		flyReward = true;
 	}
 
-	public void OpenChestNow (int index) {
-		if (Player.Instance.Inventory["Key"] == 0) { // temp
-			return;
-		}
-		if (index < PlayerShip.Instance.RewardChests.Count) {
-			RewardChest chest = PlayerShip.Instance.RewardChests [index];
-			Player.Instance.GiveItems (new Dictionary<string, int> { { "Key", 1 } });
-			Player.Instance.OpenChest (chest);
-			PlayerShip.Instance.RewardChests.RemoveAt (index);
-		}
+	public void OpenChestNow (RewardChest rewardChest) {
+		ChestOpenTooltip.Close ();
+
+		rewardChest.Open ();
 	}
 
 	void Start () {
@@ -191,6 +187,10 @@ public class UIOverlay : MonoBehaviour {
 			}
 		}
 		AdventureImage.sprite = AdventureSprites [Player.Instance.Adventures.IndexOf (Player.Instance.CurrentAdventure)];
+	}
+
+	public void OpenChestOpenTooltip (RewardChest rewardChest) {
+		ChestOpenTooltip.Open (rewardChest);
 	}
 
 	public void OpenAdventureSelectionWindow () {

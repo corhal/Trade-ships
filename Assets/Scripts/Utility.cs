@@ -18,6 +18,13 @@ public static class Utility {
 		return multiple * factor;
 	}
 
+	public static string SecondsToTime (int time) {
+		int hours = time / 3600;
+		int minutes = (time - hours * 3600) / 60;
+		int seconds = time - hours * 3600 - minutes * 60;
+		return (hours + ":" + minutes.ToString("D2") + ":" + seconds.ToString("D2"));
+	}
+
 	public static GameObject CastRayToMouse(int layerMask) {		
 		Vector3 mousePoint;
 		Vector2 mousePoint2D;

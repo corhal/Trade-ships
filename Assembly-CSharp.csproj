@@ -135,11 +135,13 @@
      <Compile Include="Assets\Scripts\UI\Elements\ChestButton.cs" />
      <Compile Include="Assets\Scripts\UI\Elements\ContextButton.cs" />
      <Compile Include="Assets\Scripts\UI\Elements\CraftElement.cs" />
+     <Compile Include="Assets\Scripts\UI\Elements\LockpickElement.cs" />
      <Compile Include="Assets\Scripts\UI\Elements\ShipElement.cs" />
      <Compile Include="Assets\Scripts\UI\Elements\ShipListElement.cs" />
      <Compile Include="Assets\Scripts\UI\Elements\ShipSkillButton.cs" />
      <Compile Include="Assets\Scripts\UI\Elements\SkillElement.cs" />
      <Compile Include="Assets\Scripts\UI\Windows\AdventureSelectionWindow.cs" />
+     <Compile Include="Assets\Scripts\UI\Windows\ChestOpenTooltip.cs" />
      <Compile Include="Assets\Scripts\UI\Windows\ContextButtonsOverlay.cs" />
      <Compile Include="Assets\Scripts\UI\Windows\HeroCatalog.cs" />
      <Compile Include="Assets\Scripts\UI\Windows\HeroPopup.cs" />

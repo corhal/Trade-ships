@@ -51,8 +51,12 @@ public class RewardChest {
 	public void TickOpen () {
 		SecondsLeft--;
 		if (SecondsLeft <= 0) {
-			ChestState = ChestState.Open;
-			Player.Instance.OpenChest (this);
+			Open ();
 		}
+	}
+
+	public void Open () {
+		ChestState = ChestState.Open;
+		Player.Instance.OpenChest (this);
 	}
 }

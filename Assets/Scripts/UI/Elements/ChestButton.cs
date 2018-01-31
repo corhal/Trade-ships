@@ -68,11 +68,7 @@ public class ChestButton : MonoBehaviour {
 
 	void Update () {
 		if (RewardChest != null && RewardChest.ChestState == ChestState.Opening) {
-			int time = RewardChest.SecondsLeft;
-			int hours = time / 3600;
-			int minutes = (time - hours * 3600) / 60;
-			int seconds = time - hours * 3600 - minutes * 60;
-			OpeningTimeLabel.text = hours + ":" + minutes.ToString("D2") + ":" + seconds.ToString("D2");
+			OpeningTimeLabel.text = Utility.SecondsToTime (RewardChest.SecondsLeft);
 		}
 	}
 }
