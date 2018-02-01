@@ -96,7 +96,8 @@ public class DataBase : MonoBehaviour {
 		Player.Instance.TakeItems (new Dictionary<string, int> { { "Map", 0 } });
 		Player.Instance.TakeItems (new Dictionary<string, int> { { "Key", 2 } });
 		Player.Instance.TakeItems (new Dictionary<string, int> { { "Copper lockpick", 2 } });
-		Player.Instance.TakeItems (new Dictionary<string, int> { { "Silver lockpick", 2 } });
+		Player.Instance.TakeItems (new Dictionary<string, int> { { "Silver lockpick", 0 } });
+		Player.Instance.TakeItems (new Dictionary<string, int> { { "Golden lockpick", 0 } });
 	}
 
 	public void LoadItems (TextAsset csvTable) {

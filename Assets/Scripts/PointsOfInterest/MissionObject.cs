@@ -56,6 +56,15 @@ public class MissionObject : PointOfInterest {
 		possibleRewards.Add ("Gold", Random.Range (10, 100));
 		rewardChances.Add ("Gold", 1.0f);
 
+		possibleRewards.Add ("Copper lockpick", Random.Range (1, 4));
+		rewardChances.Add ("Copper lockpick", 0.5f);
+
+		possibleRewards.Add ("Silver lockpick", Random.Range (1, 3));
+		rewardChances.Add ("Silver lockpick", 0.25f);
+
+		possibleRewards.Add ("Golden lockpick", Random.Range (1, 2));
+		rewardChances.Add ("Golden lockpick", 0.05f);
+
 		if (Player.Instance.CurrentAdventure.TreasureHunt) {
 			possibleRewards.Add ("Map", Random.Range (1, 3));
 			rewardChances.Add ("Map", 1.0f);

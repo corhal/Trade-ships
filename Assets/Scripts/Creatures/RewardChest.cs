@@ -31,7 +31,7 @@ public class RewardChest {
 			int index = /*rand.Next (0, validItems.Count - 1);*/ Random.Range (0, validItems.Count - 1);
 			possibleRewards.Add (validItems [index].Name, /*rand.Next (1, 10)*/Random.Range (1, 5));
 		}
-		List<int> seconds = new List<int> { 10, /*600, 10800, 36000*/ };
+		List<int> seconds = new List<int> { 10800, 36000 };
 		int randIndex = Random.Range(0, seconds.Count);
 		SecondsToOpen = seconds [randIndex];
 		RewardItems = new Dictionary<string, int> (possibleRewards);
@@ -48,8 +48,8 @@ public class RewardChest {
 		ChestState = ChestState.Opening;
 	}
 
-	public void TickOpen () {
-		SecondsLeft--;
+	public void TickOpen (int amount) {
+		SecondsLeft -= amount;
 		if (SecondsLeft <= 0) {
 			Open ();
 		}

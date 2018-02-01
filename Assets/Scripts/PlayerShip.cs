@@ -13,7 +13,7 @@ public class PlayerShip : MonoBehaviour {
 	public Collider2D lastSeenCollider;
 
 	public int RewardChestsCapacity;
-	public List<RewardChest> RewardChests;
+	// public List<RewardChest> RewardChests;
 
 	public SelectableTile CurrentTile;
 
@@ -32,7 +32,7 @@ public class PlayerShip : MonoBehaviour {
 		player = Player.Instance;
 		mover = GetComponent<MoveOnClick> ();
 		mover.OnFinishedMoving += Mover_OnFinishedMoving;
-		RewardChests = new List<RewardChest> ();
+		// RewardChests = new List<RewardChest> ();
 	}
 
 	void Mover_OnFinishedMoving (MoveOnClick sender) {
@@ -137,7 +137,7 @@ public class PlayerShip : MonoBehaviour {
 	}
 
 	public void TakeChestReward (RewardChest rewardChest) {
-		RewardChests.Add (rewardChest);
+		Player.Instance.RewardChests.Add (rewardChest);
 		//Player.Instance.OpenChest (rewardChest);
 		//Player.Instance.RewardChests.Add (rewardChest);
 		UIOverlay.Instance.UpdateShipRewardChests (rewardChest);

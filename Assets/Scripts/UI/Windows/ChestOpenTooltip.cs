@@ -37,13 +37,20 @@ public class ChestOpenTooltip : MonoBehaviour {
 		UpdateLockpicks ();
 	}
 
+	public void CloseLockpicks () {
+		LockpickParent.SetActive (false);
+	}
+
 	void UpdateLockpicks () {
 		Lockpicks [0].LockpickNameLabel.text = "Copper lockpick";
 		Lockpicks [0].LockpickCountLabel.text = Player.Instance.Inventory ["Copper lockpick"] + "";
 		Lockpicks [0].LockpickTimeLabel.text = "-10m";
 		Lockpicks [1].LockpickNameLabel.text = "Silver lockpick";
 		Lockpicks [1].LockpickCountLabel.text = Player.Instance.Inventory ["Silver lockpick"] + "";
-		Lockpicks [1].LockpickTimeLabel.text = "-1h";
+		Lockpicks [1].LockpickTimeLabel.text = "-30m";
+		Lockpicks [2].LockpickNameLabel.text = "Golden lockpick";
+		Lockpicks [2].LockpickCountLabel.text = Player.Instance.Inventory ["Golden lockpick"] + "";
+		Lockpicks [2].LockpickTimeLabel.text = "-1h";
 	}
 
 	public void SpeedUpChest () {
@@ -63,5 +70,28 @@ public class ChestOpenTooltip : MonoBehaviour {
 
 	public void InstantOpenChest () {
 		UIOverlay.Instance.OpenChestNow (RewardChest);
+	}
+
+	public void UseLockpick (int index) { // govnocode
+		if (Player.Instance.Inventory [Lockpicks [index].LockpickNameLabel.text] > 0) {
+			Player.Instance.Inventory [Lockpicks [index].LockpickNameLabel.text]--;
+			int seconds = 0;
+			switch (Lockpicks [index].LockpickNameLabel.text) {
+			case "Copper lockpick":
+				seconds = 10 * 60;
+				break;
+			case "Silver lockpick":
+				seconds = 30 * 60;
+				break;
+			case "Gold lockpick":
+				seconds = 60 * 60;
+				break;
+			default:
+				seconds = 0;
+				break;
+			}
+			RewardChest.TickOpen (seconds);
+			UpdateLockpicks ();
+		}
 	}
 }

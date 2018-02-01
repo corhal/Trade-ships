@@ -78,7 +78,7 @@ public class Player : MonoBehaviour {
 		if (CurrentlyOpeningChest != null && CurrentlyOpeningChest.ChestState != ChestState.Open) {
 			if (timer > previousTimer + 1) {
 				previousTimer++;
-				CurrentlyOpeningChest.TickOpen ();
+				CurrentlyOpeningChest.TickOpen (1);
 			}
 		}
 	}
@@ -123,7 +123,7 @@ public class Player : MonoBehaviour {
 	}
 
 	public void LoadBattle () {
-		PlayerShipRewardChests = new List<RewardChest> (GameManager.Instance.PlayerShip.RewardChests);
+		// PlayerShipRewardChests = new List<RewardChest> (GameManager.Instance.PlayerShip.RewardChests);
 		SceneManager.LoadScene (1);
 	}
 
@@ -187,6 +187,13 @@ public class Player : MonoBehaviour {
 			ReceivedReward = false;
 		}
 		SceneManager.LoadScene (2);
+		Invoke ("ReloadChests", 0.1f);
+	}
+
+	public void ReloadChests () {
+		foreach (var chest in RewardChests) {
+			UIOverlay.Instance.UpdateShipRewardChests (chest);
+		}
 	}
 
 	public void ChangeAdventure (bool next) {

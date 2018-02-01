@@ -51,6 +51,15 @@ public class UIOverlay : MonoBehaviour {
 				break;
 			}
 		}
+		if (rewardChest.ChestState == ChestState.Opening) {
+			int index = Player.Instance.RewardChests.IndexOf (rewardChest);
+			ChestButtons [index].IsBeingOpenedState ();
+			for (int i = 0; i < ChestButtons.Count; i++) {
+				if (i != index && ChestButtons[i].RewardChest != null && ChestButtons[i].RewardChest.ChestState != ChestState.Open) {
+					ChestButtons [i].AnotherChestIsBeingOpenedState ();
+				}
+			}
+		}
 	}
 
 	public void BeginChestOpen (int index) {
@@ -75,6 +84,10 @@ public class UIOverlay : MonoBehaviour {
 	}
 
 	public void FinishChestOpen (RewardChest rewardChest) {
+		if (ChestOpenTooltip.Window.activeSelf) {
+			ChestOpenTooltip.CloseLockpicks ();
+			ChestOpenTooltip.Close ();
+		}
 		foreach (var chestButton in ChestButtons) {
 			if (chestButton.RewardChest == rewardChest) {
 				chestButton.ReadyToOpenState ();

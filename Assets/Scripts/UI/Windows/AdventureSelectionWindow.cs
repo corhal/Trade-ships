@@ -32,12 +32,12 @@ public class AdventureSelectionWindow : MonoBehaviour {
 	}
 
 	public void StashChests () {
-		foreach (var rewardChest in GameManager.Instance.PlayerShip.RewardChests) {
+		/*foreach (var rewardChest in GameManager.Instance.PlayerShip.RewardChests) {
 			Player.Instance.RewardChests.Add (rewardChest);
 		}
 		GameManager.Instance.PlayerShip.RewardChests.Clear ();
 		// UIOverlay.Instance.UpdateShipRewardChests (GameManager.Instance.PlayerShip);
-		Close ();
+		Close ();*/
 	}
 
 
