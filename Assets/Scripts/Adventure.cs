@@ -16,4 +16,5 @@ public class Adventure {
 	public bool TreasureHunt;
 
 	public int MapsForTreasure;
+	public string Ocean;
 }

@@ -128,6 +128,7 @@ public class Player : MonoBehaviour {
 	}
 
 	public void LoadVillage () {
+		Invoke ("ReloadChests", 0.1f);
 		for (int i = CurrentTeam.Count - 1; i >= 0; i--) {
 			if (CurrentTeam [i].IsDead) {
 				CurrentTeam.Remove (CurrentTeam [i]);
@@ -136,7 +137,7 @@ public class Player : MonoBehaviour {
 		Player.Instance.Inventory ["Map"] = 0;
 		OnAdventure = false;
 		SceneManager.LoadScene (0);
-		Invoke ("ReceiveAdventureReward", 0.5f);
+		// Invoke ("ReceiveAdventureReward", 0.5f);
 		CurrentAdventure = Adventures [0];
 	}
 
@@ -173,6 +174,7 @@ public class Player : MonoBehaviour {
 	public void ReceiveChestReward (RewardChest rewardChest) {
 		Player.Instance.TakeItems (rewardChest.RewardItems);
 		UIOverlay.Instance.OpenImagesPopUp ("Your reward:", rewardChest.RewardItems);
+		Player.Instance.RewardChests.Remove (rewardChest);
 	}
 
 	public void LoadAdventure () {

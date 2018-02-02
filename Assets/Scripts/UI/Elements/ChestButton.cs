@@ -30,6 +30,7 @@ public class ChestButton : MonoBehaviour {
 
 	public void AnotherChestIsBeingOpenedState () {
 		Debug.Log ("AnotherChestIsBeingOpenedState");
+		EmptySlotLabel.gameObject.SetActive (false);
 		LockedLabel.gameObject.SetActive (true);
 		TouchToOpenTag.SetActive (false);
 	}
@@ -43,6 +44,8 @@ public class ChestButton : MonoBehaviour {
 
 	public void IsBeingOpenedState () {
 		Debug.Log ("IsBeingOpenedState");
+		LockedLabel.gameObject.SetActive (false);
+		EmptySlotLabel.gameObject.SetActive (false);
 		IsBeingOpenedTag.SetActive (true);
 		TouchToOpenTag.SetActive (false);
 		OpenNowLabel.gameObject.SetActive (true);
@@ -52,6 +55,7 @@ public class ChestButton : MonoBehaviour {
 	public void ReadyToOpenState () {
 		Debug.Log ("ReadyToOpenState");
 		LockedLabel.gameObject.SetActive (false); //
+		EmptySlotLabel.gameObject.SetActive (false);
 		IsBeingOpenedTag.SetActive (false);
 		OpenNowLabel.gameObject.SetActive (true);
 		OpenNowLabel.text = "Open";

@@ -14,6 +14,14 @@ public class RewardChest {
 
 	public Dictionary<string, int> RewardItems;
 
+	public string Ocean;
+
+	public Dictionary<string, List<int>> OpenTimesByOcean = new Dictionary<string, List<int>> {
+		{"Ocean 1", new List<int> { 1800, 3600 }},
+		{"Ocean 2", new List<int> { 7200, 14400 }},
+		{"Ocean 3", new List<int> { 10800, 36000 }}
+	};
+
 	public RewardChest () {
 		// System.Random rand = new System.Random ();
 		int costLength = /*rand.Next (1, 6);*/ Random.Range (1, 3);
@@ -31,7 +39,10 @@ public class RewardChest {
 			int index = /*rand.Next (0, validItems.Count - 1);*/ Random.Range (0, validItems.Count - 1);
 			possibleRewards.Add (validItems [index].Name, /*rand.Next (1, 10)*/Random.Range (1, 5));
 		}
-		List<int> seconds = new List<int> { 10800, 36000 };
+
+		possibleRewards.Add ("Gold", Random.Range (10, 100));
+
+		List<int> seconds = OpenTimesByOcean [Player.Instance.CurrentAdventure.Ocean];
 		int randIndex = Random.Range(0, seconds.Count);
 		SecondsToOpen = seconds [randIndex];
 		RewardItems = new Dictionary<string, int> (possibleRewards);

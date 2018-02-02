@@ -53,17 +53,21 @@ public class MissionObject : PointOfInterest {
 		Dictionary<string, float> rewardChances = new Dictionary<string, float> ();
 		Dictionary<string, int> possibleRewards = new Dictionary<string, int> ();
 
-		possibleRewards.Add ("Gold", Random.Range (10, 100));
-		rewardChances.Add ("Gold", 1.0f);
+		// possibleRewards.Add ("Gold", Random.Range (10, 100));
+		// rewardChances.Add ("Gold", 1.0f);
 
-		possibleRewards.Add ("Copper lockpick", Random.Range (1, 4));
-		rewardChances.Add ("Copper lockpick", 0.5f);
+		float diceRoll = Random.Range (0.0f, 1.0f);
 
-		possibleRewards.Add ("Silver lockpick", Random.Range (1, 3));
-		rewardChances.Add ("Silver lockpick", 0.25f);
-
-		possibleRewards.Add ("Golden lockpick", Random.Range (1, 2));
-		rewardChances.Add ("Golden lockpick", 0.05f);
+		if (diceRoll < 0.75f) {
+			possibleRewards.Add ("Copper lockpick", Random.Range (1, 4));
+			rewardChances.Add ("Copper lockpick", 1.0f);
+		} else if (diceRoll < 0.95f) {
+			possibleRewards.Add ("Silver lockpick", Random.Range (1, 3));
+			rewardChances.Add ("Silver lockpick", 1.0f);
+		} else {
+			possibleRewards.Add ("Golden lockpick", Random.Range (1, 2));
+			rewardChances.Add ("Golden lockpick", 1.0f);
+		}
 
 		if (Player.Instance.CurrentAdventure.TreasureHunt) {
 			possibleRewards.Add ("Map", Random.Range (1, 3));

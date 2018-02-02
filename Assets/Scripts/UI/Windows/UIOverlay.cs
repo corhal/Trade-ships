@@ -10,6 +10,7 @@ public class UIOverlay : MonoBehaviour {
 
 	public Text GoldLabel;
 	public Text EnergyLabel;
+	public Text GemsLabel;
 	public Text TimeLabel;
 	public Text KeysLabel;
 	Player player;
@@ -65,6 +66,10 @@ public class UIOverlay : MonoBehaviour {
 	public void BeginChestOpen (int index) {
 		if (Player.Instance.CurrentlyOpeningChest != null && Player.Instance.CurrentlyOpeningChest.ChestState == ChestState.Opening && Player.Instance.CurrentlyOpeningChest == ChestButtons [index].RewardChest) {
 			OpenChestOpenTooltip (Player.Instance.CurrentlyOpeningChest);
+			return;
+		}
+		if (Player.Instance.CurrentlyOpeningChest != null && Player.Instance.CurrentlyOpeningChest.ChestState == ChestState.Opening && Player.Instance.CurrentlyOpeningChest != ChestButtons [index].RewardChest) {
+			// OpenChestOpenTooltip (ChestButtons [index].RewardChest);
 			return;
 		}
 		if (Player.Instance.CurrentlyOpeningChest != null && Player.Instance.CurrentlyOpeningChest.ChestState == ChestState.Open && Player.Instance.CurrentlyOpeningChest == ChestButtons [index].RewardChest) {
@@ -153,6 +158,7 @@ public class UIOverlay : MonoBehaviour {
 
 	void Update () { // OMG
 		GoldLabel.text = "" + player.Gold;
+		GemsLabel.text = "" + player.Inventory ["Gems"];
 		EnergyLabel.text = "" + player.Energy + "/" + player.MaxEnergy;
 		KeysLabel.text = "" + player.Inventory ["Key"];
 		if (player.OnAdventure) {			

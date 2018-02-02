@@ -27,8 +27,8 @@ public class ChestOpenTooltip : MonoBehaviour {
 	public void Open (RewardChest rewardChest) {
 		Window.SetActive (true);
 
+		ArenaLabel.text = Player.Instance.CurrentAdventure.Ocean;
 		RewardChest = rewardChest;
-
 		TimerLabel.text = Utility.SecondsToTime (RewardChest.SecondsLeft);
 	}
 
@@ -44,13 +44,13 @@ public class ChestOpenTooltip : MonoBehaviour {
 	void UpdateLockpicks () {
 		Lockpicks [0].LockpickNameLabel.text = "Copper lockpick";
 		Lockpicks [0].LockpickCountLabel.text = Player.Instance.Inventory ["Copper lockpick"] + "";
-		Lockpicks [0].LockpickTimeLabel.text = "-10m";
+		Lockpicks [0].LockpickTimeLabel.text = "-4m";
 		Lockpicks [1].LockpickNameLabel.text = "Silver lockpick";
 		Lockpicks [1].LockpickCountLabel.text = Player.Instance.Inventory ["Silver lockpick"] + "";
-		Lockpicks [1].LockpickTimeLabel.text = "-30m";
+		Lockpicks [1].LockpickTimeLabel.text = "-10m";
 		Lockpicks [2].LockpickNameLabel.text = "Golden lockpick";
 		Lockpicks [2].LockpickCountLabel.text = Player.Instance.Inventory ["Golden lockpick"] + "";
-		Lockpicks [2].LockpickTimeLabel.text = "-1h";
+		Lockpicks [2].LockpickTimeLabel.text = "-30m";
 	}
 
 	public void SpeedUpChest () {
@@ -61,6 +61,8 @@ public class ChestOpenTooltip : MonoBehaviour {
 	void Update () {
 		if (Window.activeSelf) {
 			TimerLabel.text = Utility.SecondsToTime (RewardChest.SecondsLeft);
+			int openCost = Mathf.Max (RewardChest.SecondsLeft / 600, 1);
+			OpenCostLabel.text = openCost + "";
 		}
 	}
 
@@ -69,7 +71,11 @@ public class ChestOpenTooltip : MonoBehaviour {
 	}
 
 	public void InstantOpenChest () {
-		UIOverlay.Instance.OpenChestNow (RewardChest);
+		int openCost = Mathf.Max (RewardChest.SecondsLeft / 600, 1);
+		if (Player.Instance.Inventory ["Gems"] >= openCost) {
+			Player.Instance.Inventory ["Gems"] -= openCost;
+			UIOverlay.Instance.OpenChestNow (RewardChest);
+		}
 	}
 
 	public void UseLockpick (int index) { // govnocode
@@ -78,13 +84,13 @@ public class ChestOpenTooltip : MonoBehaviour {
 			int seconds = 0;
 			switch (Lockpicks [index].LockpickNameLabel.text) {
 			case "Copper lockpick":
-				seconds = 10 * 60;
+				seconds = 4 * 60;
 				break;
 			case "Silver lockpick":
-				seconds = 30 * 60;
+				seconds = 10 * 60;
 				break;
 			case "Gold lockpick":
-				seconds = 60 * 60;
+				seconds = 30 * 60;
 				break;
 			default:
 				seconds = 0;
