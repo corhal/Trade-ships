@@ -25,18 +25,18 @@ public class BJFlurrySkill : BJSkill {
 		int userIndex = ourCreatureObjects.IndexOf (CurrentUser);
 		switch (userIndex) { // кошмарный говнокод
 		case 0:
-			TargetPriorities = new Dictionary<int, int> { {0, 0}, {1, 0}, {2, 1}, {3, 2}, {4, 2} };
-			break;
+			//TargetPriorities = new Dictionary<int, int> { {0, 0}, {1, 0}, {2, 1}, {3, 2}, {4, 2} };
+			//break;
 		case 1:
-			TargetPriorities = new Dictionary<int, int> { {0, 0}, {1, 0}, {2, 0}, {3, 1}, {4, 1} };
+			TargetPriorities = new Dictionary<int, int> { {0, 0}, {1, 0}, {2, 1}, {3, 1}, {4, 1} };
 			break;
 		case 2:
-			TargetPriorities = new Dictionary<int, int> { {0, 1}, {1, 0}, {2, 0}, {3, 2}, {4, 2} };
-			break;
+			//TargetPriorities = new Dictionary<int, int> { {0, 1}, {1, 0}, {2, 0}, {3, 2}, {4, 2} };
+			//break;
 		case 3:
 		case 4:
 		case 5:
-			TargetPriorities = new Dictionary<int, int> { {0, 0}, {1, 0}, {2, 0}, {3, 1}, {4, 1} };
+			TargetPriorities = new Dictionary<int, int> { {0, 0}, {1, 0}, {2, 1}, {3, 1}, {4, 1} };
 			break;
 		default:
 			break;

@@ -42,7 +42,7 @@ public class MissionObject : PointOfInterest {
 
 		Utility.Shuffle (enemyCreatures);
 		List<CreatureData> enemyShips = new List<CreatureData> ();
-		int enemiesCount = Random.Range (1, 6);
+		int enemiesCount = Random.Range (1, 5);
 
 		int rankCol = Random.Range (0, System.Enum.GetNames (typeof(RankColor)).Length);
 		for (int j = 0; j < enemiesCount; j++) {				

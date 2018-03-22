@@ -21,6 +21,8 @@ public class ChestButton : MonoBehaviour {
 	public void ReceiveChest (RewardChest rewardChest) {
 		RewardChest = rewardChest;
 		ChestImage.gameObject.SetActive (true);
+		TimeLabel.text = Utility.SecondsToTime (RewardChest.SecondsToOpen);
+		ArenaLabel.text = RewardChest.Ocean;
 		if (Player.Instance.CurrentlyOpeningChest != null) {
 			AnotherChestIsBeingOpenedState ();
 		} else {
@@ -32,6 +34,8 @@ public class ChestButton : MonoBehaviour {
 		Debug.Log ("AnotherChestIsBeingOpenedState");
 		EmptySlotLabel.gameObject.SetActive (false);
 		LockedLabel.gameObject.SetActive (true);
+		TimeLabel.gameObject.SetActive (true);
+		ArenaLabel.gameObject.SetActive (true);
 		TouchToOpenTag.SetActive (false);
 	}
 
@@ -39,6 +43,8 @@ public class ChestButton : MonoBehaviour {
 		Debug.Log ("TouchToOpenState");
 		EmptySlotLabel.gameObject.SetActive (false);
 		LockedLabel.gameObject.SetActive (false);
+		TimeLabel.gameObject.SetActive (true);
+		ArenaLabel.gameObject.SetActive (true);
 		TouchToOpenTag.SetActive (true);
 	}
 
@@ -48,6 +54,8 @@ public class ChestButton : MonoBehaviour {
 		EmptySlotLabel.gameObject.SetActive (false);
 		IsBeingOpenedTag.SetActive (true);
 		TouchToOpenTag.SetActive (false);
+		TimeLabel.gameObject.SetActive (false);
+		ArenaLabel.gameObject.SetActive (false);
 		OpenNowLabel.gameObject.SetActive (true);
 		OpenNowLabel.text = "Speed up";
 	}
@@ -57,6 +65,8 @@ public class ChestButton : MonoBehaviour {
 		LockedLabel.gameObject.SetActive (false); //
 		EmptySlotLabel.gameObject.SetActive (false);
 		IsBeingOpenedTag.SetActive (false);
+		TimeLabel.gameObject.SetActive (false);
+		ArenaLabel.gameObject.SetActive (false);
 		OpenNowLabel.gameObject.SetActive (true);
 		OpenNowLabel.text = "Open";
 	}
@@ -65,6 +75,8 @@ public class ChestButton : MonoBehaviour {
 		Debug.Log ("EmptyState");
 		ChestImage.gameObject.SetActive (false);
 		IsBeingOpenedTag.SetActive (false);
+		TimeLabel.gameObject.SetActive (false);
+		ArenaLabel.gameObject.SetActive (false);
 		OpenNowLabel.gameObject.SetActive (false);
 
 		EmptySlotLabel.gameObject.SetActive (true);

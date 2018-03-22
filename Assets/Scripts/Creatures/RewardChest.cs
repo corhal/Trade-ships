@@ -42,6 +42,7 @@ public class RewardChest {
 
 		possibleRewards.Add ("Gold", Random.Range (10, 100));
 
+		Ocean = Player.Instance.CurrentAdventure.Ocean;
 		List<int> seconds = OpenTimesByOcean [Player.Instance.CurrentAdventure.Ocean];
 		int randIndex = Random.Range(0, seconds.Count);
 		SecondsToOpen = seconds [randIndex];
