@@ -221,4 +221,4 @@ c568d1560c01dfa6fb3b7f4dadfabb34 Assembly-CSharp.dll:.LockpickElement
 9b868f29867d77bd2717c6edf99bcd17 Assembly-CSharp.dll:.Player
 62ab7a1951d6b6e97c24bde5abee9acc Assembly-CSharp.dll:.ShipListElement
 6fe7f75c804c5e659605adf1ab02ee97 Assembly-CSharp.dll:.Obstacle
-766eb8335ca6cd200b2b282cafbf02f8 Assembly-CSharp.dll:.HeroCatalog
+76e3955acfe3d90ae19997efffa2adec Assembly-CSharp.dll:.HeroCatalog
