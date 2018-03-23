@@ -6,6 +6,9 @@ using UnityEngine.UI;
 public class HeroCatalog : MonoBehaviour {
 	public GameObject Window;
 
+	public GameObject LowerDeckParent;
+	public GameObject LowerDeckPrefab;
+
 	public GameObject HeroElementPrefab;
 
 	public GameObject CurrentTeamContainer;
@@ -22,6 +25,9 @@ public class HeroCatalog : MonoBehaviour {
 	bool inSwapMode;
 	ShipListElement elementReadyToSwap;
 	bool firstTime = true;
+
+	int summonedHeroesCount = 0;
+	int imagesAmount = 1;
 
 	public void Open () {		
 		Window.SetActive (true);
@@ -54,6 +60,7 @@ public class HeroCatalog : MonoBehaviour {
 				}
 				else if (ship.IsSummoned) {
 					shipElementObject.transform.SetParent (SummonedHeroesContainer.transform);
+					summonedHeroesCount++;
 				} else {
 					shipElementObject.transform.SetParent (NotSummonedHeroesContainer.transform);
 				}
@@ -64,6 +71,8 @@ public class HeroCatalog : MonoBehaviour {
 			firstTime = false;
 		}
 		Scroll.verticalNormalizedPosition = 1.0f;
+
+		UpdateBackgroundImages ();
 	}
 
 	public void UpdateLabels () {
@@ -89,6 +98,20 @@ public class HeroCatalog : MonoBehaviour {
 				shipListElement.InfoButton.GetComponentInChildren<Text> ().text = "Information";
 			}
 		}
+
+		UpdateBackgroundImages ();
+	}
+
+	void UpdateBackgroundImages () {
+		int rowsAmount = Mathf.CeilToInt (summonedHeroesCount / 4.0f);
+		if (rowsAmount > imagesAmount) {
+			GameObject lowerDeckObject = Instantiate (LowerDeckPrefab) as GameObject;
+			lowerDeckObject.transform.SetParent (LowerDeckParent.transform);
+			lowerDeckObject.transform.localScale = LowerDeckPrefab.transform.localScale;
+			lowerDeckObject.GetComponent<RectTransform> ().anchoredPosition = LowerDeckPrefab.GetComponent<RectTransform> ().anchoredPosition;
+			lowerDeckObject.GetComponent<RectTransform> ().anchoredPosition = new Vector3 (lowerDeckObject.GetComponent<RectTransform> ().anchoredPosition.x, (-81.8f - 131.09974f * imagesAmount));
+			imagesAmount++;
+		}
 	}
 
 	GameObject CreateShipListElementObject (CreatureData creatureData) {
@@ -96,8 +119,9 @@ public class HeroCatalog : MonoBehaviour {
 		ShipElement shipElement = shipListElementObject.GetComponentInChildren<ShipElement> ();
 		shipElement.ShipData = creatureData;
 
-		if (Player.Instance.BJDataBase.CreaturePortraitsByNames.ContainsKey(creatureData.Name)) {
-			shipElement.PortraitImage.sprite = Player.Instance.BJDataBase.CreaturePortraitsByNames [creatureData.Name];
+		if (Player.Instance.BJDataBase.FigurinesByNames.ContainsKey(creatureData.Name)) {
+			shipElement.PortraitImage.sprite = Player.Instance.BJDataBase.FigurinesByNames [creatureData.Name];
+			shipElement.PortraitImage.SetNativeSize ();
 		}
 		shipElement.NameLabel.text = creatureData.Name;
 		shipElement.LevelLabel.text = "level " + creatureData.Level.ToString ();
@@ -138,6 +162,7 @@ public class HeroCatalog : MonoBehaviour {
 			sender.CreatureData.IsSummoned = true;
 			UpdateLabels ();
 			sender.gameObject.transform.SetParent (SummonedHeroesContainer.transform);
+			summonedHeroesCount++;
 		}
 	}
 
@@ -160,6 +185,7 @@ public class HeroCatalog : MonoBehaviour {
 				CurrentTeamObjects [index].transform.SetParent (SummonedHeroesContainer.transform);
 			} else {
 				Destroy (CurrentTeamObjects [index]);
+				summonedHeroesCount--;
 			}
 
 			CurrentTeamObjects.RemoveAt (index);
