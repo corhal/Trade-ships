@@ -187,7 +187,7 @@ public class TeamSelectionWindow : MonoBehaviour {
 		if (counter == 0) {
 			Close ();
 			Player.Instance.CurrentMission = mission;
-			gameManager.LoadBattle ();
+			//gameManager.LoadBattle ();
 		} else {
 			UIOverlay.Instance.OpenPopUp ("Choose at least one ship!");
 		}

@@ -125,7 +125,7 @@ public class MissionWindow : MonoBehaviour {
 		Window.SetActive (false);
 	}
 
-	public void StartMission () {		
+	public void StartMission (int sceneIndex) {		
 		int counter = 0;
 		foreach (var currentTeamMember in Player.Instance.CurrentTeam) {
 			if (currentTeamMember == null || currentTeamMember.Name == "") {
@@ -135,7 +135,7 @@ public class MissionWindow : MonoBehaviour {
 		if (counter == 0) {
 			Close ();
 			Player.Instance.CurrentMission = mission;
-			GameManager.Instance.LoadBattle ();
+			GameManager.Instance.LoadBattle (sceneIndex);
 		} else {
 			UIOverlay.Instance.OpenPopUp ("Your team is not full!");
 		}

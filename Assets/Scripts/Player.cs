@@ -122,9 +122,9 @@ public class Player : MonoBehaviour {
 		}
 	}
 
-	public void LoadBattle () {
+	public void LoadBattle (int sceneIndex) {
 		// PlayerShipRewardChests = new List<RewardChest> (GameManager.Instance.PlayerShip.RewardChests);
-		SceneManager.LoadScene (1);
+		SceneManager.LoadScene (sceneIndex);
 	}
 
 	public void LoadVillage () {

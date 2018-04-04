@@ -97,9 +97,9 @@ public class GameManager : MonoBehaviour {
 		}
 	}			
 
-	public void LoadBattle () {
+	public void LoadBattle (int sceneIndex) {
 		Player.Instance.SavePlayerShip (PlayerShip);
-		Player.Instance.LoadBattle ();
+		Player.Instance.LoadBattle (sceneIndex);
 	}
 
 	public void LoadVillage () {
