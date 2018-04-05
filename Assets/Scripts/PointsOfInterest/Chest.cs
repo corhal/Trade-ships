@@ -7,7 +7,7 @@ public class Chest : PointOfInterest {
 	public RewardChest RewardChest;
 
 	void Start () {
-		RewardChest = new RewardChest ();
+		RewardChest = new RewardChest (true, false);
 		if (Player.Instance.CurrentAdventure.TreasureHunt && !POIData.Revealed) {
 			gameObject.SetActive (false);
 		}
@@ -28,12 +28,15 @@ public class Chest : PointOfInterest {
 	}
 
 	void GiveReward () {
-		PlayerShip playerShip = GameManager.Instance.PlayerShip;
+		/*PlayerShip playerShip = GameManager.Instance.PlayerShip;
 		if (Player.Instance.RewardChests.Count < playerShip.RewardChestsCapacity) {			
 			Interact ();
 			UIOverlay.Instance.FlyReward (GetComponentInChildren<SpriteRenderer> ().sprite, transform, UIOverlay.Instance.ChestButtons [0].gameObject);
 			playerShip.TakeChestReward (RewardChest);
 			gameObject.SetActive (false);
-		} 
+		} */
+		Player.Instance.ReceiveReward (RewardChest.RewardItems);
+		Interact ();
+		gameObject.SetActive (false);
 	}
 }

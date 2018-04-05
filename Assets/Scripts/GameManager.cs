@@ -85,9 +85,10 @@ public class GameManager : MonoBehaviour {
 			// temp solution:
 			if (Player.Instance.CurrentMission.Name != "" && Player.Instance.OnAdventure && !Player.Instance.ReceivedReward) {
 				Player.Instance.ReceivedReward = true;
-				Dictionary<string, int> reward = Player.Instance.CurrentMission.GiveReward ();
-				Player.Instance.TakeItems (reward);
-				UIOverlay.Instance.OpenImagesPopUp ("Your reward:", reward);
+				//Dictionary<string, int> reward = Player.Instance.CurrentMission.GiveReward ();
+				//Player.Instance.TakeItems (reward);
+				//UIOverlay.Instance.OpenImagesPopUp ("Your reward:", reward);
+				Player.Instance.ReceiveReward (Player.Instance.CurrentMission.PossibleRewards);
 			}
 
 		} else if (!isBattle) {			

@@ -262,14 +262,14 @@ public class BJGameController : MonoBehaviour {
 	}
 
 	void SaveHP () {
-		/*foreach (var creatureObject in PlayerCreatureObjects) {
+		foreach (var creatureObject in PlayerCreatureObjects) {
 			foreach (var creatureData in Player.Instance.CurrentTeam) {
 				if (creatureData.Name == creatureObject.Creature.Name) {
 					creatureData.HP = creatureObject.Creature.HP;
 					creatureData.IsDead = creatureObject.Creature.IsDead;
 				}
 			}
-		}*/
+		}
 	}
 
 
@@ -369,12 +369,14 @@ public class BJGameController : MonoBehaviour {
 		}
 	}
 
-					BJCreatureObject SpawnCreatureObject (BJCreature creature, int level) {
+	BJCreatureObject SpawnCreatureObject (BJCreature creature, int level) {
 		GameObject creatureObject = Instantiate (CreatureObjectPrefab) as GameObject;
 		BJCreatureObject bjCreatureObject = creatureObject.GetComponent<BJCreatureObject> ();
 		bjCreatureObject.Creature = new BJCreature (creature.Name, creature.MaxHPByLevel, creature.HP, creature.BaseDamageByLevel, creature.Armor, creature.Speed, creature.Allegiance, /*attackType,*/creature.SkillNames);
 		bjCreatureObject.Creature.Level = level;
-		bjCreatureObject.Creature.HP = bjCreatureObject.Creature.MaxHP;
+		//Debug.Log (creature.Name + ": " + creature.HP);
+		//bjCreatureObject.Creature.HP = bjCreatureObject.Creature.MaxHP;
+		//Debug.Log (creature.Name + ": " + bjCreatureObject.Creature.HP);
 		bjCreatureObject.Creature.IsDead = false;
 
 		bjCreatureObject.CreatureImage.sprite = BJPlayer.Instance.DataBase.FigurinesByNames [creature.Name];

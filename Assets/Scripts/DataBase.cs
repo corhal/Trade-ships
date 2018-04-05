@@ -93,6 +93,7 @@ public class DataBase : MonoBehaviour {
 		}
 
 		Player.Instance.TakeItems (new Dictionary<string, int> { { "Gold", 0 } });
+		Player.Instance.TakeItems (new Dictionary<string, int> { { "Small healing potion", 3 } });
 		Player.Instance.TakeItems (new Dictionary<string, int> { { "Gems", 1000 } });
 		Player.Instance.TakeItems (new Dictionary<string, int> { { "Map", 0 } });
 		Player.Instance.TakeItems (new Dictionary<string, int> { { "Key", 2 } });

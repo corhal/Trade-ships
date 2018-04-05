@@ -50,13 +50,13 @@ public class MissionObject : PointOfInterest {
 			enemyShips.Add (enemy);
 		}
 
-		Dictionary<string, float> rewardChances = new Dictionary<string, float> ();
+		//Dictionary<string, float> rewardChances = new Dictionary<string, float> ();
 		Dictionary<string, int> possibleRewards = new Dictionary<string, int> ();
 
 		// possibleRewards.Add ("Gold", Random.Range (10, 100));
 		// rewardChances.Add ("Gold", 1.0f);
 
-		float diceRoll = Random.Range (0.0f, 1.0f);
+		/*float diceRoll = Random.Range (0.0f, 1.0f);
 
 		if (diceRoll < 0.75f) {
 			possibleRewards.Add ("Copper lockpick", Random.Range (1, 4));
@@ -67,14 +67,17 @@ public class MissionObject : PointOfInterest {
 		} else {
 			possibleRewards.Add ("Golden lockpick", Random.Range (1, 2));
 			rewardChances.Add ("Golden lockpick", 1.0f);
-		}
+		}*/
+
+		RewardChest rewardChest = new RewardChest (false, false);
+		possibleRewards = rewardChest.RewardItems;
 
 		if (Player.Instance.CurrentAdventure.TreasureHunt) {
 			possibleRewards.Add ("Map", Random.Range (1, 3));
-			rewardChances.Add ("Map", 1.0f);
+			//rewardChances.Add ("Map", 1.0f);
 		}
 
-		Mission = new Mission (Tile.BoardCoordsAsString, IsCastle, rewardChances, possibleRewards, enemyShips);
+		Mission = new Mission (Tile.BoardCoordsAsString, IsCastle, /*rewardChances,*/ possibleRewards, enemyShips);
 	}
 
 	void OnTriggerEnter2D (Collider2D other) {

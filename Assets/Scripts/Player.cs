@@ -177,6 +177,11 @@ public class Player : MonoBehaviour {
 		Player.Instance.RewardChests.Remove (rewardChest);
 	}
 
+	public void ReceiveReward (Dictionary<string, int> rewardItems) {
+		Player.Instance.TakeItems (rewardItems);
+		UIOverlay.Instance.OpenImagesPopUp ("Your reward:", rewardItems);
+	}
+
 	public void LoadAdventure () {
 		if (!OnAdventure) {
 			OnAdventure = true;

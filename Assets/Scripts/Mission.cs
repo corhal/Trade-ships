@@ -6,7 +6,7 @@ using UnityEngine;
 public class Mission {
 
 	public string Name;
-	public Dictionary<string, float> RewardChances;
+	//public Dictionary<string, float> RewardChances;
 	public Dictionary<string, int> PossibleRewards;
 
 	public List<CreatureData> EnemyShips;
@@ -17,17 +17,17 @@ public class Mission {
 
 	public int Stars;
 
-	public Mission (string name, bool isCastle, Dictionary<string, float> rewardChances, Dictionary<string, int> possibleRewards, List<CreatureData> enemyShips) {
+	public Mission (string name, bool isCastle, /*Dictionary<string, float> rewardChances,*/ Dictionary<string, int> possibleRewards, List<CreatureData> enemyShips) {
 		Name = name;
 		IsCastle = isCastle;
 		PossibleRewards = possibleRewards;
-		RewardChances = rewardChances;
+		//RewardChances = rewardChances;
 		EnemyShips = enemyShips;
 		Seconds = 5;
 		Stars = 0;
 	}
 
-	public Dictionary<string, int> GiveReward () {
+	/*public Dictionary<string, int> GiveReward () {
 		Dictionary<string, int> reward = new Dictionary<string, int> ();
 
 		foreach (var chanceByItem in RewardChances) {
@@ -37,5 +37,5 @@ public class Mission {
 		}
 
 		return reward;
-	}
+	}*/
 }

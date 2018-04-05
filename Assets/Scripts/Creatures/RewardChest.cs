@@ -22,25 +22,29 @@ public class RewardChest {
 		{"Ocean 3", new List<int> { 10800, 36000 }}
 	};
 
-	public RewardChest () {
-		// System.Random rand = new System.Random ();
-		int costLength = /*rand.Next (1, 6);*/ Random.Range (1, 3);
-
+	public RewardChest (bool goldOnly, bool shardsOnly) {
 		Dictionary<string, int> possibleRewards = new Dictionary<string, int> ();
 
-		for (int j = 0; j < costLength; j++) {
-			List<Item> validItems = new List<Item> ();
-			foreach (var item in Player.Instance.DataBase.TempItemLibrary) {
-				if (!possibleRewards.ContainsKey (item.Name)) {
-					validItems.Add (item);
-				}
-			}
+		// System.Random rand = new System.Random ();
+		if (!goldOnly) {
+			int costLength = /*rand.Next (1, 6);*/ Random.Range (1, 3);
 
-			int index = /*rand.Next (0, validItems.Count - 1);*/ Random.Range (0, validItems.Count - 1);
-			possibleRewards.Add (validItems [index].Name, /*rand.Next (1, 10)*/Random.Range (1, 5));
+			for (int j = 0; j < costLength; j++) {
+				List<Item> validItems = new List<Item> ();
+				foreach (var item in Player.Instance.DataBase.TempItemLibrary) {
+					if (!possibleRewards.ContainsKey (item.Name)) {
+						validItems.Add (item);
+					}
+				}
+
+				int index = /*rand.Next (0, validItems.Count - 1);*/ Random.Range (0, validItems.Count - 1);
+				possibleRewards.Add (validItems [index].Name, /*rand.Next (1, 10)*/Random.Range (1, 5));
+			}
 		}
 
-		possibleRewards.Add ("Gold", Random.Range (10, 100));
+		if (!shardsOnly) {
+			possibleRewards.Add ("Gold", Random.Range (10, 100));
+		}
 
 		Ocean = Player.Instance.CurrentAdventure.Ocean;
 		List<int> seconds = OpenTimesByOcean [Player.Instance.CurrentAdventure.Ocean];

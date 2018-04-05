@@ -37,6 +37,7 @@ public class HeroCatalog : MonoBehaviour {
 				shipObject.GetComponent<ShipListElement> ().OnShipListElementClicked -= ShipListElement_OnShipListElementClicked;
 				shipObject.GetComponent<ShipListElement> ().OnShipListElementReadyToSwap -= ShipListElement_OnShipListElementReadyToSwap;
 				shipObject.GetComponent<ShipListElement> ().OnInfoButtonClicked -= ShipListElement_OnInfoButtonClicked;
+				shipObject.GetComponent<ShipListElement> ().OnHealButtonClicked -= ShipListElement_OnHealButtonClicked;
 				Destroy (shipObject);
 			}
 			ShipObjects.Clear ();
@@ -79,6 +80,9 @@ public class HeroCatalog : MonoBehaviour {
 		foreach (var obj in ShipObjects) {
 			ShipListElement shipListElement = obj.GetComponent<ShipListElement> ();
 			ShipElement shipElement = obj.GetComponentInChildren<ShipElement> ();
+
+			shipListElement.DamageSlider.maxValue = shipListElement.CreatureData.MaxHP;
+			shipListElement.DamageSlider.value = shipListElement.CreatureData.HP;
 
 			shipElement.LevelLabel.text = "level " + shipElement.ShipData.Level.ToString ();
 
@@ -127,7 +131,12 @@ public class HeroCatalog : MonoBehaviour {
 		shipElement.LevelLabel.text = "level " + creatureData.Level.ToString ();
 
 		ShipListElement shipListElement = shipListElementObject.GetComponent<ShipListElement> ();
+
 		shipListElement.CreatureData = creatureData;
+
+		shipListElement.DamageSlider.maxValue = shipListElement.CreatureData.MaxHP;
+		shipListElement.DamageSlider.value = shipListElement.CreatureData.MaxHP - shipListElement.CreatureData.HP;
+
 		shipListElement.SoulstonesSlider.maxValue = Player.Instance.DataBase.LevelCosts [creatureData.Level];
 		shipListElement.SoulstonesSlider.value = Player.Instance.Inventory [creatureData.Soulstone.Name];
 
@@ -148,8 +157,13 @@ public class HeroCatalog : MonoBehaviour {
 		shipListElement.OnShipListElementClicked += ShipListElement_OnShipListElementClicked;
 		shipListElement.OnShipListElementReadyToSwap += ShipListElement_OnShipListElementReadyToSwap;
 		shipListElement.OnInfoButtonClicked += ShipListElement_OnInfoButtonClicked;
+		shipListElement.OnHealButtonClicked += ShipListElement_OnHealButtonClicked;
 
 		return shipListElementObject;
+	}
+
+	void ShipListElement_OnHealButtonClicked (ShipListElement sender) {
+		
 	}
 
 	void ShipListElement_OnInfoButtonClicked (ShipListElement sender) {
@@ -201,6 +215,9 @@ public class HeroCatalog : MonoBehaviour {
 				sender.InfoButton.gameObject.SetActive (!sender.InfoButton.gameObject.activeSelf);
 				if (sender.CreatureData.IsSummoned) {
 					sender.UseButton.gameObject.SetActive (!sender.UseButton.gameObject.activeSelf);
+				}
+				if (sender.CreatureData.HP < sender.CreatureData.MaxHP) {
+					sender.HealButton.gameObject.SetActive (!sender.HealButton.gameObject.activeSelf);
 				}
 			}
 		}
