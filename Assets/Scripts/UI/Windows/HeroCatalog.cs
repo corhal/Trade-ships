@@ -50,14 +50,19 @@ public class HeroCatalog : MonoBehaviour {
 			foreach (var ship in Player.Instance.ShipDatas) {
 				AllShipDatas.Add (ship);
 			}
+
+			List<GameObject> objectsToDelete = new List<GameObject> ();
+
 			foreach (var ship in AllShipDatas) {
 
 				GameObject shipElementObject = CreateShipListElementObject (ship);
 
 				if (Player.Instance.CurrentTeam.Contains(ship)) {
 					shipElementObject.transform.SetParent (CurrentTeamContainer.transform);
+					objectsToDelete.Add (CurrentTeamObjects [Player.Instance.CurrentTeam.IndexOf (ship)]);
 					Destroy (CurrentTeamObjects [Player.Instance.CurrentTeam.IndexOf(ship)]);
 					shipElementObject.transform.SetSiblingIndex (Player.Instance.CurrentTeam.IndexOf(ship));
+					CurrentTeamObjects.Add (shipElementObject);
 				}
 				else if (ship.IsSummoned) {
 					shipElementObject.transform.SetParent (SummonedHeroesContainer.transform);
@@ -69,8 +74,14 @@ public class HeroCatalog : MonoBehaviour {
 				shipElementObject.transform.localScale = Vector3.one;
 				ShipObjects.Add (shipElementObject);
 			}
+
+			foreach (var objectToDelete in objectsToDelete) {
+				CurrentTeamObjects.Remove (objectToDelete);
+			}
+
 			firstTime = false;
 		}
+
 		Scroll.verticalNormalizedPosition = 1.0f;
 
 		UpdateBackgroundImages ();
@@ -191,7 +202,7 @@ public class HeroCatalog : MonoBehaviour {
 	void ShipListElement_OnShipListElementClicked (ShipListElement sender) {	
 		if (inSwapMode && (Player.Instance.CurrentTeam.Contains(sender.CreatureData) || sender.CreatureData.Name == "")) {			
 			int index = CurrentTeamObjects.IndexOf (sender.gameObject);
-
+			Debug.Log(CurrentTeamObjects.IndexOf (sender.gameObject).ToString() + ": " + index);
 			Player.Instance.CurrentTeam.RemoveAt (index);
 			Player.Instance.CurrentTeam.Insert (index, elementReadyToSwap.CreatureData);
 
@@ -225,6 +236,7 @@ public class HeroCatalog : MonoBehaviour {
 
 	public void Close () {
 		Window.SetActive (false);
+		UIOverlay.Instance.CurrentTeamShower.Open ();
 	}
 
 	public void Back () {

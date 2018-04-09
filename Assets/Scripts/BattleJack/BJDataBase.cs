@@ -31,16 +31,9 @@ public class BJDataBase : MonoBehaviour {
 	public Dictionary<string, Sprite> CreaturePortraitsByNames;
 
 	void Start () {		
-		List<int> maxHpByLevel = new List<int> { 0, 40, 60, 80, 100, 120, 140, 160, 180, 200, 220 };
+		
+		List<int> maxHpByLevel = new List<int> { 0, 100, 120, 140, 160, 180, 200, 220, 240, 260, 280 };
 		List<int> baseDamageByLevel = new List<int> { 0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50 };
-		Creatures.Add (new BJCreature ("Alchemist", maxHpByLevel, maxHpByLevel[1], baseDamageByLevel, 1, 4, Allegiance.Player, /*AttackType.Ranged,*/ new List<string>{ "Ranged attack", "Blinding strike", "Corrosion" }));
-
-		maxHpByLevel = new List<int> { 0, 60, 80, 100, 120, 140, 160, 180, 200, 220, 240 };
-		baseDamageByLevel = new List<int> { 0, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60 };
-		Creatures.Add (new BJCreature ("Bandit", maxHpByLevel, maxHpByLevel[1], baseDamageByLevel, 4, 4, Allegiance.Player, /*AttackType.Melee,*/ new List<string>{ "Melee attack", "Combo", /*"Ricochet", "Execution",*/ "Lifesteal" }));
-
-		maxHpByLevel = new List<int> { 0, 100, 120, 140, 160, 180, 200, 220, 240, 260, 280 };
-		baseDamageByLevel = new List<int> { 0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50 };
 		Creatures.Add (new BJCreature ("Brawler", maxHpByLevel, maxHpByLevel[1], baseDamageByLevel, 1, 1, Allegiance.Player, /*AttackType.Melee,*/ new List<string>{ "Melee attack", "Aggro", /*"Delay damage", "Cheer team",*/ "Dodge buff" }));
 
 		maxHpByLevel = new List<int> { 0, 70, 90, 110, 130, 150, 170, 190, 210, 230, 250 };
@@ -54,6 +47,14 @@ public class BJDataBase : MonoBehaviour {
 		maxHpByLevel = new List<int> { 0, 40, 60, 80, 100, 120, 140, 160, 180, 200, 220 };
 		baseDamageByLevel = new List<int> { 0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50 };
 		Creatures.Add (new BJCreature ("Witch", maxHpByLevel, maxHpByLevel[1], baseDamageByLevel, 1, 3, Allegiance.Player, /*AttackType.Ranged,*/ new List<string>{ "Ranged attack", /*"Mass regen",*/ "Heal", /*"Berserk",*/ "Sacrifice" }));
+
+		maxHpByLevel = new List<int> { 0, 60, 80, 100, 120, 140, 160, 180, 200, 220, 240 };
+		baseDamageByLevel = new List<int> { 0, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60 };
+		Creatures.Add (new BJCreature ("Bandit", maxHpByLevel, maxHpByLevel[1], baseDamageByLevel, 4, 4, Allegiance.Player, /*AttackType.Melee,*/ new List<string>{ "Melee attack", "Combo", /*"Ricochet", "Execution",*/ "Lifesteal" }));
+
+		maxHpByLevel = new List<int> { 0, 40, 60, 80, 100, 120, 140, 160, 180, 200, 220 };
+		baseDamageByLevel = new List<int> { 0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50 };
+		Creatures.Add (new BJCreature ("Alchemist", maxHpByLevel, maxHpByLevel[1], baseDamageByLevel, 1, 4, Allegiance.Player, /*AttackType.Ranged,*/ new List<string>{ "Ranged attack", "Blinding strike", "Corrosion" }));
 
 		maxHpByLevel = new List<int> { 0, 70, 90, 110, 130, 150, 170, 190, 210, 230, 250 };
 		baseDamageByLevel = new List<int> { 0, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60 };

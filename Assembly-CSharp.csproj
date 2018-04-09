@@ -143,6 +143,7 @@
      <Compile Include="Assets\Scripts\UI\Windows\AdventureSelectionWindow.cs" />
      <Compile Include="Assets\Scripts\UI\Windows\ChestOpenTooltip.cs" />
      <Compile Include="Assets\Scripts\UI\Windows\ContextButtonsOverlay.cs" />
+     <Compile Include="Assets\Scripts\UI\Windows\CurrentTeamShower.cs" />
      <Compile Include="Assets\Scripts\UI\Windows\HeroCatalog.cs" />
      <Compile Include="Assets\Scripts\UI\Windows\HeroPopup.cs" />
      <Compile Include="Assets\Scripts\UI\Windows\ImagesPopUp.cs" />

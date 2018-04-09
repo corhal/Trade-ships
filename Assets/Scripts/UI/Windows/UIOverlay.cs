@@ -27,6 +27,7 @@ public class UIOverlay : MonoBehaviour {
 	public PopUp MyPopUp;
 	public ImagesPopUp MyImagesPopUp;
 	public HeroCatalog MyShipsCatalogWindow;
+	public CurrentTeamShower CurrentTeamShower;
 	public AdventureSelectionWindow AdventureSelectionWindow;
 	public ChestOpenTooltip ChestOpenTooltip;
 
@@ -154,6 +155,7 @@ public class UIOverlay : MonoBehaviour {
 				hideObject.SetActive (false);
 			}
 		}
+		CurrentTeamShower.Open ();
 	}
 
 	void Update () { // OMG

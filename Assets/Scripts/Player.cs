@@ -93,7 +93,7 @@ public class Player : MonoBehaviour {
 
 		List<BJCreature> creatures = BJDataBase.Creatures;
 		for (int j = 0; j < creatures.Count; j++) {
-			bool summoned = (j > 0 && j < 6) ? true : false;
+			bool summoned = (j >= 0 && j < 5) ? true : false;
 
 			List<Skill> skills = new List<Skill> ();
 			foreach (var skillName in creatures[j].SkillNames) {
@@ -119,6 +119,10 @@ public class Player : MonoBehaviour {
 				skills, soulstone, RankColor.White, summoned);
 
 			ShipDatas.Add (newShipData);
+		}
+		CurrentTeam.Clear ();
+		for (int i = 0; i < 4; i++) {
+			CurrentTeam.Add (ShipDatas [i]);
 		}
 	}
 
