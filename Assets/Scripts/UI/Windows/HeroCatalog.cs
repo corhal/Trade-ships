@@ -93,7 +93,7 @@ public class HeroCatalog : MonoBehaviour {
 			ShipElement shipElement = obj.GetComponentInChildren<ShipElement> ();
 
 			shipListElement.DamageSlider.maxValue = shipListElement.CreatureData.MaxHP;
-			shipListElement.DamageSlider.value = shipListElement.CreatureData.HP;
+			shipListElement.DamageSlider.value = shipListElement.CreatureData.MaxHP - shipListElement.CreatureData.HP;
 
 			shipElement.LevelLabel.text = "level " + shipElement.ShipData.Level.ToString ();
 

@@ -46,6 +46,15 @@ public class RewardChest {
 			possibleRewards.Add ("Gold", Random.Range (10, 100));
 		}
 
+		float roll = Random.Range (0.0f, 1.0f);
+		if (roll > 0.5f && roll <= 0.85f) {
+			possibleRewards.Add ("Small healing potion", Random.Range (1, 5));
+		} else if (roll > 0.85f && roll <= 0.95f) {
+			possibleRewards.Add ("Medium healing potion", Random.Range (1, 3));	
+		} else if (roll > 0.95f) {
+			possibleRewards.Add ("Big healing potion", 1);	
+		}
+
 		Ocean = Player.Instance.CurrentAdventure.Ocean;
 		List<int> seconds = OpenTimesByOcean [Player.Instance.CurrentAdventure.Ocean];
 		int randIndex = Random.Range(0, seconds.Count);

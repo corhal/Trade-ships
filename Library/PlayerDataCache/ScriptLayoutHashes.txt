@@ -184,6 +184,7 @@ cf6b149fc339c6dc2437fa6346f39c38 Assembly-CSharp.dll:.DragController
 05524b8f659e7bfe5756d1335fec24ba UnityEngine.TestRunner.dll:UnityEngine.TestTools.TestRunner.Callbacks.PlayModeRunnerCallback
 2a56361227def9f56c2cf57a88b32f4d UnityEngine.TestRunner.dll:UnityEngine.TestTools.TestRunner.PlaymodeTestsController
 64eb32cc721b1cc68a91ed57461e188c UnityEngine.TestRunner.dll:UnityEngine.TestTools.TestRunner.Callbacks.RemoteTestResultSender
+136b2da15e1c20cea9c9e5ed6cf9aea1 Assembly-CSharp.dll:.CurrentTeamShower
 04937cdf097e25f14122605c6517f385 Assembly-CSharp.dll:.BJRicochet
 e0f7ffd5d5c2abe4b2e16569a21163da UnityEngine.GoogleAudioSpatializer.dll:UnityEngine.Experimental.Audio.Google.GvrAudioRoom
 992716b27bfcbd49461ebcd4d31b5f57 Assembly-CSharp.dll:.BJAggroSkill
@@ -198,7 +199,7 @@ bc68edb0af574bf79f9550ead8ebae5c UnityEngine.HoloLens.dll:UnityEngine.Audio.Audi
 c2275a8bfbb9f9942cad75ecdfded41d UnityEngine.HoloLens.dll:UnityEngine.XR.WSA.SpatialMappingCollider
 45f3431f0103c41611e8d4eec3d439df UnityEngine.HoloLens.dll:UnityEngine.XR.WSA.SpatialMappingRenderer
 28eeb297bbb20be53d1df31345b005ae Assembly-CSharp.dll:.Board
-8fb3bdc2cea1a21b815326b407dc4fe1 Assembly-CSharp.dll:.UIOverlay
+2f7622d7968cf5058f2ff00170eea065 Assembly-CSharp.dll:.UIOverlay
 5e65b1bd72a4f5eaa0f97ba117ed5295 Assembly-CSharp.dll:.BJArmorBuff
 9de3a22eca9aefadba2d10d5987cefe3 UnityEngine.SpatialTracking.dll:UnityEngine.SpatialTracking.TrackedPoseDriver
 5e65b1bd72a4f5eaa0f97ba117ed5295 Assembly-CSharp.dll:.BJSacrificeEffect
@@ -219,6 +220,7 @@ e2367f80a911bc96f3854a9840149519 Assembly-CSharp.dll:.ShipSkillButton
 c568d1560c01dfa6fb3b7f4dadfabb34 Assembly-CSharp.dll:.LockpickElement
 0b7ec72ae084518fab51e6362d973c3a Assembly-CSharp.dll:.ChestButton
 9b868f29867d77bd2717c6edf99bcd17 Assembly-CSharp.dll:.Player
-62ab7a1951d6b6e97c24bde5abee9acc Assembly-CSharp.dll:.ShipListElement
+60f85a7eb5d77f3a51ce02d5f2782fb9 Assembly-CSharp.dll:.ShipListElement
 6fe7f75c804c5e659605adf1ab02ee97 Assembly-CSharp.dll:.Obstacle
 76e3955acfe3d90ae19997efffa2adec Assembly-CSharp.dll:.HeroCatalog
+c3ac3ea390449e5e24a3f728dfe78697 Assembly-CSharp.dll:.HealPopUp

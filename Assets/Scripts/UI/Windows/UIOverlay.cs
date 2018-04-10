@@ -30,6 +30,7 @@ public class UIOverlay : MonoBehaviour {
 	public CurrentTeamShower CurrentTeamShower;
 	public AdventureSelectionWindow AdventureSelectionWindow;
 	public ChestOpenTooltip ChestOpenTooltip;
+	public HealPopUp HealPopUp;
 
 	public GameObject MapNode;
 
@@ -223,6 +224,10 @@ public class UIOverlay : MonoBehaviour {
 		MyMissionWindow.Close ();
 		MyPopUp.Close ();
 		MyShipsCatalogWindow.Close ();
+	}
+
+	public void OpenHealPopUp (CreatureData selectedHero) {
+		HealPopUp.Open (selectedHero);
 	}
 
 	public void CloseAdventureSelectionWindow () {

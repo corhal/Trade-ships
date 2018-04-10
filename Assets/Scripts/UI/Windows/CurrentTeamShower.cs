@@ -69,7 +69,7 @@ public class CurrentTeamShower : MonoBehaviour {
 			ShipElement shipElement = obj.GetComponentInChildren<ShipElement> ();
 
 			shipListElement.DamageSlider.maxValue = shipListElement.CreatureData.MaxHP;
-			shipListElement.DamageSlider.value = shipListElement.CreatureData.HP;
+			shipListElement.DamageSlider.value = shipListElement.CreatureData.MaxHP - shipListElement.CreatureData.HP;
 
 			shipElement.LevelLabel.text = "level " + shipElement.ShipData.Level.ToString ();
 
@@ -134,7 +134,10 @@ public class CurrentTeamShower : MonoBehaviour {
 	}
 
 	void ShipListElement_OnHealButtonClicked (ShipListElement sender) {
-		
+		UIOverlay.Instance.OpenHealPopUp (sender.CreatureData);
+		sender.InfoButton.gameObject.SetActive (false);
+		sender.UseButton.gameObject.SetActive (false);
+		sender.HealButton.gameObject.SetActive (false);				
 	}
 
 
