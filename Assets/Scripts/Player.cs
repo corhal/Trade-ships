@@ -23,6 +23,9 @@ public class Player : MonoBehaviour {
 	public Dictionary<string, int> Inventory;
 
 	public int Gold { get { return Inventory ["Gold"]; } }
+	public int Exp { get { return Inventory ["Exp"]; } }
+	public int Level = 1;
+	public List<int> ExpForLevel = new List<int> {0, 100, 500, 1000, 2000};
 
 	public List<CreatureData> CurrentTeam;
 
@@ -236,6 +239,18 @@ public class Player : MonoBehaviour {
 		}
 	}
 
+	public void TakeExp (int amount) {
+		Inventory ["Exp"] += amount;
+		if (Inventory ["Exp"] >= ExpForLevel[Level]) {
+			LevelUp ();
+		}
+	}
+
+	public void LevelUp () {
+		Inventory ["Exp"] -= ExpForLevel [Level];
+		Level++;
+	}
+
 	public void GiveItems (Dictionary<string, int> amountsByItemNames) {
 		// probably should check here
 		foreach (var amountByItemName in amountsByItemNames) {
@@ -251,7 +266,11 @@ public class Player : MonoBehaviour {
 			if (!Inventory.ContainsKey(amountByItemName.Key)) {
 				Inventory.Add (amountByItemName.Key, 0);
 			}
-			Inventory [amountByItemName.Key] += amountByItemName.Value;
+			if (amountByItemName.Key == "Exp") {
+				TakeExp (amountByItemName.Value);
+			} else {
+				Inventory [amountByItemName.Key] += amountByItemName.Value;
+			}
 		}
 	}
 

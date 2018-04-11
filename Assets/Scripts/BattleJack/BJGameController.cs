@@ -262,14 +262,14 @@ public class BJGameController : MonoBehaviour {
 	}
 
 	void SaveHP () {
-		foreach (var creatureObject in PlayerCreatureObjects) {
+		/*foreach (var creatureObject in PlayerCreatureObjects) {
 			foreach (var creatureData in Player.Instance.CurrentTeam) {
 				if (creatureData.Name == creatureObject.Creature.Name) {
 					creatureData.HP = creatureObject.Creature.HP;
 					creatureData.IsDead = creatureObject.Creature.IsDead;
 				}
 			}
-		}
+		}*/
 	}
 
 

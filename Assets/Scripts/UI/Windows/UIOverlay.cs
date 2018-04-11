@@ -13,6 +13,10 @@ public class UIOverlay : MonoBehaviour {
 	public Text GemsLabel;
 	public Text TimeLabel;
 	public Text KeysLabel;
+	public Text LevelLabel;
+	public Text ExpLabel;
+	public Slider ExpSlider;
+
 	Player player;
 	public static UIOverlay Instance;
 
@@ -164,6 +168,10 @@ public class UIOverlay : MonoBehaviour {
 		GemsLabel.text = "" + player.Inventory ["Gems"];
 		EnergyLabel.text = "" + player.Energy + "/" + player.MaxEnergy;
 		KeysLabel.text = "" + player.Inventory ["Key"];
+		ExpLabel.text = "" + player.Inventory ["Exp"] + "/" + player.ExpForLevel [player.Level];
+		LevelLabel.text = "" + player.Level;
+		ExpSlider.maxValue = player.ExpForLevel [player.Level];
+		ExpSlider.value = player.Inventory ["Exp"];
 		if (player.OnAdventure) {			
 			int time = (int)player.AdventureTimer;
 			int hours = time / 3600;
