@@ -64,6 +64,18 @@ public class RewardChest {
 			possibleRewards.Add ("Big healing potion", 1);	
 		}*/
 
+		if (goldOnly) {
+			float diceRoll = Random.Range (0.0f, 1.0f);
+
+			if (diceRoll < 0.75f) {
+				possibleRewards.Add ("Copper lockpick", Random.Range (1, 4));
+			} else if (diceRoll < 0.95f) {
+				possibleRewards.Add ("Silver lockpick", Random.Range (1, 3));
+			} else {
+				possibleRewards.Add ("Golden lockpick", Random.Range (1, 2));
+			}
+		}
+
 		Ocean = Player.Instance.CurrentAdventure.Ocean;
 		List<int> seconds = OpenTimesByOcean [Player.Instance.CurrentAdventure.Ocean];
 		int randIndex = Random.Range(0, seconds.Count);

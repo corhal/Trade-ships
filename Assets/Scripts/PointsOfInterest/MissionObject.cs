@@ -69,7 +69,7 @@ public class MissionObject : PointOfInterest {
 			rewardChances.Add ("Golden lockpick", 1.0f);
 		}*/
 
-		RewardChest rewardChest = new RewardChest (false, false);
+		RewardChest rewardChest = new RewardChest (true, false);
 		possibleRewards = rewardChest.RewardItems;
 
 		if (Player.Instance.CurrentAdventure.TreasureHunt) {

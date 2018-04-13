@@ -199,9 +199,10 @@ bc68edb0af574bf79f9550ead8ebae5c UnityEngine.HoloLens.dll:UnityEngine.Audio.Audi
 c2275a8bfbb9f9942cad75ecdfded41d UnityEngine.HoloLens.dll:UnityEngine.XR.WSA.SpatialMappingCollider
 45f3431f0103c41611e8d4eec3d439df UnityEngine.HoloLens.dll:UnityEngine.XR.WSA.SpatialMappingRenderer
 28eeb297bbb20be53d1df31345b005ae Assembly-CSharp.dll:.Board
-2f7622d7968cf5058f2ff00170eea065 Assembly-CSharp.dll:.UIOverlay
+1f324357cd67b4b95935232e2988e5d0 Assembly-CSharp.dll:.UIOverlay
 5e65b1bd72a4f5eaa0f97ba117ed5295 Assembly-CSharp.dll:.BJArmorBuff
 9de3a22eca9aefadba2d10d5987cefe3 UnityEngine.SpatialTracking.dll:UnityEngine.SpatialTracking.TrackedPoseDriver
+c3ac3ea390449e5e24a3f728dfe78697 Assembly-CSharp.dll:.HealPopUp
 5e65b1bd72a4f5eaa0f97ba117ed5295 Assembly-CSharp.dll:.BJSacrificeEffect
 a8a91bbc101f7810b7feb5a183dd35d5 Assembly-CSharp.dll:.BJBleedBuff
 1a3d74b7a416fb7a89d26a01add780d5 Assembly-CSharp.dll:.TeamSelectionWindow
@@ -219,8 +220,8 @@ e2367f80a911bc96f3854a9840149519 Assembly-CSharp.dll:.ShipSkillButton
 5e65b1bd72a4f5eaa0f97ba117ed5295 Assembly-CSharp.dll:.BJStun
 c568d1560c01dfa6fb3b7f4dadfabb34 Assembly-CSharp.dll:.LockpickElement
 0b7ec72ae084518fab51e6362d973c3a Assembly-CSharp.dll:.ChestButton
-9b868f29867d77bd2717c6edf99bcd17 Assembly-CSharp.dll:.Player
+915d52279c35ccfb83e295013b5931b9 Assembly-CSharp.dll:.Player
 60f85a7eb5d77f3a51ce02d5f2782fb9 Assembly-CSharp.dll:.ShipListElement
 6fe7f75c804c5e659605adf1ab02ee97 Assembly-CSharp.dll:.Obstacle
 76e3955acfe3d90ae19997efffa2adec Assembly-CSharp.dll:.HeroCatalog
-c3ac3ea390449e5e24a3f728dfe78697 Assembly-CSharp.dll:.HealPopUp
+d5a64c68c7421ae4d7ea42a8ab3f41fb Assembly-CSharp.dll:.ChestsWindow

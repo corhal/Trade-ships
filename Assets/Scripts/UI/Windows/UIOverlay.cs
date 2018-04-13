@@ -12,7 +12,9 @@ public class UIOverlay : MonoBehaviour {
 	public Text EnergyLabel;
 	public Text GemsLabel;
 	public Text TimeLabel;
-	public Text KeysLabel;
+	public Text ChestsLabel;
+	public Text SecondaryChestTimer;
+	public GameObject ChestsActivityMarker;
 	public Text LevelLabel;
 	public Text ExpLabel;
 	public Slider ExpSlider;
@@ -35,6 +37,7 @@ public class UIOverlay : MonoBehaviour {
 	public AdventureSelectionWindow AdventureSelectionWindow;
 	public ChestOpenTooltip ChestOpenTooltip;
 	public HealPopUp HealPopUp;
+	public ChestsWindow ChestsWindow;
 
 	public GameObject MapNode;
 
@@ -167,7 +170,7 @@ public class UIOverlay : MonoBehaviour {
 		GoldLabel.text = "" + player.Gold;
 		GemsLabel.text = "" + player.Inventory ["Gems"];
 		EnergyLabel.text = "" + player.Energy + "/" + player.MaxEnergy;
-		KeysLabel.text = "" + player.Inventory ["Key"];
+		ChestsLabel.text = "" + player.RewardChests.Count + "/" + 4; // PlayerShip.Instance.RewardChestsCapacity; // player.Inventory ["Key"];
 		ExpLabel.text = "" + player.Inventory ["Exp"] + "/" + player.ExpForLevel [player.Level];
 		LevelLabel.text = "" + player.Level;
 		ExpSlider.maxValue = player.ExpForLevel [player.Level];
@@ -190,6 +193,17 @@ public class UIOverlay : MonoBehaviour {
 				flyReward = false;
 				Destroy (flyingReward);				
 			}
+		}
+
+		if (player.CurrentlyOpeningChest != null) {
+			SecondaryChestTimer.text = Utility.SecondsToTime (player.CurrentlyOpeningChest.SecondsLeft);
+			if (player.CurrentlyOpeningChest.SecondsLeft <= 0.0f) {
+				ChestsActivityMarker.SetActive (true);
+			} else {
+				ChestsActivityMarker.SetActive (false);
+			}
+		} else if (player.RewardChests.Count > 0) {
+			ChestsActivityMarker.SetActive (true);
 		}
 	}
 
@@ -232,6 +246,10 @@ public class UIOverlay : MonoBehaviour {
 		MyMissionWindow.Close ();
 		MyPopUp.Close ();
 		MyShipsCatalogWindow.Close ();
+	}
+
+	public void OpenChestsWindow () {
+		ChestsWindow.Open ();
 	}
 
 	public void OpenHealPopUp (CreatureData selectedHero) {
