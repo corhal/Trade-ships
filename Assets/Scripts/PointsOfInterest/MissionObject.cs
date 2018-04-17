@@ -38,11 +38,14 @@ public class MissionObject : PointOfInterest {
 
 
 	public void CreateMission () { // TODO: перенести это в более высокий класс, чтобы назначать имя нормальнее
-		List<BJCreature> enemyCreatures = new List<BJCreature> (Player.Instance.BJDataBase.EnemyCreatures);
+		int randomIndex = Random.Range(0, Player.Instance.BJDataBase.EnemySets.Count);
+		/*List<BJCreature> enemyCreatures = new List<BJCreature> (Player.Instance.BJDataBase.EnemyCreatures);
 
-		Utility.Shuffle (enemyCreatures);
+		Utility.Shuffle (enemyCreatures);*/
+		List<BJCreature> enemyCreatures = new List<BJCreature> (Player.Instance.BJDataBase.EnemySets [randomIndex]);
+
 		List<CreatureData> enemyShips = new List<CreatureData> ();
-		int enemiesCount = Random.Range (1, 5);
+		int enemiesCount = enemyCreatures.Count; // Random.Range (1, 5);
 
 		int rankCol = Random.Range (0, System.Enum.GetNames (typeof(RankColor)).Length);
 		for (int j = 0; j < enemiesCount; j++) {				
