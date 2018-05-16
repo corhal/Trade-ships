@@ -12,8 +12,11 @@ public class BJEffect : MonoBehaviour {
 	public int Duration;
 	public int CurrentLifetime = 0;
 
-	public virtual void Activate () {
+	public ParticleSystem EffectParticles;
+	public float KostyllYModifier;
 
+	public virtual void Activate () {
+		
 	}
 
 	public virtual void Tick () {

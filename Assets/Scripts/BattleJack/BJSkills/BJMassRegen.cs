@@ -19,10 +19,10 @@ public class BJMassRegen : BJSkill {
 			}
 		}
 		Effects [0].Applier = user;
-		mainTarget.ApplyEffect (Effects [0]);
+		mainTarget.ApplyEffect (Effects [0], true);
 		foreach (var secondaryTarget in secondaryTargets) {
 			Effects [0].Applier = user;
-			secondaryTarget.ApplyEffect (Effects [0]);
+			secondaryTarget.ApplyEffect (Effects [0], true);
 		}
 		StartCoroutine (FinishSkill (0.1f));
 	}

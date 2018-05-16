@@ -85,6 +85,11 @@ public class BJDataBase : MonoBehaviour {
 		baseDamageByLevel = new List<int> { 0, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55 };
 		Creatures.Add (new BJCreature ("Executioner", maxHpByLevel, maxHpByLevel[1], baseDamageByLevel, 2, 4, Allegiance.Player, /*AttackType.Melee,*/ new List<string>{ "Melee attack", "Execution", "Bloodlust" }));
 
+		maxHpByLevel = new List<int> { 0, 35, 55, 75, 95, 115, 135, 155, 175, 195, 215 };
+		baseDamageByLevel = new List<int> { 0, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60 };
+		BJCreature skeletonWitch = new BJCreature ("Skeleton witch", maxHpByLevel, maxHpByLevel [1], baseDamageByLevel, 2, 2, Allegiance.Enemy, /*AttackType.Ranged,*/new List<string>{ "Ranged attack" });
+		EnemyCreatures.Add (skeletonWitch);
+
 		FigurinesByNames = new Dictionary<string, Sprite> ();
 		CreaturePortraitsByNames = new Dictionary<string, Sprite> ();
 
@@ -114,9 +119,12 @@ public class BJDataBase : MonoBehaviour {
 
 		EnemySets = new List<List<BJCreature>> {
 			new List<BJCreature> { skeletonMilitia, skeletonCaptain, skeletonArbalest },
+			new List<BJCreature> { skeletonMilitia, skeletonCaptain, skeletonWitch },
 			new List<BJCreature> { skeletonMilitia, skeletonMilitia, skeletonArbalest },
 			new List<BJCreature> { skeletonMilitia, skeletonCaptain, skeletonArbalest, skeletonArbalest },
-			new List<BJCreature> { skeletonMilitia, skeletonMilitia, skeletonArbalest }
+			new List<BJCreature> { skeletonMilitia, skeletonCaptain, skeletonArbalest, skeletonWitch },
+			new List<BJCreature> { skeletonMilitia, skeletonMilitia, skeletonArbalest },
+			new List<BJCreature> { skeletonMilitia, skeletonMilitia, skeletonWitch }
 		};
 	}
 }

@@ -76,7 +76,7 @@ public class BJMeleeAttack : BJSkill {
 			for (int i = 0; i < Effects.Count; i++) {
 				if (Random.Range(0.0f, 0.99f) < EffectChances [i]) {
 					Effects [i].Applier = CurrentUser;
-					CurrentMainTarget.ApplyEffect (Effects [i]);
+					CurrentMainTarget.ApplyEffect (Effects [i], true);
 				}
 			}
 			CurrentUser.MoveToPoint (CurrentUser.InitialPosition);

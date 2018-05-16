@@ -80,7 +80,7 @@ public class BJCreatureObject : MonoBehaviour {
 		skillCopy.OnSkillFinished += CurrentSkill_OnSkillFinished;
 	}
 
-	public void ApplyEffect (BJEffect effect) { // effects will strangely stack for now
+	public void ApplyEffect (BJEffect effect, bool showIcon) { // effects will strangely stack for now
 		BJEffect effectCopy = Instantiate (effect);
 		Effects.Add (effectCopy);
 		effectCopy.Victim = this;
@@ -88,7 +88,17 @@ public class BJCreatureObject : MonoBehaviour {
 		effectIconObject.GetComponent<Image> ().sprite = effectCopy.EffectIcon;
 		effectIconObject.transform.SetParent (EffectIconsContainer.transform);
 		effectIconObject.transform.localScale = Vector3.one;
+		if (!showIcon) {
+			effectIconObject.GetComponent<Image> ().enabled = false;
+		}
 		EffectIcons.Add (effectIconObject);
+		if (effectCopy.EffectParticles != null) {
+			effectCopy.EffectParticles.transform.SetParent (effectCopy.Victim.transform);
+			effectCopy.EffectParticles.transform.position = new Vector3 (effectCopy.Victim.transform.position.x, effectCopy.Victim.transform.position.y + effectCopy.KostyllYModifier, effectCopy.Victim.transform.position.z);
+			effectCopy.EffectParticles.transform.localScale = Vector3.one;
+
+			effectCopy.EffectParticles.Play ();
+		}
 		effectCopy.Activate ();
 	}
 
@@ -116,6 +126,7 @@ public class BJCreatureObject : MonoBehaviour {
 			}
 			for (int i = Effects.Count - 1; i >= 0; i--) {
 				if (effectsToRemove.Contains(Effects [i])) {
+					Destroy (Effects [i].EffectParticles);
 					Destroy (Effects [i]);
 					Effects.Remove (Effects [i]);
 				}

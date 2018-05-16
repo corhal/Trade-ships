@@ -10,7 +10,7 @@ public class BJPassiveSkill : BJSkill {
 		CurrentMainTarget = mainTarget;
 
 		Effects [0].Applier = user;
-		mainTarget.ApplyEffect (Effects [0]);
+		mainTarget.ApplyEffect (Effects [0], false);
 
 		StartCoroutine (FinishSkill (0.1f));
 	}
